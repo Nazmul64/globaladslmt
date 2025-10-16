@@ -39,23 +39,6 @@
   <!-- Favicon -->
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- CSS Libraries -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -252,52 +235,10 @@
   <script src="{{asset('admin')}}/assets/js/app.js"></script>
 
 <script src="{{asset('admin')}}/assets/js/homeOneChart.js"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- DataTables JS -->
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-
-<script>
-$(document).ready(function() {
-    // Initialize DataTable
-    $('#appsettings-table').DataTable({
-        "paging": true,
-        "lengthChange": true,
-        "searching": true,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true
-    });
-
-    // Toastr notifications
-    @if (Session::has('success'))
-        toastr.success("{{ Session::get('success') }}");
-    @endif
-    @if (Session::has('error'))
-        toastr.error("{{ Session::get('error') }}");
-    @endif
-});
-</script>
 
 </body>
 </html>

@@ -54,269 +54,11 @@
           </li>
         </ul>
       </li>
-
-      <li class="dropdown">
-        <a href="javascript:void(0)">
-          <i class="ri-btc-line text-xl me-14 d-flex w-auto"></i>
-          <span>App Settings</span>
-        </a>
-        <ul class="sidebar-submenu">
-          <li>
-            <a href="{{ route('appsetting.index') }}">
-                <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> App Settings List
-           </a>
-
-          </li>
-        </ul>
-      </li>
-
-      <li class="sidebar-menu-group-title">UI Elements</li>
-
-      <li class="dropdown">
-        <a href="javascript:void(0)">
-          <iconify-icon icon="solar:document-text-outline" class="menu-icon"></iconify-icon>
-          <span>Components</span>
-        </a>
-        <ul class="sidebar-submenu">
-          <li>
-            <a href="typography.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Typography</a>
-          </li>
-          <li>
-            <a href="colors.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Colors</a>
-          </li>
-          <li>
-            <a href="button.html"><i class="ri-circle-fill circle-icon text-success-main w-auto"></i> Button</a>
-          </li>
-          <li>
-            <a href="dropdown.html"><i class="ri-circle-fill circle-icon text-lilac-600 w-auto"></i> Dropdown</a>
-          </li>
-          <li>
-            <a href="alert.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Alerts</a>
-          </li>
-          <li>
-            <a href="card.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Card</a>
-          </li>
-          <li>
-            <a href="carousel.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Carousel</a>
-          </li>
-          <li>
-            <a href="avatar.html"><i class="ri-circle-fill circle-icon text-success-main w-auto"></i> Avatars</a>
-          </li>
-          <li>
-            <a href="progress.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Progress bar</a>
-          </li>
-          <li>
-            <a href="tabs.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Tab & Accordion</a>
-          </li>
-          <li>
-            <a href="pagination.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Pagination</a>
-          </li>
-          <li>
-            <a href="badges.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Badges</a>
-          </li>
-          <li>
-            <a href="tooltip.html"><i class="ri-circle-fill circle-icon text-lilac-600 w-auto"></i> Tooltip &
-              Popover</a>
-          </li>
-          <li>
-            <a href="videos.html"><i class="ri-circle-fill circle-icon text-cyan w-auto"></i> Videos</a>
-          </li>
-          <li>
-            <a href="star-rating.html"><i class="ri-circle-fill circle-icon text-indigo w-auto"></i> Star Ratings</a>
-          </li>
-          <li>
-            <a href="tags.html"><i class="ri-circle-fill circle-icon text-purple w-auto"></i> Tags</a>
-          </li>
-          <li>
-            <a href="list.html"><i class="ri-circle-fill circle-icon text-red w-auto"></i> List</a>
-          </li>
-          <li>
-            <a href="calendar.html"><i class="ri-circle-fill circle-icon text-yellow w-auto"></i> Calendar</a>
-          </li>
-          <li>
-            <a href="radio.html"><i class="ri-circle-fill circle-icon text-orange w-auto"></i> Radio</a>
-          </li>
-          <li>
-            <a href="switch.html"><i class="ri-circle-fill circle-icon text-pink w-auto"></i> Switch</a>
-          </li>
-          <li>
-            <a href="image-upload.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Upload</a>
-          </li>
-        </ul>
-      </li>
-      <li class="dropdown">
-        <a href="javascript:void(0)">
-          <iconify-icon icon="heroicons:document" class="menu-icon"></iconify-icon>
-          <span>Forms</span>
-        </a>
-        <ul class="sidebar-submenu">
-          <li>
-            <a href="form.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Input Forms</a>
-          </li>
-          <li>
-            <a href="form-layout.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Input
-              Layout</a>
-          </li>
-          <li>
-            <a href="form-validation.html"><i class="ri-circle-fill circle-icon text-success-main w-auto"></i> Form
-              Validation</a>
-          </li>
-          <li>
-            <a href="wizard.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Form Wizard</a>
-          </li>
-        </ul>
-      </li>
-      <li class="dropdown">
-        <a href="javascript:void(0)">
-          <iconify-icon icon="mingcute:storage-line" class="menu-icon"></iconify-icon>
-          <span>Table</span>
-        </a>
-        <ul class="sidebar-submenu">
-          <li>
-            <a href="table-basic.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Basic
-              Table</a>
-          </li>
-          <li>
-            <a href="table-data.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Data Table</a>
-          </li>
-        </ul>
-      </li>
-      <li class="dropdown">
-        <a href="javascript:void(0)">
-          <iconify-icon icon="solar:pie-chart-outline" class="menu-icon"></iconify-icon>
-          <span>Chart</span>
-        </a>
-        <ul class="sidebar-submenu">
-          <li>
-            <a href="line-chart.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Line Chart</a>
-          </li>
-          <li>
-            <a href="column-chart.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Column
-              Chart</a>
-          </li>
-          <li>
-            <a href="pie-chart.html"><i class="ri-circle-fill circle-icon text-success-main w-auto"></i> Pie Chart</a>
-          </li>
-        </ul>
-      </li>
       <li>
         <a href="widgets.html">
           <iconify-icon icon="fe:vector" class="menu-icon"></iconify-icon>
           <span>Widgets</span>
         </a>
-      </li>
-      <li class="dropdown">
-        <a href="javascript:void(0)">
-          <iconify-icon icon="flowbite:users-group-outline" class="menu-icon"></iconify-icon>
-          <span>Users</span>
-        </a>
-        <ul class="sidebar-submenu">
-          <li>
-            <a href="users-list.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Users List</a>
-          </li>
-          <li>
-            <a href="users-grid.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Users Grid</a>
-          </li>
-          <li>
-            <a href="add-user.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Add User</a>
-          </li>
-          <li>
-            <a href="view-profile.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> View
-              Profile</a>
-          </li>
-          <li>
-            <a href="users-role-permission.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> User
-              Role & Permission</a>
-          </li>
-        </ul>
-      </li>
-
-      <li class="dropdown">
-        <a href="javascript:void(0)">
-          <i class="ri-user-settings-line text-xl me-14 d-flex w-auto"></i>
-          <span>Role & Access</span>
-        </a>
-        <ul class="sidebar-submenu">
-          <li>
-            <a href="role-access.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Role &
-              Access</a>
-          </li>
-          <li>
-            <a href="assign-role.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Assign
-              Role</a>
-          </li>
-        </ul>
-      </li>
-
-      <li class="sidebar-menu-group-title">Application</li>
-
-      <li class="dropdown">
-        <a href="javascript:void(0)">
-          <iconify-icon icon="simple-line-icons:vector" class="menu-icon"></iconify-icon>
-          <span>Authentication</span>
-        </a>
-        <ul class="sidebar-submenu">
-          <li>
-            <a href="sign-in.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Sign In</a>
-          </li>
-          <li>
-            <a href="sign-up.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Sign Up</a>
-          </li>
-          <li>
-            <a href="forgot-password.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Forgot
-              Password</a>
-          </li>
-        </ul>
-      </li>
-
-      <li class="dropdown">
-        <a href="javascript:void(0)">
-          <iconify-icon icon="solar:gallery-wide-linear" class="menu-icon"></iconify-icon>
-          <span>Gallery</span>
-        </a>
-        <ul class="sidebar-submenu">
-          <li>
-            <a href="gallery-grid.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Gallery
-              Grid</a>
-          </li>
-          <li>
-            <a href="gallery.html"><i class="ri-circle-fill circle-icon text-danger-600 w-auto"></i> Gallery Grid
-              Desc</a>
-          </li>
-          <li>
-            <a href="gallery-masonry.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Gallery
-              Masonry</a>
-          </li>
-          <li>
-            <a href="gallery-hover.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Gallery Hover
-              Effect</a>
-          </li>
-        </ul>
-      </li>
-
-      <li>
-        <a href="pricing.html">
-          <iconify-icon icon="hugeicons:money-send-square" class="menu-icon"></iconify-icon>
-          <span>Pricing</span>
-        </a>
-      </li>
-      <li class="dropdown">
-        <a href="javascript:void(0)">
-          <i class="ri-news-line text-xl me-14 d-flex w-auto"></i>
-          <span>Blog</span>
-        </a>
-        <ul class="sidebar-submenu">
-          <li>
-            <a href="blog.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Blog</a>
-          </li>
-          <li>
-            <a href="blog-details.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i> Blog
-              Details</a>
-          </li>
-          <li>
-            <a href="add-blog.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Add Blog</a>
-          </li>
-        </ul>
       </li>
       <li>
         <a href="testimonials.html">
@@ -330,43 +72,9 @@
           <span>FAQs</span>
         </a>
       </li>
-      <li class="dropdown">
-        <a href="javascript:void(0)">
-          <iconify-icon icon="streamline:straight-face" class="menu-icon"></iconify-icon>
-          <span>Error Pages</span>
-        </a>
-        <ul class="sidebar-submenu">
-          <li>
-            <a href="bad-request.html"><i class="ri-circle-fill circle-icon text-danger-600 w-auto"></i> Bad Request</a>
-          </li>
-          <li>
-            <a href="forbidden.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i> Forbidden</a>
-          </li>
-          <li>
-            <a href="error.html"><i class="ri-circle-fill circle-icon text-warning-600 w-auto"></i> 404 Page</a>
-          </li>
-          <li>
-            <a href="internal-server.html"><i class="ri-circle-fill circle-icon text-primary-main w-auto"></i> Internal
-              Server</a>
-          </li>
-          <li>
-            <a href="service-unavailable.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i>
-              Service Unavailable</a>
-          </li>
-        </ul>
-      </li>
-      <li>
-        <a href="terms-condition.html">
-          <iconify-icon icon="octicon:info-24" class="menu-icon"></iconify-icon>
-          <span>Terms & Conditions</span>
-        </a>
-      </li>
-      <li>
-        <a href="coming-soon.html">
-          <i class="ri-rocket-line text-xl me-14 d-flex w-auto"></i>
-          <span>Coming Soon</span>
-        </a>
-      </li>
+
+
+
       <li>
         <a href="access-denied.html">
           <i class="ri-folder-lock-line text-xl me-14 d-flex w-auto"></i>
@@ -392,16 +100,13 @@
         </a>
         <ul class="sidebar-submenu">
           <li>
-            <a href="company.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Company</a>
+            <a href="{{route('appsetting.index')}}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Settings</a>
           </li>
           <li>
             <a href="notification.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
               Notification</a>
           </li>
-          <li>
-            <a href="notification-alert.html"><i class="ri-circle-fill circle-icon text-info-main w-auto"></i>
-              Notification Alert</a>
-          </li>
+
           <li>
             <a href="theme.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Theme</a>
           </li>
