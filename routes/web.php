@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\AppsettingController;
+use App\Models\Appsetting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -14,3 +16,5 @@ Auth::routes();
 
 
 Route::get('admin/dashboard', [AdminController::class, 'admin_dashboard'])->name('admin.dashboard');
+Route::resource('appsetting', AppsettingController::class);
+

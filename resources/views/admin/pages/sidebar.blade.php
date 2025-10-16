@@ -11,7 +11,7 @@
   </div>
   <div class="sidebar-menu-area">
     <ul class="sidebar-menu" id="sidebar-menu">
-       <a href="javascript:void(0)">
+       <a href="{{route('admin.dashboard')}}">
           <span>Dashboard</span>
         </a>
 
@@ -62,7 +62,10 @@
         </a>
         <ul class="sidebar-submenu">
           <li>
-            <a href="wallet.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> App Settings</a>
+            <a href="{{ route('appsetting.index') }}">
+                <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> App Settings List
+           </a>
+
           </li>
         </ul>
       </li>
