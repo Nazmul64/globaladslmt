@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AppsettingController;
 use App\Http\Controllers\Backend\AdminautoController;
+use App\Http\Controllers\Backend\AgentController;
 use App\Models\Appsetting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -28,7 +29,11 @@ Route::middleware(['is_admin'])->group(function () {
  Route::resource('appsetting', AppsettingController::class);
 
 });
+
 // Admin Route Controller End
+
+
+Route::get('agent/dashboard', [AgentController::class, 'agent_dashboard'])->name('agent.dashboard');
 
 
 
