@@ -20,6 +20,17 @@ return new class extends Migration
             $table->string('country')->nullable();
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->enum('role', ['is_admin', 'user', 'agent'])->default('user');
+             // Referral system
+            $table->unsignedBigInteger('referred_by')->nullable()->comment('User ID who referred this user');
+            $table->unsignedBigInteger('ref_id')->nullable()->comment('Alternate referral user ID');
+            $table->string('ref_code')->unique()->nullable();
+
+            // Wallet & commission
+            $table->decimal('balance')->default(0.00)->comment('User wallet balance');
+            $table->decimal('refer_income')->default(0.00)->comment('Direct referral commission earned');
+            $table->decimal('generation_income')->default(0.00)->comment('Generation level commission earned');
+            $table->string('walate_address')->default('default_address');
+            $table->string('mobile')->default('mobile');
             $table->rememberToken();
             $table->timestamps();
         });

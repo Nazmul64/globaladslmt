@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\NoticesController;
 use App\Http\Controllers\Backend\PaymentmethodController;
 use App\Http\Controllers\Backend\ReffercommissionsetupController;
 use App\Http\Controllers\Backend\WorkNoticesController;
+use App\Http\Controllers\Frontend\FrontendAuthController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Models\Appsetting;
 use App\Models\Reffercommissionsetup;
@@ -21,7 +22,15 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-  Route::get('/', [FrontendController::class, 'frontend'])->name('frontend.index');
+
+
+  Route::get('/', [FrontendAuthController::class, 'user_login'])->name('user.login');
+  Route::post('user/login/submit', [FrontendAuthController::class, 'user_submit'])->name('user.submit');
+  Route::get('user/register', [FrontendAuthController::class, 'user_register'])->name('user.register');
+  Route::post('user/register/submit', [FrontendAuthController::class, 'user_register_submit'])->name('user.register.submit');
+  Route::post('user/logout', [FrontendAuthController::class, 'user_logout'])->name('user.logout');
+
+  Route::get('frontend/dashboard', [FrontendController::class, 'frontend'])->name('frontend.index');
 
 
 

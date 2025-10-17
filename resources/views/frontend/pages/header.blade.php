@@ -36,9 +36,15 @@
                 <i class="fas fa-users"></i>
                 <span class="sidebar-item-text">Taskhistory</span>
             </a>
-            <a href="package.html" class="sidebar-item">
-                <i class="fas fa-shield-alt"></i>
-                <span class="sidebar-item-text">Packages</span>
+            <a href="{{ route('user.logout') }}" class="sidebar-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <i class="fas fa-right-from-bracket"></i>
+                <span class="sidebar-item-text">Logout</span>
             </a>
+             <form id="logout-form" action="{{ route('user.logout') }}" method="POST" class="d-none">
+                    @csrf
+             </form>
+
+
+
         </div>
     </div>

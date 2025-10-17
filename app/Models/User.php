@@ -25,6 +25,14 @@ class User extends Authenticatable
         'status',
         'role',
         'confirm_password',
+        'referred_by',
+        'ref_id',
+        'ref_code',
+        'balance',
+        'refer_income',
+        'generation_income',
+        'walate_address',
+        'mobile',
     ];
 
     /**
