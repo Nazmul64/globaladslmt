@@ -59,26 +59,22 @@
             </ul>
         </li>
 
-
-
-
-      <li class="dropdown">
+     <li class="dropdown">
         <a href="javascript:void(0)">
-          <i class="ri-robot-2-line text-xl me-14 d-flex w-auto"></i>
-          <span>Pay Users</span>
+            <!-- Payment icon -->
+            <i class="ri-wallet-line text-xl me-14 d-flex w-auto"></i>
+            <span>Payment Method</span>
         </a>
         <ul class="sidebar-submenu">
-          <li>
-            <a href="text-generator.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>Auto Pay</a>
-          </li>
-           <li>
-            <a href="text-generator.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Pay All </a>
-          </li>
-           <li>
-            <a href="text-generator.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>Auto </a>
-          </li>
+            <li>
+                <a href="{{ route('paymentmethod.index') }}">
+                    <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                    Payment Method
+                </a>
+            </li>
         </ul>
-      </li>
+    </li>
+
       <li>
         <a href="widgets.html">
           <iconify-icon icon="fe:vector" class="menu-icon"></iconify-icon>

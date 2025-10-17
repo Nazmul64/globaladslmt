@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\AdminApproveController;
 use App\Http\Controllers\Backend\AdminautoController;
 use App\Http\Controllers\Backend\AgentauthController;
 use App\Http\Controllers\Backend\AgentController;
+use App\Http\Controllers\Backend\PaymentmethodController;
 use App\Models\Appsetting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +37,7 @@ Route::middleware(['is_admin'])->group(function () {
   Route::get('agent/approved/list', [AdminApproveController::class,'agentapprovedlist'])->name('agentapprovedlist');
   Route::get('admin/agent/rejected', [AdminApproveController::class, 'agentrejectlist']) ->name('admin.agent.rejectlist');
   Route::resource('agentcreate', AdminagentcreateController::class);
+  Route::resource('paymentmethod',PaymentmethodController::class);
 });
 
 // Admin Route Controller End
