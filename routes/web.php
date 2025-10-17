@@ -7,8 +7,10 @@ use App\Http\Controllers\Backend\AdminApproveController;
 use App\Http\Controllers\Backend\AdminautoController;
 use App\Http\Controllers\Backend\AgentauthController;
 use App\Http\Controllers\Backend\AgentController;
+use App\Http\Controllers\Backend\NoticesController;
 use App\Http\Controllers\Backend\PaymentmethodController;
 use App\Http\Controllers\Backend\ReffercommissionsetupController;
+use App\Http\Controllers\Backend\WorkNoticesController;
 use App\Models\Appsetting;
 use App\Models\Reffercommissionsetup;
 use Illuminate\Support\Facades\Auth;
@@ -41,6 +43,8 @@ Route::middleware(['is_admin'])->group(function () {
   Route::resource('agentcreate', AdminagentcreateController::class);
   Route::resource('paymentmethod',PaymentmethodController::class);
   Route::resource('reffercommission',ReffercommissionsetupController::class);
+  Route::resource('notice',NoticesController::class);
+  Route::resource('worknotice',WorkNoticesController::class);
 });
 
 // Admin Route Controller End

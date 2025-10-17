@@ -3,18 +3,19 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Notice;
+use App\Models\cr;
+use App\Models\Wornotice;
 use Illuminate\Http\Request;
 
-class NoticesController extends Controller
+class WorkNoticesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $notices = Notice::latest()->get();
-        return view('admin.notice.index', compact('notices'));
+        $notices = Wornotice::latest()->get();
+        return view('admin.worknotice.index', compact('notices'));
     }
 
     /**
@@ -22,7 +23,7 @@ class NoticesController extends Controller
      */
     public function create()
     {
-        return view('admin.notice.create');
+        return view('admin.worknotice.create');
     }
 
     /**
@@ -35,12 +36,12 @@ class NoticesController extends Controller
             'description' => 'required|string',
         ]);
 
-        Notice::create([
+        Wornotice::create([
             'title' => $request->title,
             'description' => $request->description,
         ]);
 
-        return redirect()->route('notice.index')->with('success', 'Notice created successfully!');
+        return redirect()->route('worknotice.index')->with('success', 'Notice created successfully!');
     }
 
     /**
@@ -48,8 +49,8 @@ class NoticesController extends Controller
      */
     public function edit($id)
     {
-        $notice = Notice::findOrFail($id);
-        return view('admin.notice.edit', compact('notice'));
+        $notice = Wornotice::findOrFail($id);
+        return view('admin.worknotice.edit', compact('notice'));
     }
 
     /**
@@ -62,13 +63,13 @@ class NoticesController extends Controller
             'description' => 'required|string',
         ]);
 
-        $notice = Notice::findOrFail($id);
+        $notice = Wornotice::findOrFail($id);
         $notice->update([
             'title' => $request->title,
             'description' => $request->description,
         ]);
 
-        return redirect()->route('notice.index')->with('success', 'Notice updated successfully!');
+        return redirect()->route('worknotice.index')->with('success', 'Notice updated successfully!');
     }
 
     /**
@@ -76,9 +77,9 @@ class NoticesController extends Controller
      */
     public function destroy($id)
     {
-        $notice =Notice::findOrFail($id);
+        $notice =Wornotice::findOrFail($id);
         $notice->delete();
 
-        return redirect()->route('notice.index')->with('success', 'Notice deleted successfully!');
+        return redirect()->route('worknotice.index')->with('success', 'Notice deleted successfully!');
     }
 }

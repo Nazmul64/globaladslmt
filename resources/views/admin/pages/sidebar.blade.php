@@ -90,6 +90,29 @@
             </li>
         </ul>
     </li>
+    <li class="dropdown">
+        <a href="javascript:void(0)">
+            <!-- Notice icon -->
+            <i class="ri-megaphone-line text-xl me-14 d-flex w-auto"></i>
+            <span>Notice Setup</span>
+        </a>
+        <ul class="sidebar-submenu">
+            <li>
+                <a href="{{ route('notice.index') }}">
+                    <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                    Notice Setup
+                </a>
+            </li>
+              <li>
+                <a href="{{ route('worknotice.index') }}">
+                    <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                    WorkNotice Setup
+                </a>
+            </li>
+
+        </ul>
+    </li>
+
       <li>
         <a href="testimonials.html">
           <i class="ri-star-line text-xl me-14 d-flex w-auto"></i>
