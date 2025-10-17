@@ -10,4 +10,7 @@ class FrontendController extends Controller
     public function frontend(){
           return view('frontend.index');
     }
+    public function frontend_options(){
+          return view('frontend.pages.frontendpages.options');
+    }
 }

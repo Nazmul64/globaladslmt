@@ -23,16 +23,25 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+// Frontend Pages Route Controller Start
+ Route::get('frontend/options', [FrontendController::class, 'frontend_options'])->name('frontend.options');
+
+// Frontend Pages Route Controller End
 
 
+// Frontend Auth Controller Start
   Route::get('/', [FrontendAuthController::class, 'user_login'])->name('user.login');
   Route::post('user/login/submit', [FrontendAuthController::class, 'user_submit'])->name('user.submit');
   Route::get('user/register', [FrontendAuthController::class, 'user_register'])->name('user.register');
   Route::post('user/register/submit', [FrontendAuthController::class, 'user_register_submit'])->name('user.register.submit');
   Route::post('user/logout', [FrontendAuthController::class, 'user_logout'])->name('user.logout');
+// Frontend Auth Controller End
 
-  Route::get('frontend/dashboard', [FrontendController::class, 'frontend'])->name('frontend.index');
-
+// Frontend Route Controller Start
+  Route::middleware(['user'])->group(function () {
+     Route::get('frontend/dashboard', [FrontendController::class, 'frontend'])->name('frontend.index');
+});
+// Frontend Route Controller End
 
 
 // Admin Login  Controller Start

@@ -25,7 +25,7 @@
 
         <div class="menu-card">
             <div class="menu-icon-circle">
-                <a href="options.html"><i class="fas fa-user-plus"style="color:white;"></i></a>
+                <a href="{{route('frontend.options')}}"><i class="fas fa-user-plus"style="color:white;"></i></a>
             </div>
             <div class="menu-label">Options</div>
         </div>
