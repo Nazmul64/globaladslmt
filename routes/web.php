@@ -11,16 +11,19 @@ use App\Http\Controllers\Backend\NoticesController;
 use App\Http\Controllers\Backend\PaymentmethodController;
 use App\Http\Controllers\Backend\ReffercommissionsetupController;
 use App\Http\Controllers\Backend\WorkNoticesController;
+use App\Http\Controllers\Frontend\FrontendController;
 use App\Models\Appsetting;
 use App\Models\Reffercommissionsetup;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Auth::routes();
+
+  Route::get('/', [FrontendController::class, 'frontend'])->name('frontend.index');
+
+
 
 // Admin Login  Controller Start
 
