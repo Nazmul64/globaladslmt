@@ -8,7 +8,9 @@ use App\Http\Controllers\Backend\AdminautoController;
 use App\Http\Controllers\Backend\AgentauthController;
 use App\Http\Controllers\Backend\AgentController;
 use App\Http\Controllers\Backend\PaymentmethodController;
+use App\Http\Controllers\Backend\ReffercommissionsetupController;
 use App\Models\Appsetting;
+use App\Models\Reffercommissionsetup;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +40,7 @@ Route::middleware(['is_admin'])->group(function () {
   Route::get('admin/agent/rejected', [AdminApproveController::class, 'agentrejectlist']) ->name('admin.agent.rejectlist');
   Route::resource('agentcreate', AdminagentcreateController::class);
   Route::resource('paymentmethod',PaymentmethodController::class);
+  Route::resource('reffercommission',ReffercommissionsetupController::class);
 });
 
 // Admin Route Controller End

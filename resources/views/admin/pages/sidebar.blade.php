@@ -75,12 +75,21 @@
         </ul>
     </li>
 
-      <li>
-        <a href="widgets.html">
-          <iconify-icon icon="fe:vector" class="menu-icon"></iconify-icon>
-          <span>Widgets</span>
+    <li class="dropdown">
+        <a href="javascript:void(0)">
+            <!-- Payment icon -->
+            <i class="ri-wallet-line text-xl me-14 d-flex w-auto"></i>
+            <span>Reffercommission Setup</span>
         </a>
-      </li>
+        <ul class="sidebar-submenu">
+            <li>
+                <a href="{{ route('reffercommission.index') }}">
+                    <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                    Reffercommission Setup
+                </a>
+            </li>
+        </ul>
+    </li>
       <li>
         <a href="testimonials.html">
           <i class="ri-star-line text-xl me-14 d-flex w-auto"></i>
