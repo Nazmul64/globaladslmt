@@ -22,19 +22,38 @@
         </a>
       </li>
         <li class="dropdown">
-        <a href="javascript:void(0)">
-            <iconify-icon icon="mdi:bell-ring-outline" class="menu-icon"></iconify-icon>
-            <span>Send Notifications</span>
-        </a>
-        <ul class="sidebar-submenu">
-            <li>
-            <a href="invoice-list.html">
-                <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
-                Notifications
+            <a href="javascript:void(0)">
+                <i class="bi bi-people-fill menu-icon"></i>
+                <span>Agents</span>
             </a>
-            </li>
-        </ul>
+            <ul class="sidebar-submenu">
+                <!-- Pending Agents -->
+                <li>
+                    <a href="{{ route('admin.agent.pending') }}">
+                        <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                        Pending Agents
+                    </a>
+                </li>
+
+                <!-- Approved Agents -->
+                <li>
+                    <a href="{{ route('agentapprovedlist') }}">
+                        <i class="ri-circle-fill circle-icon text-success w-auto"></i>
+                        Approved Agents
+                    </a>
+                </li>
+
+                <!-- Rejected Agents -->
+                <li>
+                    <a href="{{ route('admin.agent.rejectlist') }}">
+                        <i class="ri-circle-fill circle-icon text-danger w-auto"></i>
+                        Rejected Agents
+                    </a>
+                </li>
+            </ul>
         </li>
+
+
 
 
       <li class="dropdown">

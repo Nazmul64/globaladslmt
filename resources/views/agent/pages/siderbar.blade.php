@@ -16,81 +16,9 @@
         </a>
 
       <li>
-        <a href="chat-message.html">
-          <iconify-icon icon="bi:chat-dots" class="menu-icon"></iconify-icon>
-          <span>Chat</span>
-        </a>
-      </li>
-        <li class="dropdown">
-        <a href="javascript:void(0)">
-            <iconify-icon icon="mdi:bell-ring-outline" class="menu-icon"></iconify-icon>
-            <span>Send Notifications</span>
-        </a>
-        <ul class="sidebar-submenu">
-            <li>
-            <a href="invoice-list.html">
-                <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
-                Notifications
-            </a>
-            </li>
-        </ul>
-        </li>
-
-
-      <li class="dropdown">
-        <a href="javascript:void(0)">
-          <i class="ri-robot-2-line text-xl me-14 d-flex w-auto"></i>
-          <span>Pay Users</span>
-        </a>
-        <ul class="sidebar-submenu">
-          <li>
-            <a href="text-generator.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>Auto Pay</a>
-          </li>
-           <li>
-            <a href="text-generator.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Pay All </a>
-          </li>
-           <li>
-            <a href="text-generator.html"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>Auto </a>
-          </li>
-        </ul>
-      </li>
-      <li>
-        <a href="widgets.html">
-          <iconify-icon icon="fe:vector" class="menu-icon"></iconify-icon>
-          <span>Widgets</span>
-        </a>
-      </li>
-      <li>
-        <a href="testimonials.html">
-          <i class="ri-star-line text-xl me-14 d-flex w-auto"></i>
-          <span>Testimonial</span>
-        </a>
-      </li>
-      <li>
-        <a href="faq.html">
-          <iconify-icon icon="mage:message-question-mark-round" class="menu-icon"></iconify-icon>
-          <span>FAQs</span>
-        </a>
-      </li>
-
-
-
-      <li>
-        <a href="access-denied.html">
-          <i class="ri-folder-lock-line text-xl me-14 d-flex w-auto"></i>
-          <span>Access Denied</span>
-        </a>
-      </li>
-      <li>
         <a href="maintenance.html">
           <i class="ri-hammer-line text-xl me-14 d-flex w-auto"></i>
           <span>Maintenance</span>
-        </a>
-      </li>
-      <li>
-        <a href="blank-page.html">
-          <i class="ri-checkbox-multiple-blank-line text-xl me-14 d-flex w-auto"></i>
-          <span>Blank Page</span>
         </a>
       </li>
       <li class="dropdown">

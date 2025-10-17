@@ -381,12 +381,12 @@
               </li>
              <li>
                 <a class="dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3"
-                href=""
+                href="{{route('agent.logout')}}"
                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <iconify-icon icon="lucide:power" class="icon text-xl"></iconify-icon> Log Out
                 </a>
 
-                <form id="logout-form" action="" method="POST" class="d-none">
+                <form id="logout-form" action="{{route('agent.logout')}}" method="POST" class="d-none">
                     @csrf
                 </form>
             </li>

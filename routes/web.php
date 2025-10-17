@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AppsettingController;
+use App\Http\Controllers\Backend\AdminApproveController;
 use App\Http\Controllers\Backend\AdminautoController;
+use App\Http\Controllers\Backend\AgentauthController;
 use App\Http\Controllers\Backend\AgentController;
 use App\Models\Appsetting;
 use Illuminate\Support\Facades\Auth;
@@ -25,13 +27,25 @@ Route::post('admin/logout', [AdminautoController::class, 'admin_logout'])->name(
 
 // Admin Route Controller Start
 Route::middleware(['is_admin'])->group(function () {
- Route::get('admin/dashboard', [AdminController::class, 'admin_dashboard'])->name('admin.dashboard');
- Route::resource('appsetting', AppsettingController::class);
-
+  Route::get('admin/dashboard', [AdminController::class, 'admin_dashboard'])->name('admin.dashboard');
+  Route::resource('appsetting', AppsettingController::class);
+  Route::get('agent/pending', [AdminApproveController::class,'pendingAgents'])->name('admin.agent.pending');
+  Route::get('agent/approve/{id}', [AdminApproveController::class,'approveAgent'])->name('admin.agent.approve');
+  Route::get('agent/reject/{id}', [AdminApproveController::class,'rejectAgent'])->name('admin.agent.reject');
+  Route::get('agent/approved/list', [AdminApproveController::class,'agentapprovedlist'])->name('agentapprovedlist');
+  Route::get('admin/agent/rejected', [AdminApproveController::class, 'agentrejectlist']) ->name('admin.agent.rejectlist');
 });
 
 // Admin Route Controller End
 
+
+
+
+Route::get('agent/login', [AgentauthController::class, 'agent_login'])->name('agent.login');
+Route::get('agent/register', [AgentauthController::class, 'agent_register'])->name('agent.register');
+Route::post('/register/submit', [AgentauthController::class, 'agent_register_submit'])->name('agent.register.submit');
+Route::post('agent/login/submit', [AgentauthController::class, 'agent_submit'])->name('agent.submit');
+Route::post('agent/logout', [AgentauthController::class, 'agent_logout'])->name('agent.logout');
 
 Route::get('agent/dashboard', [AgentController::class, 'agent_dashboard'])->name('agent.dashboard');
 
