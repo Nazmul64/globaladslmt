@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AppsettingController;
+use App\Http\Controllers\Backend\AdminagentcreateController;
 use App\Http\Controllers\Backend\AdminApproveController;
 use App\Http\Controllers\Backend\AdminautoController;
 use App\Http\Controllers\Backend\AgentauthController;
@@ -34,22 +35,28 @@ Route::middleware(['is_admin'])->group(function () {
   Route::get('agent/reject/{id}', [AdminApproveController::class,'rejectAgent'])->name('admin.agent.reject');
   Route::get('agent/approved/list', [AdminApproveController::class,'agentapprovedlist'])->name('agentapprovedlist');
   Route::get('admin/agent/rejected', [AdminApproveController::class, 'agentrejectlist']) ->name('admin.agent.rejectlist');
+  Route::resource('agentcreate', AdminagentcreateController::class);
 });
 
 // Admin Route Controller End
 
 
 
-
+// Agent Login  Controller Start
 Route::get('agent/login', [AgentauthController::class, 'agent_login'])->name('agent.login');
 Route::get('agent/register', [AgentauthController::class, 'agent_register'])->name('agent.register');
 Route::post('/register/submit', [AgentauthController::class, 'agent_register_submit'])->name('agent.register.submit');
 Route::post('agent/login/submit', [AgentauthController::class, 'agent_submit'])->name('agent.submit');
 Route::post('agent/logout', [AgentauthController::class, 'agent_logout'])->name('agent.logout');
+// Agent Login  Controller End
 
-Route::get('agent/dashboard', [AgentController::class, 'agent_dashboard'])->name('agent.dashboard');
 
+// Agent Route Controller Start
+Route::middleware(['agent'])->group(function () {
+   Route::get('agent/dashboard', [AgentController::class, 'agent_dashboard'])->name('agent.dashboard');
 
+});
+// Agent Route Controller End
 
 
 

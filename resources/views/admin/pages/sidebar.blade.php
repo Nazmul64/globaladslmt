@@ -28,6 +28,12 @@
             </a>
             <ul class="sidebar-submenu">
                 <!-- Pending Agents -->
+                 <li>
+                    <a href="{{ route('agentcreate.create') }}">
+                        <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                         Agents  Create
+                    </a>
+                </li>
                 <li>
                     <a href="{{ route('admin.agent.pending') }}">
                         <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
