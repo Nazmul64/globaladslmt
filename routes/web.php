@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\AdminautoController;
 use App\Http\Controllers\Backend\AgentauthController;
 use App\Http\Controllers\Backend\AgentController;
 use App\Http\Controllers\Backend\NoticesController;
+use App\Http\Controllers\Backend\PackageController;
 use App\Http\Controllers\Backend\PaymentmethodController;
 use App\Http\Controllers\Backend\ReffercommissionsetupController;
 use App\Http\Controllers\Backend\WorkNoticesController;
@@ -57,6 +58,7 @@ Route::middleware(['is_admin'])->group(function () {
   Route::resource('reffercommission',ReffercommissionsetupController::class);
   Route::resource('notice',NoticesController::class);
   Route::resource('worknotice',WorkNoticesController::class);
+  Route::resource('package',PackageController::class);
 });
 
 // Admin Route Controller End

@@ -112,13 +112,25 @@
 
         </ul>
     </li>
-
-      <li>
-        <a href="testimonials.html">
-          <i class="ri-star-line text-xl me-14 d-flex w-auto"></i>
-          <span>Testimonial</span>
+    <li class="dropdown">
+        <a href="javascript:void(0)">
+            <!-- Notice icon -->
+             <i class="fa-solid fa-box text-xl me-14 d-flex w-auto"></i>
+            <span>Package Setup</span>
         </a>
-      </li>
+        <ul class="sidebar-submenu">
+            <li>
+                <a href="{{ route('package.index') }}">
+                    <i class="fa-solid fa-box text-xl me-14 d-flex w-auto"></i>
+                    Package Setup
+                </a>
+            </li>
+        </ul>
+    </li>
+
+
+
+
       <li>
         <a href="faq.html">
           <iconify-icon icon="mage:message-question-mark-round" class="menu-icon"></iconify-icon>
