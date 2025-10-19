@@ -1,78 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global money Ltd</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <link rel="stylesheet" href="{{asset('frontend')}}/assets/css/custom.css">
-</head>
-<body>
-
-   @include('frontend.pages.header')
-   @include('frontend.pages.profile')
+ @include('frontend.pages.headerlink')
+@include('frontend.pages.sidebar')
+@include('frontend.pages.navbar')
 
 
-<!-- ============ JAVASCRIPT CODE ============ -->
+<!-- ============ CSS CODE ============ -->
 
-
-    <!-- Notice Bar -->
-    <!-- <div class="notice-bar">
-        <div class="notice-content">
-            <i class="fas fa-bell notice-icon"></i>
-            <div class="notice-text">
-                🎉 Welcome! Complete tasks & earn coins • Refer friends for bonus • Min withdrawal 100 coins • New offers soon! 🚀
-            </div>
-            <i class="fas fa-bell notice-icon"></i>
-            <div class="notice-text">
-                🎉 Welcome! Complete tasks & earn coins • Refer friends for bonus • Min withdrawal 100 coins • New offers soon! 🚀
-            </div>
-        </div>
-    </div> -->
-
-    <!-- Slider Section -->
-    <!-- <div class="slider-section">
-        <div class="slider-container">
-            <div class="slider-wrapper">
-                <div class="slider-track" id="sliderTrack">
-                    <div class="slide">
-                        <img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&h=400&fit=crop" alt="Slide 1">
-                        <div class="slide-overlay">
-                            <div class="slide-title">Earn Money Daily</div>
-                            <div class="slide-description">Complete tasks and get instant rewards</div>
-                        </div>
-                    </div>
-                    <div class="slide">
-                        <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&h=400&fit=crop" alt="Slide 2">
-                        <div class="slide-overlay">
-                            <div class="slide-title">Refer & Earn</div>
-                            <div class="slide-description">Invite friends and earn bonus coins</div>
-                        </div>
-                    </div>
-                    <div class="slide">
-                        <img src="https://images.unsplash.com/photo-1633158829585-23ba8f7c8caf?w=800&h=400&fit=crop" alt="Slide 3">
-                        <div class="slide-overlay">
-                            <div class="slide-title">Fast Withdrawal</div>
-                            <div class="slide-description">Quick and secure payment process</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button class="slider-nav prev" onclick="moveSlide(-1)">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slider-nav next" onclick="moveSlide(1)">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="slider-dots" id="sliderDots"></div>
-        </div>
-    </div> -->
-
-    <!-- Dashboard Grid -->
-   <!-- Font Awesome CDN (for icons) -->
-
-
+<!-- ============ HTML CODE ============ -->
+@include('frontend.pages.profile')
 <!-- Dashboard Menu Section -->
 <div class="dashboard-grid">
     @yield('content')
@@ -131,39 +65,4 @@
         </div>
     </div>
 </div>
-
-<script>
-// Start Task Modal Functions
-function openTaskModal(event) {
-    event.preventDefault();
-    document.getElementById('startTaskModal').style.display = 'block';
-}
-
-function closeTaskModal() {
-    document.getElementById('startTaskModal').style.display = 'none';
-}
-
-function goToAds() {
-    window.location.href = 'ads.html';
-}
-
-// পেজ লোড হলে Start Task লিংকে ইভেন্ট যোগ করবে
-document.addEventListener('DOMContentLoaded', function() {
-    const startTaskLink = document.querySelector('a[href="ads.html"]');
-    if (startTaskLink) {
-        startTaskLink.addEventListener('click', openTaskModal);
-    }
-});
-
-// মডালের বাইরে ক্লিক করলে বন্ধ হবে
-window.addEventListener('click', function(event) {
-    if (event.target.id === 'startTaskModal') {
-        closeTaskModal();
-    }
-});
-</script>
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="{{asset('frontend')}}/assets/js/customs.js"></script>
-<script src="{{asset('frontend')}}/assets/js/custom.js"></script>
-</body>
-</html>
+@include('frontend.pages.footerlink')

@@ -17,23 +17,23 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'country',
-        'status',
-        'role',
-        'confirm_password',
-        'referred_by',
-        'ref_id',
-        'ref_code',
-        'balance',
-        'refer_income',
-        'generation_income',
-        'walate_address',
-        'mobile',
-    ];
+   protected $fillable = [
+    'balance',
+    'confirm_password',
+    'country',
+    'email',
+    'generation_income',
+    'mobile',
+    'name',
+    'password',
+    'ref_code',
+    'ref_id',
+    'referred_by',
+    'refer_income',
+    'role',
+    'status',
+    'wallet_address',
+];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -56,5 +56,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+     public function referrer()
+    {
+        return $this->belongsTo(User::class, 'referred_by');
+    }
+
+    public function referrals()
+    {
+        return $this->hasMany(User::class, 'referred_by');
     }
 }

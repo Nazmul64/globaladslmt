@@ -14,6 +14,7 @@ use App\Http\Controllers\Backend\ReffercommissionsetupController;
 use App\Http\Controllers\Backend\WorkNoticesController;
 use App\Http\Controllers\Frontend\FrontendAuthController;
 use App\Http\Controllers\Frontend\FrontendController;
+use App\Http\Controllers\Frontend\DepositeController;
 use App\Models\Appsetting;
 use App\Models\Reffercommissionsetup;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +26,9 @@ Auth::routes();
 
 // Frontend Pages Route Controller Start
  Route::get('frontend/options', [FrontendController::class, 'frontend_options'])->name('frontend.options');
+ Route::get('frontend/adblance', [FrontendController::class, 'frontend_adblance'])->name('frontend.adblance');
+ Route::get('frontend/deposite', [FrontendController::class, 'frontend_deposite'])->name('frontend.deposite');
+ Route::post('frontend/deposite/store', [DepositeController::class, 'store_deposite'])->name('deposit.store');
 
 // Frontend Pages Route Controller End
 
@@ -39,7 +43,7 @@ Auth::routes();
 
 // Frontend Route Controller Start
   Route::middleware(['user'])->group(function () {
-     Route::get('frontend/dashboard', [FrontendController::class, 'frontend'])->name('frontend.index');
+    Route::get('frontend/dashboard', [FrontendController::class, 'frontend'])->name('frontend.index');
 });
 // Frontend Route Controller End
 

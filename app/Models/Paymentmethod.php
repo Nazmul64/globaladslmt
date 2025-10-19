@@ -10,6 +10,7 @@ class Paymentmethod extends Model
         'method_name',
         'photo',
         'status',
+        'method_number',
         'new_photo',
     ];
 }

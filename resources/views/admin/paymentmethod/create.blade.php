@@ -14,6 +14,12 @@
                 <span class="text-danger">{{ $message }}</span>
             @enderror
         </div>
+        <div class="mb-3">
+            <label for="method_number" class="form-label">Method Number</label>
+            <input type="text" name="method_number" class="form-control" value="{{ old('method_number') }}">
+            @error('method_number')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
 
         <div class="mb-3">
             <label for="photo" class="form-label">Photo (optional)</label>

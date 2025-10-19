@@ -6,14 +6,14 @@ const Utils = {
   showToast(message, duration = 3000) {
     const toast = document.getElementById('toast') || document.getElementById('copyToast');
     if (!toast) return;
-    
+
     const span = toast.querySelector('span');
     if (span) {
       span.textContent = message;
     } else {
       toast.textContent = message;
     }
-    
+
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), duration);
   },
@@ -36,14 +36,14 @@ const Utils = {
     document.body.appendChild(temp);
     temp.select();
     temp.setSelectionRange(0, 99999);
-    
+
     try {
       document.execCommand('copy');
       this.showToast(successMessage);
     } catch (err) {
       this.showToast('Failed to copy');
     }
-    
+
     document.body.removeChild(temp);
   },
 
@@ -69,7 +69,7 @@ const Slider = {
     this.totalSlides = this.slides.length;
     this.sliderTrack = document.getElementById('sliderTrack');
     this.dotsContainer = document.getElementById('sliderDots');
-    
+
     if (!this.sliderTrack || !this.dotsContainer || this.totalSlides === 0) return;
 
     this.createDots();
@@ -137,7 +137,7 @@ const Slider = {
     container.addEventListener('touchend', (e) => {
       touchEndX = e.changedTouches[0].screenX;
       const diff = touchStartX - touchEndX;
-      
+
       if (Math.abs(diff) > 50) {
         this.moveSlide(diff > 0 ? 1 : -1);
       }
@@ -156,7 +156,7 @@ const Sidebar = {
   init() {
     this.sidebar = document.getElementById('sidebar');
     this.overlay = document.getElementById('sidebarOverlay');
-    
+
     if (!this.sidebar || !this.overlay) return;
 
     this.setupEventListeners();
@@ -310,10 +310,10 @@ const Payment = {
     if (selectedForm) selectedForm.classList.add('show');
 
     const labels = { bkash: 'Bkash', nagad: 'Nagad', rocket: 'Rocket' };
-    
+
     const selectedMethod = document.getElementById('selectedMethod');
     const paymentTitle = document.getElementById('paymentTitle');
-    
+
     if (selectedMethod) selectedMethod.innerText = labels[method] || method;
     if (paymentTitle) paymentTitle.innerText = labels[method] || method;
 
@@ -378,7 +378,7 @@ const Tabs = {
     });
 
     event.currentTarget.classList.add('active');
-    
+
     const content = document.getElementById(tabName);
     if (content) content.classList.add('active');
   },
@@ -443,7 +443,7 @@ const Profile = {
   setupPhotoPreview() {
     const photoInput = document.getElementById('passwordChange-photo');
     const profileImage = document.getElementById('passwordChange-profileImage');
-    
+
     if (photoInput && profileImage) {
       photoInput.addEventListener('change', function(event) {
         const file = event.target.files[0];
@@ -477,12 +477,12 @@ const Search = {
   searchAgents() {
     const searchInput = document.getElementById('searchInput');
     const clearBtn = document.getElementById('clearSearch');
-    
+
     if (!searchInput) return;
 
     const searchTerm = searchInput.value.toLowerCase();
     const agentCards = document.querySelectorAll('.agent-card');
-    
+
     if (clearBtn) {
       clearBtn.classList.toggle('show', searchTerm.length > 0);
     }
@@ -515,10 +515,10 @@ const Search = {
   clearSearch() {
     const searchInput = document.getElementById('searchInput');
     const clearBtn = document.getElementById('clearSearch');
-    
+
     if (searchInput) searchInput.value = '';
     if (clearBtn) clearBtn.classList.remove('show');
-    
+
     this.searchAgents();
   }
 };
@@ -532,15 +532,15 @@ const FAQ = {
     const answer = element.nextElementSibling;
     const allQuestions = document.querySelectorAll('.faq-question');
     const allAnswers = document.querySelectorAll('.faq-answer');
-    
+
     allQuestions.forEach(q => {
       if (q !== element) q.classList.remove('active');
     });
-    
+
     allAnswers.forEach(a => {
       if (a !== answer) a.classList.remove('active');
     });
-    
+
     element.classList.toggle('active');
     if (answer) answer.classList.toggle('active');
   }
@@ -564,9 +564,9 @@ const Refer = {
 
     referLink.select();
     referLink.setSelectionRange(0, 99999);
-    
+
     Utils.copyToClipboard(referLink.value, 'Refer link copied!');
-    
+
     const btn = event.target.closest('.copy-btn');
     if (btn) {
       const originalText = btn.innerHTML;
@@ -593,13 +593,13 @@ const Tasks = {
   goToAddedPage() {
     const taskPage = document.getElementById('taskPage');
     const addedPage = document.getElementById('addedPage');
-    
+
     if (taskPage && addedPage) {
       taskPage.classList.remove('active');
       addedPage.classList.add('active');
-      
+
       this.tasksCompleted = 2;
-      
+
       window.scrollTo({
         top: 0,
         behavior: 'smooth'
@@ -614,13 +614,13 @@ const Tasks = {
     const taskPage = document.getElementById('taskPage');
     const addedPage = document.getElementById('addedPage');
     const taskCounter = document.getElementById('taskCounter');
-    
+
     if (taskPage && addedPage) {
       addedPage.classList.remove('active');
       taskPage.classList.add('active');
-      
+
       if (taskCounter) taskCounter.textContent = '2/2';
-      
+
       window.scrollTo({
         top: 0,
         behavior: 'smooth'
@@ -645,7 +645,7 @@ const Tasks = {
 
       const duration = Math.random() * 3 + 2;
       const xMovement = (Math.random() - 0.5) * 200;
-      
+
       confetti.animate([
         { transform: 'translateY(0) translateX(0) rotate(0deg)', opacity: 1 },
         { transform: `translateY(${window.innerHeight}px) translateX(${xMovement}px) rotate(720deg)`, opacity: 0 }
@@ -691,7 +691,7 @@ const UIEnhancements = {
         const size = Math.max(rect.width, rect.height);
         const x = e.clientX - rect.left - size / 2;
         const y = e.clientY - rect.top - size / 2;
-        
+
         Object.assign(ripple.style, {
           width: `${size}px`,
           height: `${size}px`,
@@ -704,7 +704,7 @@ const UIEnhancements = {
           animation: 'ripple 0.6s ease-out',
           pointerEvents: 'none'
         });
-        
+
         this.appendChild(ripple);
         setTimeout(() => ripple.remove(), 600);
       });
@@ -793,7 +793,7 @@ function moveSlide(direction) { Slider.moveSlide(direction); }
 function goToHome() { Tasks.goToHome(); }
 function goToAddedPage() { Tasks.goToAddedPage(); }
 function backToTask() { Tasks.backToTask(); }
-function getStarted() { 
+function getStarted() {
   Utils.showToast('Redirecting to registration page...');
   // window.location.href = 'register.html';
 }
@@ -823,7 +823,7 @@ if ('serviceWorker' in navigator) {
     function toggleProfileDetails() {
         const profileDetails = document.getElementById('profileDetails');
         const tapArrow = document.getElementById('tapArrow');
-        
+
         profileDetails.classList.toggle('show');
         tapArrow.classList.toggle('rotated');
     }
@@ -832,9 +832,9 @@ if ('serviceWorker' in navigator) {
     function copyReferCode(event) {
         // Stop propagation to prevent triggering parent click
         event.stopPropagation();
-        
+
         const referCode = document.getElementById('referCodeText').textContent;
-        
+
         navigator.clipboard.writeText(referCode).then(() => {
             showToast();
         }).catch(err => {
@@ -846,7 +846,7 @@ if ('serviceWorker' in navigator) {
     function showToast() {
         const toast = document.getElementById('toast');
         toast.classList.add('show');
-        
+
         setTimeout(() => {
             toast.classList.remove('show');
         }, 2000);
@@ -887,4 +887,35 @@ function showToast() {
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 2000);
 }
+ function selectPaymentMethod(method) {
+    // Hide all forms
+    document.querySelectorAll('.form-content').forEach(f => f.classList.remove('show'));
+    // Show selected form
+    document.getElementById(method + 'Form').classList.add('show');
 
+    // Set hidden input
+    document.getElementById('paymentMethodInput').value = method;
+
+    // Button active class
+    document.querySelectorAll('.method-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(method + '-btn').classList.add('active');
+}
+
+function selectPaymentMethodFromCard(methodName, id) {
+    // Optionally select corresponding button & form
+    selectPaymentMethod(methodName);
+    // Highlight card
+    document.querySelectorAll('.payment-method-card').forEach(c => c.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+}
+
+function copyNumber(number, btn) {
+    navigator.clipboard.writeText(number).then(() => {
+        btn.innerText = 'Copied';
+        btn.classList.add('copied');
+        setTimeout(() => {
+            btn.innerText = 'Copy';
+            btn.classList.remove('copied');
+        }, 2000);
+    });
+}

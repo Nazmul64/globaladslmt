@@ -1,7 +1,9 @@
 @extends('frontend.master')
 
 @section('content')
+
  <div class="row">
+
         <div class="menu-card">
             <div class="menu-icon-circle">
                 <a href="ads.html"><i class="fas fa-bookmark"style="color:white;"></i></a>

@@ -1,10 +1,9 @@
- @include('frontend.pages.header')
-   <div class="header">
-        <a href="#"><i class="fas fa-arrow-left back-btn" ></i></a>
-        <div class="header-title">Options</div>
-    </div>
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-      <link rel="stylesheet" href="{{asset('frontend')}}/assets/css/custom.css">
+@extends('frontend.master')
+
+@section('content')
+
+
+
     <!-- Container -->
     <div class="container">
         <!-- Add Balance Card -->
@@ -12,7 +11,7 @@
             <div class="icon-circle">
                 <i class="fas fa-plus"></i>
             </div>
-            <div class="option-title"><a href="addblance.html">Add Balance</a></div>
+            <div class="option-title"><a href="{{route('frontend.adblance')}}">Add Balance</a></div>
         </div>
 
         <!-- Buy Membership Card -->
@@ -33,8 +32,44 @@
             </div>
         </div>
     </div>
-    @include('frontend.pages.footer')
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{asset('frontend')}}/assets/js/customs.js"></script>
-    <script src="{{asset('frontend')}}/assets/js/custom.js"></script>
+<div class="bottom-nav">
+    <div class="nav-container">
 
+        <div class="nav-item active">
+            <a href="profile.html">
+                <i class="fas fa-user"></i>
+                <div class="nav-label">Profile</div>
+            </a>
+        </div>
+
+        <div class="nav-item">
+            <a href="widraw.html">
+                <i class="fas fa-wallet"></i>
+                <div class="nav-label">Withdraw</div>
+            </a>
+        </div>
+
+        <div class="nav-item">
+            <a href="index.html">
+                <i class="fas fa-dollar-sign"></i>
+                <div class="nav-label">Home</div>
+            </a>
+        </div>
+
+        <div class="nav-item">
+            <a href="userchat.html">
+                <i class="fab fa-telegram"></i>
+                <div class="nav-label">Live Chat</div>
+            </a>
+        </div>
+
+        <div class="nav-item">
+            <a href="agentlist.html">
+                <i class="fas fa-users"></i>
+                <div class="nav-label">Agents</div>
+            </a>
+        </div>
+
+    </div>
+</div>
+@endsection

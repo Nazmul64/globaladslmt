@@ -17,6 +17,7 @@
             <tr>
                 <th>#</th>
                 <th>Method Name</th>
+                <th>Method Number</th>
                 <th>Photo</th>
                 <th>Status</th>
                 <th>Actions</th>
@@ -27,6 +28,7 @@
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $method->method_name }}</td>
+                <td>{{ $method->method_number }}</td>
                 <td>
                     @if($method->photo)
                         <img src="{{ asset('uploads/paymentmethod/'.$method->photo) }}" alt="Photo" width="50">
