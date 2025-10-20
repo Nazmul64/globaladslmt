@@ -13,7 +13,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::Lc31BFiy3CyXqMDy',
+            '_route' => 'generated::dO19FDLayjVAQ6mW',
           ),
           1 => NULL,
           2 => 
@@ -50,7 +50,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::TxFCHLZC5WYkg00g',
+            '_route' => 'generated::s3iK14g0XaNQ9uBW',
           ),
           1 => NULL,
           2 => 
@@ -105,7 +105,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::tOLmEOKjkCnbRqfs',
+            '_route' => 'generated::aIq5FUGkkDZ7m3qm',
           ),
           1 => NULL,
           2 => 
@@ -196,7 +196,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::PNAqXC6yQz2Anvd4',
+            '_route' => 'generated::6ByBLadO35YuO9Xj',
           ),
           1 => NULL,
           2 => 
@@ -393,6 +393,26 @@ app('router')->setCompiledRoutes(
           0 => 
           array (
             '_route' => 'frontend.refer.list',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/frontend/support' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'frontend.support',
           ),
           1 => NULL,
           2 => 
@@ -995,6 +1015,62 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/support' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'support.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'support.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/support/create' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'support.create',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
       '/pending' => 
       array (
         0 => 
@@ -1175,7 +1251,7 @@ app('router')->setCompiledRoutes(
     ),
     2 => 
     array (
-      0 => '{^(?|/pa(?|ssword/reset/([^/]++)(*:34)|ckage/(?|buy/([^/]++)(*:62)|([^/]++)(?|(*:80)|/edit(*:92)|(*:99)))|ymentmethod/([^/]++)(?|(*:131)|/edit(*:144)|(*:152)))|/a(?|pp(?|setting/([^/]++)(?|(*:191)|/edit(*:204)|(*:212))|rove/([^/]++)(*:234))|gent(?|/(?|approve/([^/]++)(*:270)|reject/([^/]++)(*:293))|create/([^/]++)(?|(*:320)|/edit(*:333)|(*:341))))|/re(?|ffercommission/([^/]++)(?|(*:384)|/edit(*:397)|(*:405))|ject/(?|([^/]++)(*:430)|list(*:442)))|/notice/([^/]++)(?|(*:471)|/edit(*:484)|(*:492))|/worknotice/([^/]++)(?|(*:524)|/edit(*:537)|(*:545))|/storage/(.*)(*:567))/?$}sDu',
+      0 => '{^(?|/pa(?|ssword/reset/([^/]++)(*:34)|ckage/(?|buy/([^/]++)(*:62)|([^/]++)(?|(*:80)|/edit(*:92)|(*:99)))|ymentmethod/([^/]++)(?|(*:131)|/edit(*:144)|(*:152)))|/a(?|pp(?|setting/([^/]++)(?|(*:191)|/edit(*:204)|(*:212))|rove/([^/]++)(*:234))|gent(?|/(?|approve/([^/]++)(*:270)|reject/([^/]++)(*:293))|create/([^/]++)(?|(*:320)|/edit(*:333)|(*:341))))|/re(?|ffercommission/([^/]++)(?|(*:384)|/edit(*:397)|(*:405))|ject/(?|([^/]++)(*:430)|list(*:442)))|/notice/([^/]++)(?|(*:471)|/edit(*:484)|(*:492))|/worknotice/([^/]++)(?|(*:524)|/edit(*:537)|(*:545))|/s(?|upport/([^/]++)(?|(*:577)|/edit(*:590)|(*:598))|torage/(.*)(*:618)))/?$}sDu',
     ),
     3 => 
     array (
@@ -1954,7 +2030,95 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      567 => 
+      577 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'support.show',
+          ),
+          1 => 
+          array (
+            0 => 'support',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      590 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'support.edit',
+          ),
+          1 => 
+          array (
+            0 => 'support',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      598 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'support.update',
+          ),
+          1 => 
+          array (
+            0 => 'support',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'support.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'support',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      618 => 
       array (
         0 => 
         array (
@@ -1992,7 +2156,7 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'generated::Lc31BFiy3CyXqMDy' => 
+    'generated::dO19FDLayjVAQ6mW' => 
     array (
       'methods' => 
       array (
@@ -2021,7 +2185,7 @@ app('router')->setCompiledRoutes(
                         \'exception\' => $exception,
                     ]), status: $exception ? 500 : 200);
                 }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000001010000000000000000";}}',
-        'as' => 'generated::Lc31BFiy3CyXqMDy',
+        'as' => 'generated::dO19FDLayjVAQ6mW',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2074,7 +2238,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::TxFCHLZC5WYkg00g' => 
+    'generated::s3iK14g0XaNQ9uBW' => 
     array (
       'methods' => 
       array (
@@ -2094,7 +2258,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::TxFCHLZC5WYkg00g',
+        'as' => 'generated::s3iK14g0XaNQ9uBW',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2183,7 +2347,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::tOLmEOKjkCnbRqfs' => 
+    'generated::aIq5FUGkkDZ7m3qm' => 
     array (
       'methods' => 
       array (
@@ -2203,7 +2367,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::tOLmEOKjkCnbRqfs',
+        'as' => 'generated::aIq5FUGkkDZ7m3qm',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2402,7 +2566,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::PNAqXC6yQz2Anvd4' => 
+    'generated::6ByBLadO35YuO9Xj' => 
     array (
       'methods' => 
       array (
@@ -2422,7 +2586,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::PNAqXC6yQz2Anvd4',
+        'as' => 'generated::6ByBLadO35YuO9Xj',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2795,6 +2959,44 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'frontend.refer.list',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'frontend.support' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'frontend/support',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\FrontendController@frontend_support',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\FrontendController@frontend_support',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'frontend.support',
       ),
       'fallback' => false,
       'defaults' => 
@@ -5125,6 +5327,270 @@ app('router')->setCompiledRoutes(
         'as' => 'package.destroy',
         'uses' => 'App\\Http\\Controllers\\Backend\\PackageController@destroy',
         'controller' => 'App\\Http\\Controllers\\Backend\\PackageController@destroy',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'support.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'support',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'support.index',
+        'uses' => 'App\\Http\\Controllers\\Backend\\SupportController@index',
+        'controller' => 'App\\Http\\Controllers\\Backend\\SupportController@index',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'support.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'support/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'support.create',
+        'uses' => 'App\\Http\\Controllers\\Backend\\SupportController@create',
+        'controller' => 'App\\Http\\Controllers\\Backend\\SupportController@create',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'support.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'support',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'support.store',
+        'uses' => 'App\\Http\\Controllers\\Backend\\SupportController@store',
+        'controller' => 'App\\Http\\Controllers\\Backend\\SupportController@store',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'support.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'support/{support}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'support.show',
+        'uses' => 'App\\Http\\Controllers\\Backend\\SupportController@show',
+        'controller' => 'App\\Http\\Controllers\\Backend\\SupportController@show',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'support.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'support/{support}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'support.edit',
+        'uses' => 'App\\Http\\Controllers\\Backend\\SupportController@edit',
+        'controller' => 'App\\Http\\Controllers\\Backend\\SupportController@edit',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'support.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'support/{support}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'support.update',
+        'uses' => 'App\\Http\\Controllers\\Backend\\SupportController@update',
+        'controller' => 'App\\Http\\Controllers\\Backend\\SupportController@update',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'support.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'support/{support}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'support.destroy',
+        'uses' => 'App\\Http\\Controllers\\Backend\\SupportController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Backend\\SupportController@destroy',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 

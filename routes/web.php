@@ -13,6 +13,7 @@ use App\Http\Controllers\Backend\NoticesController;
 use App\Http\Controllers\Backend\PackageController;
 use App\Http\Controllers\Backend\PaymentmethodController;
 use App\Http\Controllers\Backend\ReffercommissionsetupController;
+use App\Http\Controllers\Backend\SupportController;
 use App\Http\Controllers\Backend\WorkNoticesController;
 use App\Http\Controllers\Frontend\FrontendAuthController;
 use App\Http\Controllers\Frontend\FrontendController;
@@ -48,6 +49,7 @@ Auth::routes();
    Route::get('frontend/adblance', [FrontendController::class, 'frontend_adblance'])->name('frontend.adblance');
    Route::get('frontend/deposite', [FrontendController::class, 'frontend_deposite'])->name('frontend.deposite');
    Route::get('frontend/refer/list', [FrontendController::class, 'frontend_refer_list'])->name('frontend.refer.list');
+   Route::get('frontend/support', [FrontendController::class, 'frontend_support'])->name('frontend.support');
    Route::get('frontend/payment/history', [FrontendController::class, 'frontend_payment_history'])->name('frontend.payment.history');
    Route::post('frontend/deposite/store', [DepositeController::class, 'store_deposite'])->name('deposit.store');
    Route::get('frontend/packages', [FrontendController::class, 'frontend_packages'])->name('frontend.packages');
@@ -80,6 +82,7 @@ Route::middleware(['is_admin'])->group(function () {
   Route::resource('notice',NoticesController::class);
   Route::resource('worknotice',WorkNoticesController::class);
   Route::resource('package',PackageController::class);
+  Route::resource('support',SupportController::class);
 
 
  Route::get('/pending', [AdmindepositeApprovedController::class, 'admin_deposite_pending'])->name('admin.deposite.pending');

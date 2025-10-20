@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('supports', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->text('url_link');
+            $table->string('icon');
             $table->timestamps();
         });
     }

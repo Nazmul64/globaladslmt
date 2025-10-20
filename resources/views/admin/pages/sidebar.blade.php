@@ -141,9 +141,6 @@
             </li>
         </ul>
     </li>
-
-
-
        <li class="dropdown">
             <a href="javascript:void(0)">
                 <i class="fa-solid fa-hand-holding-dollar text-xl me-2"></i>
@@ -170,9 +167,20 @@
                 </li>
             </ul>
         </li>
-
-
-
+    <li class="dropdown">
+        <a href="javascript:void(0)">
+            <i class="fa-solid fa-box fa-xl me-2"></i>
+            <span>Support Setup</span>
+        </a>
+        <ul class="sidebar-submenu">
+            <li>
+                <a href="{{ route('support.index') }}">
+                    <i class="fa-solid fa-box fa-lg me-2"></i>
+                    Support SetupList
+                </a>
+            </li>
+        </ul>
+    </li>
       <li>
         <a href="faq.html">
           <iconify-icon icon="mage:message-question-mark-round" class="menu-icon"></iconify-icon>

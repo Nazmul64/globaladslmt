@@ -61,7 +61,7 @@
 
         <div class="menu-card">
             <div class="menu-icon-circle">
-                <a href="support.html"><i class="fas fa-coins"style="color:white;"></i></a>
+                <a href="{{route('frontend.support')}}"><i class="fas fa-coins"style="color:white;"></i></a>
             </div>
             <div class="menu-label">Support</div>
         </div>

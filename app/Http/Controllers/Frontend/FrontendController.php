@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Deposite;
 use App\Models\Package;
 use App\Models\Paymentmethod;
+use App\Models\Support;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -43,6 +44,15 @@ class FrontendController extends Controller
 
     return view('frontend.frontendpages.payment_history', compact('deposits', 'user'));
 }
+
+
+public function frontend_support()
+{
+    $supports = \App\Models\Support::orderBy('id', 'asc')->get();
+
+    return view('frontend.frontendpages.support', compact('supports'));
+}
+
 
 
 public function frontend_refer_list()
