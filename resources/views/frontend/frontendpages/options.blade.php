@@ -19,7 +19,7 @@
             <div class="icon-circle">
                 <i class="fas fa-shopping-basket"></i>
             </div>
-            <div class="option-title"><a href="package.html">Buy Membership</a></div>
+            <div class="option-title"><a href="{{route('frontend.packages')}}">Buy Membership</a></div>
         </div>
 
         <!-- Info Card -->

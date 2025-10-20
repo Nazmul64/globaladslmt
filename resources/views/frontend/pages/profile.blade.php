@@ -24,17 +24,28 @@
                 Tap to view balance
                 <i class="fas fa-chevron-down tap-arrow" id="tapArrow"style="color:white;"></i>
             </div>
+            @php
+                $user = auth()->user();
+                $user_balance = App\Models\Deposite::where('user_id', $user->id)
+                                    ->where('status', 'approved')
+                                    ->sum('amount');
+            @endphp
 
-            <!-- Hidden Balance -->
+            <!-- User Balance -->
             <div class="profile-details" id="balanceDetails">
                 <div class="info-row">
                     <span class="info-label">Balance</span>
                     <div class="info-value">
                         <i class="fas fa-wallet coin-icon"></i>
-                        <span id="balanceAmount"style="color:white;">142 Coin</span>
+                        <span id="balanceAmount" style="color:white;">
+                            {{ round($user_balance ?? 0) }} BDT
+                        </span>
                     </div>
                 </div>
             </div>
+
+
+
         </div>
 
         <!-- Profile Avatar Right -->

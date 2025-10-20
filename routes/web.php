@@ -5,6 +5,8 @@ use App\Http\Controllers\AppsettingController;
 use App\Http\Controllers\Backend\AdminagentcreateController;
 use App\Http\Controllers\Backend\AdminApproveController;
 use App\Http\Controllers\Backend\AdminautoController;
+use App\Http\Controllers\Backend\AdmindepositeApprovedController;
+use App\Http\Controllers\Backend\AdminPackageuylistcheckController;
 use App\Http\Controllers\Backend\AgentauthController;
 use App\Http\Controllers\Backend\AgentController;
 use App\Http\Controllers\Backend\NoticesController;
@@ -15,6 +17,7 @@ use App\Http\Controllers\Backend\WorkNoticesController;
 use App\Http\Controllers\Frontend\FrontendAuthController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\DepositeController;
+use App\Http\Controllers\Frontend\PackageBuyControllery;
 use App\Models\Appsetting;
 use App\Models\Reffercommissionsetup;
 use Illuminate\Support\Facades\Auth;
@@ -25,10 +28,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 // Frontend Pages Route Controller Start
- Route::get('frontend/options', [FrontendController::class, 'frontend_options'])->name('frontend.options');
- Route::get('frontend/adblance', [FrontendController::class, 'frontend_adblance'])->name('frontend.adblance');
- Route::get('frontend/deposite', [FrontendController::class, 'frontend_deposite'])->name('frontend.deposite');
- Route::post('frontend/deposite/store', [DepositeController::class, 'store_deposite'])->name('deposit.store');
+
 
 // Frontend Pages Route Controller End
 
@@ -43,7 +43,15 @@ Auth::routes();
 
 // Frontend Route Controller Start
   Route::middleware(['user'])->group(function () {
-    Route::get('frontend/dashboard', [FrontendController::class, 'frontend'])->name('frontend.index');
+   Route::get('frontend/dashboard', [FrontendController::class, 'frontend'])->name('frontend.index');
+   Route::get('frontend/options', [FrontendController::class, 'frontend_options'])->name('frontend.options');
+   Route::get('frontend/adblance', [FrontendController::class, 'frontend_adblance'])->name('frontend.adblance');
+   Route::get('frontend/deposite', [FrontendController::class, 'frontend_deposite'])->name('frontend.deposite');
+   Route::get('frontend/refer/list', [FrontendController::class, 'frontend_refer_list'])->name('frontend.refer.list');
+   Route::get('frontend/payment/history', [FrontendController::class, 'frontend_payment_history'])->name('frontend.payment.history');
+   Route::post('frontend/deposite/store', [DepositeController::class, 'store_deposite'])->name('deposit.store');
+   Route::get('frontend/packages', [FrontendController::class, 'frontend_packages'])->name('frontend.packages');
+   Route::post('/package/buy/{package_id}', [PackageBuyControllery::class, 'frontend_packages_buy'])->name('frontend.package.buy');
 });
 // Frontend Route Controller End
 
@@ -72,6 +80,15 @@ Route::middleware(['is_admin'])->group(function () {
   Route::resource('notice',NoticesController::class);
   Route::resource('worknotice',WorkNoticesController::class);
   Route::resource('package',PackageController::class);
+
+
+ Route::get('/pending', [AdmindepositeApprovedController::class, 'admin_deposite_pending'])->name('admin.deposite.pending');
+ Route::get('/approve/{id}', [AdmindepositeApprovedController::class, 'admin_deposite_approve'])->name('admin.deposite.approve');
+ Route::get('/reject/{id}', [AdmindepositeApprovedController::class, 'admin_deposite_reject'])->name('admin.deposite.reject');
+ Route::get('/approved/list', [AdmindepositeApprovedController::class, 'admin_deposite_approved_list'])->name('admin.deposite.approved.list');
+ Route::get('/reject/list', [AdmindepositeApprovedController::class, 'admin_deposite_reject_list'])->name('admin.deposite.reject.list');
+ Route::get('/admin/package/list', [AdminPackageuylistcheckController::class, 'admin_package_list'])->name('admin.buy.package.list');
+
 });
 
 // Admin Route Controller End

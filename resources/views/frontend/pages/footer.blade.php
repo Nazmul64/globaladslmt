@@ -16,7 +16,7 @@
         </div>
 
         <div class="nav-item">
-            <a href="index.html">
+            <a href="{{route('frontend.index')}}">
                 <i class="fas fa-dollar-sign"></i>
                 <div class="nav-label">Home</div>
             </a>

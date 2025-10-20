@@ -33,6 +33,11 @@ class User extends Authenticatable
     'role',
     'status',
     'wallet_address',
+
+];
+protected $casts = [
+    'refer_income' => 'float',
+    'generation_income' => 'float',
 ];
 
     /**
@@ -63,8 +68,22 @@ class User extends Authenticatable
         return $this->belongsTo(User::class, 'referred_by');
     }
 
-    public function referrals()
+
+
+
+    // Relation to user's deposits
+    public function deposits()
     {
-        return $this->hasMany(User::class, 'referred_by');
+        return $this->hasMany(Deposite::class);
     }
+
+public function packagebuys()
+{
+    return $this->hasMany(Packagebuy::class, 'user_id');
+}
+
+public function referrals()
+{
+    return $this->hasMany(User::class, 'referred_by');
+}
 }

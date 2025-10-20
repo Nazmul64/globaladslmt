@@ -127,7 +127,49 @@
             </li>
         </ul>
     </li>
+   <li class="dropdown">
+        <a href="javascript:void(0)">
+            <i class="fa-solid fa-box fa-xl me-2"></i>
+            <span>User Package List</span>
+        </a>
+        <ul class="sidebar-submenu">
+            <li>
+                <a href="{{ route('admin.buy.package.list') }}">
+                    <i class="fa-solid fa-box fa-lg me-2"></i>
+                    User Package List
+                </a>
+            </li>
+        </ul>
+    </li>
 
+
+
+       <li class="dropdown">
+            <a href="javascript:void(0)">
+                <i class="fa-solid fa-hand-holding-dollar text-xl me-2"></i>
+                <span>Pending Deposits</span>
+            </a>
+            <ul class="sidebar-submenu">
+                <li>
+                    <a href="{{ route('admin.deposite.pending') }}">
+                        <i class="fa-solid fa-hourglass-half text-xl me-2"></i>
+                        Pending Deposits
+                    </a>
+                </li>
+                 <li>
+                    <a href="{{ route('admin.deposite.approved.list') }}">
+                        <i class="fa-solid fa-hourglass-half text-xl me-2"></i>
+                        Approved  Deposits List
+                    </a>
+                </li>
+                 <li>
+                    <a href="{{ route('admin.deposite.reject.list') }}">
+                        <i class="fa-solid fa-hourglass-half text-xl me-2"></i>
+                        Reject  Deposits List
+                    </a>
+                </li>
+            </ul>
+        </li>
 
 
 

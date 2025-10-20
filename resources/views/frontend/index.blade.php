@@ -20,7 +20,7 @@
 
         <div class="menu-card">
             <div class="menu-icon-circle">
-                <a href="refferlist.html"><i class="fas fa-shopping-basket"style="color:white;"></i></a>
+                <a href="{{route('frontend.refer.list')}}"><i class="fas fa-shopping-basket"style="color:white;"></i></a>
             </div>
             <div class="menu-label">Refer</div>
         </div>
@@ -40,7 +40,7 @@
         </div>
         <div class="menu-card">
             <div class="menu-icon-circle">
-                <a href="paymenthistory.html"><i class="fas fa-bell"style="color:white;"></i></a>
+                <a href="{{route('frontend.payment.history')}}"><i class="fas fa-bell"style="color:white;"></i></a>
             </div>
             <div class="menu-label">Payment History</div>
         </div>
