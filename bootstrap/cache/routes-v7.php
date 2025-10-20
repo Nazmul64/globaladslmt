@@ -13,7 +13,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::dO19FDLayjVAQ6mW',
+            '_route' => 'generated::wATPGqwJbS0dwvyB',
           ),
           1 => NULL,
           2 => 
@@ -50,7 +50,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::s3iK14g0XaNQ9uBW',
+            '_route' => 'generated::IuO4fvH7dATXBNY8',
           ),
           1 => NULL,
           2 => 
@@ -105,7 +105,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::aIq5FUGkkDZ7m3qm',
+            '_route' => 'generated::BJtln9RVi3X74K5A',
           ),
           1 => NULL,
           2 => 
@@ -196,7 +196,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::6ByBLadO35YuO9Xj',
+            '_route' => 'generated::iDrkbvmFaqGcs9Wv',
           ),
           1 => NULL,
           2 => 
@@ -472,6 +472,26 @@ app('router')->setCompiledRoutes(
           0 => 
           array (
             '_route' => 'frontend.packages',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/frontend/stepguide' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'frontend.stepguide',
           ),
           1 => NULL,
           2 => 
@@ -1071,6 +1091,118 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/stepguide' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'stepguide.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'stepguide.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/stepguide/create' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'stepguide.create',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/whychooseu' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'whychooseu.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'whychooseu.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/whychooseu/create' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'whychooseu.create',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
       '/pending' => 
       array (
         0 => 
@@ -1251,7 +1383,7 @@ app('router')->setCompiledRoutes(
     ),
     2 => 
     array (
-      0 => '{^(?|/pa(?|ssword/reset/([^/]++)(*:34)|ckage/(?|buy/([^/]++)(*:62)|([^/]++)(?|(*:80)|/edit(*:92)|(*:99)))|ymentmethod/([^/]++)(?|(*:131)|/edit(*:144)|(*:152)))|/a(?|pp(?|setting/([^/]++)(?|(*:191)|/edit(*:204)|(*:212))|rove/([^/]++)(*:234))|gent(?|/(?|approve/([^/]++)(*:270)|reject/([^/]++)(*:293))|create/([^/]++)(?|(*:320)|/edit(*:333)|(*:341))))|/re(?|ffercommission/([^/]++)(?|(*:384)|/edit(*:397)|(*:405))|ject/(?|([^/]++)(*:430)|list(*:442)))|/notice/([^/]++)(?|(*:471)|/edit(*:484)|(*:492))|/worknotice/([^/]++)(?|(*:524)|/edit(*:537)|(*:545))|/s(?|upport/([^/]++)(?|(*:577)|/edit(*:590)|(*:598))|torage/(.*)(*:618)))/?$}sDu',
+      0 => '{^(?|/pa(?|ssword/reset/([^/]++)(*:34)|ckage/(?|buy/([^/]++)(*:62)|([^/]++)(?|(*:80)|/edit(*:92)|(*:99)))|ymentmethod/([^/]++)(?|(*:131)|/edit(*:144)|(*:152)))|/a(?|pp(?|setting/([^/]++)(?|(*:191)|/edit(*:204)|(*:212))|rove/([^/]++)(*:234))|gent(?|/(?|approve/([^/]++)(*:270)|reject/([^/]++)(*:293))|create/([^/]++)(?|(*:320)|/edit(*:333)|(*:341))))|/re(?|ffercommission/([^/]++)(?|(*:384)|/edit(*:397)|(*:405))|ject/(?|([^/]++)(*:430)|list(*:442)))|/notice/([^/]++)(?|(*:471)|/edit(*:484)|(*:492))|/w(?|orknotice/([^/]++)(?|(*:527)|/edit(*:540)|(*:548))|hychooseu/([^/]++)(?|(*:578)|/edit(*:591)|(*:599)))|/s(?|upport/([^/]++)(?|(*:632)|/edit(*:645)|(*:653))|t(?|epguide/([^/]++)(?|(*:685)|/edit(*:698)|(*:706))|orage/(.*)(*:725))))/?$}sDu',
     ),
     3 => 
     array (
@@ -1942,7 +2074,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      524 => 
+      527 => 
       array (
         0 => 
         array (
@@ -1965,7 +2097,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      537 => 
+      540 => 
       array (
         0 => 
         array (
@@ -1988,7 +2120,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      545 => 
+      548 => 
       array (
         0 => 
         array (
@@ -2030,7 +2162,95 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      577 => 
+      578 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'whychooseu.show',
+          ),
+          1 => 
+          array (
+            0 => 'whychooseu',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      591 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'whychooseu.edit',
+          ),
+          1 => 
+          array (
+            0 => 'whychooseu',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      599 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'whychooseu.update',
+          ),
+          1 => 
+          array (
+            0 => 'whychooseu',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'whychooseu.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'whychooseu',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      632 => 
       array (
         0 => 
         array (
@@ -2053,7 +2273,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      590 => 
+      645 => 
       array (
         0 => 
         array (
@@ -2076,7 +2296,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      598 => 
+      653 => 
       array (
         0 => 
         array (
@@ -2118,7 +2338,95 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      618 => 
+      685 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'stepguide.show',
+          ),
+          1 => 
+          array (
+            0 => 'stepguide',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      698 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'stepguide.edit',
+          ),
+          1 => 
+          array (
+            0 => 'stepguide',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      706 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'stepguide.update',
+          ),
+          1 => 
+          array (
+            0 => 'stepguide',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'stepguide.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'stepguide',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      725 => 
       array (
         0 => 
         array (
@@ -2156,7 +2464,7 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'generated::dO19FDLayjVAQ6mW' => 
+    'generated::wATPGqwJbS0dwvyB' => 
     array (
       'methods' => 
       array (
@@ -2185,7 +2493,7 @@ app('router')->setCompiledRoutes(
                         \'exception\' => $exception,
                     ]), status: $exception ? 500 : 200);
                 }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000001010000000000000000";}}',
-        'as' => 'generated::dO19FDLayjVAQ6mW',
+        'as' => 'generated::wATPGqwJbS0dwvyB',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2238,7 +2546,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::s3iK14g0XaNQ9uBW' => 
+    'generated::IuO4fvH7dATXBNY8' => 
     array (
       'methods' => 
       array (
@@ -2258,7 +2566,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::s3iK14g0XaNQ9uBW',
+        'as' => 'generated::IuO4fvH7dATXBNY8',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2347,7 +2655,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::aIq5FUGkkDZ7m3qm' => 
+    'generated::BJtln9RVi3X74K5A' => 
     array (
       'methods' => 
       array (
@@ -2367,7 +2675,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::aIq5FUGkkDZ7m3qm',
+        'as' => 'generated::BJtln9RVi3X74K5A',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2566,7 +2874,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::6ByBLadO35YuO9Xj' => 
+    'generated::iDrkbvmFaqGcs9Wv' => 
     array (
       'methods' => 
       array (
@@ -2586,7 +2894,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::6ByBLadO35YuO9Xj',
+        'as' => 'generated::iDrkbvmFaqGcs9Wv',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3147,6 +3455,44 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'frontend.package.buy',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'frontend.stepguide' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'frontend/stepguide',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\FrontendController@frontend_stepguide',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\FrontendController@frontend_stepguide',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'frontend.stepguide',
       ),
       'fallback' => false,
       'defaults' => 
@@ -5591,6 +5937,534 @@ app('router')->setCompiledRoutes(
         'as' => 'support.destroy',
         'uses' => 'App\\Http\\Controllers\\Backend\\SupportController@destroy',
         'controller' => 'App\\Http\\Controllers\\Backend\\SupportController@destroy',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'stepguide.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'stepguide',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'stepguide.index',
+        'uses' => 'App\\Http\\Controllers\\Backend\\StepguideController@index',
+        'controller' => 'App\\Http\\Controllers\\Backend\\StepguideController@index',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'stepguide.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'stepguide/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'stepguide.create',
+        'uses' => 'App\\Http\\Controllers\\Backend\\StepguideController@create',
+        'controller' => 'App\\Http\\Controllers\\Backend\\StepguideController@create',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'stepguide.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'stepguide',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'stepguide.store',
+        'uses' => 'App\\Http\\Controllers\\Backend\\StepguideController@store',
+        'controller' => 'App\\Http\\Controllers\\Backend\\StepguideController@store',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'stepguide.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'stepguide/{stepguide}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'stepguide.show',
+        'uses' => 'App\\Http\\Controllers\\Backend\\StepguideController@show',
+        'controller' => 'App\\Http\\Controllers\\Backend\\StepguideController@show',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'stepguide.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'stepguide/{stepguide}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'stepguide.edit',
+        'uses' => 'App\\Http\\Controllers\\Backend\\StepguideController@edit',
+        'controller' => 'App\\Http\\Controllers\\Backend\\StepguideController@edit',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'stepguide.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'stepguide/{stepguide}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'stepguide.update',
+        'uses' => 'App\\Http\\Controllers\\Backend\\StepguideController@update',
+        'controller' => 'App\\Http\\Controllers\\Backend\\StepguideController@update',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'stepguide.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'stepguide/{stepguide}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'stepguide.destroy',
+        'uses' => 'App\\Http\\Controllers\\Backend\\StepguideController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Backend\\StepguideController@destroy',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'whychooseu.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'whychooseu',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'whychooseu.index',
+        'uses' => 'App\\Http\\Controllers\\Backend\\WhychooseusControllerController@index',
+        'controller' => 'App\\Http\\Controllers\\Backend\\WhychooseusControllerController@index',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'whychooseu.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'whychooseu/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'whychooseu.create',
+        'uses' => 'App\\Http\\Controllers\\Backend\\WhychooseusControllerController@create',
+        'controller' => 'App\\Http\\Controllers\\Backend\\WhychooseusControllerController@create',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'whychooseu.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'whychooseu',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'whychooseu.store',
+        'uses' => 'App\\Http\\Controllers\\Backend\\WhychooseusControllerController@store',
+        'controller' => 'App\\Http\\Controllers\\Backend\\WhychooseusControllerController@store',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'whychooseu.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'whychooseu/{whychooseu}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'whychooseu.show',
+        'uses' => 'App\\Http\\Controllers\\Backend\\WhychooseusControllerController@show',
+        'controller' => 'App\\Http\\Controllers\\Backend\\WhychooseusControllerController@show',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'whychooseu.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'whychooseu/{whychooseu}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'whychooseu.edit',
+        'uses' => 'App\\Http\\Controllers\\Backend\\WhychooseusControllerController@edit',
+        'controller' => 'App\\Http\\Controllers\\Backend\\WhychooseusControllerController@edit',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'whychooseu.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'whychooseu/{whychooseu}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'whychooseu.update',
+        'uses' => 'App\\Http\\Controllers\\Backend\\WhychooseusControllerController@update',
+        'controller' => 'App\\Http\\Controllers\\Backend\\WhychooseusControllerController@update',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'whychooseu.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'whychooseu/{whychooseu}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'whychooseu.destroy',
+        'uses' => 'App\\Http\\Controllers\\Backend\\WhychooseusControllerController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Backend\\WhychooseusControllerController@destroy',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 

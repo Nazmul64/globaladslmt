@@ -54,7 +54,7 @@
 
         <div class="menu-card">
             <div class="menu-icon-circle">
-                <a href="howtowrok.html"><i class="fas fa-box"style="color:white;"></i></a>
+                <a href="{{route('frontend.stepguide')}}"><i class="fas fa-box"style="color:white;"></i></a>
             </div>
             <div class="menu-label">How To Work</div>
         </div>

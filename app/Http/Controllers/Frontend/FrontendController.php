@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Deposite;
 use App\Models\Package;
 use App\Models\Paymentmethod;
+use App\Models\Stepguide;
 use App\Models\Support;
 use App\Models\User;
+use App\Models\Whychooseu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -53,6 +55,14 @@ public function frontend_support()
     return view('frontend.frontendpages.support', compact('supports'));
 }
 
+
+public function frontend_stepguide()
+{
+    $step_guides =Stepguide::all();
+     $why_choose_us_items = Whychooseu::all();
+
+    return view('frontend.frontendpages.stepguide', compact('step_guides','why_choose_us_items'));
+}
 
 
 public function frontend_refer_list()

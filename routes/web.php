@@ -13,7 +13,9 @@ use App\Http\Controllers\Backend\NoticesController;
 use App\Http\Controllers\Backend\PackageController;
 use App\Http\Controllers\Backend\PaymentmethodController;
 use App\Http\Controllers\Backend\ReffercommissionsetupController;
+use App\Http\Controllers\Backend\StepguideController;
 use App\Http\Controllers\Backend\SupportController;
+use App\Http\Controllers\Backend\WhychooseusControllerController;
 use App\Http\Controllers\Backend\WorkNoticesController;
 use App\Http\Controllers\Frontend\FrontendAuthController;
 use App\Http\Controllers\Frontend\FrontendController;
@@ -54,6 +56,8 @@ Auth::routes();
    Route::post('frontend/deposite/store', [DepositeController::class, 'store_deposite'])->name('deposit.store');
    Route::get('frontend/packages', [FrontendController::class, 'frontend_packages'])->name('frontend.packages');
    Route::post('/package/buy/{package_id}', [PackageBuyControllery::class, 'frontend_packages_buy'])->name('frontend.package.buy');
+   Route::get('frontend/stepguide', [FrontendController::class, 'frontend_stepguide'])->name('frontend.stepguide');
+
 });
 // Frontend Route Controller End
 
@@ -83,6 +87,8 @@ Route::middleware(['is_admin'])->group(function () {
   Route::resource('worknotice',WorkNoticesController::class);
   Route::resource('package',PackageController::class);
   Route::resource('support',SupportController::class);
+  Route::resource('stepguide',StepguideController::class);
+  Route::resource('whychooseu',WhychooseusControllerController::class);
 
 
  Route::get('/pending', [AdmindepositeApprovedController::class, 'admin_deposite_pending'])->name('admin.deposite.pending');
