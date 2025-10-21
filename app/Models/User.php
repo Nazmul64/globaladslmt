@@ -92,5 +92,10 @@ public function kyc()
 {
     return $this->hasOne(Kyc::class);
 }
+public function agentkyc()
+{
+    return $this->hasOne(Agentkyc::class, 'user_id');
+}
+
 
 }

@@ -13,7 +13,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::2d2zLXCEtdPym7A2',
+            '_route' => 'generated::TYObYW2cflUn0o6c',
           ),
           1 => NULL,
           2 => 
@@ -50,7 +50,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::6WLa3bTT2bG5Ci9F',
+            '_route' => 'generated::5GC1pEhJeHSpfDxx',
           ),
           1 => NULL,
           2 => 
@@ -105,7 +105,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::HcyXjLdyaBOvfsMr',
+            '_route' => 'generated::h6XuyqqoZSYLyLi0',
           ),
           1 => NULL,
           2 => 
@@ -196,7 +196,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::HMq5JtUweoASoiue',
+            '_route' => 'generated::tAFRC5r93FLZrLWd',
           ),
           1 => NULL,
           2 => 
@@ -1454,6 +1454,46 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/frontend/kyc/approved/list' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'frontend.kyc.approved.list',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/frontend/kyc/reject/list' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'frontend.kyc.reject.list',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
       '/agent/login' => 
       array (
         0 => 
@@ -1571,10 +1611,184 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/agent/profile' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.profile',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.profile.update',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/agent/password/change' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.password.change',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/agent/password/submit' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.password.submit',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/agent/kyc' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.key',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/agent/kyc/submit' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.key.submit',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/agent/kyc/kyclist' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.kyc.list',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/agentss/kyc/approve/list' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.approved.kyc.list',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/agentsss/kyc/reject/list' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.kyc.reject.list',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
     ),
     2 => 
     array (
-      0 => '{^(?|/pa(?|ssword/reset/([^/]++)(*:34)|ckage/(?|buy/([^/]++)(*:62)|([^/]++)(?|(*:80)|/edit(*:92)|(*:99)))|ymentmethod/([^/]++)(?|(*:131)|/edit(*:144)|(*:152)))|/a(?|pp(?|setting/([^/]++)(?|(*:191)|/edit(*:204)|(*:212))|rove/([^/]++)(*:234))|gent(?|/(?|approve/([^/]++)(*:270)|reject/([^/]++)(*:293))|create/([^/]++)(?|(*:320)|/edit(*:333)|(*:341))))|/re(?|ffercommission/([^/]++)(?|(*:384)|/edit(*:397)|(*:405))|ject/(?|([^/]++)(*:430)|list(*:442)))|/notice/([^/]++)(?|(*:471)|/edit(*:484)|(*:492))|/w(?|orknotice/([^/]++)(?|(*:527)|/edit(*:540)|(*:548))|hychooseu/([^/]++)(?|(*:578)|/edit(*:591)|(*:599)))|/s(?|upport/([^/]++)(?|(*:632)|/edit(*:645)|(*:653))|t(?|epguide/([^/]++)(?|(*:685)|/edit(*:698)|(*:706))|orage/(.*)(*:725)))|/kyc/(?|approve/([^/]++)(*:759)|reject/([^/]++)(*:782)))/?$}sDu',
+      0 => '{^(?|/pa(?|ssword/reset/([^/]++)(*:34)|ckage/(?|buy/([^/]++)(*:62)|([^/]++)(?|(*:80)|/edit(*:92)|(*:99)))|ymentmethod/([^/]++)(?|(*:131)|/edit(*:144)|(*:152)))|/a(?|pp(?|setting/([^/]++)(?|(*:191)|/edit(*:204)|(*:212))|rove/([^/]++)(*:234))|gent(?|/(?|approve/([^/]++)(*:270)|reject/([^/]++)(*:293)|kyc/(?|approve/([^/]++)(*:324)|reject/([^/]++)(*:347)))|create/([^/]++)(?|(*:375)|/edit(*:388)|(*:396))))|/re(?|ffercommission/([^/]++)(?|(*:439)|/edit(*:452)|(*:460))|ject/(?|([^/]++)(*:485)|list(*:497)))|/notice/([^/]++)(?|(*:526)|/edit(*:539)|(*:547))|/w(?|orknotice/([^/]++)(?|(*:582)|/edit(*:595)|(*:603))|hychooseu/([^/]++)(?|(*:633)|/edit(*:646)|(*:654)))|/s(?|upport/([^/]++)(?|(*:687)|/edit(*:700)|(*:708))|t(?|epguide/([^/]++)(?|(*:740)|/edit(*:753)|(*:761))|orage/(.*)(*:780)))|/kyc/(?|approve/([^/]++)(*:814)|reject/([^/]++)(*:837)))/?$}sDu',
     ),
     3 => 
     array (
@@ -1956,7 +2170,51 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      320 => 
+      324 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.kyc.approve',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      347 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.kyc.reject',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      375 => 
       array (
         0 => 
         array (
@@ -1979,7 +2237,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      333 => 
+      388 => 
       array (
         0 => 
         array (
@@ -2002,7 +2260,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      341 => 
+      396 => 
       array (
         0 => 
         array (
@@ -2044,7 +2302,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      384 => 
+      439 => 
       array (
         0 => 
         array (
@@ -2067,7 +2325,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      397 => 
+      452 => 
       array (
         0 => 
         array (
@@ -2090,7 +2348,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      405 => 
+      460 => 
       array (
         0 => 
         array (
@@ -2132,7 +2390,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      430 => 
+      485 => 
       array (
         0 => 
         array (
@@ -2155,7 +2413,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      442 => 
+      497 => 
       array (
         0 => 
         array (
@@ -2177,7 +2435,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      471 => 
+      526 => 
       array (
         0 => 
         array (
@@ -2200,7 +2458,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      484 => 
+      539 => 
       array (
         0 => 
         array (
@@ -2223,7 +2481,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      492 => 
+      547 => 
       array (
         0 => 
         array (
@@ -2265,7 +2523,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      527 => 
+      582 => 
       array (
         0 => 
         array (
@@ -2288,7 +2546,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      540 => 
+      595 => 
       array (
         0 => 
         array (
@@ -2311,7 +2569,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      548 => 
+      603 => 
       array (
         0 => 
         array (
@@ -2353,7 +2611,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      578 => 
+      633 => 
       array (
         0 => 
         array (
@@ -2376,7 +2634,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      591 => 
+      646 => 
       array (
         0 => 
         array (
@@ -2399,7 +2657,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      599 => 
+      654 => 
       array (
         0 => 
         array (
@@ -2441,7 +2699,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      632 => 
+      687 => 
       array (
         0 => 
         array (
@@ -2464,7 +2722,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      645 => 
+      700 => 
       array (
         0 => 
         array (
@@ -2487,7 +2745,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      653 => 
+      708 => 
       array (
         0 => 
         array (
@@ -2529,7 +2787,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      685 => 
+      740 => 
       array (
         0 => 
         array (
@@ -2552,7 +2810,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      698 => 
+      753 => 
       array (
         0 => 
         array (
@@ -2575,7 +2833,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      706 => 
+      761 => 
       array (
         0 => 
         array (
@@ -2617,7 +2875,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      725 => 
+      780 => 
       array (
         0 => 
         array (
@@ -2640,7 +2898,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      759 => 
+      814 => 
       array (
         0 => 
         array (
@@ -2662,7 +2920,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      782 => 
+      837 => 
       array (
         0 => 
         array (
@@ -2699,7 +2957,7 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'generated::2d2zLXCEtdPym7A2' => 
+    'generated::TYObYW2cflUn0o6c' => 
     array (
       'methods' => 
       array (
@@ -2728,7 +2986,7 @@ app('router')->setCompiledRoutes(
                         \'exception\' => $exception,
                     ]), status: $exception ? 500 : 200);
                 }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000001010000000000000000";}}',
-        'as' => 'generated::2d2zLXCEtdPym7A2',
+        'as' => 'generated::TYObYW2cflUn0o6c',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2781,7 +3039,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::6WLa3bTT2bG5Ci9F' => 
+    'generated::5GC1pEhJeHSpfDxx' => 
     array (
       'methods' => 
       array (
@@ -2801,7 +3059,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::6WLa3bTT2bG5Ci9F',
+        'as' => 'generated::5GC1pEhJeHSpfDxx',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2890,7 +3148,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::HcyXjLdyaBOvfsMr' => 
+    'generated::h6XuyqqoZSYLyLi0' => 
     array (
       'methods' => 
       array (
@@ -2910,7 +3168,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::HcyXjLdyaBOvfsMr',
+        'as' => 'generated::h6XuyqqoZSYLyLi0',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3109,7 +3367,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::HMq5JtUweoASoiue' => 
+    'generated::tAFRC5r93FLZrLWd' => 
     array (
       'methods' => 
       array (
@@ -3129,7 +3387,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::HMq5JtUweoASoiue',
+        'as' => 'generated::tAFRC5r93FLZrLWd',
       ),
       'fallback' => false,
       'defaults' => 
@@ -7399,6 +7657,82 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
+    'frontend.kyc.approved.list' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'frontend/kyc/approved/list',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\KeyController@frontend_kyc_approved',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\KeyController@frontend_kyc_approved',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'frontend.kyc.approved.list',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'frontend.kyc.reject.list' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'frontend/kyc/reject/list',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\KeyController@frontend_kyc_reject_list',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\KeyController@frontend_kyc_reject_list',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'frontend.kyc.reject.list',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
     'agent.login' => 
     array (
       'methods' => 
@@ -7604,6 +7938,419 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'agent.dashboard',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agent.profile' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'agent/profile',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentProfileController@agent_profile',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentProfileController@agent_profile',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.profile',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agent.profile.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'agent/profile',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentProfileController@agent_profile_update',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentProfileController@agent_profile_update',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.profile.update',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agent.password.change' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'agent/password/change',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentPasswordchangeController@agent_password_change',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentPasswordchangeController@agent_password_change',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.password.change',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agent.password.submit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'agent/password/submit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentPasswordchangeController@agent_password_submit',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentPasswordchangeController@agent_password_submit',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.password.submit',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agent.key' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'agent/kyc',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\AgentkycController@agent_key',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\AgentkycController@agent_key',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.key',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agent.key.submit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'agent/kyc/submit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\AgentkycController@agent_key_submit',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\AgentkycController@agent_key_submit',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.key.submit',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agent.kyc.list' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'agent/kyc/kyclist',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Backend\\AgentkyapprovedcController@agentkyclist',
+        'controller' => 'App\\Http\\Controllers\\Backend\\AgentkyapprovedcController@agentkyclist',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.kyc.list',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agent.kyc.approve' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'agent/kyc/approve/{id}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Backend\\AgentkyapprovedcController@agentapprovedkey',
+        'controller' => 'App\\Http\\Controllers\\Backend\\AgentkyapprovedcController@agentapprovedkey',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.kyc.approve',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agent.kyc.reject' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'agent/kyc/reject/{id}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Backend\\AgentkyapprovedcController@agentrejectapprovedkey',
+        'controller' => 'App\\Http\\Controllers\\Backend\\AgentkyapprovedcController@agentrejectapprovedkey',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.kyc.reject',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agent.approved.kyc.list' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'agentss/kyc/approve/list',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Backend\\AgentkyapprovedcController@agentapprovedkeylist',
+        'controller' => 'App\\Http\\Controllers\\Backend\\AgentkyapprovedcController@agentapprovedkeylist',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.approved.kyc.list',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agent.kyc.reject.list' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'agentsss/kyc/reject/list',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Backend\\AgentkyapprovedcController@agentrejectapprovedkeylist',
+        'controller' => 'App\\Http\\Controllers\\Backend\\AgentkyapprovedcController@agentrejectapprovedkeylist',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.kyc.reject.list',
       ),
       'fallback' => false,
       'defaults' => 

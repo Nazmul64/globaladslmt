@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Agent\AgentPasswordchangeController;
+use App\Http\Controllers\Agent\AgentProfileController;
 use App\Http\Controllers\AppsettingController;
 use App\Http\Controllers\Backend\AdminagentcreateController;
 use App\Http\Controllers\Backend\AdminApproveController;
@@ -10,6 +12,7 @@ use App\Http\Controllers\Backend\AdminkeyapprovedController;
 use App\Http\Controllers\Backend\AdminPackageuylistcheckController;
 use App\Http\Controllers\Backend\AgentauthController;
 use App\Http\Controllers\Backend\AgentController;
+use App\Http\Controllers\Backend\AgentkyapprovedcController;
 use App\Http\Controllers\Backend\NoticesController;
 use App\Http\Controllers\Backend\PackageController;
 use App\Http\Controllers\Backend\PaymentmethodController;
@@ -18,6 +21,7 @@ use App\Http\Controllers\Backend\StepguideController;
 use App\Http\Controllers\Backend\SupportController;
 use App\Http\Controllers\Backend\WhychooseusControllerController;
 use App\Http\Controllers\Backend\WorkNoticesController;
+use App\Http\Controllers\Frontend\AgentkycController;
 use App\Http\Controllers\Frontend\ChatRequestController;
 use App\Http\Controllers\Frontend\FrontendAuthController;
 use App\Http\Controllers\Frontend\FrontendController;
@@ -68,12 +72,6 @@ Auth::routes();
    Route::post('frontend/password/submit', [ProfileController::class, 'frontend_password_submit'])->name('frontend.password.submit');
    Route::get('frontend/key', [KeyController::class, 'frontend_key'])->name('frontend.key');
    Route::post('frontend/key', [KeyController::class, 'frontend_key_submit'])->name('frontend.key.submit');
-
-
-
-
-
-
 Route::get('/friends', [ChatRequestController::class, 'index'])->name('frontend.friends');
 Route::get('/user-search', [ChatRequestController::class, 'search'])->name('user.search');
 
@@ -120,20 +118,11 @@ Route::middleware(['is_admin'])->group(function () {
  Route::get('/reject/list', [AdmindepositeApprovedController::class, 'admin_deposite_reject_list'])->name('admin.deposite.reject.list');
  Route::get('/admin/package/list', [AdminPackageuylistcheckController::class, 'admin_package_list'])->name('admin.buy.package.list');
 
-
-
-
-
-
-
 Route::get('kyc/kyclist', [AdminkeyapprovedController::class,'kyclist'])->name('kyc.list');
 Route::post('kyc/approve/{id}', [AdminkeyapprovedController::class,'approvedkey'])->name('admin.kyc.approve');
 Route::post('kyc/reject/{id}', [AdminkeyapprovedController::class,'rejectapprovedkey'])->name('admin.kyc.reject');
-
-
-Route::get('kyc/kyclist', [AdminkeyapprovedController::class,'kyclist'])->name('kyc.list');
-Route::get('kyc/kyclist', [AdminkeyapprovedController::class,'kyclist'])->name('kyc.list');
-
+Route::get('admin/kyc/approved/list', [KeyController::class, 'frontend_kyc_approved'])->name('frontend.kyc.approved.list');
+Route::get('admin/kyc/reject/list', [KeyController::class, 'frontend_kyc_reject_list'])->name('frontend.kyc.reject.list');
 });
 
 // Admin Route Controller End
@@ -152,6 +141,20 @@ Route::post('agent/logout', [AgentauthController::class, 'agent_logout'])->name(
 // Agent Route Controller Start
 Route::middleware(['agent'])->group(function () {
    Route::get('agent/dashboard', [AgentController::class, 'agent_dashboard'])->name('agent.dashboard');
+   Route::get('agent/profile', [AgentProfileController::class, 'agent_profile'])->name('agent.profile');
+   Route::post('agent/profile', [AgentProfileController::class, 'agent_profile_update'])->name('agent.profile.update');
+   Route::get('agent/password/change', [AgentPasswordchangeController::class, 'agent_password_change'])->name('agent.password.change');
+   Route::post('agent/password/submit', [AgentPasswordchangeController::class, 'agent_password_submit'])->name('agent.password.submit');
+   Route::get('agent/kyc', [AgentkycController::class, 'agent_key'])->name('agent.key');
+   Route::post('agent/kyc/submit', [AgentkycController::class, 'agent_key_submit'])->name('agent.key.submit');
+
+
+
+   Route::get('agent/kyc/kyclist', [AgentkyapprovedcController::class,'agentkyclist'])->name('agent.kyc.list');
+   Route::post('agent/kyc/approve/{id}', [AgentkyapprovedcController::class,'agentapprovedkey'])->name('agent.kyc.approve');
+   Route::post('agent/kyc/reject/{id}', [AgentkyapprovedcController::class,'agentrejectapprovedkey'])->name('agent.kyc.reject');
+   Route::get('agentss/kyc/approve/list', [AgentkyapprovedcController::class,'agentapprovedkeylist'])->name('agent.approved.kyc.list');
+   Route::get('agentsss/kyc/reject/list', [AgentkyapprovedcController::class,'agentrejectapprovedkeylist'])->name('agent.kyc.reject.list');
 
 });
 // Agent Route Controller End

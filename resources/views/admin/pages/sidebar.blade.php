@@ -204,7 +204,7 @@
     <li class="dropdown">
         <a href="javascript:void(0)">
             <i class="fa-solid fa-list-check fa-xl me-2"></i>
-            <span>KYC List</span>
+            <span>User KYC List</span>
         </a>
         <ul class="sidebar-submenu">
             <li>
@@ -213,6 +213,49 @@
                     KYC List
                 </a>
             </li>
+             <li>
+                <a href="{{ route('frontend.kyc.approved.list') }}">
+                    <i class="fa-solid fa-check-circle me-2"></i> Approved KYC List
+                </a>
+            </li>
+             <li>
+                <a href="{{ route('frontend.kyc.reject.list') }}">
+                   <i class="fa-solid fa-xmark-circle me-2"></i> Rejected KYC List
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li class="dropdown">
+        <a href="javascript:void(0)">
+            <i class="fa-solid fa-id-card-clip fa-xl me-2"></i>
+            <span>Agent KYC List</span>
+        </a>
+        <ul class="sidebar-submenu">
+
+            <!-- Pending/All KYC List -->
+            <li>
+                <a href="{{ route('agent.kyc.list') }}">
+                    <i class="fa-solid fa-hourglass-half fa-lg me-2 text-warning"></i>
+                    Pending / All KYC List
+                </a>
+            </li>
+
+            <!-- Approved KYC List -->
+            <li>
+                <a href="{{ route('agent.approved.kyc.list') }}">
+                    <i class="fa-solid fa-circle-check fa-lg me-2 text-success"></i>
+                    Approved Agent KYC List
+                </a>
+            </li>
+
+            <!-- Rejected KYC List -->
+            <li>
+                <a href="{{ route('agent.kyc.reject.list') }}">
+                    <i class="fa-solid fa-circle-xmark fa-lg me-2 text-danger"></i>
+                    Rejected Agent KYC List
+                </a>
+            </li>
+
         </ul>
     </li>
 

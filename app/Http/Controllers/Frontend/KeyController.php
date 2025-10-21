@@ -55,4 +55,16 @@ class KeyController extends Controller
 
         return redirect()->back()->with('success', 'KYC documents submitted successfully! Status: Pending.');
     }
+public function frontend_kyc_approved()
+{
+    $kycs =Kyc::with('user')->where('status', 'approved')->latest()->get();
+    return view('admin.key.frontend_kyc_approved', compact('kycs'));
+}
+
+public function frontend_kyc_reject_list()
+{
+    $kycs =Kyc::with('user')->where('status', 'rejected')->latest()->get();
+    return view('admin.key.frontend_kyc_reject_list', compact('kycs'));
+}
+
 }

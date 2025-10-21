@@ -15,4 +15,8 @@ class Kyc extends Model
        'new_document_secound_part_photo',
        'status',
    ];
+   public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
