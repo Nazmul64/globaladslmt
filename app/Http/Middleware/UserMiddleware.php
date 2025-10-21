@@ -14,11 +14,20 @@ class UserMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
-    {
-         if(!Auth::check()  || Auth::user()->role != 'user'){
-            return redirect()->route('user.login');
-        }
-        return $next($request);
+  public function handle(Request $request, Closure $next)
+{
+    // If not logged in or not a 'user', redirect to login
+    if (!auth()->check() || auth()->user()->role !== 'user') {
+        return redirect()->route('user.login');
     }
+
+    // If user is blocked, log them out and redirect with error
+   if (auth()->check() && auth()->user()->is_blocked) {
+    auth()->logout();
+    return redirect()->route('user.login')->withErrors('Your account is blocked.');
+}
+
+    return $next($request);
+}
+
 }

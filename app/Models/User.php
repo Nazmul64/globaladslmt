@@ -34,6 +34,7 @@ class User extends Authenticatable
     'status',
     'wallet_address',
     'photo',
+    'is_blocked',
     'new_photo',
 
 ];

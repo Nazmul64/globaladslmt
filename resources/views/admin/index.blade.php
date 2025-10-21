@@ -22,7 +22,7 @@
             <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
               <div>
                 <p class="fw-medium text-primary-light mb-1">Total Users</p>
-                <h6 class="mb-0">20</h6>
+                <h6 class="mb-0">{{$total_user_count ?? ''}}</h6>
               </div>
               <div class="w-50-px h-50-px bg-cyan rounded-circle d-flex justify-content-center align-items-center">
                 <iconify-icon icon="gridicons:multiple-users" class="text-white text-2xl mb-0"></iconify-icon>
@@ -152,189 +152,41 @@
                     <table class="table bordered-table sm-table mb-0">
                       <thead>
                         <tr>
-                          <th scope="col">Users </th>
+                          <th scope="col">Users Name </th>
                           <th scope="col">Registered On</th>
-                          <th scope="col">Plan</th>
-                          <th scope="col" class="text-center">Status</th>
+                          <th scope="col" class="text-center">Action</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>
+                   @foreach ($user_details as $item)
+                    <tr>
+                        <td>
                             <div class="d-flex align-items-center">
-                              <img src="assets/images/users/user1.png" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                              <div class="flex-grow-1">
-                                <h6 class="text-md mb-0 fw-medium">Dianne Russell</h6>
-                                <span class="text-sm text-secondary-light fw-medium">redaniel@gmail.com</span>
-                              </div>
+                                <img src="{{ asset('uploads/profile/' . ($item->photo ?? 'avator.jpg')) }}"
+                                    alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
+
+                                <div class="flex-grow-1">
+                                    <h6 class="text-md mb-0 fw-medium">{{ $item->name ?? '' }}</h6>
+                                    <span class="text-sm text-secondary-light fw-medium">{{ $item->email ?? '' }}</span>
+                                </div>
                             </div>
-                          </td>
-                          <td>27 Mar 2024</td>
-                          <td>Free</td>
-                          <td class="text-center">
-                            <span class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm">Active</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="d-flex align-items-center">
-                              <img src="assets/images/users/user2.png" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                              <div class="flex-grow-1">
-                                <h6 class="text-md mb-0 fw-medium">Wade Warren</h6>
-                                <span class="text-sm text-secondary-light fw-medium">xterris@gmail.com</span>
-                              </div>
-                            </div>
-                          </td>
-                          <td>27 Mar 2024</td>
-                          <td>Basic</td>
-                          <td class="text-center">
-                            <span class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm">Active</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="d-flex align-items-center">
-                              <img src="assets/images/users/user3.png" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                              <div class="flex-grow-1">
-                                <h6 class="text-md mb-0 fw-medium">Albert Flores</h6>
-                                <span class="text-sm text-secondary-light fw-medium">seannand@mail.ru</span>
-                              </div>
-                            </div>
-                          </td>
-                          <td>27 Mar 2024</td>
-                          <td>Standard</td>
-                          <td class="text-center">
-                            <span class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm">Active</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="d-flex align-items-center">
-                              <img src="assets/images/users/user4.png" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                              <div class="flex-grow-1">
-                                <h6 class="text-md mb-0 fw-medium">Bessie Cooper </h6>
-                                <span class="text-sm text-secondary-light fw-medium">igerrin@gmail.com</span>
-                              </div>
-                            </div>
-                          </td>
-                          <td>27 Mar 2024</td>
-                          <td>Business</td>
-                          <td class="text-center">
-                            <span class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm">Active</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="d-flex align-items-center">
-                              <img src="assets/images/users/user5.png" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                              <div class="flex-grow-1">
-                                <h6 class="text-md mb-0 fw-medium">Arlene McCoy</h6>
-                                <span class="text-sm text-secondary-light fw-medium">fellora@mail.ru</span>
-                              </div>
-                            </div>
-                          </td>
-                          <td>27 Mar 2024</td>
-                          <td>Enterprise </td>
-                          <td class="text-center">
-                            <span class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm">Active</span>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                <div class="tab-pane fade" id="pills-recent-leads" role="tabpanel" aria-labelledby="pills-recent-leads-tab" tabindex="0">
-                  <div class="table-responsive scroll-sm">
-                    <table class="table bordered-table sm-table mb-0">
-                      <thead>
-                        <tr>
-                          <th scope="col">Users </th>
-                          <th scope="col">Registered On</th>
-                          <th scope="col">Plan</th>
-                          <th scope="col" class="text-center">Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>
-                            <div class="d-flex align-items-center">
-                              <img src="assets/images/users/user1.png" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                              <div class="flex-grow-1">
-                                <h6 class="text-md mb-0 fw-medium">Dianne Russell</h6>
-                                <span class="text-sm text-secondary-light fw-medium">redaniel@gmail.com</span>
-                              </div>
-                            </div>
-                          </td>
-                          <td>27 Mar 2024</td>
-                          <td>Free</td>
-                          <td class="text-center">
-                            <span class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm">Active</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="d-flex align-items-center">
-                              <img src="assets/images/users/user2.png" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                              <div class="flex-grow-1">
-                                <h6 class="text-md mb-0 fw-medium">Wade Warren</h6>
-                                <span class="text-sm text-secondary-light fw-medium">xterris@gmail.com</span>
-                              </div>
-                            </div>
-                          </td>
-                          <td>27 Mar 2024</td>
-                          <td>Basic</td>
-                          <td class="text-center">
-                            <span class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm">Active</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="d-flex align-items-center">
-                              <img src="assets/images/users/user3.png" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                              <div class="flex-grow-1">
-                                <h6 class="text-md mb-0 fw-medium">Albert Flores</h6>
-                                <span class="text-sm text-secondary-light fw-medium">seannand@mail.ru</span>
-                              </div>
-                            </div>
-                          </td>
-                          <td>27 Mar 2024</td>
-                          <td>Standard</td>
-                          <td class="text-center">
-                            <span class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm">Active</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="d-flex align-items-center">
-                              <img src="assets/images/users/user4.png" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                              <div class="flex-grow-1">
-                                <h6 class="text-md mb-0 fw-medium">Bessie Cooper </h6>
-                                <span class="text-sm text-secondary-light fw-medium">igerrin@gmail.com</span>
-                              </div>
-                            </div>
-                          </td>
-                          <td>27 Mar 2024</td>
-                          <td>Business</td>
-                          <td class="text-center">
-                            <span class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm">Active</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div class="d-flex align-items-center">
-                              <img src="assets/images/users/user5.png" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
-                              <div class="flex-grow-1">
-                                <h6 class="text-md mb-0 fw-medium">Arlene McCoy</h6>
-                                <span class="text-sm text-secondary-light fw-medium">fellora@mail.ru</span>
-                              </div>
-                            </div>
-                          </td>
-                          <td>27 Mar 2024</td>
-                          <td>Enterprise </td>
-                          <td class="text-center">
-                            <span class="bg-success-focus text-success-main px-24 py-4 rounded-pill fw-medium text-sm">Active</span>
-                          </td>
-                        </tr>
+                        </td>
+
+                        <td>{{ $item->created_at ? $item->created_at->format('d M, Y') : '' }}</td>
+
+                        <td class="text-center">
+                         <form action="{{ route('admin.block.user') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="user_id" value="{{ $item->id }}">
+                            <select name="action" class="form-select" onchange="submitAction(this)">
+                                <option value="" disabled selected>Choose Action</option>
+                                <option value="block">Block</option>
+                                <option value="unblock">Unblock</option>
+                            </select>
+                        </form>
+                        </td>
+                    </tr>
+                    @endforeach
                       </tbody>
                     </table>
                   </div>
@@ -344,5 +196,12 @@
         </div>
       </div>
     </div>
-
+<script>
+function submitAction(select) {
+    // Only submit if a real action is selected
+    if (select.value) {
+        select.form.submit();
+    }
+}
+</script>
 @endsection

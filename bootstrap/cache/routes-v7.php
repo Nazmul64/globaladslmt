@@ -13,7 +13,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::TYObYW2cflUn0o6c',
+            '_route' => 'generated::oKon71NCJRGGGUEQ',
           ),
           1 => NULL,
           2 => 
@@ -50,7 +50,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::5GC1pEhJeHSpfDxx',
+            '_route' => 'generated::IC0mBWJvzr7YpBOp',
           ),
           1 => NULL,
           2 => 
@@ -105,7 +105,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::h6XuyqqoZSYLyLi0',
+            '_route' => 'generated::6fm9REBhlEMhSbiN',
           ),
           1 => NULL,
           2 => 
@@ -196,7 +196,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::tAFRC5r93FLZrLWd',
+            '_route' => 'generated::ZbJZ5D2fMwn0v0OS',
           ),
           1 => NULL,
           2 => 
@@ -1454,7 +1454,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/frontend/kyc/approved/list' => 
+      '/admin/kyc/approved/list' => 
       array (
         0 => 
         array (
@@ -1474,7 +1474,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/frontend/kyc/reject/list' => 
+      '/admin/kyc/reject/list' => 
       array (
         0 => 
         array (
@@ -1487,6 +1487,81 @@ app('router')->setCompiledRoutes(
           array (
             'GET' => 0,
             'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/ads' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'ads.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'ads.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/ads/create' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'ads.create',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/user/block/unblock' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.block.user',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
           ),
           3 => NULL,
           4 => false,
@@ -1788,7 +1863,7 @@ app('router')->setCompiledRoutes(
     ),
     2 => 
     array (
-      0 => '{^(?|/pa(?|ssword/reset/([^/]++)(*:34)|ckage/(?|buy/([^/]++)(*:62)|([^/]++)(?|(*:80)|/edit(*:92)|(*:99)))|ymentmethod/([^/]++)(?|(*:131)|/edit(*:144)|(*:152)))|/a(?|pp(?|setting/([^/]++)(?|(*:191)|/edit(*:204)|(*:212))|rove/([^/]++)(*:234))|gent(?|/(?|approve/([^/]++)(*:270)|reject/([^/]++)(*:293)|kyc/(?|approve/([^/]++)(*:324)|reject/([^/]++)(*:347)))|create/([^/]++)(?|(*:375)|/edit(*:388)|(*:396))))|/re(?|ffercommission/([^/]++)(?|(*:439)|/edit(*:452)|(*:460))|ject/(?|([^/]++)(*:485)|list(*:497)))|/notice/([^/]++)(?|(*:526)|/edit(*:539)|(*:547))|/w(?|orknotice/([^/]++)(?|(*:582)|/edit(*:595)|(*:603))|hychooseu/([^/]++)(?|(*:633)|/edit(*:646)|(*:654)))|/s(?|upport/([^/]++)(?|(*:687)|/edit(*:700)|(*:708))|t(?|epguide/([^/]++)(?|(*:740)|/edit(*:753)|(*:761))|orage/(.*)(*:780)))|/kyc/(?|approve/([^/]++)(*:814)|reject/([^/]++)(*:837)))/?$}sDu',
+      0 => '{^(?|/pa(?|ssword/reset/([^/]++)(*:34)|ckage/(?|buy/([^/]++)(*:62)|([^/]++)(?|(*:80)|/edit(*:92)|(*:99)))|ymentmethod/([^/]++)(?|(*:131)|/edit(*:144)|(*:152)))|/a(?|pp(?|setting/([^/]++)(?|(*:191)|/edit(*:204)|(*:212))|rove/([^/]++)(*:234))|gent(?|/(?|approve/([^/]++)(*:270)|reject/([^/]++)(*:293)|kyc/(?|approve/([^/]++)(*:324)|reject/([^/]++)(*:347)))|create/([^/]++)(?|(*:375)|/edit(*:388)|(*:396)))|ds/([^/]++)(?|(*:420)|/edit(*:433)|(*:441)))|/re(?|ffercommission/([^/]++)(?|(*:483)|/edit(*:496)|(*:504))|ject/(?|([^/]++)(*:529)|list(*:541)))|/notice/([^/]++)(?|(*:570)|/edit(*:583)|(*:591))|/w(?|orknotice/([^/]++)(?|(*:626)|/edit(*:639)|(*:647))|hychooseu/([^/]++)(?|(*:677)|/edit(*:690)|(*:698)))|/s(?|upport/([^/]++)(?|(*:731)|/edit(*:744)|(*:752))|t(?|epguide/([^/]++)(?|(*:784)|/edit(*:797)|(*:805))|orage/(.*)(*:824)))|/kyc/(?|approve/([^/]++)(*:858)|reject/([^/]++)(*:881)))/?$}sDu',
     ),
     3 => 
     array (
@@ -2302,7 +2377,95 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      439 => 
+      420 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'ads.show',
+          ),
+          1 => 
+          array (
+            0 => 'ad',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      433 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'ads.edit',
+          ),
+          1 => 
+          array (
+            0 => 'ad',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      441 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'ads.update',
+          ),
+          1 => 
+          array (
+            0 => 'ad',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'ads.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'ad',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      483 => 
       array (
         0 => 
         array (
@@ -2325,7 +2488,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      452 => 
+      496 => 
       array (
         0 => 
         array (
@@ -2348,7 +2511,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      460 => 
+      504 => 
       array (
         0 => 
         array (
@@ -2390,7 +2553,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      485 => 
+      529 => 
       array (
         0 => 
         array (
@@ -2413,7 +2576,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      497 => 
+      541 => 
       array (
         0 => 
         array (
@@ -2435,7 +2598,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      526 => 
+      570 => 
       array (
         0 => 
         array (
@@ -2458,7 +2621,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      539 => 
+      583 => 
       array (
         0 => 
         array (
@@ -2481,7 +2644,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      547 => 
+      591 => 
       array (
         0 => 
         array (
@@ -2523,7 +2686,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      582 => 
+      626 => 
       array (
         0 => 
         array (
@@ -2546,7 +2709,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      595 => 
+      639 => 
       array (
         0 => 
         array (
@@ -2569,7 +2732,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      603 => 
+      647 => 
       array (
         0 => 
         array (
@@ -2611,7 +2774,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      633 => 
+      677 => 
       array (
         0 => 
         array (
@@ -2634,7 +2797,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      646 => 
+      690 => 
       array (
         0 => 
         array (
@@ -2657,7 +2820,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      654 => 
+      698 => 
       array (
         0 => 
         array (
@@ -2699,7 +2862,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      687 => 
+      731 => 
       array (
         0 => 
         array (
@@ -2722,7 +2885,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      700 => 
+      744 => 
       array (
         0 => 
         array (
@@ -2745,7 +2908,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      708 => 
+      752 => 
       array (
         0 => 
         array (
@@ -2787,7 +2950,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      740 => 
+      784 => 
       array (
         0 => 
         array (
@@ -2810,7 +2973,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      753 => 
+      797 => 
       array (
         0 => 
         array (
@@ -2833,7 +2996,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      761 => 
+      805 => 
       array (
         0 => 
         array (
@@ -2875,7 +3038,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      780 => 
+      824 => 
       array (
         0 => 
         array (
@@ -2898,7 +3061,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      814 => 
+      858 => 
       array (
         0 => 
         array (
@@ -2920,7 +3083,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      837 => 
+      881 => 
       array (
         0 => 
         array (
@@ -2957,7 +3120,7 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'generated::TYObYW2cflUn0o6c' => 
+    'generated::oKon71NCJRGGGUEQ' => 
     array (
       'methods' => 
       array (
@@ -2986,7 +3149,7 @@ app('router')->setCompiledRoutes(
                         \'exception\' => $exception,
                     ]), status: $exception ? 500 : 200);
                 }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000001010000000000000000";}}',
-        'as' => 'generated::TYObYW2cflUn0o6c',
+        'as' => 'generated::oKon71NCJRGGGUEQ',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3039,7 +3202,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::5GC1pEhJeHSpfDxx' => 
+    'generated::IC0mBWJvzr7YpBOp' => 
     array (
       'methods' => 
       array (
@@ -3059,7 +3222,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::5GC1pEhJeHSpfDxx',
+        'as' => 'generated::IC0mBWJvzr7YpBOp',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3148,7 +3311,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::h6XuyqqoZSYLyLi0' => 
+    'generated::6fm9REBhlEMhSbiN' => 
     array (
       'methods' => 
       array (
@@ -3168,7 +3331,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::h6XuyqqoZSYLyLi0',
+        'as' => 'generated::6fm9REBhlEMhSbiN',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3367,7 +3530,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::tAFRC5r93FLZrLWd' => 
+    'generated::ZbJZ5D2fMwn0v0OS' => 
     array (
       'methods' => 
       array (
@@ -3387,7 +3550,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::tAFRC5r93FLZrLWd',
+        'as' => 'generated::ZbJZ5D2fMwn0v0OS',
       ),
       'fallback' => false,
       'defaults' => 
@@ -7664,7 +7827,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'frontend/kyc/approved/list',
+      'uri' => 'admin/kyc/approved/list',
       'action' => 
       array (
         'middleware' => 
@@ -7702,7 +7865,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'frontend/kyc/reject/list',
+      'uri' => 'admin/kyc/reject/list',
       'action' => 
       array (
         'middleware' => 
@@ -7718,6 +7881,307 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'frontend.kyc.reject.list',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'ads.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'ads',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'ads.index',
+        'uses' => 'App\\Http\\Controllers\\Backend\\AdsController@index',
+        'controller' => 'App\\Http\\Controllers\\Backend\\AdsController@index',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'ads.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'ads/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'ads.create',
+        'uses' => 'App\\Http\\Controllers\\Backend\\AdsController@create',
+        'controller' => 'App\\Http\\Controllers\\Backend\\AdsController@create',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'ads.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'ads',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'ads.store',
+        'uses' => 'App\\Http\\Controllers\\Backend\\AdsController@store',
+        'controller' => 'App\\Http\\Controllers\\Backend\\AdsController@store',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'ads.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'ads/{ad}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'ads.show',
+        'uses' => 'App\\Http\\Controllers\\Backend\\AdsController@show',
+        'controller' => 'App\\Http\\Controllers\\Backend\\AdsController@show',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'ads.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'ads/{ad}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'ads.edit',
+        'uses' => 'App\\Http\\Controllers\\Backend\\AdsController@edit',
+        'controller' => 'App\\Http\\Controllers\\Backend\\AdsController@edit',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'ads.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'ads/{ad}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'ads.update',
+        'uses' => 'App\\Http\\Controllers\\Backend\\AdsController@update',
+        'controller' => 'App\\Http\\Controllers\\Backend\\AdsController@update',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'ads.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'ads/{ad}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'ads.destroy',
+        'uses' => 'App\\Http\\Controllers\\Backend\\AdsController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Backend\\AdsController@destroy',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.block.user' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/user/block/unblock',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Backend\\AdminBlockuserController@admin_block_user',
+        'controller' => 'App\\Http\\Controllers\\Backend\\AdminBlockuserController@admin_block_user',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'admin.block.user',
       ),
       'fallback' => false,
       'defaults' => 

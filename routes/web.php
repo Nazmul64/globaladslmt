@@ -7,9 +7,11 @@ use App\Http\Controllers\AppsettingController;
 use App\Http\Controllers\Backend\AdminagentcreateController;
 use App\Http\Controllers\Backend\AdminApproveController;
 use App\Http\Controllers\Backend\AdminautoController;
+use App\Http\Controllers\Backend\AdminBlockuserController;
 use App\Http\Controllers\Backend\AdmindepositeApprovedController;
 use App\Http\Controllers\Backend\AdminkeyapprovedController;
 use App\Http\Controllers\Backend\AdminPackageuylistcheckController;
+use App\Http\Controllers\Backend\AdsController;
 use App\Http\Controllers\Backend\AgentauthController;
 use App\Http\Controllers\Backend\AgentController;
 use App\Http\Controllers\Backend\AgentkyapprovedcController;
@@ -72,8 +74,8 @@ Auth::routes();
    Route::post('frontend/password/submit', [ProfileController::class, 'frontend_password_submit'])->name('frontend.password.submit');
    Route::get('frontend/key', [KeyController::class, 'frontend_key'])->name('frontend.key');
    Route::post('frontend/key', [KeyController::class, 'frontend_key_submit'])->name('frontend.key.submit');
-Route::get('/friends', [ChatRequestController::class, 'index'])->name('frontend.friends');
-Route::get('/user-search', [ChatRequestController::class, 'search'])->name('user.search');
+   Route::get('/friends', [ChatRequestController::class, 'index'])->name('frontend.friends');
+   Route::get('/user-search', [ChatRequestController::class, 'search'])->name('user.search');
 
 
 
@@ -107,22 +109,20 @@ Route::middleware(['is_admin'])->group(function () {
   Route::resource('support',SupportController::class);
   Route::resource('stepguide',StepguideController::class);
   Route::resource('whychooseu',WhychooseusControllerController::class);
+  Route::get('/pending', [AdmindepositeApprovedController::class, 'admin_deposite_pending'])->name('admin.deposite.pending');
+  Route::get('/approve/{id}', [AdmindepositeApprovedController::class, 'admin_deposite_approve'])->name('admin.deposite.approve');
+  Route::get('/reject/{id}', [AdmindepositeApprovedController::class, 'admin_deposite_reject'])->name('admin.deposite.reject');
+  Route::get('/approved/list', [AdmindepositeApprovedController::class, 'admin_deposite_approved_list'])->name('admin.deposite.approved.list');
+  Route::get('/reject/list', [AdmindepositeApprovedController::class, 'admin_deposite_reject_list'])->name('admin.deposite.reject.list');
+  Route::get('/admin/package/list', [AdminPackageuylistcheckController::class, 'admin_package_list'])->name('admin.buy.package.list');
+  Route::get('kyc/kyclist', [AdminkeyapprovedController::class,'kyclist'])->name('kyc.list');
+  Route::post('kyc/approve/{id}', [AdminkeyapprovedController::class,'approvedkey'])->name('admin.kyc.approve');
+  Route::post('kyc/reject/{id}', [AdminkeyapprovedController::class,'rejectapprovedkey'])->name('admin.kyc.reject');
+  Route::get('admin/kyc/approved/list', [KeyController::class, 'frontend_kyc_approved'])->name('frontend.kyc.approved.list');
+  Route::get('admin/kyc/reject/list', [KeyController::class, 'frontend_kyc_reject_list'])->name('frontend.kyc.reject.list');
+  Route::resource('ads',AdsController::class);
+  Route::post('admin/user/block/unblock', [AdminBlockuserController::class, 'admin_block_user'])->name('admin.block.user');
 
-
-
-
- Route::get('/pending', [AdmindepositeApprovedController::class, 'admin_deposite_pending'])->name('admin.deposite.pending');
- Route::get('/approve/{id}', [AdmindepositeApprovedController::class, 'admin_deposite_approve'])->name('admin.deposite.approve');
- Route::get('/reject/{id}', [AdmindepositeApprovedController::class, 'admin_deposite_reject'])->name('admin.deposite.reject');
- Route::get('/approved/list', [AdmindepositeApprovedController::class, 'admin_deposite_approved_list'])->name('admin.deposite.approved.list');
- Route::get('/reject/list', [AdmindepositeApprovedController::class, 'admin_deposite_reject_list'])->name('admin.deposite.reject.list');
- Route::get('/admin/package/list', [AdminPackageuylistcheckController::class, 'admin_package_list'])->name('admin.buy.package.list');
-
-Route::get('kyc/kyclist', [AdminkeyapprovedController::class,'kyclist'])->name('kyc.list');
-Route::post('kyc/approve/{id}', [AdminkeyapprovedController::class,'approvedkey'])->name('admin.kyc.approve');
-Route::post('kyc/reject/{id}', [AdminkeyapprovedController::class,'rejectapprovedkey'])->name('admin.kyc.reject');
-Route::get('admin/kyc/approved/list', [KeyController::class, 'frontend_kyc_approved'])->name('frontend.kyc.approved.list');
-Route::get('admin/kyc/reject/list', [KeyController::class, 'frontend_kyc_reject_list'])->name('frontend.kyc.reject.list');
 });
 
 // Admin Route Controller End

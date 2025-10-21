@@ -258,6 +258,20 @@
 
         </ul>
     </li>
+        <li class="dropdown">
+        <a href="javascript:void(0)">
+            <i class="fa-solid fa-box fa-xl me-2"></i>
+            <span>Ads Setup</span>
+        </a>
+        <ul class="sidebar-submenu">
+            <li>
+                <a href="{{ route('ads.index') }}">
+                    <i class="fa-solid fa-box fa-lg me-2"></i>
+                    Ads SetupList
+                </a>
+            </li>
+        </ul>
+    </li>
 
       <li>
         <a href="faq.html">
