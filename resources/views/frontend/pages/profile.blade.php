@@ -1,18 +1,28 @@
 <div class="profile-container">
     <div class="profile-content">
         <!-- Profile Info Left -->
-
-
+        @php
+             $usercopy = auth()->user();
+         @endphp
+        @php
+            use App\Models\Kyc;
+            $user = auth()->user();
+            $kyc = Kyc::where('user_id', $user->id)->first();
+        @endphp
         <div class="profile-info">
-            <div class="profile-role">Owner</div>
-
-                @php
-                    $usercopy = auth()->user();
-                @endphp
+          <div class="profile-role">
+            {{ $usercopy->name ?? '' }}
+            @if(App\Models\Kyc::where('user_id', auth()->id())->where('status','approved')->exists()) <span class="badge bg-success ms-2">
+                <i class="fas fa-check-circle me-1"></i>
+                Verified</span>
+                @else
+                 <span class="badge bg-danger ms-2"><i class="fas fa-times-circle me-1">
+                    </i> Unverified</span>
+                     @endif
+                    </div>
 
                 @if($usercopy)
                 <div class="info-row">
-                    <span class="info-label">Refer Code</span>
                     <div class="info-value refer-code" onclick="copyReferCode()" title="Click to copy" style="cursor:pointer; padding:5px;  display:inline-block;">
                         <span id="referCodeText" style="color:white;">{{ $usercopy->ref_code }}</span>
                         <i class="fas fa-copy copy-icon" style="color:white;"></i>

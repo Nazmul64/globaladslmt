@@ -13,7 +13,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::wATPGqwJbS0dwvyB',
+            '_route' => 'generated::2d2zLXCEtdPym7A2',
           ),
           1 => NULL,
           2 => 
@@ -50,7 +50,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::IuO4fvH7dATXBNY8',
+            '_route' => 'generated::6WLa3bTT2bG5Ci9F',
           ),
           1 => NULL,
           2 => 
@@ -105,7 +105,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::BJtln9RVi3X74K5A',
+            '_route' => 'generated::HcyXjLdyaBOvfsMr',
           ),
           1 => NULL,
           2 => 
@@ -196,7 +196,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::iDrkbvmFaqGcs9Wv',
+            '_route' => 'generated::HMq5JtUweoASoiue',
           ),
           1 => NULL,
           2 => 
@@ -492,6 +492,177 @@ app('router')->setCompiledRoutes(
           0 => 
           array (
             '_route' => 'frontend.stepguide',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/frontend/profile' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'frontend.profile',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'frontend.profile.update',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/frontend/main/profile' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'frontend.profile.main',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/frontend/password/change' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'frontend.password.change',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/frontend/password/submit' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'frontend.password.submit',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/frontend/key' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'frontend.key',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'frontend.key.submit',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/friends' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'frontend.friends',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/user-search' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'user.search',
           ),
           1 => NULL,
           2 => 
@@ -1263,6 +1434,26 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/kyc/kyclist' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'kyc.list',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
       '/agent/login' => 
       array (
         0 => 
@@ -1383,7 +1574,7 @@ app('router')->setCompiledRoutes(
     ),
     2 => 
     array (
-      0 => '{^(?|/pa(?|ssword/reset/([^/]++)(*:34)|ckage/(?|buy/([^/]++)(*:62)|([^/]++)(?|(*:80)|/edit(*:92)|(*:99)))|ymentmethod/([^/]++)(?|(*:131)|/edit(*:144)|(*:152)))|/a(?|pp(?|setting/([^/]++)(?|(*:191)|/edit(*:204)|(*:212))|rove/([^/]++)(*:234))|gent(?|/(?|approve/([^/]++)(*:270)|reject/([^/]++)(*:293))|create/([^/]++)(?|(*:320)|/edit(*:333)|(*:341))))|/re(?|ffercommission/([^/]++)(?|(*:384)|/edit(*:397)|(*:405))|ject/(?|([^/]++)(*:430)|list(*:442)))|/notice/([^/]++)(?|(*:471)|/edit(*:484)|(*:492))|/w(?|orknotice/([^/]++)(?|(*:527)|/edit(*:540)|(*:548))|hychooseu/([^/]++)(?|(*:578)|/edit(*:591)|(*:599)))|/s(?|upport/([^/]++)(?|(*:632)|/edit(*:645)|(*:653))|t(?|epguide/([^/]++)(?|(*:685)|/edit(*:698)|(*:706))|orage/(.*)(*:725))))/?$}sDu',
+      0 => '{^(?|/pa(?|ssword/reset/([^/]++)(*:34)|ckage/(?|buy/([^/]++)(*:62)|([^/]++)(?|(*:80)|/edit(*:92)|(*:99)))|ymentmethod/([^/]++)(?|(*:131)|/edit(*:144)|(*:152)))|/a(?|pp(?|setting/([^/]++)(?|(*:191)|/edit(*:204)|(*:212))|rove/([^/]++)(*:234))|gent(?|/(?|approve/([^/]++)(*:270)|reject/([^/]++)(*:293))|create/([^/]++)(?|(*:320)|/edit(*:333)|(*:341))))|/re(?|ffercommission/([^/]++)(?|(*:384)|/edit(*:397)|(*:405))|ject/(?|([^/]++)(*:430)|list(*:442)))|/notice/([^/]++)(?|(*:471)|/edit(*:484)|(*:492))|/w(?|orknotice/([^/]++)(?|(*:527)|/edit(*:540)|(*:548))|hychooseu/([^/]++)(?|(*:578)|/edit(*:591)|(*:599)))|/s(?|upport/([^/]++)(?|(*:632)|/edit(*:645)|(*:653))|t(?|epguide/([^/]++)(?|(*:685)|/edit(*:698)|(*:706))|orage/(.*)(*:725)))|/kyc/(?|approve/([^/]++)(*:759)|reject/([^/]++)(*:782)))/?$}sDu',
     ),
     3 => 
     array (
@@ -2448,6 +2639,50 @@ app('router')->setCompiledRoutes(
           5 => true,
           6 => NULL,
         ),
+      ),
+      759 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.kyc.approve',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      782 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.kyc.reject',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
         1 => 
         array (
           0 => NULL,
@@ -2464,7 +2699,7 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'generated::wATPGqwJbS0dwvyB' => 
+    'generated::2d2zLXCEtdPym7A2' => 
     array (
       'methods' => 
       array (
@@ -2493,7 +2728,7 @@ app('router')->setCompiledRoutes(
                         \'exception\' => $exception,
                     ]), status: $exception ? 500 : 200);
                 }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000001010000000000000000";}}',
-        'as' => 'generated::wATPGqwJbS0dwvyB',
+        'as' => 'generated::2d2zLXCEtdPym7A2',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2546,7 +2781,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::IuO4fvH7dATXBNY8' => 
+    'generated::6WLa3bTT2bG5Ci9F' => 
     array (
       'methods' => 
       array (
@@ -2566,7 +2801,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::IuO4fvH7dATXBNY8',
+        'as' => 'generated::6WLa3bTT2bG5Ci9F',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2655,7 +2890,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::BJtln9RVi3X74K5A' => 
+    'generated::HcyXjLdyaBOvfsMr' => 
     array (
       'methods' => 
       array (
@@ -2675,7 +2910,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::BJtln9RVi3X74K5A',
+        'as' => 'generated::HcyXjLdyaBOvfsMr',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2874,7 +3109,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::iDrkbvmFaqGcs9Wv' => 
+    'generated::HMq5JtUweoASoiue' => 
     array (
       'methods' => 
       array (
@@ -2894,7 +3129,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::iDrkbvmFaqGcs9Wv',
+        'as' => 'generated::HMq5JtUweoASoiue',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3493,6 +3728,345 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'frontend.stepguide',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'frontend.profile' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'frontend/profile',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\FrontendController@frontend_profile',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\FrontendController@frontend_profile',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'frontend.profile',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'frontend.profile.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'frontend/profile',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\ProfileController@frontend_profile_update',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\ProfileController@frontend_profile_update',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'frontend.profile.update',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'frontend.profile.main' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'frontend/main/profile',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\ProfileController@frontend_main_profile',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\ProfileController@frontend_main_profile',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'frontend.profile.main',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'frontend.password.change' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'frontend/password/change',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\ProfileController@frontend_password_change',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\ProfileController@frontend_password_change',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'frontend.password.change',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'frontend.password.submit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'frontend/password/submit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\ProfileController@frontend_password_submit',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\ProfileController@frontend_password_submit',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'frontend.password.submit',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'frontend.key' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'frontend/key',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\KeyController@frontend_key',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\KeyController@frontend_key',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'frontend.key',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'frontend.key.submit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'frontend/key',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\KeyController@frontend_key_submit',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\KeyController@frontend_key_submit',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'frontend.key.submit',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'frontend.friends' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'friends',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\ChatRequestController@index',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\ChatRequestController@index',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'frontend.friends',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'user.search' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'user-search',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\ChatRequestController@search',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\ChatRequestController@search',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'user.search',
       ),
       'fallback' => false,
       'defaults' => 
@@ -6698,6 +7272,118 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'admin.buy.package.list',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'kyc.list' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'kyc/kyclist',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Backend\\AdminkeyapprovedController@kyclist',
+        'controller' => 'App\\Http\\Controllers\\Backend\\AdminkeyapprovedController@kyclist',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'kyc.list',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.kyc.approve' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'kyc/approve/{id}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Backend\\AdminkeyapprovedController@approvedkey',
+        'controller' => 'App\\Http\\Controllers\\Backend\\AdminkeyapprovedController@approvedkey',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'admin.kyc.approve',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.kyc.reject' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'kyc/reject/{id}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Backend\\AdminkeyapprovedController@rejectapprovedkey',
+        'controller' => 'App\\Http\\Controllers\\Backend\\AdminkeyapprovedController@rejectapprovedkey',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'admin.kyc.reject',
       ),
       'fallback' => false,
       'defaults' => 

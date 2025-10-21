@@ -13,7 +13,7 @@
 
         <div class="menu-card">
             <div class="menu-icon-circle">
-                <a href="profile.html"><i class="fas fa-user"style="color:white;"></i></a>
+                <a href="{{route('frontend.profile')}}"><i class="fas fa-user"style="color:white;"></i></a>
             </div>
             <div class="menu-label">Profile</div>
         </div>

@@ -32,9 +32,9 @@
                 <i class="fas fa-bullhorn"></i>
                 <span class="sidebar-item-text">Support</span>
             </a>
-            <a href="taskhistory.html" class="sidebar-item" >
+            <a href="{{route('agent.register')}}" class="sidebar-item" >
                 <i class="fas fa-users"></i>
-                <span class="sidebar-item-text">Taskhistory</span>
+                <span class="sidebar-item-text">Agent Register</span>
             </a>
             <a href="{{ route('user.logout') }}" class="sidebar-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 <i class="fas fa-right-from-bracket"></i>

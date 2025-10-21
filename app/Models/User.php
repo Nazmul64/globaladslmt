@@ -33,6 +33,8 @@ class User extends Authenticatable
     'role',
     'status',
     'wallet_address',
+    'photo',
+    'new_photo',
 
 ];
 protected $casts = [
@@ -86,4 +88,9 @@ public function referrals()
 {
     return $this->hasMany(User::class, 'referred_by');
 }
+public function kyc()
+{
+    return $this->hasOne(Kyc::class);
+}
+
 }

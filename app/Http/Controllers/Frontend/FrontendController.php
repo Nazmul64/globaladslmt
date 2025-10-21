@@ -37,6 +37,11 @@ class FrontendController extends Controller
             return view('frontend.frontendpages.packages', compact('package_type','user'));
         }
 
+
+            public function frontend_profile(){
+                return view('frontend.frontendpages.profile');
+            }
+
        public function frontend_payment_history()
 {
     $user = Auth::user();
@@ -65,28 +70,52 @@ public function frontend_stepguide()
 }
 
 
-public function frontend_refer_list()
+
+
+
+
+public function friend_request(Request $request)
 {
-    $user = Auth::user();
+    $query = $request->input('query');
+    $users = collect();
 
-    // Fetch referred users with their approved package buys
-    $referrals = \App\Models\User::where('referred_by', $user->id)
-        ->with(['packagebuys' => function ($q) {
-            $q->where('status', 'approved');
-        }])
-        ->orderBy('created_at', 'desc')
-        ->get();
+    if ($query) {
+        $users = User::where('name', 'like', "%{$query}%")
+                     ->orWhere('email', 'like', "%{$query}%")
+                     ->orWhere('mobile', 'like', "%{$query}%")
+                     ->limit(50) // Limit results
+                     ->get(['id', 'name', 'email', 'mobile']); // Select only needed columns
+    }
 
-    // Calculate total referral income dynamically
-    // Here we assume 10% commission, adjust as per your Reffercommissionsetup
-    $total_refer_income = $referrals->sum(function($ref) {
-        return $ref->packagebuys->sum('amount') * 0.10;
-    });
+    // If AJAX request, return JSON
+    if ($request->ajax() || $request->has('ajax')) {
+        return response()->json($users);
+    }
 
-    return view('frontend.frontendpages.reffer_list', compact('user', 'referrals', 'total_refer_income'));
+    // Example categories (load from DB if needed)
+    $categories = ['Developers', 'Designers', 'Marketers', 'Students'];
+
+    // Return view for full page
+    return view('frontend.frontendpages.friend_request', compact('users', 'categories', 'query'));
 }
 
 
+
+public function frontend_refer_list()
+    {
+        $user = Auth::user();
+
+        $referrals = User::with('packagebuys')
+                        ->where('referred_by', $user->id)
+                        ->orderBy('created_at', 'desc')
+                        ->get();
+
+        $total_refer_income = $referrals->sum(function ($ref) {
+            return $ref->packagebuys->sum('amount') * 0.10;
+        });
+
+        return view('frontend.frontendpages.reffer_list', compact('referrals', 'total_refer_income'));
+    }
 
 
 

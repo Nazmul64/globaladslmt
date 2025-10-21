@@ -335,7 +335,7 @@ const Payment = {
       rocket: 'Rocket payment submitted successfully!',
       online: 'Online payment submitted successfully!'
     };
-    Utils.showToast(messages[method] || 'Payment submitted!');
+
   },
 
   setupPaymentForms() {
@@ -458,15 +458,7 @@ const Profile = {
     }
   },
 
-  setupFormSubmit() {
-    const form = document.getElementById('passwordChangeForm');
-    if (form) {
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        Utils.showToast('Profile & Password Updated Successfully!');
-      });
-    }
-  }
+
 };
 
 // ========================================

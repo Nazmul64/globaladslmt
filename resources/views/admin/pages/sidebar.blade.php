@@ -201,6 +201,20 @@
             </li>
         </ul>
     </li>
+    <li class="dropdown">
+        <a href="javascript:void(0)">
+            <i class="fa-solid fa-list-check fa-xl me-2"></i>
+            <span>KYC List</span>
+        </a>
+        <ul class="sidebar-submenu">
+            <li>
+                <a href="{{ route('kyc.list') }}">
+                    <i class="fa-solid fa-file-shield fa-lg me-2"></i>
+                    KYC List
+                </a>
+            </li>
+        </ul>
+    </li>
 
       <li>
         <a href="faq.html">
