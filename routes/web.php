@@ -31,6 +31,7 @@ use App\Http\Controllers\Frontend\DepositeController;
 use App\Http\Controllers\Frontend\KeyController;
 use App\Http\Controllers\Frontend\PackageBuyControllery;
 use App\Http\Controllers\Frontend\ProfileController;
+use App\Http\Controllers\Frontend\UserchatController;
 use App\Models\Appsetting;
 use App\Models\Reffercommissionsetup;
 use Illuminate\Support\Facades\Auth;
@@ -93,7 +94,11 @@ Auth::routes();
 
 
 /* User Chat Route Start*/
-  Route::get('chat/frontend/list', [FrontendController::class, 'frontend_chat_list'])->name('frontend.user.chat.list');
+Route::get('chat/frontend/list', [UserchatController::class, 'frontend_chat_list'])->name('frontend.user.chat.list');
+Route::post('chat/frontend/submit', [UserchatController::class, 'frontend_chat_submit'])->name('frontend.user.chat.submit');
+Route::get('chat/frontend/messages', [UserchatController::class, 'frontend_chat_messages'])->name('frontend.user.chat.messages');
+Route::get('/chat/unread-counts', [UserchatController::class, 'getUnreadCounts'])->name('frontend.user.chat.unread');
+
 
 /* User Chat Route Start*/
 

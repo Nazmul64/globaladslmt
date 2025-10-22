@@ -6,7 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class ChatRequest extends Model
 {
-      protected $fillable = ['sender_id', 'receiver_id', 'status'];
+    protected $fillable = [
+        'sender_id',
+        'receiver_id',
+        'status',
+        'message',
+        'image',
+        'is_read'
+    ];
 
     public function sender()
     {
@@ -17,5 +24,4 @@ class ChatRequest extends Model
     {
         return $this->belongsTo(User::class, 'receiver_id');
     }
-
 }

@@ -9,16 +9,22 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::create('chat_requests', function (Blueprint $table) {
+   public function up(): void
+{
+    Schema::create('chat_requests', function (Blueprint $table) {
             $table->id();
             $table->foreignId('sender_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('receiver_id')->constrained('users')->onDelete('cascade');
             $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');
+            $table->text('message')->nullable();
+            $table->string('image')->nullable();
+            $table->boolean('is_read')->default(false);
             $table->timestamps();
-        });
-    }
+
+            $table->unique(['sender_id', 'receiver_id']);
+    });
+}
+
 
     /**
      * Reverse the migrations.
