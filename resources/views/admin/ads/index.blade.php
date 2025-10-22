@@ -6,11 +6,6 @@
         <h4>Ads List</h4>
         <a href="{{ route('ads.create') }}" class="btn btn-primary">Add New Ad</a>
     </div>
-
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-
     <div class="card shadow">
         <div class="card-body">
             @if($ads->isEmpty())

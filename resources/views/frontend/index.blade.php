@@ -6,7 +6,7 @@
 
         <div class="menu-card">
             <div class="menu-icon-circle">
-                <a href="ads.html"><i class="fas fa-bookmark"style="color:white;"></i></a>
+                <a href="{{route('frontend.ads')}}"><i class="fas fa-bookmark"style="color:white;"></i></a>
             </div>
             <div class="menu-label">Start Task</div>
         </div>

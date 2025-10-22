@@ -14,13 +14,10 @@
                     <div class="text-center mb-3">
                         <div class="position-relative d-inline-block passwordChange-profile-wrapper">
                           <img
-                                src="{{ Auth::user()->photo ? asset('uploads/profile/' . Auth::user()->photo) : asset('uploads/avator.jpg') }}"
+                                src="{{ Auth::user()->photo ? asset('uploads/profile/' . Auth::user()->photo) : asset('uploads/logo.png') }}"
                                 class="rounded-circle border border-3 border-primary passwordChange-profile-pic"
                                 id="passwordChange-profileImage"
                             />
-
-
-
                             <label for="passwordChange-photo" class="position-absolute bottom-0 end-0 bg-primary rounded-circle text-white p-2 passwordChange-upload-btn" style="cursor:pointer;">
                                 <i class="fas fa-camera"></i>
                                 <input type="file" id="passwordChange-photo" name="photo" accept="image/*" class="d-none" onchange="previewProfileImage(event)">

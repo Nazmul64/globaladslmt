@@ -74,10 +74,28 @@ Auth::routes();
    Route::post('frontend/password/submit', [ProfileController::class, 'frontend_password_submit'])->name('frontend.password.submit');
    Route::get('frontend/key', [KeyController::class, 'frontend_key'])->name('frontend.key');
    Route::post('frontend/key', [KeyController::class, 'frontend_key_submit'])->name('frontend.key.submit');
+   Route::get('frontend/ads', [FrontendController::class, 'frontend_ads'])->name('frontend.ads');
+
+
+
+
+
+/*Friend Request User Route Start*/
    Route::get('/friends', [ChatRequestController::class, 'index'])->name('frontend.friends');
    Route::get('/user-search', [ChatRequestController::class, 'search'])->name('user.search');
+   Route::post('/user/friend/request', [ChatRequestController::class, 'sendFriendRequest'])->name('user.friend.request');
+   Route::get('/user/friend/request/accept/view', [ChatRequestController::class, 'sendFriendRequestaccept'])->name('user.accept.view');
+   Route::post('/user/friend/request/accept', [ChatRequestController::class, 'acceptRequest'])->name('user.friend.request.accept');
+   Route::post('/user/friend/request/reject', [ChatRequestController::class, 'rejectRequest'])->name('user.friend.request.reject');
+   Route::post('/cancel/friend/request', [ChatRequestController::class, 'cancelFriendRequest'])->name('user.friend.request.cancel');
+/*Friend Request User Route End*/
 
 
+
+/* User Chat Route Start*/
+  Route::get('chat/frontend/list', [FrontendController::class, 'frontend_chat_list'])->name('frontend.user.chat.list');
+
+/* User Chat Route Start*/
 
 });
 // Frontend Route Controller End

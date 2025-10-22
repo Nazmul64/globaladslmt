@@ -20,7 +20,6 @@
 @php
 use App\Models\User;
 
-// বর্তমান request থেকে query নেওয়া
 $query = request()->get('query');
 
 if ($query) {
@@ -28,7 +27,7 @@ if ($query) {
                 ->orWhere('email', 'LIKE', "%{$query}%")
                 ->get();
 } else {
-    $users = collect(); // প্রথমে কিছু দেখাবে না
+    $users = collect();
 }
 @endphp
 
@@ -41,22 +40,41 @@ if ($query) {
 
     <div class="friendrequest-grid" id="resultList">
         @foreach($users as $user)
-        <div class="friendrequest-card">
-            <img src="{{ $user->photo ?? 'https://via.placeholder.com/150' }}" alt="{{ $user->name }}" class="friendrequest-image">
-            <div class="friendrequest-info">
-                <div class="friendrequest-name">{{ $user->name }}</div>
-                <div class="friendrequest-email text-muted">{{ $user->email }}</div>
-                <div class="friendrequest-button-group">
-                    <button class="friendrequest-btn friendrequest-btn-confirm">Confirm</button>
-                    <button class="friendrequest-btn friendrequest-btn-delete">Delete</button>
+            @php
+                $sentRequest = \App\Models\ChatRequest::where('sender_id', auth()->id())->where('receiver_id', $user->id)->first();
+            @endphp
+            <div class="friendrequest-card">
+            @if(!empty($user->photo))
+                <img src="{{ asset('uploads/profile/' . $user->photo) }}" class="friendrequest-image">
+            @else
+                <img src="{{ asset('uploads/logo.png') }}"
+                    alt="Default Logo"
+                    class="friendrequest-image">
+            @endif
+                <div class="friendrequest-info">
+                    <div class="friendrequest-name">{{ $user->name }}</div>
+                    <div class="friendrequest-button-group">
+                        @if($sentRequest)
+                            <button class="friendrequest-btn friendrequest-btn-cancel"
+                                    onclick="cancelFriendRequest({{ $user->id }}, this)">Cancel</button>
+                        @else
+                            <button class="friendrequest-btn friendrequest-btn-add"
+                                    onclick="sendFriendRequest({{ $user->id }}, this)">Add Friend</button>
+                        @endif
+                    </div>
                 </div>
             </div>
-        </div>
         @endforeach
     </div>
 </div>
 
+<!-- Include jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Include simple toastr notification -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
 <script>
 $(document).ready(function(){
 
@@ -91,7 +109,7 @@ $(document).ready(function(){
         let query = $(this).val().trim();
 
         if (query === '') {
-            $('#friendSection').slideUp(); // খালি হলে হাইড
+            $('#friendSection').slideUp();
             $('#resultList').html('');
             return;
         }
@@ -103,10 +121,69 @@ $(document).ready(function(){
             success: function(html) {
                 let newHtml = $(html).find('#resultList').html();
                 $('#resultList').html(newHtml);
-                $('#friendSection').slideDown(); // সার্চ করলে স্মুথলি শো
+                $('#friendSection').slideDown();
             }
         });
     });
 
 });
+
+// Send Friend Request
+function sendFriendRequest(userId, btn) {
+    $.ajax({
+        url: "{{ route('user.friend.request') }}",
+        type: 'POST',
+        data: {
+            receiver_id: userId,
+            _token: "{{ csrf_token() }}"
+        },
+        success: function(response) {
+            // Change button to Cancel
+            $(btn).removeClass('friendrequest-btn-add')
+                  .addClass('friendrequest-btn-cancel')
+                  .text('Cancel')
+                  .attr('onclick', 'cancelFriendRequest(' + userId + ', this)');
+
+            // Show notification
+            toastr.success('Your friend request is successful. Please wait for your friend to accept.');
+        },
+        error: function(xhr) {
+            toastr.error(xhr.responseJSON.message || 'Something went wrong.');
+        }
+    });
+}
+
+// Cancel Friend Request
+function cancelFriendRequest(userId, btn) {
+    $.ajax({
+        url: "{{ route('user.friend.request.cancel') }}",
+        type: 'POST',
+        data: {
+            receiver_id: userId,
+            _token: "{{ csrf_token() }}"
+        },
+        success: function(response) {
+            $(btn).removeClass('friendrequest-btn-cancel')
+                  .addClass('friendrequest-btn-add')
+                  .text('Add Friend')
+                  .attr('onclick', 'sendFriendRequest(' + userId + ', this)');
+            toastr.info('Friend request cancelled.');
+        },
+        error: function(xhr) {
+            toastr.error(xhr.responseJSON.message || 'Something went wrong.');
+        }
+    });
+}
 </script>
+
+<style>
+.friendrequest-btn-add {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.friendrequest-btn-cancel {
+    background-color: #dc3545; /* Red color */
+    color: #fff;
+}
+</style>

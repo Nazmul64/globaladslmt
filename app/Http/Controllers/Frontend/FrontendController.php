@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Ad;
 use App\Models\Deposite;
 use App\Models\Package;
 use App\Models\Paymentmethod;
@@ -117,7 +118,17 @@ public function frontend_refer_list()
         return view('frontend.frontendpages.reffer_list', compact('referrals', 'total_refer_income'));
     }
 
+public function frontend_ads()
+{
+    if (!Auth::check()) {
+        return redirect()->route('user.login')->withErrors('Please login to view ads.');
+    }
 
+    // Ads গুলো টেবিল থেকে আনা হচ্ছে
+    $ads = Ad::first(); // ধরুন একটিমাত্র রোতে সব ad code আছে
+
+    return view('frontend.frontendpages.ads', compact('ads'));
+}
 
 
 }

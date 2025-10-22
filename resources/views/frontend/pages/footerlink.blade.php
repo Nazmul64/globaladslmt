@@ -29,6 +29,15 @@ window.addEventListener('click', function(event) {
     }
 });
 </script>
+  <!-- Start.io SDK স্ক্রিপ্ট (আপনার SDK URL অনুযায়ী পরিবর্তন করুন) -->
+    <!-- Start.io SDK স্ক্রিপ্ট (আপনার SDK URL অনুযায়ী পরিবর্তন করুন) -->
+<script async src="https://cdn.startappnetwork.com/sdk.js"></script>
+<script src="https://cdn.start.io/adunit.js"></script>
+<div id="startio-banner"></div>
+<script>
+  startio.display('startio-banner');
+</script>
+    <script async src="https://cdn.startappnetwork.com/sdk.js"></script>
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{asset('frontend')}}/assets/js/customs.js"></script>
 <script src="{{asset('frontend')}}/assets/js/custom.js"></script>

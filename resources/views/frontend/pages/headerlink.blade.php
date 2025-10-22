@@ -6,6 +6,14 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Global money Ltd</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Start.io SDK স্ক্রিপ্ট (আপনার SDK URL অনুযায়ী পরিবর্তন করুন) -->
+    <script async src="https://cdn.startappnetwork.com/sdk.js"></script>
+    <script src="https://cdn.start.io/adunit.js"></script>
+<div id="startio-banner"></div>
+<script>
+  startio.display('startio-banner');
+</script>
+
     <!-- Bootstrap & FontAwesome -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">

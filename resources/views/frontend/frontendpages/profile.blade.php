@@ -55,6 +55,21 @@
                 <a href="{{ route('frontend.key') }}" style="text-decoration: none; color: inherit;">Key Submit</a>
             </div>
         </div>
+
+
+       <div class="stat-card">
+                <div class="stat-icon">
+                    <a href="{{ route('user.accept.view') }}">
+                        <i class="fas fa-key" style="color:white;"></i>
+                    </a>
+                </div>
+
+                <div class="stat-value">
+                    <a href="{{ route('user.accept.view') }}" style="text-decoration: none; color: inherit;">
+                        All Friend Requests
+                    </a>
+                </div>
+            </div>
         @php
             use Illuminate\Support\Facades\Auth;
             $user = Auth::user(); // get currently logged-in user

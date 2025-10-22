@@ -23,7 +23,7 @@
         </div>
 
         <div class="nav-item">
-            <a href="userchat.html">
+            <a href="{{route('frontend.user.chat.list')}}">
                 <i class="fab fa-telegram"></i>
                 <div class="nav-label">Live Chat</div>
             </a>
