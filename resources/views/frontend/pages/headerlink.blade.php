@@ -6,7 +6,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Global money Ltd</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Start.io SDK স্ক্রিপ্ট (আপনার SDK URL অনুযায়ী পরিবর্তন করুন) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script async src="https://cdn.startappnetwork.com/sdk.js"></script>
     <script src="https://cdn.start.io/adunit.js"></script>
 <div id="startio-banner"></div>

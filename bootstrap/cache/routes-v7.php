@@ -13,7 +13,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::AkklUSUotelfrzYc',
+            '_route' => 'generated::IdB8hpfMmryZKgVY',
           ),
           1 => NULL,
           2 => 
@@ -50,7 +50,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::jaefGffTM4VEicH8',
+            '_route' => 'generated::V9nlWfUkpRUxPbKB',
           ),
           1 => NULL,
           2 => 
@@ -105,7 +105,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::IZrnJrNOgQB5Jfm1',
+            '_route' => 'generated::VOjNMSmKukfutcr0',
           ),
           1 => NULL,
           2 => 
@@ -196,7 +196,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::uAYNTJcOeZVyyKCd',
+            '_route' => 'generated::ROWaNHZb6cZz60sy',
           ),
           1 => NULL,
           2 => 
@@ -963,6 +963,82 @@ app('router')->setCompiledRoutes(
           array (
             'GET' => 0,
             'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/user/agent/request/request' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agentss.user.friend.request',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/user/agent/friend/request/accept' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agentss.user.friend.request.accept',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/user/agent/friend/request/reject' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agentss.user.friend.request.reject',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/user/agent/cancel/friend/request' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agentss.user.friend.request.cancel',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
           ),
           3 => NULL,
           4 => false,
@@ -2226,6 +2302,83 @@ app('router')->setCompiledRoutes(
           array (
             'GET' => 0,
             'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/agent/friend/request/accept/view' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.friend.request.accept.view',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/agent/friend/request/accept' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.friend.request.accept',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/agent/friend/request/reject' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.friend.request.reject',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/agent/friend/request/cancel' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.friend.request.cancel',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
           ),
           3 => NULL,
           4 => false,
@@ -3515,7 +3668,7 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'generated::AkklUSUotelfrzYc' => 
+    'generated::IdB8hpfMmryZKgVY' => 
     array (
       'methods' => 
       array (
@@ -3543,8 +3696,8 @@ app('router')->setCompiledRoutes(
                     return response(\\Illuminate\\Support\\Facades\\View::file(\'E:\\\\globaladslmt\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Configuration\'.\'/../resources/health-up.blade.php\', [
                         \'exception\' => $exception,
                     ]), status: $exception ? 500 : 200);
-                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000001020000000000000000";}}',
-        'as' => 'generated::AkklUSUotelfrzYc',
+                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000001010000000000000000";}}',
+        'as' => 'generated::IdB8hpfMmryZKgVY',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3597,7 +3750,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::jaefGffTM4VEicH8' => 
+    'generated::V9nlWfUkpRUxPbKB' => 
     array (
       'methods' => 
       array (
@@ -3617,7 +3770,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::jaefGffTM4VEicH8',
+        'as' => 'generated::V9nlWfUkpRUxPbKB',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3706,7 +3859,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::IZrnJrNOgQB5Jfm1' => 
+    'generated::VOjNMSmKukfutcr0' => 
     array (
       'methods' => 
       array (
@@ -3726,7 +3879,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::IZrnJrNOgQB5Jfm1',
+        'as' => 'generated::VOjNMSmKukfutcr0',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3925,7 +4078,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::uAYNTJcOeZVyyKCd' => 
+    'generated::ROWaNHZb6cZz60sy' => 
     array (
       'methods' => 
       array (
@@ -3945,7 +4098,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::uAYNTJcOeZVyyKCd',
+        'as' => 'generated::ROWaNHZb6cZz60sy',
       ),
       'fallback' => false,
       'defaults' => 
@@ -5484,6 +5637,154 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'user.chat.agent.delete.message',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agentss.user.friend.request' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'user/agent/request/request',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\UserfriendrequestforAgentController@agentsendFriendRequest',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\UserfriendrequestforAgentController@agentsendFriendRequest',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agentss.user.friend.request',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agentss.user.friend.request.accept' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'user/agent/friend/request/accept',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\UserfriendrequestforAgentController@agentacceptRequest',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\UserfriendrequestforAgentController@agentacceptRequest',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agentss.user.friend.request.accept',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agentss.user.friend.request.reject' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'user/agent/friend/request/reject',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\UserfriendrequestforAgentController@agentrejectRequest',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\UserfriendrequestforAgentController@agentrejectRequest',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agentss.user.friend.request.reject',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agentss.user.friend.request.cancel' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'user/agent/cancel/friend/request',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\UserfriendrequestforAgentController@agentcancelFriendRequest',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\UserfriendrequestforAgentController@agentcancelFriendRequest',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agentss.user.friend.request.cancel',
       ),
       'fallback' => false,
       'defaults' => 
@@ -9977,6 +10278,155 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
+    'agent.friend.request.accept.view' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'agent/friend/request/accept/view',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentrequestAcceptController@agentacceptRequestview',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentrequestAcceptController@agentacceptRequestview',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.friend.request.accept.view',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agent.friend.request.accept' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'agent/friend/request/accept',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentrequestAcceptController@agentacceptRequest',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentrequestAcceptController@agentacceptRequest',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.friend.request.accept',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agent.friend.request.reject' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'agent/friend/request/reject',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentrequestAcceptController@agentrejectRequest',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentrequestAcceptController@agentrejectRequest',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.friend.request.reject',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agent.friend.request.cancel' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'agent/friend/request/cancel',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentrequestAcceptController@agentcancelFriendRequest',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentrequestAcceptController@agentcancelFriendRequest',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.friend.request.cancel',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
     'storage.local' => 
     array (
       'methods' => 
@@ -9993,7 +10443,7 @@ app('router')->setCompiledRoutes(
                         $config,
                         $isProduction
                     ))($request, $path);
-                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000008df0000000000000000";}}',
+                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000004d90000000000000000";}}',
         'as' => 'storage.local',
       ),
       'fallback' => false,

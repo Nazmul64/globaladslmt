@@ -26,6 +26,18 @@
           </li>
         </ul>
       </li>
+      <li class="dropdown">
+        <a href="javascript:void(0)">
+          <iconify-icon icon="icon-park-outline:setting-two" class="menu-icon"></iconify-icon>
+          <span>Agent Request</span>
+        </a>
+        <ul class="sidebar-submenu">
+          <li>
+            <a href="{{route('agent.friend.request.accept.view')}}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>Agent Request</a>
+          </li>
+        </ul>
+      </li>
     </ul>
   </div>
 </aside>
+

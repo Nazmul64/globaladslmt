@@ -18,14 +18,20 @@ class UsertoagentChatController extends Controller
      */
 public function frontend_user_toagent_chat()
 {
-    // শুধু যাদের role 'agent' বা 'user' তারা আসবে
-    $agents = User::whereIn('role', ['agent'])
-                ->select('id', 'name', 'email')
-                ->orderBy('name', 'asc')
-                ->get();
+    $user_id = auth()->id();
+    $agents = User::where('role', 'agent')
+        ->whereHas('receivedChatRequests', function ($query) use ($user_id) {
+            $query->where('sender_id', $user_id)
+                  ->where('status', 'accepted');
+        })
+        ->select('id', 'name', 'email')
+        ->orderBy('name', 'asc')
+        ->get();
 
     return view('frontend.agentchat.index', compact('agents'));
 }
+
+
 
 
 

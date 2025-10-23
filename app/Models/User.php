@@ -141,5 +141,8 @@ public function agentkyc()
             ->orderBy('created_at', 'asc')
             ->get();
     }
-
+public function receivedChatRequests()
+{
+    return $this->hasMany(ChatRequest::class, 'receiver_id');
+}
 }

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Agent\AgentchattouserChatController;
 use App\Http\Controllers\Agent\AgentPasswordchangeController;
 use App\Http\Controllers\Agent\AgentProfileController;
+use App\Http\Controllers\Agent\AgentrequestAcceptController;
 use App\Http\Controllers\AppsettingController;
 use App\Http\Controllers\Backend\AdminagentcreateController;
 use App\Http\Controllers\Backend\AdminApproveController;
@@ -33,6 +34,7 @@ use App\Http\Controllers\Frontend\KeyController;
 use App\Http\Controllers\Frontend\PackageBuyControllery;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\UserchatController;
+use App\Http\Controllers\Frontend\UserfriendrequestforAgentController;
 use App\Http\Controllers\Frontend\UsertoagentChatController;
 use App\Models\Appsetting;
 use App\Models\Reffercommissionsetup;
@@ -75,19 +77,12 @@ Auth::routes();
    Route::get('frontend/main/profile', [ProfileController::class, 'frontend_main_profile'])->name('frontend.profile.main');
    Route::get('frontend/password/change', [ProfileController::class, 'frontend_password_change'])->name('frontend.password.change');
    Route::post('frontend/password/submit', [ProfileController::class, 'frontend_password_submit'])->name('frontend.password.submit');
-
-
    Route::get('frontend/user/agentlist/show', [FrontendController::class, 'frontend_agent_list'])->name('frontend.agentlist.show');
-
    /* User Kyc Route Start*/
    Route::get('frontend/key', [KeyController::class, 'frontend_key'])->name('frontend.key');
    Route::post('frontend/key', [KeyController::class, 'frontend_key_submit'])->name('frontend.key.submit');
    Route::get('frontend/ads', [FrontendController::class, 'frontend_ads'])->name('frontend.ads');
 /* User  Kyc Route End*/
-
-
-
-
 /*Friend Request User Route Start*/
    Route::get('/friends', [ChatRequestController::class, 'index'])->name('frontend.friends');
    Route::get('/user-search', [ChatRequestController::class, 'search'])->name('user.search');
@@ -97,19 +92,13 @@ Auth::routes();
    Route::post('/user/friend/request/reject', [ChatRequestController::class, 'rejectRequest'])->name('user.friend.request.reject');
    Route::post('/cancel/friend/request', [ChatRequestController::class, 'cancelFriendRequest'])->name('user.friend.request.cancel');
 /*Friend Request User Route End*/
-
-
 /* User Chat Route Start*/
 Route::get('chat/frontend/list', [UserchatController::class, 'frontend_chat_list'])->name('frontend.user.chat.list');
 Route::post('chat/frontend/submit', [UserchatController::class, 'frontend_chat_submit'])->name('frontend.user.chat.submit');
 Route::get('chat/frontend/messages', [UserchatController::class, 'frontend_chat_messages'])->name('frontend.user.chat.messages');
 Route::get('/chat/unread-counts', [UserchatController::class, 'getUnreadCounts'])->name('frontend.user.chat.unread');
-
 /* User Chat Route Start*/
-
-
 /* User To agent chat Route Start*/
-
 Route::get('frontends/user/toagent/chat', [UsertoagentChatController::class, 'frontend_user_toagent_chat'])->name('frontend.user.toagent.chat');
 Route::post('frontends/userto/agent/chat/submit', [UsertoagentChatController::class, 'frontend_chat_submit'])->name('agentuser.chat.agents.submit');
 Route::get('frontends/userto/message/chat/messages', [UsertoagentChatController::class, 'frontend_chat_messages'])->name('agentsuser.toagent.userto.chat.messages');
@@ -117,10 +106,24 @@ Route::get('frontends/userto/unread/agent/chat/unread-counts', [UsertoagentChatC
 Route::delete('frontends/userto/agent/chat/message/{message_id}', [UsertoagentChatController::class, 'deleteMessage'])->name('user.chat.agent.delete.message');
 /* User To agent chat Route end*/
 
+
+
+
+
+
+
+
+
+
+/* User To agent chat Route Start*/
+  Route::post('user/agent/request/request', [UserfriendrequestforAgentController::class, 'agentsendFriendRequest'])->name('agentss.user.friend.request');
+  Route::post('/user/agent/friend/request/accept', [UserfriendrequestforAgentController::class, 'agentacceptRequest'])->name('agentss.user.friend.request.accept');
+  Route::post('/user/agent/friend/request/reject', [UserfriendrequestforAgentController::class, 'agentrejectRequest'])->name('agentss.user.friend.request.reject');
+  Route::post('user/agent/cancel/friend/request', [UserfriendrequestforAgentController::class, 'agentcancelFriendRequest'])->name('agentss.user.friend.request.cancel');
+  /* User To agent chat Route end*/
+
 });
 // Frontend Route Controller End
-
-
 
 // Admin Login  Controller Start
 Route::get('admin/login', [AdminautoController::class, 'admin_login'])->name('admin.login');
@@ -226,7 +229,18 @@ Route::middleware(['agent'])->group(function () {
 // Route::get('agent/user/chat/messages', [AgentchattouserChatController::class, 'messages'])->name('user.toagent.userto.chat.messages');
 // Route::get('agent/user/chat/unread', [AgentchattouserChatController::class, 'unreadCounts'])->name('user.chat.unread');
 
+
+
+
+
+    Route::get('/agent/friend/request/accept/view',[AgentrequestAcceptController::class, 'agentacceptRequestview'])->name('agent.friend.request.accept.view');
+    Route::post('/agent/friend/request/accept',[AgentrequestAcceptController::class, 'agentacceptRequest'])->name('agent.friend.request.accept');
+    Route::post('/agent/friend/request/reject', [AgentrequestAcceptController::class, 'agentrejectRequest'])->name('agent.friend.request.reject');
+    Route::post('/agent/friend/request/cancel',[AgentrequestAcceptController::class, 'agentcancelFriendRequest'])->name('agent.friend.request.cancel');
 });
+
+
+
 // Agent Route Controller End
 
 

@@ -49,7 +49,7 @@
 
         <div class="agent-card">
             <div class="agent-header">
-                <img src="{{ $agent->photo ? asset('uploads/agents/' . $agent->photo) : asset('uploads/avator.jpg') }}"
+                <img src="{{ $agent->photo ? asset('uploads/agents/' . $agent->photo) : asset('uploads/logo.png') }}"
                      class="agent-photo"
                      alt="{{ $agent->name }}">
                 <div class="agent-info">
@@ -70,14 +70,42 @@
                     <span class="agent-status">● {{ $agent->is_online ? 'Online' : 'Offline' }}</span>
                 </div>
             </div>
-            <div class="agent-actions">
-                <a href="tel:{{ $agent->mobile }}" class="action-btn call-btn">
-                    <i class="fas fa-phone"></i> Call Now
-                </a>
-                <a href="{{route('frontend.user.toagent.chat')}}" target="_blank" class="action-btn chat-btn">
+           <div class="agent-actions">
+                @php
+                    // Current logged-in user + agent check
+                    $friendRequest = \App\Models\ChatRequest::where('sender_id', auth()->id())
+                                        ->where('receiver_id', $agent->id)
+                                        ->first();
+                @endphp
+
+                @if($friendRequest)
+                    @if($friendRequest->status == 'accepted')
+                        {{-- শুধুমাত্র এই user এর জন্য --}}
+                        <button class="btn btn-success" disabled>
+                            <i class="fas fa-check"></i> Friend / Confirmed
+                        </button>
+                    @elseif($friendRequest->status == 'pending')
+                        <button class="btn btn-warning" disabled>
+                            <i class="fas fa-hourglass-half"></i> Request Sent
+                        </button>
+                    @endif
+                @else
+                    {{-- এই user এখনও request পাঠায়নি --}}
+                    <form action="{{ route('agentss.user.friend.request') }}" method="POST" class="d-inline">
+                        @csrf
+                        <input type="hidden" name="receiver_id" value="{{ $agent->id }}">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-phone"></i> Agent Request
+                        </button>
+                    </form>
+                @endif
+
+                {{-- Live Chat --}}
+                <a href="{{ route('frontend.user.toagent.chat') }}" target="_blank" class="action-btn chat-btn">
                     <i class="fas fa-comments"></i> Live Chat
                 </a>
             </div>
+
         </div>
     @endforeach
 
