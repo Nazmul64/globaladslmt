@@ -98,5 +98,48 @@ public function agentkyc()
     return $this->hasOne(Agentkyc::class, 'user_id');
 }
 
+    public function sentMessages()
+    {
+        return $this->hasMany(Usertoagentchat::class, 'sender_id');
+    }
+
+    /**
+     * Get messages received by this user.
+     */
+    public function receivedMessages()
+    {
+        return $this->hasMany(Usertoagentchat::class, 'receiver_id');
+    }
+
+    /**
+     * Get all messages (sent and received).
+     */
+    public function allMessages()
+    {
+        return Usertoagentchat::where('sender_id', $this->id)
+            ->orWhere('receiver_id', $this->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+    }
+
+    /**
+     * Get unread message count.
+     */
+    public function unreadMessageCount(): int
+    {
+        return $this->receivedMessages()
+            ->where('is_read', false)
+            ->count();
+    }
+
+    /**
+     * Get conversation with specific user.
+     */
+    public function conversationWith($userId)
+    {
+        return Usertoagentchat::conversation($this->id, $userId)
+            ->orderBy('created_at', 'asc')
+            ->get();
+    }
 
 }

@@ -2,7 +2,7 @@
     <div class="nav-container">
 
         <div class="nav-item active">
-            <a href="profile.html">
+            <a href="{{route('frontend.profile')}}">
                 <i class="fas fa-user"></i>
                 <div class="nav-label">Profile</div>
             </a>
@@ -30,7 +30,7 @@
         </div>
 
         <div class="nav-item">
-            <a href="agentlist.html">
+            <a href="{{route('frontend.agentlist.show')}}">
                 <i class="fas fa-users"></i>
                 <div class="nav-label">Agents</div>
             </a>

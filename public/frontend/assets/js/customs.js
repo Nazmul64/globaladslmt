@@ -255,7 +255,7 @@ const Navigation = {
     const notificationIcon = document.querySelector('.notification-icon');
     if (notificationIcon) {
       notificationIcon.addEventListener('click', () => {
-        Utils.showToast('No new notifications');
+
       });
     }
   }

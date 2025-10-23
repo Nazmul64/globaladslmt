@@ -129,6 +129,16 @@ public function frontend_ads()
 
     return view('frontend.frontendpages.ads', compact('ads'));
 }
+public function frontend_agent_list()
+{
+    $agents = User::where('role', 'agent')
+                  ->where('status', 'approved')
+                  ->get();
+
+    return view('frontend.frontendpages.agent_list', compact('agents'));
+}
+
+
 
 
 }

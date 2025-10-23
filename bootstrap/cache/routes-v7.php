@@ -13,7 +13,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::U4CRA8Zphb13jxty',
+            '_route' => 'generated::AkklUSUotelfrzYc',
           ),
           1 => NULL,
           2 => 
@@ -50,7 +50,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::GePtybdNde81tSd3',
+            '_route' => 'generated::jaefGffTM4VEicH8',
           ),
           1 => NULL,
           2 => 
@@ -105,7 +105,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::THok9F1NVSzHTMSj',
+            '_route' => 'generated::IZrnJrNOgQB5Jfm1',
           ),
           1 => NULL,
           2 => 
@@ -196,7 +196,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::6tBcfNxdDvg2ts3B',
+            '_route' => 'generated::uAYNTJcOeZVyyKCd',
           ),
           1 => NULL,
           2 => 
@@ -306,7 +306,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/frontend/dashboard' => 
+      '/dashboard' => 
       array (
         0 => 
         array (
@@ -600,6 +600,26 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/frontend/user/agentlist/show' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'frontend.agentlist.show',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
       '/frontend/key' => 
       array (
         0 => 
@@ -858,6 +878,85 @@ app('router')->setCompiledRoutes(
           0 => 
           array (
             '_route' => 'frontend.user.chat.unread',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/frontends/user/toagent/chat' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'frontend.user.toagent.chat',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/frontends/userto/agent/chat/submit' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agentuser.chat.agents.submit',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/frontends/userto/message/chat/messages' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agentsuser.toagent.userto.chat.messages',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/frontends/userto/unread/agent/chat/unread-counts' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'user.chat.agent.unread',
           ),
           1 => NULL,
           2 => 
@@ -2055,10 +2154,89 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/agent/user/toagent/chat' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.user.toagent.chat',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/agent/userto/agent/chat/submit' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.chat.send',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/agent/userto/message/chat/messages' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.chat.messages',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/agent/userto/unread/agent/chat/unread-counts' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.chat.unread',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
     ),
     2 => 
     array (
-      0 => '{^(?|/pa(?|ssword/reset/([^/]++)(*:34)|ckage/(?|buy/([^/]++)(*:62)|([^/]++)(?|(*:80)|/edit(*:92)|(*:99)))|ymentmethod/([^/]++)(?|(*:131)|/edit(*:144)|(*:152)))|/a(?|pp(?|setting/([^/]++)(?|(*:191)|/edit(*:204)|(*:212))|rove/([^/]++)(*:234))|gent(?|/(?|approve/([^/]++)(*:270)|reject/([^/]++)(*:293)|kyc/(?|approve/([^/]++)(*:324)|reject/([^/]++)(*:347)))|create/([^/]++)(?|(*:375)|/edit(*:388)|(*:396)))|ds/([^/]++)(?|(*:420)|/edit(*:433)|(*:441)))|/re(?|ffercommission/([^/]++)(?|(*:483)|/edit(*:496)|(*:504))|ject/(?|([^/]++)(*:529)|list(*:541)))|/notice/([^/]++)(?|(*:570)|/edit(*:583)|(*:591))|/w(?|orknotice/([^/]++)(?|(*:626)|/edit(*:639)|(*:647))|hychooseu/([^/]++)(?|(*:677)|/edit(*:690)|(*:698)))|/s(?|upport/([^/]++)(?|(*:731)|/edit(*:744)|(*:752))|t(?|epguide/([^/]++)(?|(*:784)|/edit(*:797)|(*:805))|orage/(.*)(*:824)))|/kyc/(?|approve/([^/]++)(*:858)|reject/([^/]++)(*:881)))/?$}sDu',
+      0 => '{^(?|/pa(?|ssword/reset/([^/]++)(*:34)|ckage/(?|buy/([^/]++)(*:62)|([^/]++)(?|(*:80)|/edit(*:92)|(*:99)))|ymentmethod/([^/]++)(?|(*:131)|/edit(*:144)|(*:152)))|/frontends/userto/agent/chat/message/([^/]++)(*:207)|/a(?|pp(?|setting/([^/]++)(?|(*:244)|/edit(*:257)|(*:265))|rove/([^/]++)(*:287))|gent(?|/(?|approve/([^/]++)(*:323)|reject/([^/]++)(*:346)|kyc/(?|approve/([^/]++)(*:377)|reject/([^/]++)(*:400)))|create/([^/]++)(?|(*:428)|/edit(*:441)|(*:449)))|ds/([^/]++)(?|(*:473)|/edit(*:486)|(*:494)))|/re(?|ffercommission/([^/]++)(?|(*:536)|/edit(*:549)|(*:557))|ject/(?|([^/]++)(*:582)|list(*:594)))|/notice/([^/]++)(?|(*:623)|/edit(*:636)|(*:644))|/w(?|orknotice/([^/]++)(?|(*:679)|/edit(*:692)|(*:700))|hychooseu/([^/]++)(?|(*:730)|/edit(*:743)|(*:751)))|/s(?|upport/([^/]++)(?|(*:784)|/edit(*:797)|(*:805))|t(?|epguide/([^/]++)(?|(*:837)|/edit(*:850)|(*:858))|orage/(.*)(*:877)))|/kyc/(?|approve/([^/]++)(*:911)|reject/([^/]++)(*:934)))/?$}sDu',
     ),
     3 => 
     array (
@@ -2283,7 +2461,29 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      191 => 
+      207 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'user.chat.agent.delete.message',
+          ),
+          1 => 
+          array (
+            0 => 'message_id',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      244 => 
       array (
         0 => 
         array (
@@ -2306,7 +2506,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      204 => 
+      257 => 
       array (
         0 => 
         array (
@@ -2329,7 +2529,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      212 => 
+      265 => 
       array (
         0 => 
         array (
@@ -2371,7 +2571,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      234 => 
+      287 => 
       array (
         0 => 
         array (
@@ -2394,7 +2594,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      270 => 
+      323 => 
       array (
         0 => 
         array (
@@ -2417,7 +2617,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      293 => 
+      346 => 
       array (
         0 => 
         array (
@@ -2440,7 +2640,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      324 => 
+      377 => 
       array (
         0 => 
         array (
@@ -2462,7 +2662,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      347 => 
+      400 => 
       array (
         0 => 
         array (
@@ -2484,7 +2684,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      375 => 
+      428 => 
       array (
         0 => 
         array (
@@ -2507,7 +2707,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      388 => 
+      441 => 
       array (
         0 => 
         array (
@@ -2530,7 +2730,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      396 => 
+      449 => 
       array (
         0 => 
         array (
@@ -2572,7 +2772,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      420 => 
+      473 => 
       array (
         0 => 
         array (
@@ -2595,7 +2795,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      433 => 
+      486 => 
       array (
         0 => 
         array (
@@ -2618,7 +2818,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      441 => 
+      494 => 
       array (
         0 => 
         array (
@@ -2660,7 +2860,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      483 => 
+      536 => 
       array (
         0 => 
         array (
@@ -2683,7 +2883,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      496 => 
+      549 => 
       array (
         0 => 
         array (
@@ -2706,7 +2906,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      504 => 
+      557 => 
       array (
         0 => 
         array (
@@ -2748,7 +2948,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      529 => 
+      582 => 
       array (
         0 => 
         array (
@@ -2771,7 +2971,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      541 => 
+      594 => 
       array (
         0 => 
         array (
@@ -2793,7 +2993,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      570 => 
+      623 => 
       array (
         0 => 
         array (
@@ -2816,7 +3016,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      583 => 
+      636 => 
       array (
         0 => 
         array (
@@ -2839,7 +3039,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      591 => 
+      644 => 
       array (
         0 => 
         array (
@@ -2881,7 +3081,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      626 => 
+      679 => 
       array (
         0 => 
         array (
@@ -2904,7 +3104,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      639 => 
+      692 => 
       array (
         0 => 
         array (
@@ -2927,7 +3127,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      647 => 
+      700 => 
       array (
         0 => 
         array (
@@ -2969,7 +3169,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      677 => 
+      730 => 
       array (
         0 => 
         array (
@@ -2992,7 +3192,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      690 => 
+      743 => 
       array (
         0 => 
         array (
@@ -3015,7 +3215,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      698 => 
+      751 => 
       array (
         0 => 
         array (
@@ -3057,7 +3257,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      731 => 
+      784 => 
       array (
         0 => 
         array (
@@ -3080,7 +3280,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      744 => 
+      797 => 
       array (
         0 => 
         array (
@@ -3103,7 +3303,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      752 => 
+      805 => 
       array (
         0 => 
         array (
@@ -3145,7 +3345,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      784 => 
+      837 => 
       array (
         0 => 
         array (
@@ -3168,7 +3368,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      797 => 
+      850 => 
       array (
         0 => 
         array (
@@ -3191,7 +3391,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      805 => 
+      858 => 
       array (
         0 => 
         array (
@@ -3233,7 +3433,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      824 => 
+      877 => 
       array (
         0 => 
         array (
@@ -3256,7 +3456,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      858 => 
+      911 => 
       array (
         0 => 
         array (
@@ -3278,7 +3478,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      881 => 
+      934 => 
       array (
         0 => 
         array (
@@ -3315,7 +3515,7 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'generated::U4CRA8Zphb13jxty' => 
+    'generated::AkklUSUotelfrzYc' => 
     array (
       'methods' => 
       array (
@@ -3343,8 +3543,8 @@ app('router')->setCompiledRoutes(
                     return response(\\Illuminate\\Support\\Facades\\View::file(\'E:\\\\globaladslmt\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Configuration\'.\'/../resources/health-up.blade.php\', [
                         \'exception\' => $exception,
                     ]), status: $exception ? 500 : 200);
-                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000001010000000000000000";}}',
-        'as' => 'generated::U4CRA8Zphb13jxty',
+                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000001020000000000000000";}}',
+        'as' => 'generated::AkklUSUotelfrzYc',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3397,7 +3597,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::GePtybdNde81tSd3' => 
+    'generated::jaefGffTM4VEicH8' => 
     array (
       'methods' => 
       array (
@@ -3417,7 +3617,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::GePtybdNde81tSd3',
+        'as' => 'generated::jaefGffTM4VEicH8',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3506,7 +3706,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::THok9F1NVSzHTMSj' => 
+    'generated::IZrnJrNOgQB5Jfm1' => 
     array (
       'methods' => 
       array (
@@ -3526,7 +3726,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::THok9F1NVSzHTMSj',
+        'as' => 'generated::IZrnJrNOgQB5Jfm1',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3725,7 +3925,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::6tBcfNxdDvg2ts3B' => 
+    'generated::uAYNTJcOeZVyyKCd' => 
     array (
       'methods' => 
       array (
@@ -3745,7 +3945,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::6tBcfNxdDvg2ts3B',
+        'as' => 'generated::uAYNTJcOeZVyyKCd',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3950,7 +4150,7 @@ app('router')->setCompiledRoutes(
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'frontend/dashboard',
+      'uri' => 'dashboard',
       'action' => 
       array (
         'middleware' => 
@@ -4547,6 +4747,44 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
+    'frontend.agentlist.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'frontend/user/agentlist/show',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\FrontendController@frontend_agent_list',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\FrontendController@frontend_agent_list',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'frontend.agentlist.show',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
     'frontend.key' => 
     array (
       'methods' => 
@@ -5058,6 +5296,194 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'frontend.user.chat.unread',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'frontend.user.toagent.chat' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'frontends/user/toagent/chat',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\UsertoagentChatController@frontend_user_toagent_chat',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\UsertoagentChatController@frontend_user_toagent_chat',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'frontend.user.toagent.chat',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agentuser.chat.agents.submit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'frontends/userto/agent/chat/submit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\UsertoagentChatController@frontend_chat_submit',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\UsertoagentChatController@frontend_chat_submit',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agentuser.chat.agents.submit',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agentsuser.toagent.userto.chat.messages' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'frontends/userto/message/chat/messages',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\UsertoagentChatController@frontend_chat_messages',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\UsertoagentChatController@frontend_chat_messages',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agentsuser.toagent.userto.chat.messages',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'user.chat.agent.unread' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'frontends/userto/unread/agent/chat/unread-counts',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\UsertoagentChatController@getUnreadCounts',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\UsertoagentChatController@getUnreadCounts',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'user.chat.agent.unread',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'user.chat.agent.delete.message' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'frontends/userto/agent/chat/message/{message_id}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\UsertoagentChatController@deleteMessage',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\UsertoagentChatController@deleteMessage',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'user.chat.agent.delete.message',
       ),
       'fallback' => false,
       'defaults' => 
@@ -9400,6 +9826,157 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
+    'agent.user.toagent.chat' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'agent/user/toagent/chat',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentchattouserChatController@index',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentchattouserChatController@index',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.user.toagent.chat',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agent.chat.send' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'agent/userto/agent/chat/submit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentchattouserChatController@sendMessage',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentchattouserChatController@sendMessage',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.chat.send',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agent.chat.messages' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'agent/userto/message/chat/messages',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentchattouserChatController@messages',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentchattouserChatController@messages',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.chat.messages',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agent.chat.unread' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'agent/userto/unread/agent/chat/unread-counts',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentchattouserChatController@unreadCounts',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentchattouserChatController@unreadCounts',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.chat.unread',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
     'storage.local' => 
     array (
       'methods' => 
@@ -9416,7 +9993,7 @@ app('router')->setCompiledRoutes(
                         $config,
                         $isProduction
                     ))($request, $path);
-                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000004d90000000000000000";}}',
+                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000008df0000000000000000";}}',
         'as' => 'storage.local',
       ),
       'fallback' => false,

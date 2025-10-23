@@ -18,11 +18,11 @@
       <li class="dropdown">
         <a href="javascript:void(0)">
           <iconify-icon icon="icon-park-outline:setting-two" class="menu-icon"></iconify-icon>
-          <span>Profile Update</span>
+          <span>Live Chat</span>
         </a>
         <ul class="sidebar-submenu">
           <li>
-            <a href="{{route('agent.profile')}}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Settings</a>
+            <a href="{{route('agent.user.toagent.chat')}}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Live Chat</a>
           </li>
         </ul>
       </li>

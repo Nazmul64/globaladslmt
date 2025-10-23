@@ -47,9 +47,9 @@
 
         <div class="menu-card">
             <div class="menu-icon-circle">
-                <a href="agentlist.html"><i class="fas fa-user-check"style="color:white;"></i></a>
+                <a href="{{route('user.accept.view')}}"><i class="fas fa-user-check"style="color:white;"></i></a>
             </div>
-            <div class="menu-label">Agent List</div>
+            <div class="menu-label">Friend Request</div>
         </div>
 
         <div class="menu-card">
