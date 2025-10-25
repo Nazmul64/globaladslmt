@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\AgentDeposite;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminagentDepositeController extends Controller
 {
@@ -40,18 +41,24 @@ class AdminagentDepositeController extends Controller
 
         return redirect()->back()->with('success', 'Deposit rejected successfully!');
     }
-      public function admin_agemt_deposite_approved_list()
-    {
-        $agent_deposite = AgentDeposite::where('status', 'approved')->latest()->get();
-        return view('admin.agentdeposite.approved', compact('agent_deposite'));
-    }
+public function admin_agemt_deposite_approved_list()
+{
+    $approved = AgentDeposite::where('status', 'approved')
+                              ->latest()
+                              ->get();
 
-    /**
-     * ❌ Show rejected deposit list
-     */
-    public function admin_agemt_deposite_reject_list()
-    {
-        $agent_deposite = AgentDeposite::where('status', 'rejected')->latest()->get();
-        return view('admin.agentdeposite.rejected', compact('agent_deposite'));
-    }
+    return view('admin.depositeaproved.approved_list', compact('approved'));
+}
+
+
+
+public function admin_agemt_deposite_reject_list()
+{
+    $rejected = AgentDeposite::where('status', 'rejected')
+                              ->latest()
+                              ->get();
+
+    return view('admin.depositeaproved.rejected_list', compact('rejected'));
+}
+
 }

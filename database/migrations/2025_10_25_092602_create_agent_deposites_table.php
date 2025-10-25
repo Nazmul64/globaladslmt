@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('agent_deposites', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('agent_id')->nullable(); // no foreign key
+            $table->unsignedBigInteger('agent_id'); // nullable নয়
+            $table->foreign('agent_id')->references('id')->on('users')->onDelete('cascade');
             $table->decimal('amount', 15, 2)->nullable();
             $table->string('transaction_id')->nullable()->unique();
             $table->string('sender_account')->nullable();

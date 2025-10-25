@@ -13,48 +13,50 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <div class="card">
-        <div class="card-body p-0">
-            <table class="table table-striped table-bordered mb-0">
-                <thead class="table-danger">
-                    <tr>
-                        <th>#</th>
-                        <th>Amount</th>
-                        <th>Sender Account</th>
-                        <th>Transaction ID</th>
-                        <th>Screenshot</th>
-                        <th>Status</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($agent_deposite as $key => $deposit)
-                        <tr>
-                            <td>{{ $key + 1 }}</td>
-                            <td>{{ number_format($deposit->amount, 2) }} ৳</td>
-                            <td>{{ $deposit->sender_account }}</td>
-                            <td>{{ $deposit->transaction_id }}</td>
-                            <td>
-                                @if($deposit->photo)
-                                    <a href="{{ asset('storage/'.$deposit->photo) }}" target="_blank">
-                                        <img src="{{ asset('storage/'.$deposit->photo) }}" alt="screenshot"
-                                             style="width:50px; height:50px; border-radius:5px;">
-                                    </a>
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td><span class="badge bg-danger">Rejected</span></td>
-                            <td>{{ $deposit->created_at->format('d M Y, h:i A') }}</td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="8" class="text-center text-muted py-3">No rejected deposits yet.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+    @if($agent_deposite->isEmpty())
+        <div class="alert alert-info text-center">
+            No rejected deposits found.
         </div>
-    </div>
+    @else
+        <div class="card">
+            <div class="card-body p-0">
+                <table class="table table-striped table-bordered mb-0">
+                    <thead class="table-danger">
+                        <tr>
+                            <th>#</th>
+                            <th>Amount</th>
+                            <th>Sender Account</th>
+                            <th>Transaction ID</th>
+                            <th>Screenshot</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($agent_deposite as $key => $deposit)
+                            <tr>
+                                <td>{{ $key + 1 }}</td>
+                                <td>{{ number_format($deposit->amount, 2) }} ৳</td>
+                                <td>{{ $deposit->sender_account }}</td>
+                                <td>{{ $deposit->transaction_id }}</td>
+                                <td>
+                                    @if($deposit->photo)
+                                        <a href="{{ asset('uploads/agentdeposite/'.$deposit->photo) }}" target="_blank">
+                                            <img src="{{ asset('uploads/agentdeposite/'.$deposit->photo) }}"
+                                                 alt="Deposit Photo" width="50" height="50" style="object-fit: cover;">
+                                        </a>
+                                    @else
+                                        <span class="text-muted">No Image</span>
+                                    @endif
+                                </td>
+                                <td><span class="badge bg-danger">Rejected</span></td>
+                                <td>{{ $deposit->created_at->format('d M Y, h:i A') }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    @endif
 </div>
 @endsection

@@ -13,7 +13,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::idJ1Hyi0po5NEFkQ',
+            '_route' => 'generated::7c3PNr1i9tET8A0L',
           ),
           1 => NULL,
           2 => 
@@ -50,7 +50,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::W6F8At6hxzfy2CB9',
+            '_route' => 'generated::5EuMeCqHPc5QSWJU',
           ),
           1 => NULL,
           2 => 
@@ -105,7 +105,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::icRvjdLRfLbYksLn',
+            '_route' => 'generated::Wr3EMFExNr0SY6ej',
           ),
           1 => NULL,
           2 => 
@@ -196,7 +196,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::JS9Ly3CKZPBi0Gz9',
+            '_route' => 'generated::1M5JdCv8NmGZlhge',
           ),
           1 => NULL,
           2 => 
@@ -2795,6 +2795,46 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/agent/deposite/approve/list' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.deposite.approved.list',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/agent/deposite/reject/list' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.deposite.reject.list',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
     ),
     2 => 
     array (
@@ -3562,7 +3602,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::Hsv5kFCRyLmavByz',
+            '_route' => 'generated::4O5gt3Lx0BbNSA4k',
           ),
           1 => 
           array (
@@ -4322,7 +4362,7 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'generated::idJ1Hyi0po5NEFkQ' => 
+    'generated::7c3PNr1i9tET8A0L' => 
     array (
       'methods' => 
       array (
@@ -4351,7 +4391,7 @@ app('router')->setCompiledRoutes(
                         \'exception\' => $exception,
                     ]), status: $exception ? 500 : 200);
                 }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000001010000000000000000";}}',
-        'as' => 'generated::idJ1Hyi0po5NEFkQ',
+        'as' => 'generated::7c3PNr1i9tET8A0L',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4404,7 +4444,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::W6F8At6hxzfy2CB9' => 
+    'generated::5EuMeCqHPc5QSWJU' => 
     array (
       'methods' => 
       array (
@@ -4424,7 +4464,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::W6F8At6hxzfy2CB9',
+        'as' => 'generated::5EuMeCqHPc5QSWJU',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4513,7 +4553,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::icRvjdLRfLbYksLn' => 
+    'generated::Wr3EMFExNr0SY6ej' => 
     array (
       'methods' => 
       array (
@@ -4533,7 +4573,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::icRvjdLRfLbYksLn',
+        'as' => 'generated::Wr3EMFExNr0SY6ej',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4732,7 +4772,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::JS9Ly3CKZPBi0Gz9' => 
+    'generated::1M5JdCv8NmGZlhge' => 
     array (
       'methods' => 
       array (
@@ -4752,7 +4792,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::JS9Ly3CKZPBi0Gz9',
+        'as' => 'generated::1M5JdCv8NmGZlhge',
       ),
       'fallback' => false,
       'defaults' => 
@@ -10636,7 +10676,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::Hsv5kFCRyLmavByz' => 
+    'generated::4O5gt3Lx0BbNSA4k' => 
     array (
       'methods' => 
       array (
@@ -10658,7 +10698,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::Hsv5kFCRyLmavByz',
+        'as' => 'generated::4O5gt3Lx0BbNSA4k',
       ),
       'fallback' => false,
       'defaults' => 
@@ -12269,6 +12309,82 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'agent.deposite.store',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agent.deposite.approved.list' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'agent/deposite/approve/list',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentDepositeController@agent_deposite_approved_list',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentDepositeController@agent_deposite_approved_list',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.deposite.approved.list',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agent.deposite.reject.list' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'agent/deposite/reject/list',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentDepositeController@agent_deposite_reject_list',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentDepositeController@agent_deposite_reject_list',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.deposite.reject.list',
       ),
       'fallback' => false,
       'defaults' => 

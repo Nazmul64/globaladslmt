@@ -244,7 +244,10 @@ Route::middleware(['agent'])->group(function () {
 
   // Agent Deposite Start
    Route::get('Agent/deposite', [AgentDepositeController::class, 'agentdeposite'])->name('agent.deposite');
-   Route::post('/agent/deposite/store', [AgentDepositeController::class, 'store'])->name('agent.deposite.store');
+   Route::post('agent/deposite/store', [AgentDepositeController::class, 'store'])->name('agent.deposite.store');
+   Route::get('agent/deposite/approve/list', [AgentDepositeController::class, 'agent_deposite_approved_list'])->name('agent.deposite.approved.list');
+   Route::get('agent/deposite/reject/list', [AgentDepositeController::class, 'agent_deposite_reject_list'])->name('agent.deposite.reject.list');
+
 
   // Agent Deposite End
 });

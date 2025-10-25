@@ -6,7 +6,7 @@
 
     <!-- Search Input -->
     <div class="mb-3">
-        <input type="text" id="depositSearch" class="form-control" placeholder="Search by transaction ID, sender or amount">
+        <input type="text" id="depositSearch" class="form-control" placeholder="Search by transaction ID, sender, or amount">
     </div>
 
     @if($deposite_list->count() > 0)
@@ -26,29 +26,34 @@
             @foreach($deposite_list as $deposit)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $deposit->amount }}</td>
+                <td>{{ $deposit->amount }}৳</td>
                 <td>{{ $deposit->transaction_id }}</td>
                 <td>{{ $deposit->sender_account }}</td>
                 <td>
                     @if($deposit->photo)
-                        <img src="{{ asset('uploads/deposits/' . $deposit->photo) }}" alt="Photo" width="50" height="50">
+                        <img src="{{ asset('uploads/agentdeposite/' . $deposit->photo) }}" alt="Deposit Photo" width="50" height="50" style="object-fit: cover;">
                     @else
                         <span class="text-muted">No Image</span>
                     @endif
                 </td>
                 <td>
-                    @if($deposit->status == 'pending')
-                        <span class="badge bg-warning text-dark">Pending</span>
-                    @elseif($deposit->status == 'approved')
-                        <span class="badge bg-success">Approved</span>
-                    @else
-                        <span class="badge bg-danger">Rejected</span>
-                    @endif
+                    <span class="badge
+                        @if($deposit->status == 'pending') bg-warning text-dark
+                        @elseif($deposit->status == 'approved') bg-success
+                        @else bg-danger @endif">
+                        {{ ucfirst($deposit->status) }}
+                    </span>
                 </td>
                 <td>
                     @if($deposit->status == 'pending')
-                        <a href="{{ route('admin.deposite.approve', $deposit->id) }}" class="btn btn-success btn-sm">Approve</a>
-                        <a href="{{ route('admin.deposite.reject', $deposit->id) }}" class="btn btn-danger btn-sm">Reject</a>
+                        <form action="{{ route('admin.agentdeposit.approve', $deposit->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                        </form>
+                        <form action="{{ route('admin.agentdeposit.reject', $deposit->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                        </form>
                     @endif
                 </td>
             </tr>

@@ -2,7 +2,8 @@
 
 @section('content')
 <div class="container mt-4">
-    <h4 class="mb-3">Pending Agent Deposits</h4>
+    <h4 class="mb-3">⏳ Pending Agent Deposits</h4>
+
     @if($agent_deposite->isEmpty())
         <div class="alert alert-info text-center">
             No pending deposits found.
@@ -26,22 +27,16 @@
                     @foreach($agent_deposite as $key => $deposit)
                         <tr>
                             <td>{{ $key + 1 }}</td>
-                            <td><strong>{{ number_format($deposit->amount, 2) }}</strong></td>
+                            <td><strong>{{ number_format($deposit->amount, 2) }} ৳</strong></td>
                             <td>{{ $deposit->sender_account }}</td>
                             <td>{{ $deposit->transaction_id }}</td>
                             <td>
-                                @if($deposit->photo)
-                                    <a href="{{ asset('storage/'.$deposit->photo) }}" target="_blank">
-                                        <img src="{{ asset('storage/'.$deposit->photo) }}" alt="Screenshot" class="img-thumbnail" style="width:60px;height:60px;object-fit:cover;">
-                                    </a>
-                                @else
-                                    N/A
-                                @endif
+                                 <img src="{{ asset('uploads/agentdeposite/'.$deposit->photo ?? '') }}"alt="Deposit Photo" width="50" height="50" style="object-fit: cover;">
                             </td>
                             <td>
                                 <span class="badge bg-warning text-dark">{{ ucfirst($deposit->status) }}</span>
                             </td>
-                            <td>{{ $deposit->created_at->format('d M Y h:i A') }}</td>
+                            <td>{{ $deposit->created_at->format('d M Y, h:i A') }}</td>
                             <td>
                                 <div class="d-flex gap-2 justify-content-center">
                                     <form action="{{ route('admin.agentdeposit.approve', $deposit->id) }}" method="POST">

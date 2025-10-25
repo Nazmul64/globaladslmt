@@ -6,10 +6,10 @@
 
     <!-- Search Input -->
     <div class="mb-3">
-        <input type="text" id="rejectedDepositSearch" class="form-control" placeholder="Search by transaction ID, sender or amount">
+        <input type="text" id="rejectedDepositSearch" class="form-control" placeholder="Search by transaction ID, sender, or amount">
     </div>
 
-    @if($deposite_list->count() > 0)
+    @if($rejected->count() > 0)
     <table class="table table-bordered mt-3" id="rejectedDepositsTable">
         <thead class="table-light">
             <tr>
@@ -19,26 +19,28 @@
                 <th>Sender Account</th>
                 <th>Photo</th>
                 <th>Status</th>
+                <th>Date</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($deposite_list as $deposit)
+            @foreach($rejected as $deposit)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $deposit->amount }}</td>
+                <td>{{ $deposit->amount }}৳</td>
                 <td>{{ $deposit->transaction_id }}</td>
                 <td>{{ $deposit->sender_account }}</td>
                 <td>
                     @if($deposit->photo)
-                        <img src="{{ asset('uploads/deposits/' . $deposit->photo) }}"
-                             alt="Deposit Photo" width="50" height="50" style="object-fit: cover;">
+                       <img src="{{ asset('uploads/agentdeposite/' . $deposit->photo) }}" alt="Deposit Photo" width="50" height="50" style="object-fit: cover;">
+
                     @else
                         <span class="text-muted">No Image</span>
                     @endif
                 </td>
                 <td>
-                    <span class="badge bg-danger">Rejected</span>
+                    <span class="badge bg-danger">{{ ucfirst($deposit->status) }}</span>
                 </td>
+                <td>{{ $deposit->created_at->format('d-m-Y H:i') }}</td>
             </tr>
             @endforeach
         </tbody>

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class AgentDeposite extends Model
 {
      protected $fillable = [
-        'user_id',
+        'agent_id',
         'amount',
         'transaction_id',
         'sender_account',

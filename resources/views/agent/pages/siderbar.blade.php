@@ -41,20 +41,38 @@
           </li>
         </ul>
       </li>
-   <li class="dropdown">
+    <li class="dropdown">
         <a href="javascript:void(0)">
             <iconify-icon icon="mdi:bank-transfer" class="menu-icon"></iconify-icon>
             <span>Deposite</span>
         </a>
         <ul class="sidebar-submenu">
+            <!-- 🏦 Deposit -->
             <li>
-            <a href="{{route('agent.deposite')}}">
-                <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
-                Deposite
-            </a>
+                <a href="{{ route('agent.deposite') }}">
+                    <iconify-icon icon="mdi:cash-plus" class="menu-icon text-success"></iconify-icon>
+                    Deposite Request
+                </a>
+            </li>
+
+            <!-- ✅ Approved List -->
+            <li>
+                <a href="{{ route('agent.deposite.approved.list') }}">
+                    <iconify-icon icon="mdi:check-circle" class="menu-icon text-success"></iconify-icon>
+                    Approved List
+                </a>
+            </li>
+
+            <!-- ❌ Rejected List -->
+            <li>
+                <a href="{{ route('agent.deposite.reject.list') }}">
+                    <iconify-icon icon="mdi:close-circle" class="menu-icon text-danger"></iconify-icon>
+                    Rejected List
+                </a>
             </li>
         </ul>
     </li>
+
     </ul>
   </div>
 </aside>
