@@ -7428,3 +7428,521 @@ html::-webkit-scrollbar {
         padding:0.5rem;
     }
 }
+
+
+
+/*admin to suer chaet*/
+       .usertoadminchat-floating-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #E91E63, #C2185B);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
+            z-index: 9998;
+            transition: all 0.3s ease;
+            animation: usertoadminchat-pulse 2s infinite;
+            border: none;
+        }
+
+        .usertoadminchat-floating-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.6);
+        }
+
+        .usertoadminchat-floating-btn i {
+            color: white;
+            font-size: 28px;
+        }
+
+        @keyframes usertoadminchat-pulse {
+            0%, 100% {
+                box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
+            }
+            50% {
+                box-shadow: 0 4px 25px rgba(233, 30, 99, 0.7);
+            }
+        }
+
+        .usertoadminchat-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff0000;
+            color: white;
+            min-width: 22px;
+            height: 22px;
+            border-radius: 11px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            border: 2px solid white;
+            padding: 0 6px;
+        }
+
+        .usertoadminchat-badge.usertoadminchat-show {
+            display: flex;
+        }
+
+        .usertoadminchat-window {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 380px;
+            height: 550px;
+            background: #f5f5f5;
+            border-radius: 15px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            animation: usertoadminchat-slideup 0.3s ease;
+        }
+
+        .usertoadminchat-window.usertoadminchat-active {
+            display: flex;
+        }
+
+        @keyframes usertoadminchat-slideup {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .usertoadminchat-header {
+            background: linear-gradient(135deg, #E91E63, #C2185B);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .usertoadminchat-header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .usertoadminchat-back-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .usertoadminchat-admin-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .usertoadminchat-admin-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #E91E63;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .usertoadminchat-admin-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .usertoadminchat-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .usertoadminchat-admin-status {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .usertoadminchat-status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #4CAF50;
+            border-radius: 50%;
+            margin-right: 5px;
+            animation: usertoadminchat-blink 2s infinite;
+        }
+
+        @keyframes usertoadminchat-blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .usertoadminchat-close-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .usertoadminchat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .usertoadminchat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .usertoadminchat-messages::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 3px;
+        }
+
+        .usertoadminchat-message {
+            display: flex;
+            gap: 10px;
+            animation: usertoadminchat-fadein 0.3s ease;
+        }
+
+        @keyframes usertoadminchat-fadein {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .usertoadminchat-message.usertoadminchat-admin {
+            align-self: flex-start;
+        }
+
+        .usertoadminchat-message.usertoadminchat-user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .usertoadminchat-message-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #E91E63;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .usertoadminchat-message.usertoadminchat-user .usertoadminchat-message-avatar {
+            background: #2196F3;
+        }
+
+        .usertoadminchat-message-content {
+            max-width: 70%;
+        }
+
+        .usertoadminchat-message-bubble {
+            background: white;
+            padding: 12px 15px;
+            border-radius: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            word-wrap: break-word;
+            line-height: 1.5;
+        }
+
+        .usertoadminchat-message.usertoadminchat-user .usertoadminchat-message-bubble {
+            background: #E91E63;
+            color: white;
+            border-radius: 15px 15px 0 15px;
+        }
+
+        .usertoadminchat-message.usertoadminchat-admin .usertoadminchat-message-bubble {
+            border-radius: 15px 15px 15px 0;
+        }
+
+        .usertoadminchat-message-time {
+            font-size: 11px;
+            color: #999;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .usertoadminchat-message.usertoadminchat-admin .usertoadminchat-message-time {
+            text-align: left;
+        }
+
+        .usertoadminchat-admin-badge {
+            background: #4CAF50;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            display: inline-block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .usertoadminchat-message-image {
+            margin-top: 8px;
+        }
+
+        .usertoadminchat-message-image img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .usertoadminchat-input-area {
+            background: white;
+            padding: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .usertoadminchat-image-preview-container {
+            display: none;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .usertoadminchat-image-preview-container.usertoadminchat-show {
+            display: block;
+        }
+
+        .usertoadminchat-preview-image {
+            max-width: 100%;
+            max-height: 150px;
+            border-radius: 8px;
+        }
+
+        .usertoadminchat-remove-preview {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(233, 30, 99, 0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .usertoadminchat-input-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .usertoadminchat-input {
+            flex: 1;
+            border: 1px solid #e0e0e0;
+            border-radius: 25px;
+            padding: 12px 20px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .usertoadminchat-input:focus {
+            border-color: #E91E63;
+        }
+
+        .usertoadminchat-input::placeholder {
+            color: #999;
+        }
+
+        .usertoadminchat-attach-btn, .usertoadminchat-emoji-btn {
+            background: transparent;
+            border: none;
+            color: #666;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 8px;
+            transition: color 0.3s;
+        }
+
+        .usertoadminchat-attach-btn:hover, .usertoadminchat-emoji-btn:hover {
+            color: #E91E63;
+        }
+
+        .usertoadminchat-file-input {
+            display: none;
+        }
+
+        .usertoadminchat-emoji-picker {
+            position: absolute;
+            bottom: 80px;
+            right: 15px;
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            display: none;
+            width: 280px;
+            max-height: 250px;
+            overflow-y: auto;
+            z-index: 10000;
+        }
+
+        .usertoadminchat-emoji-picker.usertoadminchat-active {
+            display: block;
+        }
+
+        .usertoadminchat-emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 8px;
+        }
+
+        .usertoadminchat-emoji-item {
+            font-size: 24px;
+            cursor: pointer;
+            text-align: center;
+            padding: 5px;
+            border-radius: 5px;
+            transition: background 0.2s;
+        }
+
+        .usertoadminchat-emoji-item:hover {
+            background: #f0f0f0;
+        }
+
+        .usertoadminchat-send-btn {
+            background: linear-gradient(135deg, #E91E63, #C2185B);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+
+        .usertoadminchat-send-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .usertoadminchat-send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .usertoadminchat-typing-indicator {
+            display: none;
+            padding: 10px 15px;
+            background: white;
+            border-radius: 15px;
+            width: fit-content;
+        }
+
+        .usertoadminchat-typing-indicator.usertoadminchat-active {
+            display: block;
+        }
+
+        .usertoadminchat-typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .usertoadminchat-typing-dots span {
+            width: 8px;
+            height: 8px;
+            background: #999;
+            border-radius: 50%;
+            animation: usertoadminchat-typing 1.4s infinite;
+        }
+
+        .usertoadminchat-typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .usertoadminchat-typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes usertoadminchat-typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .usertoadminchat-window {
+                width: calc(100% - 20px);
+                right: 10px;
+                bottom: 80px;
+                height: 500px;
+            }
+
+            .usertoadminchat-floating-btn {
+                width: 55px;
+                height: 55px;
+                bottom: 104px;
+                right: 15px;
+            }
+
+            .usertoadminchat-floating-btn i {
+                font-size: 24px;
+            }
+
+            .usertoadminchat-message-content {
+                max-width: 85%;
+            }
+
+            .usertoadminchat-emoji-picker {
+                width: calc(100% - 30px);
+                left: 15px;
+                right: 15px;
+            }
+        }
+
+        .usertoadminchat-hidden {
+            display: none;
+        }
+
+

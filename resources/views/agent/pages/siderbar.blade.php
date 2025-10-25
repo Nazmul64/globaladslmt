@@ -24,6 +24,10 @@
           <li>
             <a href="{{route('agent.user.toagent.chat')}}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Live Chat</a>
           </li>
+           <li>
+            <a href="{{route('agentforchat.index')}}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Live Chat for Admin</a>
+          </li>
+
         </ul>
       </li>
       <li class="dropdown">

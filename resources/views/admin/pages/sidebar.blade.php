@@ -15,12 +15,26 @@
           <span>Dashboard</span>
         </a>
 
-      <li>
-        <a href="chat-message.html">
-          <iconify-icon icon="bi:chat-dots" class="menu-icon"></iconify-icon>
-          <span>Chat</span>
+      <li class="dropdown">
+        <a href="javascript:void(0)">
+            <i class="fa-solid fa-id-card-clip fa-xl me-2"></i>
+            <span>Live Chat</span>
         </a>
-      </li>
+        <ul class="sidebar-submenu">
+            <li>
+                <a href="{{ route('admin.userchat') }}">
+                    <i class="fa-solid fa-hourglass-half fa-lg me-2 text-warning"></i>
+                    Live Chat User
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.agent.chat') }}">
+                    <i class="fa-solid fa-hourglass-half fa-lg me-2 text-warning"></i>
+                    Live Chat Fro Agent
+                </a>
+            </li>
+        </ul>
+    </li>
         <li class="dropdown">
             <a href="javascript:void(0)">
                 <i class="bi bi-people-fill menu-icon"></i>
@@ -258,7 +272,7 @@
 
         </ul>
     </li>
-        <li class="dropdown">
+    <li class="dropdown">
         <a href="javascript:void(0)">
             <i class="fa-solid fa-box fa-xl me-2"></i>
             <span>Ads Setup</span>

@@ -913,3 +913,210 @@ function copyNumber(number, btn) {
 }
 
 // user chat
+ (function() {
+            const emojis = ['😊', '😂', '❤️', '👍', '👏', '🎉', '🔥', '✨', '😍', '🥰', '😎', '🤔', '😢', '😭', '🙏', '💯', '✅', '❌', '⭐', '💪', '👌', '🎊', '🎈', '🌟', '💖', '💕', '🌹', '☀️', '🌙', '⚡', '🎁', '🎂'];
+            let selectedImage = null;
+            let unreadCount = 0;
+            let isChatOpen = false;
+
+            const chatButton = document.getElementById('usertoadminchatButton');
+            const chatWindow = document.getElementById('usertoadminchatWindow');
+            const closeButton = document.getElementById('usertoadminchatCloseButton');
+            const backButton = document.getElementById('usertoadminchatBackButton');
+            const chatInput = document.getElementById('usertoadminchatInput');
+            const sendButton = document.getElementById('usertoadminchatSendButton');
+            const attachButton = document.getElementById('usertoadminchatAttachButton');
+            const emojiButton = document.getElementById('usertoadminchatEmojiButton');
+            const fileInput = document.getElementById('usertoadminchatFileInput');
+            const emojiPicker = document.getElementById('usertoadminchatEmojiPicker');
+            const emojiGrid = document.getElementById('usertoadminchatEmojiGrid');
+            const chatMessages = document.getElementById('usertoadminchatMessages');
+            const typingContainer = document.getElementById('usertoadminchatTypingContainer');
+            const typingIndicator = document.getElementById('usertoadminchatTypingIndicator');
+            const imagePreviewContainer = document.getElementById('usertoadminchatImagePreviewContainer');
+            const previewImage = document.getElementById('usertoadminchatPreviewImage');
+            const removePreviewBtn = document.getElementById('usertoadminchatRemovePreviewBtn');
+            const chatBadge = document.getElementById('usertoadminchatBadge');
+
+            function initializeEmojiPicker() {
+                emojis.forEach(emoji => {
+                    const emojiItem = document.createElement('div');
+                    emojiItem.className = 'usertoadminchat-emoji-item';
+                    emojiItem.textContent = emoji;
+                    emojiItem.addEventListener('click', function() {
+                        insertEmoji(emoji);
+                    });
+                    emojiGrid.appendChild(emojiItem);
+                });
+            }
+
+            function toggleEmojiPicker() {
+                emojiPicker.classList.toggle('usertoadminchat-active');
+            }
+
+            function insertEmoji(emoji) {
+                chatInput.value += emoji;
+                chatInput.focus();
+                emojiPicker.classList.remove('usertoadminchat-active');
+            }
+
+            function handleFileSelect(event) {
+                const file = event.target.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        selectedImage = e.target.result;
+                        previewImage.src = selectedImage;
+                        imagePreviewContainer.classList.add('usertoadminchat-show');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+
+            function removeImagePreview() {
+                selectedImage = null;
+                imagePreviewContainer.classList.remove('usertoadminchat-show');
+                fileInput.value = '';
+            }
+
+            function openChat() {
+                chatWindow.classList.add('usertoadminchat-active');
+                isChatOpen = true;
+                unreadCount = 0;
+                updateBadge();
+            }
+
+            function closeChat() {
+                chatWindow.classList.remove('usertoadminchat-active');
+                isChatOpen = false;
+                emojiPicker.classList.remove('usertoadminchat-active');
+            }
+
+            function updateBadge() {
+                if (unreadCount > 0 && !isChatOpen) {
+                    chatBadge.textContent = unreadCount > 99 ? '99+' : unreadCount;
+                    chatBadge.classList.add('usertoadminchat-show');
+                } else {
+                    chatBadge.classList.remove('usertoadminchat-show');
+                }
+            }
+
+            function getCurrentTime() {
+                const now = new Date();
+                let hours = now.getHours();
+                let minutes = now.getMinutes();
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12;
+                hours = hours ? hours : 12;
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                return hours + ':' + minutes + ' ' + ampm;
+            }
+
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (message === '' && !selectedImage) return;
+
+                const time = getCurrentTime();
+                const userTemplate = document.getElementById('usertoadminchatUserMessageTemplate');
+                const userMessage = userTemplate.cloneNode(true);
+                userMessage.removeAttribute('id');
+
+                const messageText = userMessage.querySelector('.usertoadminchat-message-text');
+                const messageTime = userMessage.querySelector('.usertoadminchat-message-time');
+                const messageImage = userMessage.querySelector('.usertoadminchat-message-image');
+                const messageImageImg = messageImage.querySelector('img');
+
+                messageText.textContent = message;
+                messageTime.textContent = time;
+
+                if (selectedImage) {
+                    messageImage.classList.remove('usertoadminchat-hidden');
+                    messageImageImg.src = selectedImage;
+                }
+
+                chatMessages.insertBefore(userMessage, typingContainer);
+                chatInput.value = '';
+                removeImagePreview();
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                setTimeout(() => {
+                    typingContainer.classList.remove('usertoadminchat-hidden');
+                    typingIndicator.classList.add('usertoadminchat-active');
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 500);
+
+                setTimeout(() => {
+                    receiveAdminMessage('ধন্যবাদ আপনার মেসেজের জন্য। আমাদের একজন প্রতিনিধি শীঘ্রই আপনার সাথে যোগাযোগ করবেন।');
+                }, 2000);
+            }
+
+            function receiveAdminMessage(message, imageUrl) {
+                typingContainer.classList.add('usertoadminchat-hidden');
+                typingIndicator.classList.remove('usertoadminchat-active');
+
+                const adminTemplate = document.getElementById('usertoadminchatAdminMessageTemplate');
+                const adminMessage = adminTemplate.cloneNode(true);
+                adminMessage.removeAttribute('id');
+
+                const messageText = adminMessage.querySelector('.usertoadminchat-message-text');
+                const messageTime = adminMessage.querySelector('.usertoadminchat-message-time');
+                const messageImage = adminMessage.querySelector('.usertoadminchat-message-image');
+                const messageImageImg = messageImage.querySelector('img');
+
+                messageText.textContent = message;
+                messageTime.textContent = getCurrentTime();
+
+                if (imageUrl) {
+                    messageImage.classList.remove('usertoadminchat-hidden');
+                    messageImageImg.src = imageUrl;
+                }
+
+                chatMessages.insertBefore(adminMessage, typingContainer);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                if (!isChatOpen) {
+                    unreadCount++;
+                    updateBadge();
+                }
+            }
+
+            function handleKeyPress(event) {
+                if (event.key === 'Enter') {
+                    sendMessage();
+                }
+            }
+
+            chatButton.addEventListener('click', openChat);
+            closeButton.addEventListener('click', closeChat);
+            backButton.addEventListener('click', closeChat);
+            sendButton.addEventListener('click', sendMessage);
+            attachButton.addEventListener('click', () => fileInput.click());
+            emojiButton.addEventListener('click', toggleEmojiPicker);
+            fileInput.addEventListener('change', handleFileSelect);
+            removePreviewBtn.addEventListener('click', removeImagePreview);
+            chatInput.addEventListener('keypress', handleKeyPress);
+
+            document.addEventListener('click', function(event) {
+                if (!emojiPicker.contains(event.target) && !emojiButton.contains(event.target)) {
+                    emojiPicker.classList.remove('usertoadminchat-active');
+                }
+
+                if (!chatWindow.contains(event.target) && !chatButton.contains(event.target)) {
+                    if (chatWindow.classList.contains('usertoadminchat-active')) {
+                        closeChat();
+                    }
+                }
+            });
+
+            initializeEmojiPicker();
+
+            setTimeout(() => {
+                receiveAdminMessage('আসসালামু আলাইকুম! আমি আপনাকে কিভাবে সাহায্য করতে পারি?');
+            }, 5000);
+        })();
+
+
+
+
+
+

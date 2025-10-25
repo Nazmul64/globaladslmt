@@ -13,7 +13,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::IdB8hpfMmryZKgVY',
+            '_route' => 'generated::Q6aluPu0XZ9D6N3a',
           ),
           1 => NULL,
           2 => 
@@ -50,7 +50,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::V9nlWfUkpRUxPbKB',
+            '_route' => 'generated::Cyj1UF8d7HBPiTT2',
           ),
           1 => NULL,
           2 => 
@@ -105,7 +105,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::VOjNMSmKukfutcr0',
+            '_route' => 'generated::PbTt08QXtcF2fSnP',
           ),
           1 => NULL,
           2 => 
@@ -196,7 +196,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::ROWaNHZb6cZz60sy',
+            '_route' => 'generated::SXTKPeyJkLk09QlY',
           ),
           1 => NULL,
           2 => 
@@ -1039,6 +1039,84 @@ app('router')->setCompiledRoutes(
           2 => 
           array (
             'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/usertoadminchat/fetch' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'usertoadminchat.fetch',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/usertoadminchat/send' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'usertoadminchat.send',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/usertoadminchat/mark-read' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'usertoadminchat.markread',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/usertoadminchat/unread-count' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'usertoadminchat.unreadcount',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
           ),
           3 => NULL,
           4 => false,
@@ -1939,6 +2017,84 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/admin/to/user/tochat/list' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.userchat',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/to/chat/send' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.chat.send',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/agent/chat' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.agent.chat',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/agent/chat/send' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.agent.chat.send',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
       '/agent/login' => 
       array (
         0 => 
@@ -2386,10 +2542,88 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/chat-for-admin' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agentforchat.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/chat/fetch' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agentchatadmin.fetch',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/chat/send' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agentchatforagent.send',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/chat/mark-read' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agentadmin.markread',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
     ),
     2 => 
     array (
-      0 => '{^(?|/pa(?|ssword/reset/([^/]++)(*:34)|ckage/(?|buy/([^/]++)(*:62)|([^/]++)(?|(*:80)|/edit(*:92)|(*:99)))|ymentmethod/([^/]++)(?|(*:131)|/edit(*:144)|(*:152)))|/frontends/userto/agent/chat/message/([^/]++)(*:207)|/a(?|pp(?|setting/([^/]++)(?|(*:244)|/edit(*:257)|(*:265))|rove/([^/]++)(*:287))|gent(?|/(?|approve/([^/]++)(*:323)|reject/([^/]++)(*:346)|kyc/(?|approve/([^/]++)(*:377)|reject/([^/]++)(*:400)))|create/([^/]++)(?|(*:428)|/edit(*:441)|(*:449)))|ds/([^/]++)(?|(*:473)|/edit(*:486)|(*:494)))|/re(?|ffercommission/([^/]++)(?|(*:536)|/edit(*:549)|(*:557))|ject/(?|([^/]++)(*:582)|list(*:594)))|/notice/([^/]++)(?|(*:623)|/edit(*:636)|(*:644))|/w(?|orknotice/([^/]++)(?|(*:679)|/edit(*:692)|(*:700))|hychooseu/([^/]++)(?|(*:730)|/edit(*:743)|(*:751)))|/s(?|upport/([^/]++)(?|(*:784)|/edit(*:797)|(*:805))|t(?|epguide/([^/]++)(?|(*:837)|/edit(*:850)|(*:858))|orage/(.*)(*:877)))|/kyc/(?|approve/([^/]++)(*:911)|reject/([^/]++)(*:934)))/?$}sDu',
+      0 => '{^(?|/pa(?|ssword/reset/([^/]++)(*:34)|ckage/(?|buy/([^/]++)(*:62)|([^/]++)(?|(*:80)|/edit(*:92)|(*:99)))|ymentmethod/([^/]++)(?|(*:131)|/edit(*:144)|(*:152)))|/frontends/userto/agent/chat/message/([^/]++)(*:207)|/a(?|pp(?|setting/([^/]++)(?|(*:244)|/edit(*:257)|(*:265))|rove/([^/]++)(*:287))|gent(?|/(?|approve/([^/]++)(*:323)|reject/([^/]++)(*:346)|kyc/(?|approve/([^/]++)(*:377)|reject/([^/]++)(*:400)))|create/([^/]++)(?|(*:428)|/edit(*:441)|(*:449)))|d(?|s/([^/]++)(?|(*:476)|/edit(*:489)|(*:497))|min/(?|to/chat/fetch/([^/]++)(*:535)|agent/(?|chat/(?|fetch/([^/]++)(*:574)|mark\\-read/([^/]++)(*:601))|unread\\-count/([^/]++)(*:632)))))|/re(?|ffercommission/([^/]++)(?|(*:676)|/edit(*:689)|(*:697))|ject/(?|([^/]++)(*:722)|list(*:734)))|/notice/([^/]++)(?|(*:763)|/edit(*:776)|(*:784))|/w(?|orknotice/([^/]++)(?|(*:819)|/edit(*:832)|(*:840))|hychooseu/([^/]++)(?|(*:870)|/edit(*:883)|(*:891)))|/s(?|upport/([^/]++)(?|(*:924)|/edit(*:937)|(*:945))|t(?|epguide/([^/]++)(?|(*:977)|/edit(*:990)|(*:998))|orage/(.*)(*:1017)))|/kyc/(?|approve/([^/]++)(*:1052)|reject/([^/]++)(*:1076)))/?$}sDu',
     ),
     3 => 
     array (
@@ -2925,7 +3159,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      473 => 
+      476 => 
       array (
         0 => 
         array (
@@ -2948,7 +3182,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      486 => 
+      489 => 
       array (
         0 => 
         array (
@@ -2971,7 +3205,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      494 => 
+      497 => 
       array (
         0 => 
         array (
@@ -3013,7 +3247,98 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      536 => 
+      535 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.chat.fetch',
+          ),
+          1 => 
+          array (
+            0 => 'user_id',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      574 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.agent.chat.fetch',
+          ),
+          1 => 
+          array (
+            0 => 'user_id',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      601 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.agent.markread',
+          ),
+          1 => 
+          array (
+            0 => 'user_id',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      632 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::Dk7obaVwCo4KJ2Eq',
+          ),
+          1 => 
+          array (
+            0 => 'agent',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      676 => 
       array (
         0 => 
         array (
@@ -3036,7 +3361,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      549 => 
+      689 => 
       array (
         0 => 
         array (
@@ -3059,7 +3384,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      557 => 
+      697 => 
       array (
         0 => 
         array (
@@ -3101,7 +3426,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      582 => 
+      722 => 
       array (
         0 => 
         array (
@@ -3124,7 +3449,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      594 => 
+      734 => 
       array (
         0 => 
         array (
@@ -3146,7 +3471,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      623 => 
+      763 => 
       array (
         0 => 
         array (
@@ -3169,7 +3494,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      636 => 
+      776 => 
       array (
         0 => 
         array (
@@ -3192,7 +3517,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      644 => 
+      784 => 
       array (
         0 => 
         array (
@@ -3234,7 +3559,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      679 => 
+      819 => 
       array (
         0 => 
         array (
@@ -3257,7 +3582,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      692 => 
+      832 => 
       array (
         0 => 
         array (
@@ -3280,7 +3605,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      700 => 
+      840 => 
       array (
         0 => 
         array (
@@ -3322,7 +3647,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      730 => 
+      870 => 
       array (
         0 => 
         array (
@@ -3345,7 +3670,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      743 => 
+      883 => 
       array (
         0 => 
         array (
@@ -3368,7 +3693,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      751 => 
+      891 => 
       array (
         0 => 
         array (
@@ -3410,7 +3735,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      784 => 
+      924 => 
       array (
         0 => 
         array (
@@ -3433,7 +3758,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      797 => 
+      937 => 
       array (
         0 => 
         array (
@@ -3456,7 +3781,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      805 => 
+      945 => 
       array (
         0 => 
         array (
@@ -3498,7 +3823,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      837 => 
+      977 => 
       array (
         0 => 
         array (
@@ -3521,7 +3846,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      850 => 
+      990 => 
       array (
         0 => 
         array (
@@ -3544,7 +3869,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      858 => 
+      998 => 
       array (
         0 => 
         array (
@@ -3586,7 +3911,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      877 => 
+      1017 => 
       array (
         0 => 
         array (
@@ -3609,7 +3934,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      911 => 
+      1052 => 
       array (
         0 => 
         array (
@@ -3631,7 +3956,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      934 => 
+      1076 => 
       array (
         0 => 
         array (
@@ -3668,7 +3993,7 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'generated::IdB8hpfMmryZKgVY' => 
+    'generated::Q6aluPu0XZ9D6N3a' => 
     array (
       'methods' => 
       array (
@@ -3697,7 +4022,7 @@ app('router')->setCompiledRoutes(
                         \'exception\' => $exception,
                     ]), status: $exception ? 500 : 200);
                 }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000001010000000000000000";}}',
-        'as' => 'generated::IdB8hpfMmryZKgVY',
+        'as' => 'generated::Q6aluPu0XZ9D6N3a',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3750,7 +4075,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::V9nlWfUkpRUxPbKB' => 
+    'generated::Cyj1UF8d7HBPiTT2' => 
     array (
       'methods' => 
       array (
@@ -3770,7 +4095,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::V9nlWfUkpRUxPbKB',
+        'as' => 'generated::Cyj1UF8d7HBPiTT2',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3859,7 +4184,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::VOjNMSmKukfutcr0' => 
+    'generated::PbTt08QXtcF2fSnP' => 
     array (
       'methods' => 
       array (
@@ -3879,7 +4204,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::VOjNMSmKukfutcr0',
+        'as' => 'generated::PbTt08QXtcF2fSnP',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4078,7 +4403,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::ROWaNHZb6cZz60sy' => 
+    'generated::SXTKPeyJkLk09QlY' => 
     array (
       'methods' => 
       array (
@@ -4098,7 +4423,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::ROWaNHZb6cZz60sy',
+        'as' => 'generated::SXTKPeyJkLk09QlY',
       ),
       'fallback' => false,
       'defaults' => 
@@ -5785,6 +6110,156 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'agentss.user.friend.request.cancel',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'usertoadminchat.fetch' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'usertoadminchat/fetch',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\UsertoadminchatController@fetchMessages',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\UsertoadminchatController@fetchMessages',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'usertoadminchat.fetch',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'usertoadminchat.send' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'usertoadminchat/send',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\UsertoadminchatController@sendMessage',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\UsertoadminchatController@sendMessage',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'usertoadminchat.send',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'usertoadminchat.markread' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'usertoadminchat/mark-read',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\UsertoadminchatController@markRead',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\UsertoadminchatController@markRead',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'usertoadminchat.markread',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'usertoadminchat.unreadcount' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'usertoadminchat/unread-count',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\UsertoadminchatController@unreadCount',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\UsertoadminchatController@unreadCount',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'usertoadminchat.unreadcount',
       ),
       'fallback' => false,
       'defaults' => 
@@ -9494,6 +9969,307 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
+    'admin.userchat' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/to/user/tochat/list',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Backend\\AdminandchatuserController@adminuserchat',
+        'controller' => 'App\\Http\\Controllers\\Backend\\AdminandchatuserController@adminuserchat',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'admin.userchat',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.chat.fetch' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/to/chat/fetch/{user_id}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Backend\\AdminandchatuserController@fetchMessages',
+        'controller' => 'App\\Http\\Controllers\\Backend\\AdminandchatuserController@fetchMessages',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'admin.chat.fetch',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.chat.send' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/to/chat/send',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Backend\\AdminandchatuserController@sendMessage',
+        'controller' => 'App\\Http\\Controllers\\Backend\\AdminandchatuserController@sendMessage',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'admin.chat.send',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.agent.chat' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/agent/chat',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\ChateforagentandadminController@agent_for_chat_admin',
+        'controller' => 'App\\Http\\Controllers\\Agent\\ChateforagentandadminController@agent_for_chat_admin',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'admin.agent.chat',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.agent.chat.fetch' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/agent/chat/fetch/{user_id}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\ChateforagentandadminController@fetchMessages',
+        'controller' => 'App\\Http\\Controllers\\Agent\\ChateforagentandadminController@fetchMessages',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'admin.agent.chat.fetch',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.agent.chat.send' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/agent/chat/send',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\ChateforagentandadminController@sendMessage',
+        'controller' => 'App\\Http\\Controllers\\Agent\\ChateforagentandadminController@sendMessage',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'admin.agent.chat.send',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.agent.markread' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'admin/agent/chat/mark-read/{user_id}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\ChateforagentandadminController@markRead',
+        'controller' => 'App\\Http\\Controllers\\Agent\\ChateforagentandadminController@markRead',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'admin.agent.markread',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'generated::Dk7obaVwCo4KJ2Eq' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/agent/unread-count/{agent}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\ChateforagentandadminController@unreadCount',
+        'controller' => 'App\\Http\\Controllers\\Agent\\ChateforagentandadminController@unreadCount',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'generated::Dk7obaVwCo4KJ2Eq',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
     'agent.login' => 
     array (
       'methods' => 
@@ -10412,6 +11188,156 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'agent.friend.request.cancel',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agentforchat.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'chat-for-admin',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\adminChatforAgentController@index',
+        'controller' => 'App\\Http\\Controllers\\Agent\\adminChatforAgentController@index',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agentforchat.index',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agentchatadmin.fetch' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'chat/fetch',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\adminChatforAgentController@fetchMessages',
+        'controller' => 'App\\Http\\Controllers\\Agent\\adminChatforAgentController@fetchMessages',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agentchatadmin.fetch',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agentchatforagent.send' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'chat/send',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\adminChatforAgentController@sendMessage',
+        'controller' => 'App\\Http\\Controllers\\Agent\\adminChatforAgentController@sendMessage',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agentchatforagent.send',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agentadmin.markread' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'chat/mark-read',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\adminChatforAgentController@markRead',
+        'controller' => 'App\\Http\\Controllers\\Agent\\adminChatforAgentController@markRead',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agentadmin.markread',
       ),
       'fallback' => false,
       'defaults' => 
