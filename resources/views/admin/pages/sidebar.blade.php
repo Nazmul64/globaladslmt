@@ -300,12 +300,32 @@
             </li>
         </ul>
     </li>
-
-
-
-
-
-
+    <li class="dropdown">
+        <a href="javascript:void(0)">
+            <i class="fa-solid fa-coins fa-xl me-2"></i>
+            <span>Agent Deposite Pending</span>
+        </a>
+        <ul class="sidebar-submenu">
+            <li>
+                <a href="{{ route('admin.agent.deposite.pending') }}">
+                    <i class="fa-solid fa-list fa-lg me-2"></i>
+                    Agent Deposite Pending
+                </a>
+            </li>
+            <li>
+            <a href="{{route('admin.agent.deposite.approved.list')}}">
+                <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                Approved  Lists
+            </a>
+            </li>
+            <li>
+            <a href="{{route('admin.agent.deposite.reject.list')}}">
+                <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                Rejected Lists
+            </a>
+            </li>
+        </ul>
+    </li>
       <li>
         <a href="faq.html">
           <iconify-icon icon="mage:message-question-mark-round" class="menu-icon"></iconify-icon>

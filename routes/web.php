@@ -4,12 +4,14 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Agent\adminChatforAgentController;
 use App\Http\Controllers\Agent\AgentchattouserChatController;
+use App\Http\Controllers\Agent\AgentDepositeController;
 use App\Http\Controllers\Agent\AgentPasswordchangeController;
 use App\Http\Controllers\Agent\AgentProfileController;
 use App\Http\Controllers\Agent\AgentrequestAcceptController;
 use App\Http\Controllers\Agent\ChateforagentandadminController;
 use App\Http\Controllers\AppsettingController;
 use App\Http\Controllers\Backend\AdminagentcreateController;
+use App\Http\Controllers\Backend\AdminagentDepositeController;
 use App\Http\Controllers\Backend\AdminandchatuserController;
 use App\Http\Controllers\Backend\AdminApproveController;
 use App\Http\Controllers\Backend\AdminautoController;
@@ -168,32 +170,25 @@ Route::get('admin/to/chat/fetch/{user_id}', [AdminandchatuserController::class, 
 Route::post('admin/to/chat/send', [AdminandchatuserController::class, 'sendMessage'])->name('admin.chat.send');
 Route::get('admin/to/user/unread', [AdminandchatuserController::class, 'unreadCount'])->name('admin.user.unread');
 Route::post('admin/to/chat/mark-read/{user_id}', [AdminandchatuserController::class, 'markRead'])->name('admin.chat.markread');
-
 // Show agent list
 Route::get('admin/agent/chat', [ChateforagentandadminController::class, 'agent_for_chat_admin'])->name('admin.agent.chat');
-
 // Fetch messages
 Route::get('admin/agent/chat/fetch/{user_id}', [ChateforagentandadminController::class, 'fetchMessages'])->name('admin.agent.chat.fetch');
-
 // Send message
 Route::post('admin/agent/chat/send', [ChateforagentandadminController::class, 'sendMessage'])->name('admin.agent.chat.send');
-
 // Mark as read
 Route::post('admin/agent/chat/mark-read/{user_id}', [ChateforagentandadminController::class, 'markRead'])->name('admin.agent.markread');
-
 // Get unread count
 Route::get('admin/agent/unread-count/{agent}', [ChateforagentandadminController::class, 'unreadCount']);
+Route::resource('depositelimit',DepositelimiteController::class);
 
 
 
-
-  Route::resource('depositelimit',DepositelimiteController::class);
-
-
-
-
-
-
+Route::get('admin/agent/deposite', [AdminagentDepositeController::class, 'admin_agemt_deposite_pending'])->name('admin.agent.deposite.pending');
+Route::post('/agent-deposite/approve/{id}', [AdminagentDepositeController::class, 'approve'])->name('admin.agentdeposit.approve');
+Route::post('/agent-deposite/reject/{id}', [AdminagentDepositeController::class, 'reject'])->name('admin.agentdeposit.reject');
+Route::get('admin/agent/deposite/approve/list', [AdminagentDepositeController::class, 'admin_agemt_deposite_approved_list'])->name('admin.agent.deposite.approved.list');
+Route::get('admin/agent/deposite/reject/list', [AdminagentDepositeController::class, 'admin_agemt_deposite_reject_list'])->name('admin.agent.deposite.reject.list');
 
 });
 
@@ -225,23 +220,15 @@ Route::middleware(['agent'])->group(function () {
    Route::get('agentss/kyc/approve/list', [AgentkyapprovedcController::class,'agentapprovedkeylist'])->name('agent.approved.kyc.list');
    Route::get('agentsss/kyc/reject/list', [AgentkyapprovedcController::class,'agentrejectapprovedkeylist'])->name('agent.kyc.reject.list');
 
-    Route::get('agent/user/toagent/chat', [AgentchattouserChatController::class, 'agent_user_toagent_chat'])->name('agent.user.toagent.chat');
-    Route::post('agent/userto/agent/chat/submit', [AgentchattouserChatController::class, 'agent_chat_submit'])->name('agent.chat.agents.submit');
-    Route::get('agent/userto/message/chat/messages', [AgentchattouserChatController::class, 'agent_chat_messages'])->name('agent.toagent.userto.chat.messages');
-    Route::get('agent/userto/unread/agent/chat/unread-counts', [AgentchattouserChatController::class, 'agent_chat_messagesge_tUnreadCounts'])->name('agent.chat.agent.unread');
-
-
-//      // Agent chat page
+   Route::get('agent/user/toagent/chat', [AgentchattouserChatController::class, 'agent_user_toagent_chat'])->name('agent.user.toagent.chat');
+   Route::post('agent/userto/agent/chat/submit', [AgentchattouserChatController::class, 'agent_chat_submit'])->name('agent.chat.agents.submit');
+   Route::get('agent/userto/message/chat/messages', [AgentchattouserChatController::class, 'agent_chat_messages'])->name('agent.toagent.userto.chat.messages');
+   Route::get('agent/userto/unread/agent/chat/unread-counts', [AgentchattouserChatController::class, 'agent_chat_messagesge_tUnreadCounts'])->name('agent.chat.agent.unread');
+// Agent chat page
  // Chat page
     Route::get('agent/user/toagent/chat', [AgentchattouserChatController::class, 'index'])->name('agent.user.toagent.chat');
-
-    // Send message
     Route::post('agent/userto/agent/chat/submit', [AgentchattouserChatController::class, 'sendMessage'])->name('agent.chat.send');
-
-    // Load messages
     Route::get('agent/userto/message/chat/messages', [AgentchattouserChatController::class, 'messages'])->name('agent.chat.messages');
-
-    // Unread counts
     Route::get('agent/userto/unread/agent/chat/unread-counts', [AgentchattouserChatController::class, 'unreadCounts'])->name('agent.chat.unread');
     Route::get('/agent/friend/request/accept/view',[AgentrequestAcceptController::class, 'agentacceptRequestview'])->name('agent.friend.request.accept.view');
     Route::post('/agent/friend/request/accept',[AgentrequestAcceptController::class, 'agentacceptRequest'])->name('agent.friend.request.accept');
@@ -251,6 +238,15 @@ Route::middleware(['agent'])->group(function () {
     Route::get('/chat/fetch', [adminChatforAgentController::class, 'fetchMessages'])->name('agentchatadmin.fetch');
     Route::post('/chat/send', [adminChatforAgentController::class, 'sendMessage'])->name('agentchatforagent.send');
     Route::post('/chat/mark-read', [adminChatforAgentController::class, 'markRead'])->name('agentadmin.markread');
+ // Chat page Ende
+
+
+
+  // Agent Deposite Start
+   Route::get('Agent/deposite', [AgentDepositeController::class, 'agentdeposite'])->name('agent.deposite');
+   Route::post('/agent/deposite/store', [AgentDepositeController::class, 'store'])->name('agent.deposite.store');
+
+  // Agent Deposite End
 });
 
 
