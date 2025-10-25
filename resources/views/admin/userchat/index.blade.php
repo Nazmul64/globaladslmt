@@ -27,21 +27,19 @@
       </div>
 
       {{-- Chat Area --}}
-      <div class="chat-main card flex-grow-1 p-3">
+      <div class="chat-main card flex-grow-1 p-3 d-flex flex-column">
         <h6 id="chatUserName" class="mb-3">Select a user</h6>
 
-        <div id="chatBox" class="border rounded p-2 mb-3" style="height:450px; overflow-y:auto;">
+        <div id="chatBox" class="border rounded p-2 mb-3 flex-grow-1 overflow-auto">
           <p class="text-muted text-center mt-5">No chat selected</p>
         </div>
 
-        <form id="chatForm" enctype="multipart/form-data">
+        <form id="chatForm" enctype="multipart/form-data" class="d-flex gap-2">
           @csrf
           <input type="hidden" name="receiver_id" id="receiver_id">
-          <div class="d-flex align-items-center gap-2">
-            <input type="text" class="form-control" name="message" id="message" placeholder="Type a message...">
-            <input type="file" name="image" id="chatImage" class="form-control" style="width:180px;">
-            <button type="submit" class="btn btn-primary">Send</button>
-          </div>
+          <input type="text" class="form-control" name="message" id="message" placeholder="Type a message...">
+          <input type="file" name="image" id="chatImage" class="form-control" style="width:180px;">
+          <button type="submit" class="btn btn-primary">Send</button>
         </form>
       </div>
     </div>
@@ -58,47 +56,46 @@ document.addEventListener("DOMContentLoaded", function() {
     let selectedUser = null;
     let lastMessageId = 0;
 
-    // fetch unread counts and move recent users to top
-    function fetchUnread() {
-        fetch("{{ route('admin.user.unread') }}") // new route
-        .then(res => res.json())
-        .then(data => {
-            Object.keys(data).forEach(userId => {
-                const userEl = document.querySelector(`.user-item[data-id='${userId}']`);
-                const badge = userEl.querySelector(".unread-count");
-                const count = data[userId];
+    // Fetch unread counts and move recent users to top
+    async function fetchUnread() {
+        const res = await fetch("{{ route('admin.user.unread') }}");
+        const data = await res.json();
+        Object.keys(data).forEach(userId => {
+            const userEl = document.querySelector(`.user-item[data-id='${userId}']`);
+            const badge = userEl.querySelector(".unread-count");
+            const count = data[userId];
 
-                if(count > 0){
-                    badge.style.display = "inline-block";
-                    badge.innerText = count;
-                    // Move user to top
-                    userEl.parentNode.prepend(userEl);
-                    userEl.style.fontWeight = "bold";
-                }else{
-                    badge.style.display = "none";
-                    userEl.style.fontWeight = "normal";
-                }
-            });
+            if(count > 0){
+                badge.style.display = "inline-block";
+                badge.innerText = count;
+                userEl.parentNode.prepend(userEl); // move to top
+                userEl.style.fontWeight = "bold";
+            } else {
+                badge.style.display = "none";
+                userEl.style.fontWeight = "normal";
+            }
         });
     }
 
-    // call initially
+    // Initial fetch and interval
     fetchUnread();
     setInterval(fetchUnread, 2000);
 
-    // User select
+    // Select user
     document.querySelectorAll(".user-item").forEach(item => {
-        item.addEventListener("click", function() {
-            document.querySelectorAll(".user-item").forEach(u => u.classList.remove("bg-primary", "text-white"));
-            this.classList.add("bg-primary", "text-white");
+        item.addEventListener("click", async function() {
+            document.querySelectorAll(".user-item").forEach(u => u.classList.remove("bg-primary","text-white"));
+            this.classList.add("bg-primary","text-white");
 
             selectedUser = this.dataset.id;
             receiverInput.value = selectedUser;
             chatUserName.innerText = this.querySelector("strong").innerText;
 
-            // mark as read
-            fetch(`/admin/to/chat/mark-read/${selectedUser}`, { method: 'POST', headers: {'X-CSRF-TOKEN':'{{ csrf_token() }}'}})
-            .then(()=> fetchUnread());
+            // Mark as read
+            await fetch(`/admin/to/chat/mark-read/${selectedUser}`, {
+                method: 'POST',
+                headers: {'X-CSRF-TOKEN':'{{ csrf_token() }}'}
+            });
 
             lastMessageId = 0;
             chatBox.innerHTML = '';
@@ -106,18 +103,17 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // load messages (append only new)
-    function loadMessages() {
+    // Load new messages
+    async function loadMessages() {
         if(!selectedUser) return;
-        fetch(`/admin/to/chat/fetch/${selectedUser}?last_id=${lastMessageId}`)
-        .then(res=>res.json())
-        .then(data=>{
-            data.forEach(msg => {
-                if(msg.id > lastMessageId){
-                    appendMessage(msg);
-                    lastMessageId = msg.id;
-                }
-            });
+        const res = await fetch(`/admin/to/chat/fetch/${selectedUser}?last_id=${lastMessageId}`);
+        const data = await res.json();
+
+        data.forEach(msg => {
+            if(msg.id > lastMessageId){
+                appendMessage(msg);
+                lastMessageId = msg.id;
+            }
         });
     }
 
@@ -125,36 +121,36 @@ document.addEventListener("DOMContentLoaded", function() {
         const isAdmin = msg.sender_id === {{ Auth::id() }};
         const side = isAdmin ? 'text-end' : 'text-start';
         let content = `<div class="${side} mb-2 ${!isAdmin && !msg.is_read ? 'bg-success text-white p-1 rounded' : ''}">`;
+
         if(msg.message) content += `<div class="p-2 rounded bg-light d-inline-block">${msg.message}</div>`;
         if(msg.image) content += `<br><img src="/storage/${msg.image}" width="120" class="rounded mt-1">`;
         content += `</div>`;
+
         chatBox.innerHTML += content;
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    // send message
-    chatForm.addEventListener("submit", function(e){
+    // Send message
+    chatForm.addEventListener("submit", async function(e){
         e.preventDefault();
         if(!receiverInput.value) return alert("Please select a user first!");
         const formData = new FormData(chatForm);
 
-        fetch("{{ route('admin.chat.send') }}", {
-            method:"POST",
+        const res = await fetch("{{ route('admin.chat.send') }}", {
+            method: "POST",
             body: formData
-        })
-        .then(res=>res.json())
-        .then(data=>{
-            if(data.success){
-                messageInput.value = '';
-                document.getElementById("chatImage").value = '';
-                appendMessage(data.chat);
-            }
         });
+        const data = await res.json();
+
+        if(data.success){
+            messageInput.value = '';
+            document.getElementById("chatImage").value = '';
+            appendMessage(data.chat);
+        }
     });
 
-    // auto load messages
+    // Auto load messages every 2 seconds
     setInterval(loadMessages, 2000);
-
 });
 </script>
 

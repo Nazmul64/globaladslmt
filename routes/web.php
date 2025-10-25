@@ -21,6 +21,7 @@ use App\Http\Controllers\Backend\AdsController;
 use App\Http\Controllers\Backend\AgentauthController;
 use App\Http\Controllers\Backend\AgentController;
 use App\Http\Controllers\Backend\AgentkyapprovedcController;
+use App\Http\Controllers\Backend\DepositelimiteController;
 use App\Http\Controllers\Backend\NoticesController;
 use App\Http\Controllers\Backend\PackageController;
 use App\Http\Controllers\Backend\PaymentmethodController;
@@ -117,15 +118,10 @@ Route::post('/user/agent/friend/request/accept', [UserfriendrequestforAgentContr
 Route::post('/user/agent/friend/request/reject', [UserfriendrequestforAgentController::class, 'agentrejectRequest'])->name('agentss.user.friend.request.reject');
 Route::post('user/agent/cancel/friend/request', [UserfriendrequestforAgentController::class, 'agentcancelFriendRequest'])->name('agentss.user.friend.request.cancel');
   /* User To agent chat Route end*/
-// Route::get('/usertoadminchat/fetch', [UsertoadminchatController::class, 'fetchMessages'])->name('usertoadminchat.fetch');
-// Route::post('/usertoadminchat/send', [UsertoadminChatController::class, 'sendMessage'])->name('usertoadminchat.send');
-// Route::post('/usertoadminchat/mark-read', [UsertoadminchatController::class, 'markRead'])->name('usertoadminchat.markread');
 Route::get('/usertoadminchat/fetch', [UsertoadminchatController::class, 'fetchMessages'])->name('usertoadminchat.fetch');
 Route::post('/usertoadminchat/send', [UsertoadminchatController::class, 'sendMessage'])->name('usertoadminchat.send');
 Route::post('/usertoadminchat/mark-read', [UsertoadminchatController::class, 'markRead'])->name('usertoadminchat.markread');
 Route::get('/usertoadminchat/unread-count', [UsertoadminchatController::class, 'unreadCount'])->name('usertoadminchat.unreadcount');
-
-
 
 });
 // Frontend Route Controller End
@@ -135,7 +131,6 @@ Route::get('admin/login', [AdminautoController::class, 'admin_login'])->name('ad
 Route::post('admin/login/submit', [AdminautoController::class, 'admin_submit'])->name('admin.submit');
 Route::post('admin/logout', [AdminautoController::class, 'admin_logout'])->name('admin.logout');
 // Admin Login  Controller Start
-
 
 // Admin Route Controller Start
 Route::middleware(['is_admin'])->group(function () {
@@ -168,31 +163,11 @@ Route::middleware(['is_admin'])->group(function () {
   Route::get('admin/kyc/reject/list', [KeyController::class, 'frontend_kyc_reject_list'])->name('frontend.kyc.reject.list');
   Route::resource('ads',AdsController::class);
   Route::post('admin/user/block/unblock', [AdminBlockuserController::class, 'admin_block_user'])->name('admin.block.user');
-
-
 Route::get('admin/to/user/tochat/list', [AdminandchatuserController::class, 'adminuserchat'])->name('admin.userchat');
 Route::get('admin/to/chat/fetch/{user_id}', [AdminandchatuserController::class, 'fetchMessages'])->name('admin.chat.fetch');
 Route::post('admin/to/chat/send', [AdminandchatuserController::class, 'sendMessage'])->name('admin.chat.send');
-
-
-
-
-// Route::get('admin/agent/to/agent/tochat/list', [ChateforagentandadminController::class, 'agent_for_chat_admin'])->name('admin.agent.chat');
-// Route::get('admin/agent/to/chat/fetch/{user_id}', [ChateforagentandadminController::class, 'fetchMessages'])->name('admin.agent.chat.fetch');
-// Route::post('admin/agent/to/chat/send', [ChateforagentandadminController::class, 'sendMessage'])->name('admin.agent.chat.send');
-// Route::get('admin/agent/user/unread-count', [ChateforagentandadminController::class,'unreadCount'])->name('admin.user.agent.unread');
-// Route::post('admin/agent/to/chat/mark-read/{user_id}', [ChateforagentandadminController::class,'markRead']);
-
-// Route::get('agent/to/agent/tochat/list', [ChateforagentandadminController::class, 'agent_for_chat_admin'])->name('admin.agent.chat');
-// Route::get('agent/to/chat/fetch/{user_id}', [ChateforagentandadminController::class, 'fetchMessages'])->name('admin.agent.chat.fetch');
-// Route::post('agent/to/chat/send', [ChateforagentandadminController::class, 'sendMessage'])->name('admin.agent.chat.send');
-// Route::get('agent/user/unread-count', [ChateforagentandadminController::class,'unreadCount'])->name('admin.user.agent.unread');
-// Route::post('agent/to/chat/mark-read/{user_id}', [ChateforagentandadminController::class,'markRead'])->name('admin.agent.markread');
-// Route::get('/admin/agent/unread-count/{agent}', [ChateforagentandadminController::class, 'unreadCount']);
-
-
-
-
+Route::get('admin/to/user/unread', [AdminandchatuserController::class, 'unreadCount'])->name('admin.user.unread');
+Route::post('admin/to/chat/mark-read/{user_id}', [AdminandchatuserController::class, 'markRead'])->name('admin.chat.markread');
 
 // Show agent list
 Route::get('admin/agent/chat', [ChateforagentandadminController::class, 'agent_for_chat_admin'])->name('admin.agent.chat');
@@ -208,6 +183,14 @@ Route::post('admin/agent/chat/mark-read/{user_id}', [ChateforagentandadminContro
 
 // Get unread count
 Route::get('admin/agent/unread-count/{agent}', [ChateforagentandadminController::class, 'unreadCount']);
+
+
+
+
+  Route::resource('depositelimit',DepositelimiteController::class);
+
+
+
 
 
 
@@ -236,9 +219,6 @@ Route::middleware(['agent'])->group(function () {
    Route::post('agent/password/submit', [AgentPasswordchangeController::class, 'agent_password_submit'])->name('agent.password.submit');
    Route::get('agent/kyc', [AgentkycController::class, 'agent_key'])->name('agent.key');
    Route::post('agent/kyc/submit', [AgentkycController::class, 'agent_key_submit'])->name('agent.key.submit');
-
-
-
    Route::get('agent/kyc/kyclist', [AgentkyapprovedcController::class,'agentkyclist'])->name('agent.kyc.list');
    Route::post('agent/kyc/approve/{id}', [AgentkyapprovedcController::class,'agentapprovedkey'])->name('agent.kyc.approve');
    Route::post('agent/kyc/reject/{id}', [AgentkyapprovedcController::class,'agentrejectapprovedkey'])->name('agent.kyc.reject');
@@ -263,33 +243,10 @@ Route::middleware(['agent'])->group(function () {
 
     // Unread counts
     Route::get('agent/userto/unread/agent/chat/unread-counts', [AgentchattouserChatController::class, 'unreadCounts'])->name('agent.chat.unread');
-
-
-
-
-// Route::get('agent/user/chat', [AgentchattouserChatController::class, 'index'])->name('agent.user.toagent.chat');
-// Route::post('agents/user/chat/submit', [AgentchattouserChatController::class, 'sendMessage'])->name('user.chat.agents.submit');
-// Route::get('agent/user/chat/messages', [AgentchattouserChatController::class, 'messages'])->name('user.toagent.userto.chat.messages');
-// Route::get('agent/user/chat/unread', [AgentchattouserChatController::class, 'unreadCounts'])->name('user.chat.unread');
-
-
-
-
-
     Route::get('/agent/friend/request/accept/view',[AgentrequestAcceptController::class, 'agentacceptRequestview'])->name('agent.friend.request.accept.view');
     Route::post('/agent/friend/request/accept',[AgentrequestAcceptController::class, 'agentacceptRequest'])->name('agent.friend.request.accept');
     Route::post('/agent/friend/request/reject', [AgentrequestAcceptController::class, 'agentrejectRequest'])->name('agent.friend.request.reject');
     Route::post('/agent/friend/request/cancel',[AgentrequestAcceptController::class, 'agentcancelFriendRequest'])->name('agent.friend.request.cancel');
-
-
-
-
-
-// Route::get('/agent/chatfor/admin', [adminChatforAgentController::class, 'index'])->name('agentforchat.index');
-// Route::get('/agent/chat/for/admin', [adminChatforAgentController::class, 'fetchMessages'])->name('agentchatadmin.fetch');
-// Route::post('/agent/send', [adminChatforAgentController::class, 'sendMessage'])->name('agentchatforagent.send');
-// Route::post('/agent/form/mark-read', [adminChatforAgentController::class, 'markRead'])->name('agentadmin.markread');
-// Route::get('/agent/form/unread-count', [adminChatforAgentController::class, 'unreadCount'])->name('agentagentforadmin.unreadcount');
     Route::get('/chat-for-admin', [adminChatforAgentController::class, 'index'])->name('agentforchat.index');
     Route::get('/chat/fetch', [adminChatforAgentController::class, 'fetchMessages'])->name('agentchatadmin.fetch');
     Route::post('/chat/send', [adminChatforAgentController::class, 'sendMessage'])->name('agentchatforagent.send');

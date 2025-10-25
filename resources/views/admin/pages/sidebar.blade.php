@@ -286,6 +286,25 @@
             </li>
         </ul>
     </li>
+    <li class="dropdown">
+        <a href="javascript:void(0)">
+            <i class="fa-solid fa-coins fa-xl me-2"></i>
+            <span>Deposit Limit Setup</span>
+        </a>
+        <ul class="sidebar-submenu">
+            <li>
+                <a href="{{ route('depositelimit.index') }}">
+                    <i class="fa-solid fa-list fa-lg me-2"></i>
+                    Deposit Limit List
+                </a>
+            </li>
+        </ul>
+    </li>
+
+
+
+
+
 
       <li>
         <a href="faq.html">

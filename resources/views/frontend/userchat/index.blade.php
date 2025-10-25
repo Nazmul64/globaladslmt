@@ -11,7 +11,7 @@
                     <h3>Chat</h3>
                 </div>
                 <div class="search-wrap">
-                    <i class="fas fa-search search-icon"></i>
+
                     <input id="searchInput" type="text" placeholder="Search contacts..." autocomplete="off">
                 </div>
             </div>
