@@ -41,6 +41,8 @@
           </li>
         </ul>
       </li>
+
+
     <li class="dropdown">
         <a href="javascript:void(0)">
             <iconify-icon icon="mdi:bank-transfer" class="menu-icon"></iconify-icon>
@@ -68,6 +70,30 @@
                 <a href="{{ route('agent.deposite.reject.list') }}">
                     <iconify-icon icon="mdi:close-circle" class="menu-icon text-danger"></iconify-icon>
                     Rejected List
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li class="dropdown">
+        <a href="javascript:void(0)">
+            <!-- Iconify icon -->
+            <iconify-icon icon="icon-park-outline:setting-two" class="menu-icon" width="20" height="20"></iconify-icon>
+            <span>Agent Buy/Sell Post</span>
+            <!-- Dropdown arrow -->
+            <i class="ri-arrow-down-s-line float-end"></i>
+        </a>
+        <ul class="sidebar-submenu">
+            <li>
+                <a href="{{ route('agentbuysellpost.index') }}">
+                    <!-- Circle small icon for submenu -->
+                    <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                    View Posts
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('agentbuysellpost.create') }}">
+                    <i class="ri-add-line circle-icon text-success-600 w-auto"></i>
+                    Create Post
                 </a>
             </li>
         </ul>

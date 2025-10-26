@@ -13,7 +13,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::7c3PNr1i9tET8A0L',
+            '_route' => 'generated::xp2PmQl5JfHefF8W',
           ),
           1 => NULL,
           2 => 
@@ -50,7 +50,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::5EuMeCqHPc5QSWJU',
+            '_route' => 'generated::KeVLI0yNzNCCOaFC',
           ),
           1 => NULL,
           2 => 
@@ -105,7 +105,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::Wr3EMFExNr0SY6ej',
+            '_route' => 'generated::dFjOKtglOfYID7U0',
           ),
           1 => NULL,
           2 => 
@@ -196,7 +196,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::1M5JdCv8NmGZlhge',
+            '_route' => 'generated::b4crF82CPeq3TQn6',
           ),
           1 => NULL,
           2 => 
@@ -1111,6 +1111,26 @@ app('router')->setCompiledRoutes(
           0 => 
           array (
             '_route' => 'usertoadminchat.unreadcount',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/frontend/buysellpost' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'buy.sellpost',
           ),
           1 => NULL,
           2 => 
@@ -2231,6 +2251,62 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/category' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'category.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'category.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/category/create' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'category.create',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
       '/agent/login' => 
       array (
         0 => 
@@ -2835,10 +2911,66 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/agentbuysellpost' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agentbuysellpost.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agentbuysellpost.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/agentbuysellpost/create' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agentbuysellpost.create',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
     ),
     2 => 
     array (
-      0 => '{^(?|/pa(?|ssword/reset/([^/]++)(*:34)|ckage/(?|buy/([^/]++)(*:62)|([^/]++)(?|(*:80)|/edit(*:92)|(*:99)))|ymentmethod/([^/]++)(?|(*:131)|/edit(*:144)|(*:152)))|/frontends/userto/agent/chat/message/([^/]++)(*:207)|/a(?|pp(?|setting/([^/]++)(?|(*:244)|/edit(*:257)|(*:265))|rove/([^/]++)(*:287))|gent(?|/(?|approve/([^/]++)(*:323)|reject/([^/]++)(*:346)|kyc/(?|approve/([^/]++)(*:377)|reject/([^/]++)(*:400)))|create/([^/]++)(?|(*:428)|/edit(*:441)|(*:449))|\\-deposite/(?|approve/([^/]++)(*:488)|reject/([^/]++)(*:511)))|d(?|s/([^/]++)(?|(*:538)|/edit(*:551)|(*:559))|min/(?|to/chat/(?|fetch/([^/]++)(*:600)|mark\\-read/([^/]++)(*:627))|agent/(?|chat/(?|fetch/([^/]++)(*:667)|mark\\-read/([^/]++)(*:694))|unread\\-count/([^/]++)(*:725)))))|/re(?|ffercommission/([^/]++)(?|(*:769)|/edit(*:782)|(*:790))|ject/(?|([^/]++)(*:815)|list(*:827)))|/notice/([^/]++)(?|(*:856)|/edit(*:869)|(*:877))|/w(?|orknotice/([^/]++)(?|(*:912)|/edit(*:925)|(*:933))|hychooseu/([^/]++)(?|(*:963)|/edit(*:976)|(*:984)))|/s(?|upport/([^/]++)(?|(*:1017)|/edit(*:1031)|(*:1040))|t(?|epguide/([^/]++)(?|(*:1073)|/edit(*:1087)|(*:1096))|orage/(.*)(*:1116)))|/kyc/(?|approve/([^/]++)(*:1151)|reject/([^/]++)(*:1175))|/depositelimit/([^/]++)(?|(*:1211)|/edit(*:1225)|(*:1234)))/?$}sDu',
+      0 => '{^(?|/pa(?|ssword/reset/([^/]++)(*:34)|ckage/(?|buy/([^/]++)(*:62)|([^/]++)(?|(*:80)|/edit(*:92)|(*:99)))|ymentmethod/([^/]++)(?|(*:131)|/edit(*:144)|(*:152)))|/frontends/userto/agent/chat/message/([^/]++)(*:207)|/a(?|pp(?|setting/([^/]++)(?|(*:244)|/edit(*:257)|(*:265))|rove/([^/]++)(*:287))|gent(?|/(?|approve/([^/]++)(*:323)|reject/([^/]++)(*:346)|kyc/(?|approve/([^/]++)(*:377)|reject/([^/]++)(*:400)))|create/([^/]++)(?|(*:428)|/edit(*:441)|(*:449))|\\-deposite/(?|approve/([^/]++)(*:488)|reject/([^/]++)(*:511))|buysellpost/([^/]++)(?|(*:543)|/edit(*:556)|(*:564)))|d(?|s/([^/]++)(?|(*:591)|/edit(*:604)|(*:612))|min/(?|to/chat/(?|fetch/([^/]++)(*:653)|mark\\-read/([^/]++)(*:680))|agent/(?|chat/(?|fetch/([^/]++)(*:720)|mark\\-read/([^/]++)(*:747))|unread\\-count/([^/]++)(*:778)))))|/re(?|ffercommission/([^/]++)(?|(*:822)|/edit(*:835)|(*:843))|ject/(?|([^/]++)(*:868)|list(*:880)))|/notice/([^/]++)(?|(*:909)|/edit(*:922)|(*:930))|/w(?|orknotice/([^/]++)(?|(*:965)|/edit(*:978)|(*:986))|hychooseu/([^/]++)(?|(*:1016)|/edit(*:1030)|(*:1039)))|/s(?|upport/([^/]++)(?|(*:1073)|/edit(*:1087)|(*:1096))|t(?|epguide/([^/]++)(?|(*:1129)|/edit(*:1143)|(*:1152))|orage/(.*)(*:1172)))|/kyc/(?|approve/([^/]++)(*:1207)|reject/([^/]++)(*:1231))|/depositelimit/([^/]++)(?|(*:1267)|/edit(*:1281)|(*:1290))|/category/([^/]++)(?|(*:1321)|/edit(*:1335)|(*:1344)))/?$}sDu',
     ),
     3 => 
     array (
@@ -3418,7 +3550,95 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      538 => 
+      543 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agentbuysellpost.show',
+          ),
+          1 => 
+          array (
+            0 => 'agentbuysellpost',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      556 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agentbuysellpost.edit',
+          ),
+          1 => 
+          array (
+            0 => 'agentbuysellpost',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      564 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agentbuysellpost.update',
+          ),
+          1 => 
+          array (
+            0 => 'agentbuysellpost',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agentbuysellpost.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'agentbuysellpost',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      591 => 
       array (
         0 => 
         array (
@@ -3441,7 +3661,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      551 => 
+      604 => 
       array (
         0 => 
         array (
@@ -3464,7 +3684,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      559 => 
+      612 => 
       array (
         0 => 
         array (
@@ -3506,7 +3726,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      600 => 
+      653 => 
       array (
         0 => 
         array (
@@ -3529,7 +3749,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      627 => 
+      680 => 
       array (
         0 => 
         array (
@@ -3551,7 +3771,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      667 => 
+      720 => 
       array (
         0 => 
         array (
@@ -3574,7 +3794,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      694 => 
+      747 => 
       array (
         0 => 
         array (
@@ -3596,13 +3816,13 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      725 => 
+      778 => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'generated::4O5gt3Lx0BbNSA4k',
+            '_route' => 'generated::Hhs0rvIVnxMX3qu3',
           ),
           1 => 
           array (
@@ -3619,7 +3839,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      769 => 
+      822 => 
       array (
         0 => 
         array (
@@ -3642,7 +3862,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      782 => 
+      835 => 
       array (
         0 => 
         array (
@@ -3665,7 +3885,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      790 => 
+      843 => 
       array (
         0 => 
         array (
@@ -3707,7 +3927,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      815 => 
+      868 => 
       array (
         0 => 
         array (
@@ -3730,7 +3950,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      827 => 
+      880 => 
       array (
         0 => 
         array (
@@ -3752,7 +3972,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      856 => 
+      909 => 
       array (
         0 => 
         array (
@@ -3775,7 +3995,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      869 => 
+      922 => 
       array (
         0 => 
         array (
@@ -3798,7 +4018,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      877 => 
+      930 => 
       array (
         0 => 
         array (
@@ -3840,7 +4060,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      912 => 
+      965 => 
       array (
         0 => 
         array (
@@ -3863,7 +4083,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      925 => 
+      978 => 
       array (
         0 => 
         array (
@@ -3886,7 +4106,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      933 => 
+      986 => 
       array (
         0 => 
         array (
@@ -3928,7 +4148,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      963 => 
+      1016 => 
       array (
         0 => 
         array (
@@ -3951,7 +4171,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      976 => 
+      1030 => 
       array (
         0 => 
         array (
@@ -3974,7 +4194,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      984 => 
+      1039 => 
       array (
         0 => 
         array (
@@ -4016,7 +4236,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1017 => 
+      1073 => 
       array (
         0 => 
         array (
@@ -4039,7 +4259,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1031 => 
+      1087 => 
       array (
         0 => 
         array (
@@ -4062,7 +4282,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1040 => 
+      1096 => 
       array (
         0 => 
         array (
@@ -4104,7 +4324,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1073 => 
+      1129 => 
       array (
         0 => 
         array (
@@ -4127,7 +4347,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1087 => 
+      1143 => 
       array (
         0 => 
         array (
@@ -4150,7 +4370,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1096 => 
+      1152 => 
       array (
         0 => 
         array (
@@ -4192,7 +4412,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1116 => 
+      1172 => 
       array (
         0 => 
         array (
@@ -4215,7 +4435,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1151 => 
+      1207 => 
       array (
         0 => 
         array (
@@ -4237,7 +4457,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1175 => 
+      1231 => 
       array (
         0 => 
         array (
@@ -4259,7 +4479,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1211 => 
+      1267 => 
       array (
         0 => 
         array (
@@ -4282,7 +4502,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1225 => 
+      1281 => 
       array (
         0 => 
         array (
@@ -4305,7 +4525,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1234 => 
+      1290 => 
       array (
         0 => 
         array (
@@ -4346,6 +4566,94 @@ app('router')->setCompiledRoutes(
           5 => true,
           6 => NULL,
         ),
+      ),
+      1321 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'category.show',
+          ),
+          1 => 
+          array (
+            0 => 'category',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      1335 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'category.edit',
+          ),
+          1 => 
+          array (
+            0 => 'category',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      1344 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'category.update',
+          ),
+          1 => 
+          array (
+            0 => 'category',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'category.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'category',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
         2 => 
         array (
           0 => NULL,
@@ -4362,7 +4670,7 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'generated::7c3PNr1i9tET8A0L' => 
+    'generated::xp2PmQl5JfHefF8W' => 
     array (
       'methods' => 
       array (
@@ -4391,7 +4699,7 @@ app('router')->setCompiledRoutes(
                         \'exception\' => $exception,
                     ]), status: $exception ? 500 : 200);
                 }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000001010000000000000000";}}',
-        'as' => 'generated::7c3PNr1i9tET8A0L',
+        'as' => 'generated::xp2PmQl5JfHefF8W',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4444,7 +4752,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::5EuMeCqHPc5QSWJU' => 
+    'generated::KeVLI0yNzNCCOaFC' => 
     array (
       'methods' => 
       array (
@@ -4464,7 +4772,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::5EuMeCqHPc5QSWJU',
+        'as' => 'generated::KeVLI0yNzNCCOaFC',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4553,7 +4861,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::Wr3EMFExNr0SY6ej' => 
+    'generated::dFjOKtglOfYID7U0' => 
     array (
       'methods' => 
       array (
@@ -4573,7 +4881,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::Wr3EMFExNr0SY6ej',
+        'as' => 'generated::dFjOKtglOfYID7U0',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4772,7 +5080,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::1M5JdCv8NmGZlhge' => 
+    'generated::b4crF82CPeq3TQn6' => 
     array (
       'methods' => 
       array (
@@ -4792,7 +5100,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::1M5JdCv8NmGZlhge',
+        'as' => 'generated::b4crF82CPeq3TQn6',
       ),
       'fallback' => false,
       'defaults' => 
@@ -6629,6 +6937,44 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'usertoadminchat.unreadcount',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'buy.sellpost' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'frontend/buysellpost',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\BuyandsellposController@buysellpost',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\BuyandsellposController@buysellpost',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'buy.sellpost',
       ),
       'fallback' => false,
       'defaults' => 
@@ -10676,7 +11022,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::4O5gt3Lx0BbNSA4k' => 
+    'generated::Hhs0rvIVnxMX3qu3' => 
     array (
       'methods' => 
       array (
@@ -10698,7 +11044,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::4O5gt3Lx0BbNSA4k',
+        'as' => 'generated::Hhs0rvIVnxMX3qu3',
       ),
       'fallback' => false,
       'defaults' => 
@@ -11151,6 +11497,270 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'admin.agent.deposite.reject.list',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'category.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'category',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'category.index',
+        'uses' => 'App\\Http\\Controllers\\Backend\\CategoryController@index',
+        'controller' => 'App\\Http\\Controllers\\Backend\\CategoryController@index',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'category.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'category/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'category.create',
+        'uses' => 'App\\Http\\Controllers\\Backend\\CategoryController@create',
+        'controller' => 'App\\Http\\Controllers\\Backend\\CategoryController@create',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'category.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'category',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'category.store',
+        'uses' => 'App\\Http\\Controllers\\Backend\\CategoryController@store',
+        'controller' => 'App\\Http\\Controllers\\Backend\\CategoryController@store',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'category.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'category/{category}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'category.show',
+        'uses' => 'App\\Http\\Controllers\\Backend\\CategoryController@show',
+        'controller' => 'App\\Http\\Controllers\\Backend\\CategoryController@show',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'category.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'category/{category}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'category.edit',
+        'uses' => 'App\\Http\\Controllers\\Backend\\CategoryController@edit',
+        'controller' => 'App\\Http\\Controllers\\Backend\\CategoryController@edit',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'category.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'category/{category}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'category.update',
+        'uses' => 'App\\Http\\Controllers\\Backend\\CategoryController@update',
+        'controller' => 'App\\Http\\Controllers\\Backend\\CategoryController@update',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'category.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'category/{category}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'category.destroy',
+        'uses' => 'App\\Http\\Controllers\\Backend\\CategoryController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Backend\\CategoryController@destroy',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
       ),
       'fallback' => false,
       'defaults' => 
@@ -12385,6 +12995,270 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'agent.deposite.reject.list',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agentbuysellpost.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'agentbuysellpost',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'as' => 'agentbuysellpost.index',
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentbuysellPostCreateController@index',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentbuysellPostCreateController@index',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agentbuysellpost.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'agentbuysellpost/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'as' => 'agentbuysellpost.create',
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentbuysellPostCreateController@create',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentbuysellPostCreateController@create',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agentbuysellpost.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'agentbuysellpost',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'as' => 'agentbuysellpost.store',
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentbuysellPostCreateController@store',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentbuysellPostCreateController@store',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agentbuysellpost.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'agentbuysellpost/{agentbuysellpost}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'as' => 'agentbuysellpost.show',
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentbuysellPostCreateController@show',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentbuysellPostCreateController@show',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agentbuysellpost.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'agentbuysellpost/{agentbuysellpost}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'as' => 'agentbuysellpost.edit',
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentbuysellPostCreateController@edit',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentbuysellPostCreateController@edit',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agentbuysellpost.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'agentbuysellpost/{agentbuysellpost}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'as' => 'agentbuysellpost.update',
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentbuysellPostCreateController@update',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentbuysellPostCreateController@update',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agentbuysellpost.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'agentbuysellpost/{agentbuysellpost}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'as' => 'agentbuysellpost.destroy',
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentbuysellPostCreateController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentbuysellPostCreateController@destroy',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
       ),
       'fallback' => false,
       'defaults' => 

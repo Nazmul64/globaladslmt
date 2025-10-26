@@ -326,12 +326,23 @@
             </li>
         </ul>
     </li>
-      <li>
-        <a href="faq.html">
-          <iconify-icon icon="mage:message-question-mark-round" class="menu-icon"></iconify-icon>
-          <span>FAQs</span>
+
+    <li class="dropdown">
+        <a href="javascript:void(0)">
+            <i class="fa-solid fa-tags fa-xl me-2"></i>
+            <span> Category</span>
         </a>
-      </li>
+        <ul class="sidebar-submenu">
+            <li>
+                <a href="{{ route('category.index') }}">
+                    <i class="fa-solid fa-list fa-lg me-2"></i>
+                    Category
+                </a>
+            </li>
+        </ul>
+    </li>
+
+
 
 
 

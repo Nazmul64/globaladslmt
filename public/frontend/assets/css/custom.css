@@ -8525,3 +8525,228 @@ html::-webkit-scrollbar {
     }
 
 
+
+
+
+    .agentanduserbuyandsell-container {
+            max-width: 500px;
+            margin-top: 20px;
+        }
+        .agentanduserbuyandsell-header {
+            background: white;
+            padding: 15px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            gap: 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .agentanduserbuyandsell-tab {
+            color: #6c757d;
+            font-weight: 500;
+            cursor: pointer;
+            padding-bottom: 5px;
+        }
+        .agentanduserbuyandsell-tab.active {
+            color: #22c55e;
+            border-bottom: 2px solid #22c55e;
+        }
+        .agentanduserbuyandsell-profile-icon {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 35px;
+            height: 35px;
+            background: #e9ecef;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .agentanduserbuyandsell-filters {
+            background: white;
+            padding: 12px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .agentanduserbuyandsell-filter-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 10px;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+        .agentanduserbuyandsell-filter-icon {
+            margin-left: auto;
+            padding: 8px 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+        }
+        .agentanduserbuyandsell-trader-card {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .agentanduserbuyandsell-trader-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        .agentanduserbuyandsell-trader-avatar {
+            width: 30px;
+            height: 30px;
+            background: #6c757d;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .agentanduserbuyandsell-trader-name {
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .agentanduserbuyandsell-verified-badge {
+            color: #ffc107;
+            font-size: 16px;
+        }
+        .agentanduserbuyandsell-trader-stats {
+            display: flex;
+            gap: 10px;
+            font-size: 11px;
+            color: #6c757d;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+        .agentanduserbuyandsell-stat-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        .agentanduserbuyandsell-price {
+            font-size: 24px;
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 5px;
+        }
+        .agentanduserbuyandsell-price-unit {
+            font-size: 14px;
+            color: #6c757d;
+            font-weight: 400;
+        }
+        .agentanduserbuyandsell-limits {
+            font-size: 12px;
+            color: #6c757d;
+            margin-bottom: 3px;
+            word-break: break-word;
+        }
+        .agentanduserbuyandsell-available {
+            font-size: 12px;
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+        .agentanduserbuyandsell-payment-methods {
+            display: flex;
+            gap: 8px;
+            font-size: 11px;
+            color: #6c757d;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+        .agentanduserbuyandsell-payment-badge {
+            background: #f8f9fa;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .agentanduserbuyandsell-sell-btn,
+        .agentanduserbuyandsell-buy-btn {
+            border: none;
+            padding: 10px 25px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            font-size: 14px;
+        }
+        .agentanduserbuyandsell-sell-btn {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+        .agentanduserbuyandsell-sell-btn:hover {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+        }
+        .agentanduserbuyandsell-buy-btn {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+        }
+        .agentanduserbuyandsell-buy-btn:hover {
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+        }
+        .agentanduserbuyandsell-hidden {
+            display: none;
+        }
+        .agentanduserbuyandsell-percentage {
+            color: #22c55e;
+        }
+        .agentanduserbuyandsell-trades-info {
+            width: 100%;
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 576px) {
+            .agentanduserbuyandsell-container {
+                margin-top: 10px;
+            }
+            .agentanduserbuyandsell-price {
+                font-size: 22px;
+            }
+            .agentanduserbuyandsell-trader-stats {
+                font-size: 10px;
+                gap: 8px;
+            }
+            .agentanduserbuyandsell-filters {
+                gap: 6px;
+                padding: 10px;
+            }
+            .agentanduserbuyandsell-filter-btn {
+                font-size: 12px;
+                padding: 6px 8px;
+            }
+            .agentanduserbuyandsell-trader-card {
+                padding: 12px;
+            }
+        }
+
+        /* Very small screens */
+        @media (max-width: 360px) {
+            .agentanduserbuyandsell-price {
+                font-size: 20px;
+            }
+            .agentanduserbuyandsell-trader-stats {
+                font-size: 9px;
+            }
+            .agentanduserbuyandsell-filter-btn span {
+                font-size: 11px;
+            }
+        }
+
+
