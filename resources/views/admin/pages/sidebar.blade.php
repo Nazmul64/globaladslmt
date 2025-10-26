@@ -93,13 +93,19 @@
         <a href="javascript:void(0)">
             <!-- Payment icon -->
             <i class="ri-wallet-line text-xl me-14 d-flex w-auto"></i>
-            <span>Reffercommission Setup</span>
+            <span>Commission Setup</span>
         </a>
         <ul class="sidebar-submenu">
             <li>
                 <a href="{{ route('reffercommission.index') }}">
                     <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
                     Reffercommission Setup
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('agentcommission.index') }}">
+                    <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                    Agent Commission Setup
                 </a>
             </li>
         </ul>

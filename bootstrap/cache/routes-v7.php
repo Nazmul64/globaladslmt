@@ -13,7 +13,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::xp2PmQl5JfHefF8W',
+            '_route' => 'generated::GbUZATrEIfYp48xO',
           ),
           1 => NULL,
           2 => 
@@ -50,7 +50,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::KeVLI0yNzNCCOaFC',
+            '_route' => 'generated::J2AYZfaP7LfJwjKH',
           ),
           1 => NULL,
           2 => 
@@ -105,7 +105,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::dFjOKtglOfYID7U0',
+            '_route' => 'generated::t0b27ZQNnnUaDHIW',
           ),
           1 => NULL,
           2 => 
@@ -196,7 +196,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::b4crF82CPeq3TQn6',
+            '_route' => 'generated::OueP26qLCobjbwXq',
           ),
           1 => NULL,
           2 => 
@@ -1131,6 +1131,45 @@ app('router')->setCompiledRoutes(
           0 => 
           array (
             '_route' => 'buy.sellpost',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/userwidhraw/request' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'userwidhraw.request',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/user/deposit/status' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'user.deposit.status',
           ),
           1 => NULL,
           2 => 
@@ -2307,6 +2346,62 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/agentcommission' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agentcommission.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agentcommission.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/agentcommission/create' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agentcommission.create',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
       '/agent/login' => 
       array (
         0 => 
@@ -2967,10 +3062,30 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/agent/deposit-requests' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.deposit.requests',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
     ),
     2 => 
     array (
-      0 => '{^(?|/pa(?|ssword/reset/([^/]++)(*:34)|ckage/(?|buy/([^/]++)(*:62)|([^/]++)(?|(*:80)|/edit(*:92)|(*:99)))|ymentmethod/([^/]++)(?|(*:131)|/edit(*:144)|(*:152)))|/frontends/userto/agent/chat/message/([^/]++)(*:207)|/a(?|pp(?|setting/([^/]++)(?|(*:244)|/edit(*:257)|(*:265))|rove/([^/]++)(*:287))|gent(?|/(?|approve/([^/]++)(*:323)|reject/([^/]++)(*:346)|kyc/(?|approve/([^/]++)(*:377)|reject/([^/]++)(*:400)))|create/([^/]++)(?|(*:428)|/edit(*:441)|(*:449))|\\-deposite/(?|approve/([^/]++)(*:488)|reject/([^/]++)(*:511))|buysellpost/([^/]++)(?|(*:543)|/edit(*:556)|(*:564)))|d(?|s/([^/]++)(?|(*:591)|/edit(*:604)|(*:612))|min/(?|to/chat/(?|fetch/([^/]++)(*:653)|mark\\-read/([^/]++)(*:680))|agent/(?|chat/(?|fetch/([^/]++)(*:720)|mark\\-read/([^/]++)(*:747))|unread\\-count/([^/]++)(*:778)))))|/re(?|ffercommission/([^/]++)(?|(*:822)|/edit(*:835)|(*:843))|ject/(?|([^/]++)(*:868)|list(*:880)))|/notice/([^/]++)(?|(*:909)|/edit(*:922)|(*:930))|/w(?|orknotice/([^/]++)(?|(*:965)|/edit(*:978)|(*:986))|hychooseu/([^/]++)(?|(*:1016)|/edit(*:1030)|(*:1039)))|/s(?|upport/([^/]++)(?|(*:1073)|/edit(*:1087)|(*:1096))|t(?|epguide/([^/]++)(?|(*:1129)|/edit(*:1143)|(*:1152))|orage/(.*)(*:1172)))|/kyc/(?|approve/([^/]++)(*:1207)|reject/([^/]++)(*:1231))|/depositelimit/([^/]++)(?|(*:1267)|/edit(*:1281)|(*:1290))|/category/([^/]++)(?|(*:1321)|/edit(*:1335)|(*:1344)))/?$}sDu',
+      0 => '{^(?|/pa(?|ssword/reset/([^/]++)(*:34)|ckage/(?|buy/([^/]++)(*:62)|([^/]++)(?|(*:80)|/edit(*:92)|(*:99)))|ymentmethod/([^/]++)(?|(*:131)|/edit(*:144)|(*:152)))|/frontends/userto/agent/chat/message/([^/]++)(*:207)|/user/deposit/submit/([^/]++)(*:244)|/a(?|pp(?|setting/([^/]++)(?|(*:281)|/edit(*:294)|(*:302))|rove/([^/]++)(*:324))|gent(?|/(?|approve/([^/]++)(*:360)|reject/([^/]++)(*:383)|kyc/(?|approve/([^/]++)(*:414)|reject/([^/]++)(*:437))|deposit/(?|accept/([^/]++)(*:472)|final\\-confirm/([^/]++)(*:503)))|c(?|reate/([^/]++)(?|(*:534)|/edit(*:547)|(*:555))|ommission/([^/]++)(?|(*:585)|/edit(*:598)|(*:606)))|\\-deposite/(?|approve/([^/]++)(*:646)|reject/([^/]++)(*:669))|buysellpost/([^/]++)(?|(*:701)|/edit(*:714)|(*:722)))|d(?|s/([^/]++)(?|(*:749)|/edit(*:762)|(*:770))|min/(?|to/chat/(?|fetch/([^/]++)(*:811)|mark\\-read/([^/]++)(*:838))|agent/(?|chat/(?|fetch/([^/]++)(*:878)|mark\\-read/([^/]++)(*:905))|unread\\-count/([^/]++)(*:936)))))|/re(?|ffercommission/([^/]++)(?|(*:980)|/edit(*:993)|(*:1001))|ject/(?|([^/]++)(*:1027)|list(*:1040)))|/notice/([^/]++)(?|(*:1070)|/edit(*:1084)|(*:1093))|/w(?|orknotice/([^/]++)(?|(*:1129)|/edit(*:1143)|(*:1152))|hychooseu/([^/]++)(?|(*:1183)|/edit(*:1197)|(*:1206)))|/s(?|upport/([^/]++)(?|(*:1240)|/edit(*:1254)|(*:1263))|t(?|epguide/([^/]++)(?|(*:1296)|/edit(*:1310)|(*:1319))|orage/(.*)(*:1339)))|/kyc/(?|approve/([^/]++)(*:1374)|reject/([^/]++)(*:1398))|/depositelimit/([^/]++)(?|(*:1434)|/edit(*:1448)|(*:1457))|/category/([^/]++)(?|(*:1488)|/edit(*:1502)|(*:1511)))/?$}sDu',
     ),
     3 => 
     array (
@@ -3223,6 +3338,28 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
+            '_route' => 'user.deposit.submit',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      281 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
             '_route' => 'appsetting.show',
           ),
           1 => 
@@ -3240,7 +3377,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      257 => 
+      294 => 
       array (
         0 => 
         array (
@@ -3263,7 +3400,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      265 => 
+      302 => 
       array (
         0 => 
         array (
@@ -3305,7 +3442,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      287 => 
+      324 => 
       array (
         0 => 
         array (
@@ -3328,7 +3465,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      323 => 
+      360 => 
       array (
         0 => 
         array (
@@ -3351,7 +3488,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      346 => 
+      383 => 
       array (
         0 => 
         array (
@@ -3374,7 +3511,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      377 => 
+      414 => 
       array (
         0 => 
         array (
@@ -3396,7 +3533,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      400 => 
+      437 => 
       array (
         0 => 
         array (
@@ -3418,7 +3555,51 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      428 => 
+      472 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.deposit.accept',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      503 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.deposit.final',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      534 => 
       array (
         0 => 
         array (
@@ -3441,7 +3622,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      441 => 
+      547 => 
       array (
         0 => 
         array (
@@ -3464,7 +3645,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      449 => 
+      555 => 
       array (
         0 => 
         array (
@@ -3506,7 +3687,95 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      488 => 
+      585 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agentcommission.show',
+          ),
+          1 => 
+          array (
+            0 => 'agentcommission',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      598 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agentcommission.edit',
+          ),
+          1 => 
+          array (
+            0 => 'agentcommission',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      606 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agentcommission.update',
+          ),
+          1 => 
+          array (
+            0 => 'agentcommission',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agentcommission.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'agentcommission',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      646 => 
       array (
         0 => 
         array (
@@ -3528,7 +3797,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      511 => 
+      669 => 
       array (
         0 => 
         array (
@@ -3550,7 +3819,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      543 => 
+      701 => 
       array (
         0 => 
         array (
@@ -3573,7 +3842,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      556 => 
+      714 => 
       array (
         0 => 
         array (
@@ -3596,7 +3865,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      564 => 
+      722 => 
       array (
         0 => 
         array (
@@ -3638,7 +3907,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      591 => 
+      749 => 
       array (
         0 => 
         array (
@@ -3661,7 +3930,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      604 => 
+      762 => 
       array (
         0 => 
         array (
@@ -3684,7 +3953,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      612 => 
+      770 => 
       array (
         0 => 
         array (
@@ -3726,7 +3995,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      653 => 
+      811 => 
       array (
         0 => 
         array (
@@ -3749,7 +4018,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      680 => 
+      838 => 
       array (
         0 => 
         array (
@@ -3771,7 +4040,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      720 => 
+      878 => 
       array (
         0 => 
         array (
@@ -3794,7 +4063,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      747 => 
+      905 => 
       array (
         0 => 
         array (
@@ -3816,13 +4085,13 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      778 => 
+      936 => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'generated::Hhs0rvIVnxMX3qu3',
+            '_route' => 'generated::fxhHQe3Q6pROEE2s',
           ),
           1 => 
           array (
@@ -3839,7 +4108,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      822 => 
+      980 => 
       array (
         0 => 
         array (
@@ -3862,7 +4131,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      835 => 
+      993 => 
       array (
         0 => 
         array (
@@ -3885,7 +4154,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      843 => 
+      1001 => 
       array (
         0 => 
         array (
@@ -3927,7 +4196,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      868 => 
+      1027 => 
       array (
         0 => 
         array (
@@ -3950,7 +4219,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      880 => 
+      1040 => 
       array (
         0 => 
         array (
@@ -3972,7 +4241,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      909 => 
+      1070 => 
       array (
         0 => 
         array (
@@ -3995,7 +4264,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      922 => 
+      1084 => 
       array (
         0 => 
         array (
@@ -4018,7 +4287,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      930 => 
+      1093 => 
       array (
         0 => 
         array (
@@ -4060,7 +4329,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      965 => 
+      1129 => 
       array (
         0 => 
         array (
@@ -4083,7 +4352,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      978 => 
+      1143 => 
       array (
         0 => 
         array (
@@ -4106,7 +4375,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      986 => 
+      1152 => 
       array (
         0 => 
         array (
@@ -4148,7 +4417,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1016 => 
+      1183 => 
       array (
         0 => 
         array (
@@ -4171,7 +4440,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1030 => 
+      1197 => 
       array (
         0 => 
         array (
@@ -4194,7 +4463,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1039 => 
+      1206 => 
       array (
         0 => 
         array (
@@ -4236,7 +4505,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1073 => 
+      1240 => 
       array (
         0 => 
         array (
@@ -4259,7 +4528,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1087 => 
+      1254 => 
       array (
         0 => 
         array (
@@ -4282,7 +4551,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1096 => 
+      1263 => 
       array (
         0 => 
         array (
@@ -4324,7 +4593,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1129 => 
+      1296 => 
       array (
         0 => 
         array (
@@ -4347,7 +4616,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1143 => 
+      1310 => 
       array (
         0 => 
         array (
@@ -4370,7 +4639,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1152 => 
+      1319 => 
       array (
         0 => 
         array (
@@ -4412,7 +4681,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1172 => 
+      1339 => 
       array (
         0 => 
         array (
@@ -4435,7 +4704,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1207 => 
+      1374 => 
       array (
         0 => 
         array (
@@ -4457,7 +4726,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1231 => 
+      1398 => 
       array (
         0 => 
         array (
@@ -4479,7 +4748,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1267 => 
+      1434 => 
       array (
         0 => 
         array (
@@ -4502,7 +4771,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1281 => 
+      1448 => 
       array (
         0 => 
         array (
@@ -4525,7 +4794,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1290 => 
+      1457 => 
       array (
         0 => 
         array (
@@ -4567,7 +4836,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1321 => 
+      1488 => 
       array (
         0 => 
         array (
@@ -4590,7 +4859,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1335 => 
+      1502 => 
       array (
         0 => 
         array (
@@ -4613,7 +4882,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1344 => 
+      1511 => 
       array (
         0 => 
         array (
@@ -4670,7 +4939,7 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'generated::xp2PmQl5JfHefF8W' => 
+    'generated::GbUZATrEIfYp48xO' => 
     array (
       'methods' => 
       array (
@@ -4699,7 +4968,7 @@ app('router')->setCompiledRoutes(
                         \'exception\' => $exception,
                     ]), status: $exception ? 500 : 200);
                 }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000001010000000000000000";}}',
-        'as' => 'generated::xp2PmQl5JfHefF8W',
+        'as' => 'generated::GbUZATrEIfYp48xO',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4752,7 +5021,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::KeVLI0yNzNCCOaFC' => 
+    'generated::J2AYZfaP7LfJwjKH' => 
     array (
       'methods' => 
       array (
@@ -4772,7 +5041,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::KeVLI0yNzNCCOaFC',
+        'as' => 'generated::J2AYZfaP7LfJwjKH',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4861,7 +5130,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::dFjOKtglOfYID7U0' => 
+    'generated::t0b27ZQNnnUaDHIW' => 
     array (
       'methods' => 
       array (
@@ -4881,7 +5150,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::dFjOKtglOfYID7U0',
+        'as' => 'generated::t0b27ZQNnnUaDHIW',
       ),
       'fallback' => false,
       'defaults' => 
@@ -5080,7 +5349,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::b4crF82CPeq3TQn6' => 
+    'generated::OueP26qLCobjbwXq' => 
     array (
       'methods' => 
       array (
@@ -5100,7 +5369,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::b4crF82CPeq3TQn6',
+        'as' => 'generated::OueP26qLCobjbwXq',
       ),
       'fallback' => false,
       'defaults' => 
@@ -6975,6 +7244,118 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'buy.sellpost',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'userwidhraw.request' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'userwidhraw/request',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\UserDepositewidthrawrequestController@userwidhraw_request',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\UserDepositewidthrawrequestController@userwidhraw_request',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'userwidhraw.request',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'user.deposit.submit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'user/deposit/submit/{id}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentracceptuserandDeposite@userSubmitDeposit',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentracceptuserandDeposite@userSubmitDeposit',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'user.deposit.submit',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'user.deposit.status' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'user/deposit/status',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\UserDepositewidthrawrequestController@checkDepositStatus',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\UserDepositewidthrawrequestController@checkDepositStatus',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'user.deposit.status',
       ),
       'fallback' => false,
       'defaults' => 
@@ -11022,7 +11403,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::Hhs0rvIVnxMX3qu3' => 
+    'generated::fxhHQe3Q6pROEE2s' => 
     array (
       'methods' => 
       array (
@@ -11044,7 +11425,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::Hhs0rvIVnxMX3qu3',
+        'as' => 'generated::fxhHQe3Q6pROEE2s',
       ),
       'fallback' => false,
       'defaults' => 
@@ -11756,6 +12137,270 @@ app('router')->setCompiledRoutes(
         'as' => 'category.destroy',
         'uses' => 'App\\Http\\Controllers\\Backend\\CategoryController@destroy',
         'controller' => 'App\\Http\\Controllers\\Backend\\CategoryController@destroy',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agentcommission.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'agentcommission',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'agentcommission.index',
+        'uses' => 'App\\Http\\Controllers\\Backend\\DepositewidhrawComissionagetController@index',
+        'controller' => 'App\\Http\\Controllers\\Backend\\DepositewidhrawComissionagetController@index',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agentcommission.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'agentcommission/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'agentcommission.create',
+        'uses' => 'App\\Http\\Controllers\\Backend\\DepositewidhrawComissionagetController@create',
+        'controller' => 'App\\Http\\Controllers\\Backend\\DepositewidhrawComissionagetController@create',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agentcommission.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'agentcommission',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'agentcommission.store',
+        'uses' => 'App\\Http\\Controllers\\Backend\\DepositewidhrawComissionagetController@store',
+        'controller' => 'App\\Http\\Controllers\\Backend\\DepositewidhrawComissionagetController@store',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agentcommission.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'agentcommission/{agentcommission}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'agentcommission.show',
+        'uses' => 'App\\Http\\Controllers\\Backend\\DepositewidhrawComissionagetController@show',
+        'controller' => 'App\\Http\\Controllers\\Backend\\DepositewidhrawComissionagetController@show',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agentcommission.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'agentcommission/{agentcommission}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'agentcommission.edit',
+        'uses' => 'App\\Http\\Controllers\\Backend\\DepositewidhrawComissionagetController@edit',
+        'controller' => 'App\\Http\\Controllers\\Backend\\DepositewidhrawComissionagetController@edit',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agentcommission.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'agentcommission/{agentcommission}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'agentcommission.update',
+        'uses' => 'App\\Http\\Controllers\\Backend\\DepositewidhrawComissionagetController@update',
+        'controller' => 'App\\Http\\Controllers\\Backend\\DepositewidhrawComissionagetController@update',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agentcommission.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'agentcommission/{agentcommission}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'agentcommission.destroy',
+        'uses' => 'App\\Http\\Controllers\\Backend\\DepositewidhrawComissionagetController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Backend\\DepositewidhrawComissionagetController@destroy',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
@@ -13259,6 +13904,118 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agent.deposit.requests' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'agent/deposit-requests',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentracceptuserandDeposite@agentDepositRequests',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentracceptuserandDeposite@agentDepositRequests',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.deposit.requests',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agent.deposit.accept' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'agent/deposit/accept/{id}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentracceptuserandDeposite@acceptDepositRequest',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentracceptuserandDeposite@acceptDepositRequest',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.deposit.accept',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agent.deposit.final' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'agent/deposit/final-confirm/{id}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentracceptuserandDeposite@finalDepositConfirm',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentracceptuserandDeposite@finalDepositConfirm',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.deposit.final',
       ),
       'fallback' => false,
       'defaults' => 

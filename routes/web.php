@@ -8,6 +8,7 @@ use App\Http\Controllers\Agent\AgentchattouserChatController;
 use App\Http\Controllers\Agent\AgentDepositeController;
 use App\Http\Controllers\Agent\AgentPasswordchangeController;
 use App\Http\Controllers\Agent\AgentProfileController;
+use App\Http\Controllers\Agent\AgentracceptuserandDeposite;
 use App\Http\Controllers\Agent\AgentrequestAcceptController;
 use App\Http\Controllers\Agent\ChateforagentandadminController;
 use App\Http\Controllers\AppsettingController;
@@ -26,6 +27,7 @@ use App\Http\Controllers\Backend\AgentController;
 use App\Http\Controllers\Backend\AgentkyapprovedcController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\DepositelimiteController;
+use App\Http\Controllers\Backend\DepositewidhrawComissionagetController;
 use App\Http\Controllers\Backend\NoticesController;
 use App\Http\Controllers\Backend\PackageController;
 use App\Http\Controllers\Backend\PaymentmethodController;
@@ -44,6 +46,7 @@ use App\Http\Controllers\Frontend\KeyController;
 use App\Http\Controllers\Frontend\PackageBuyControllery;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\UserchatController;
+use App\Http\Controllers\Frontend\UserDepositewidthrawrequestController;
 use App\Http\Controllers\Frontend\UserfriendrequestforAgentController;
 use App\Http\Controllers\Frontend\UsertoadminchatController;
 use App\Http\Controllers\Frontend\UsertoagentChatController;
@@ -128,6 +131,15 @@ Route::post('/usertoadminchat/send', [UsertoadminchatController::class, 'sendMes
 Route::post('/usertoadminchat/mark-read', [UsertoadminchatController::class, 'markRead'])->name('usertoadminchat.markread');
 Route::get('/usertoadminchat/unread-count', [UsertoadminchatController::class, 'unreadCount'])->name('usertoadminchat.unreadcount');
 Route::get('frontend/buysellpost', [BuyandsellposController::class, 'buysellpost'])->name('buy.sellpost');
+
+
+
+Route::post('userwidhraw/request', [UserDepositewidthrawrequestController::class, 'userwidhraw_request'])->name('userwidhraw.request');
+Route::post('/user/deposit/submit/{id}', [UserDepositewidthrawrequestController::class, 'userSubmitDeposit'])->name('user.deposit.submit');
+Route::get('/user/deposit/status', [UserDepositewidthrawrequestController::class, 'checkDepositStatus'])->name('user.deposit.status');
+
+
+
 });
 // Frontend Route Controller End
 
@@ -189,7 +201,8 @@ Route::post('/agent-deposite/approve/{id}', [AdminagentDepositeController::class
 Route::post('/agent-deposite/reject/{id}', [AdminagentDepositeController::class, 'reject'])->name('admin.agentdeposit.reject');
 Route::get('admin/agent/deposite/approve/list', [AdminagentDepositeController::class, 'admin_agemt_deposite_approved_list'])->name('admin.agent.deposite.approved.list');
 Route::get('admin/agent/deposite/reject/list', [AdminagentDepositeController::class, 'admin_agemt_deposite_reject_list'])->name('admin.agent.deposite.reject.list');
- Route::resource('category',CategoryController::class);
+Route::resource('category',CategoryController::class);
+Route::resource('agentcommission',DepositewidhrawComissionagetController::class);
 });
 // Admin Route Controller End
 // Agent Login  Controller Start
@@ -241,6 +254,21 @@ Route::middleware(['agent'])->group(function () {
   // Agent Deposite End
 
   Route::resource('agentbuysellpost', AgentbuysellPostCreateController::class);
+//   Route::get('/agent/deposit/requests', [AgentracceptuserandDeposite::class, 'agentDepositRequests'])->name('agent.deposit.requests');
+//   Route::post('/agent/deposit/accept/{id}', [AgentracceptuserandDeposite::class, 'acceptDepositRequest'])->name('agent.deposit.accept');
+
+
+
+// Route::get('/agent/deposit/requests', [AgentracceptuserandDeposite::class, 'agentDepositRequests'])->name('agent.deposit.requests');
+// Route::post('/agent/deposit/accept/{id}', [AgentracceptuserandDeposite::class, 'acceptDepositRequest'])->name('agent.deposit.accept');
+// Route::post('/agent/deposit/final-confirm/{id}', [AgentracceptuserandDeposite::class, 'finalDepositConfirm'])->name('agent.deposit.finalConfirm');
+
+
+
+Route::get('/agent/deposit-requests', [AgentracceptuserandDeposite::class, 'agentDepositRequests'])->name('agent.deposit.requests');
+Route::post('/agent/deposit/accept/{id}', [AgentracceptuserandDeposite::class, 'acceptDepositRequest'])->name('agent.deposit.accept');
+Route::post('/user/deposit/submit/{id}', [AgentracceptuserandDeposite::class, 'userSubmitDeposit'])->name('user.deposit.submit');
+Route::post('/agent/deposit/final-confirm/{id}', [AgentracceptuserandDeposite::class, 'finalDepositConfirm'])->name('agent.deposit.final');
 
 });
 
