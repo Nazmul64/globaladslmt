@@ -3,101 +3,140 @@
 namespace App\Http\Controllers\Agent;
 
 use App\Http\Controllers\Controller;
+use App\Models\Agentcommissonsetup;
+use App\Models\AgentDeposite;
 use App\Models\Userdepositerequest;
 use App\Models\User;
-use App\Models\Agent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AgentracceptuserandDeposite extends Controller
 {
     /**
      * Show all deposit requests sent to the logged-in agent.
      */
-    public function agentDepositRequests()
-    {
-        $agent_id = Auth::id();
+public function agentDepositRequests()
+{
+    $agent_id = Auth::id();
 
-        $requests = Userdepositerequest::where('agent_id', $agent_id)
-            ->whereIn('status', ['pending', 'user_submitted'])
-            ->with('user')
-            ->latest()
-            ->get();
+    // এজেন্টের সব pending এবং user_submitted রিকোয়েস্টগুলো ফেচ করব
+    $requests = Userdepositerequest::where('agent_id', $agent_id)
+        ->whereIn('status', ['pending', 'user_submitted'])
+        ->with('user') // ইউজার রিলেশন সহ আনব
+        ->latest()
+        ->get();
 
-        return view('agent.userdepositewidhrawaccept.index', compact('requests'));
-    }
+    return view('agent.userdepositewidhrawaccept.index', compact('requests'));
+}
+
 
     /**
-     * Agent accepts a user deposit request.
+     * Agent accepts a user deposit request (pending -> agent_confirmed)
      */
     public function acceptDepositRequest($id)
     {
         $request = Userdepositerequest::findOrFail($id);
 
-        // update status
+        if ($request->agent_id !== Auth::id()) {
+            return back()->with('error', 'Unauthorized action.');
+        }
+
         $request->update(['status' => 'agent_confirmed']);
 
         return back()->with('success', 'Deposit request accepted. Waiting for user payment details.');
     }
 
     /**
-     * User submits deposit payment information after agent confirmation.
+     * Agent confirms user payment (user_submitted -> completed)
+     * Deduct from agent balance, add to user balance
      */
-    public function userSubmitDeposit(Request $request, $id)
-    {
-        $request->validate([
-            'transaction_id' => 'required|string|max:255',
-            'sender_account' => 'required|string|max:255',
-            'photo' => 'required|image|max:2048',
-        ]);
 
-        $deposit = Userdepositerequest::findOrFail($id);
+public function finalDepositConfirm($id)
+{
+    $deposit = Userdepositerequest::findOrFail($id);
 
-        // upload payment screenshot
-        $photoName = time() . '.' . $request->photo->extension();
-        $request->photo->move(public_path('uploads/deposit'), $photoName);
-
-        // update deposit info
-        $deposit->update([
-            'transaction_id' => $request->transaction_id,
-            'sender_account' => $request->sender_account,
-            'photo' => $photoName,
-            'status' => 'user_submitted',
-        ]);
-
-        return redirect()->back()->with('success', 'Payment information submitted successfully! Waiting for agent approval.');
+    if ($deposit->status !== 'user_submitted') {
+        return back()->with('error', 'Invalid deposit status!');
     }
 
-    /**
-     * Agent finally confirms payment and updates balances.
-     */
-    public function finalDepositConfirm($id)
-    {
-        $deposit = Userdepositerequest::findOrFail($id);
+    DB::beginTransaction();
 
-        if ($deposit->status !== 'user_submitted') {
-            return back()->with('error', 'Invalid deposit status!');
+    try {
+        $user = User::findOrFail($deposit->user_id);
+        $agentDeposit = AgentDeposite::where('agent_id', $deposit->agent_id)->first();
+
+        if (!$agentDeposit) {
+            DB::rollBack();
+            return back()->with('error', 'Agent deposit record not found!');
         }
 
-        // find user and agent
-        $user = User::findOrFail($deposit->user_id);
-        $agent = User::findOrFail($deposit->agent_id); // assuming agent also in users table
-
-        // check agent balance
-        if ($agent->balance < $deposit->amount) {
+        // ✅ Agent-এর balance পর্যাপ্ত আছে কি না চেক করো
+        if ($agentDeposit->amount < $deposit->amount) {
+            DB::rollBack();
             return back()->with('error', 'Agent does not have enough balance!');
         }
 
-        // update balances
-        $agent->balance -= $deposit->amount;
+        // 🧮 Commission setup load
+        $commissionSetup = Agentcommissonsetup::where('status', 1)->latest()->first();
+        $agentCommission = 0;
+        $adminCommission = 0;
+
+        if ($commissionSetup) {
+            if ($deposit->type === 'deposit') {
+                // Deposit commission (এজেন্ট পাবে)
+                $agentCommission = $commissionSetup->commission_type === 'percent'
+                    ? ($deposit->amount * $commissionSetup->deposit_agent_commission) / 100
+                    : $commissionSetup->deposit_agent_commission;
+
+                $adminCommission = 0;
+            } elseif ($deposit->type === 'withdraw') {
+                // Withdraw commission (এজেন্ট+এডমিন ভাগ)
+                $totalCommission = $commissionSetup->commission_type === 'percent'
+                    ? ($deposit->amount * $commissionSetup->withdraw_total_commission) / 100
+                    : $commissionSetup->withdraw_total_commission;
+
+                $agentCommission = $totalCommission / 2;
+                $adminCommission = $totalCommission / 2;
+            }
+        }
+
+        // ✅ Balance Update Logic
+        $agentOldBalance = $agentDeposit->amount;
+
+        // Agent ফান্ড থেকে ইউজারের টাকা কমাও
+        $agentDeposit->amount = $agentOldBalance - $deposit->amount;
+
+        // Agent কমিশন যুক্ত করো
+        $agentDeposit->amount += $agentCommission;
+
+        // User ব্যালেন্স বাড়াও
         $user->balance += $deposit->amount;
 
-        $agent->save();
+        // Save all updates
+        $agentDeposit->save();
         $user->save();
 
-        // update deposit status
-        $deposit->update(['status' => 'completed']);
+        // ✅ Update deposit record
+        $deposit->update([
+            'status' => 'completed',
+            'agent_commission' => $agentCommission,
+            'admin_commission' => $adminCommission,
+        ]);
 
-        return back()->with('success', 'Deposit completed successfully!');
+        DB::commit();
+
+        return back()->with('success', "Deposit completed successfully! Agent earned $agentCommission commission.");
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return back()->with('error', 'Error: ' . $e->getMessage());
     }
+}
+
+
+
+
+
+
 }

@@ -135,8 +135,10 @@ Route::get('frontend/buysellpost', [BuyandsellposController::class, 'buysellpost
 
 
 Route::post('userwidhraw/request', [UserDepositewidthrawrequestController::class, 'userwidhraw_request'])->name('userwidhraw.request');
-Route::post('/user/deposit/submit/{id}', [UserDepositewidthrawrequestController::class, 'userSubmitDeposit'])->name('user.deposit.submit');
 Route::get('/user/deposit/status', [UserDepositewidthrawrequestController::class, 'checkDepositStatus'])->name('user.deposit.status');
+Route::post('/user/deposit/submit/{id}', [UserDepositewidthrawrequestController::class, 'userSubmitDeposit'])->name('user.deposit.submit');
+
+
 
 
 
@@ -254,21 +256,16 @@ Route::middleware(['agent'])->group(function () {
   // Agent Deposite End
 
   Route::resource('agentbuysellpost', AgentbuysellPostCreateController::class);
-//   Route::get('/agent/deposit/requests', [AgentracceptuserandDeposite::class, 'agentDepositRequests'])->name('agent.deposit.requests');
-//   Route::post('/agent/deposit/accept/{id}', [AgentracceptuserandDeposite::class, 'acceptDepositRequest'])->name('agent.deposit.accept');
-
-
-
-// Route::get('/agent/deposit/requests', [AgentracceptuserandDeposite::class, 'agentDepositRequests'])->name('agent.deposit.requests');
-// Route::post('/agent/deposit/accept/{id}', [AgentracceptuserandDeposite::class, 'acceptDepositRequest'])->name('agent.deposit.accept');
-// Route::post('/agent/deposit/final-confirm/{id}', [AgentracceptuserandDeposite::class, 'finalDepositConfirm'])->name('agent.deposit.finalConfirm');
 
 
 
 Route::get('/agent/deposit-requests', [AgentracceptuserandDeposite::class, 'agentDepositRequests'])->name('agent.deposit.requests');
 Route::post('/agent/deposit/accept/{id}', [AgentracceptuserandDeposite::class, 'acceptDepositRequest'])->name('agent.deposit.accept');
-Route::post('/user/deposit/submit/{id}', [AgentracceptuserandDeposite::class, 'userSubmitDeposit'])->name('user.deposit.submit');
 Route::post('/agent/deposit/final-confirm/{id}', [AgentracceptuserandDeposite::class, 'finalDepositConfirm'])->name('agent.deposit.final');
+Route::post('/agent/deposit/orderrelche/{id}', [AgentracceptuserandDeposite::class, 'finalDepositorderrelche'])->name('agent.deposit.orderrelche');
+
+
+
 
 });
 

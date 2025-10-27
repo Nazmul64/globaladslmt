@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('agentcommissonsetups', function (Blueprint $table) {
         $table->id();
-        $table->decimal('deposit_agent_commission', 8, 2)->default(0);
+        $table->decimal('deposit_agent_commission')->default(0);
         $table->decimal('withdraw_total_commission')->default(0);
         $table->enum('commission_type', ['fixed', 'percent'])->default('percent');
         $table->decimal('agent_share_percent')->default(0);

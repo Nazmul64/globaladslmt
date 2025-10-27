@@ -23,4 +23,8 @@ class AgentDeposite extends Model
     public function paymentMethod() {
         return $this->belongsTo(PaymentMethod::class);
     }
+       public function agent()
+    {
+        return $this->belongsTo(User::class, 'agent_id');
+    }
 }

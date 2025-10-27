@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Userdepositerequest;
@@ -22,7 +23,6 @@ class UserDepositewidthrawrequestController extends Controller
         ]);
 
         $user_id = Auth::id();
-
         $data = [
             'user_id' => $user_id,
             'agent_id' => $request->agent_id,
@@ -36,10 +36,13 @@ class UserDepositewidthrawrequestController extends Controller
             UserWidhrawrequest::create($data);
         }
 
-        return redirect()->back()->with('success', ucfirst($request->type) . ' request sent successfully!');
+        return response()->json([
+            'success' => true,
+            'message' => ucfirst($request->type) . ' request sent successfully!'
+        ]);
     }
 
-    // Ajax polling: check if latest deposit accepted by agent
+    // Polling: check if latest deposit accepted by agent
     public function checkDepositStatus()
     {
         $depositRequest = Userdepositerequest::where('user_id', Auth::id())
@@ -66,4 +69,46 @@ class UserDepositewidthrawrequestController extends Controller
 
         return view('frontend.buyandsellpost.index', compact('categories', 'all_agentbuysellpost'));
     }
+
+    // User submits payment details
+ public function userSubmitDeposit(Request $request, $id)
+{
+    $validator = Validator::make($request->all(), [
+        'transaction_id' => 'required|string|max:255',
+        'sender_account' => 'required|string|max:255',
+        'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'success' => false,
+            'message' => $validator->errors()->first()
+        ]);
+    }
+
+    $deposit = Userdepositerequest::find($id);
+    if (!$deposit) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Deposit request not found.'
+        ]);
+    }
+
+    $deposit->transaction_id = $request->transaction_id;
+    $deposit->sender_account = $request->sender_account;
+
+    if ($request->hasFile('photo')) {
+        $file = $request->file('photo');
+        $filename = time().'_'.$file->getClientOriginalName();
+        $file->move(public_path('uploads/deposits'), $filename);
+        $deposit->photo = $filename;
+    }
+
+    // Enum অনুযায়ী valid status assign
+    $deposit->status = 'user_submitted';
+    $deposit->save();
+
+    return response()->json(['success' => true]);
+}
+
 }

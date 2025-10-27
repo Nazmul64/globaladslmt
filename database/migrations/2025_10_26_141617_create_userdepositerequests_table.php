@@ -12,17 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('userdepositerequests', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('agent_id');
+           $table->id();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('agent_id')->constrained('users')->onDelete('cascade');
             $table->decimal('amount', 15, 2);
             $table->enum('status', ['pending', 'agent_confirmed', 'user_submitted', 'completed', 'rejected'])->default('pending');
             $table->string('transaction_id')->nullable();
             $table->string('sender_account')->nullable();
             $table->string('photo')->nullable();
+            $table->enum('type', ['deposit', 'withdraw'])->default('deposit');
+            $table->decimal('agent_commission', 15, 2)->default(0);
+            $table->decimal('admin_commission', 15, 2)->default(0);
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('agent_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
