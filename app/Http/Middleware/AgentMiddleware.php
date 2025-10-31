@@ -14,12 +14,22 @@ class AgentMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
-    {
-        return $next($request);
+    // public function handle(Request $request, Closure $next): Response
+    // {
+    //     return $next($request);
 
-        if(!Auth::check()  || Auth::user()->role != 'agent'){
-            return redirect()->route('agent.login');
-        }
+    //     if(!Auth::check()  || Auth::user()->role != 'agent'){
+    //         return redirect()->route('agent.login');
+    //     }
+    // }
+
+    public function handle(Request $request, Closure $next): Response
+{
+    if (!Auth::check() || Auth::user()->role != 'agent') {
+        return redirect()->route('agent.login');
     }
+
+    return $next($request);
+}
+
 }

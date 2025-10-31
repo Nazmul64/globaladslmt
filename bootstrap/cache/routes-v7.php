@@ -13,7 +13,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::GKR70f85k7bIlP3p',
+            '_route' => 'generated::q5jQL5QEYFO7ViPe',
           ),
           1 => NULL,
           2 => 
@@ -50,7 +50,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::pzU4kgri5aeyEQKY',
+            '_route' => 'generated::GdA5qa1o88HqrT8o',
           ),
           1 => NULL,
           2 => 
@@ -105,7 +105,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::ViRc5JHqRHb57Nb0',
+            '_route' => 'generated::2MZqmRzNPPFzcqw3',
           ),
           1 => NULL,
           2 => 
@@ -196,7 +196,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::JImF0whVUktIljlB',
+            '_route' => 'generated::QpkaPk08ILgQZOv8',
           ),
           1 => NULL,
           2 => 
@@ -353,6 +353,26 @@ app('router')->setCompiledRoutes(
           0 => 
           array (
             '_route' => 'frontend.adblance',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/frontend/total_deposite' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'total.deposite',
           ),
           1 => NULL,
           2 => 
@@ -1144,13 +1164,13 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/userwidhraw/request' => 
+      '/user/deposit/request' => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'userwidhraw.request',
+            '_route' => 'user.deposit.request',
           ),
           1 => NULL,
           2 => 
@@ -1170,6 +1190,45 @@ app('router')->setCompiledRoutes(
           0 => 
           array (
             '_route' => 'user.deposit.status',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/user/withdraw/request' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'user.withdraw.request',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/user/withdraw/status' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'user.withdraw.status',
           ),
           1 => NULL,
           2 => 
@@ -2402,6 +2461,62 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/widthrawlimit' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'widthrawlimit.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'widthrawlimit.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/widthrawlimit/create' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'widthrawlimit.create',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
       '/agent/login' => 
       array (
         0 => 
@@ -3082,10 +3197,30 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/agent/withdraw-requests' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.withdraw.requests',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
     ),
     2 => 
     array (
-      0 => '{^(?|/pa(?|ssword/reset/([^/]++)(*:34)|ckage/(?|buy/([^/]++)(*:62)|([^/]++)(?|(*:80)|/edit(*:92)|(*:99)))|ymentmethod/([^/]++)(?|(*:131)|/edit(*:144)|(*:152)))|/frontends/userto/agent/chat/message/([^/]++)(*:207)|/user/deposit/submit/([^/]++)(*:244)|/a(?|pp(?|setting/([^/]++)(?|(*:281)|/edit(*:294)|(*:302))|rove/([^/]++)(*:324))|gent(?|/(?|approve/([^/]++)(*:360)|reject/([^/]++)(*:383)|kyc/(?|approve/([^/]++)(*:414)|reject/([^/]++)(*:437))|deposit/(?|accept/([^/]++)(*:472)|final\\-confirm/([^/]++)(*:503)|orderrelche/([^/]++)(*:531)))|c(?|reate/([^/]++)(?|(*:562)|/edit(*:575)|(*:583))|ommission/([^/]++)(?|(*:613)|/edit(*:626)|(*:634)))|\\-deposite/(?|approve/([^/]++)(*:674)|reject/([^/]++)(*:697))|buysellpost/([^/]++)(?|(*:729)|/edit(*:742)|(*:750)))|d(?|s/([^/]++)(?|(*:777)|/edit(*:790)|(*:798))|min/(?|to/chat/(?|fetch/([^/]++)(*:839)|mark\\-read/([^/]++)(*:866))|agent/(?|chat/(?|fetch/([^/]++)(*:906)|mark\\-read/([^/]++)(*:933))|unread\\-count/([^/]++)(*:964)))))|/re(?|ffercommission/([^/]++)(?|(*:1008)|/edit(*:1022)|(*:1031))|ject/(?|([^/]++)(*:1057)|list(*:1070)))|/notice/([^/]++)(?|(*:1100)|/edit(*:1114)|(*:1123))|/w(?|orknotice/([^/]++)(?|(*:1159)|/edit(*:1173)|(*:1182))|hychooseu/([^/]++)(?|(*:1213)|/edit(*:1227)|(*:1236)))|/s(?|upport/([^/]++)(?|(*:1270)|/edit(*:1284)|(*:1293))|t(?|epguide/([^/]++)(?|(*:1326)|/edit(*:1340)|(*:1349))|orage/(.*)(*:1369)))|/kyc/(?|approve/([^/]++)(*:1404)|reject/([^/]++)(*:1428))|/depositelimit/([^/]++)(?|(*:1464)|/edit(*:1478)|(*:1487))|/category/([^/]++)(?|(*:1518)|/edit(*:1532)|(*:1541)))/?$}sDu',
+      0 => '{^(?|/pa(?|ssword/reset/([^/]++)(*:34)|ckage/(?|buy/([^/]++)(*:62)|([^/]++)(?|(*:80)|/edit(*:92)|(*:99)))|ymentmethod/([^/]++)(?|(*:131)|/edit(*:144)|(*:152)))|/frontends/userto/agent/chat/message/([^/]++)(*:207)|/user/(?|deposit/submit/([^/]++)(*:247)|withdraw/submit/([^/]++)(*:279))|/a(?|gent(?|/(?|withdraw/(?|accept/([^/]++)(*:331)|release/([^/]++)(*:355))|approve/([^/]++)(*:380)|reject/([^/]++)(*:403)|kyc/(?|approve/([^/]++)(*:434)|reject/([^/]++)(*:457))|deposit/(?|accept/([^/]++)(*:492)|final\\-confirm/([^/]++)(*:523)|orderrelche/([^/]++)(*:551)))|c(?|reate/([^/]++)(?|(*:582)|/edit(*:595)|(*:603))|ommission/([^/]++)(?|(*:633)|/edit(*:646)|(*:654)))|\\-deposite/(?|approve/([^/]++)(*:694)|reject/([^/]++)(*:717))|buysellpost/([^/]++)(?|(*:749)|/edit(*:762)|(*:770)))|pp(?|setting/([^/]++)(?|(*:804)|/edit(*:817)|(*:825))|rove/([^/]++)(*:847))|d(?|s/([^/]++)(?|(*:873)|/edit(*:886)|(*:894))|min/(?|to/chat/(?|fetch/([^/]++)(*:935)|mark\\-read/([^/]++)(*:962))|agent/(?|chat/(?|fetch/([^/]++)(*:1002)|mark\\-read/([^/]++)(*:1030))|unread\\-count/([^/]++)(*:1062)))))|/re(?|ffercommission/([^/]++)(?|(*:1107)|/edit(*:1121)|(*:1130))|ject/(?|([^/]++)(*:1156)|list(*:1169)))|/notice/([^/]++)(?|(*:1199)|/edit(*:1213)|(*:1222))|/w(?|orknotice/([^/]++)(?|(*:1258)|/edit(*:1272)|(*:1281))|hychooseu/([^/]++)(?|(*:1312)|/edit(*:1326)|(*:1335))|idthrawlimit/([^/]++)(?|(*:1369)|/edit(*:1383)|(*:1392)))|/s(?|upport/([^/]++)(?|(*:1426)|/edit(*:1440)|(*:1449))|t(?|epguide/([^/]++)(?|(*:1482)|/edit(*:1496)|(*:1505))|orage/(.*)(*:1525)))|/kyc/(?|approve/([^/]++)(*:1560)|reject/([^/]++)(*:1584))|/depositelimit/([^/]++)(?|(*:1620)|/edit(*:1634)|(*:1643))|/category/([^/]++)(?|(*:1674)|/edit(*:1688)|(*:1697)))/?$}sDu',
     ),
     3 => 
     array (
@@ -3332,7 +3467,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      244 => 
+      247 => 
       array (
         0 => 
         array (
@@ -3354,101 +3489,13 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      281 => 
+      279 => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'appsetting.show',
-          ),
-          1 => 
-          array (
-            0 => 'appsetting',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      294 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'appsetting.edit',
-          ),
-          1 => 
-          array (
-            0 => 'appsetting',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => false,
-          6 => NULL,
-        ),
-      ),
-      302 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'appsetting.update',
-          ),
-          1 => 
-          array (
-            0 => 'appsetting',
-          ),
-          2 => 
-          array (
-            'PUT' => 0,
-            'PATCH' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-        1 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'appsetting.destroy',
-          ),
-          1 => 
-          array (
-            0 => 'appsetting',
-          ),
-          2 => 
-          array (
-            'DELETE' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      324 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'admin.deposite.approve',
+            '_route' => 'user.withdraw.submit',
           ),
           1 => 
           array (
@@ -3456,8 +3503,7 @@ app('router')->setCompiledRoutes(
           ),
           2 => 
           array (
-            'GET' => 0,
-            'HEAD' => 1,
+            'POST' => 0,
           ),
           3 => NULL,
           4 => false,
@@ -3465,7 +3511,51 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      360 => 
+      331 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.withdraw.accept',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      355 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'agent.withdraw.release',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      380 => 
       array (
         0 => 
         array (
@@ -3488,7 +3578,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      383 => 
+      403 => 
       array (
         0 => 
         array (
@@ -3511,7 +3601,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      414 => 
+      434 => 
       array (
         0 => 
         array (
@@ -3533,7 +3623,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      437 => 
+      457 => 
       array (
         0 => 
         array (
@@ -3555,7 +3645,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      472 => 
+      492 => 
       array (
         0 => 
         array (
@@ -3577,7 +3667,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      503 => 
+      523 => 
       array (
         0 => 
         array (
@@ -3599,7 +3689,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      531 => 
+      551 => 
       array (
         0 => 
         array (
@@ -3621,7 +3711,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      562 => 
+      582 => 
       array (
         0 => 
         array (
@@ -3644,7 +3734,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      575 => 
+      595 => 
       array (
         0 => 
         array (
@@ -3667,7 +3757,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      583 => 
+      603 => 
       array (
         0 => 
         array (
@@ -3709,7 +3799,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      613 => 
+      633 => 
       array (
         0 => 
         array (
@@ -3732,7 +3822,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      626 => 
+      646 => 
       array (
         0 => 
         array (
@@ -3755,7 +3845,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      634 => 
+      654 => 
       array (
         0 => 
         array (
@@ -3797,7 +3887,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      674 => 
+      694 => 
       array (
         0 => 
         array (
@@ -3819,7 +3909,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      697 => 
+      717 => 
       array (
         0 => 
         array (
@@ -3841,7 +3931,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      729 => 
+      749 => 
       array (
         0 => 
         array (
@@ -3864,7 +3954,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      742 => 
+      762 => 
       array (
         0 => 
         array (
@@ -3887,7 +3977,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      750 => 
+      770 => 
       array (
         0 => 
         array (
@@ -3929,7 +4019,118 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      777 => 
+      804 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'appsetting.show',
+          ),
+          1 => 
+          array (
+            0 => 'appsetting',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      817 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'appsetting.edit',
+          ),
+          1 => 
+          array (
+            0 => 'appsetting',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      825 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'appsetting.update',
+          ),
+          1 => 
+          array (
+            0 => 'appsetting',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'appsetting.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'appsetting',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      847 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.deposite.approve',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      873 => 
       array (
         0 => 
         array (
@@ -3952,7 +4153,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      790 => 
+      886 => 
       array (
         0 => 
         array (
@@ -3975,7 +4176,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      798 => 
+      894 => 
       array (
         0 => 
         array (
@@ -4017,7 +4218,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      839 => 
+      935 => 
       array (
         0 => 
         array (
@@ -4040,7 +4241,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      866 => 
+      962 => 
       array (
         0 => 
         array (
@@ -4062,7 +4263,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      906 => 
+      1002 => 
       array (
         0 => 
         array (
@@ -4085,7 +4286,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      933 => 
+      1030 => 
       array (
         0 => 
         array (
@@ -4107,13 +4308,13 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      964 => 
+      1062 => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'generated::gVaZipFyTMoPcYWl',
+            '_route' => 'generated::4IN7Z9n2r8SN2STa',
           ),
           1 => 
           array (
@@ -4130,7 +4331,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1008 => 
+      1107 => 
       array (
         0 => 
         array (
@@ -4153,7 +4354,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1022 => 
+      1121 => 
       array (
         0 => 
         array (
@@ -4176,7 +4377,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1031 => 
+      1130 => 
       array (
         0 => 
         array (
@@ -4218,7 +4419,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1057 => 
+      1156 => 
       array (
         0 => 
         array (
@@ -4241,7 +4442,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1070 => 
+      1169 => 
       array (
         0 => 
         array (
@@ -4263,7 +4464,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1100 => 
+      1199 => 
       array (
         0 => 
         array (
@@ -4286,7 +4487,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1114 => 
+      1213 => 
       array (
         0 => 
         array (
@@ -4309,7 +4510,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1123 => 
+      1222 => 
       array (
         0 => 
         array (
@@ -4351,7 +4552,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1159 => 
+      1258 => 
       array (
         0 => 
         array (
@@ -4374,7 +4575,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1173 => 
+      1272 => 
       array (
         0 => 
         array (
@@ -4397,7 +4598,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1182 => 
+      1281 => 
       array (
         0 => 
         array (
@@ -4439,7 +4640,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1213 => 
+      1312 => 
       array (
         0 => 
         array (
@@ -4462,7 +4663,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1227 => 
+      1326 => 
       array (
         0 => 
         array (
@@ -4485,7 +4686,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1236 => 
+      1335 => 
       array (
         0 => 
         array (
@@ -4527,7 +4728,95 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1270 => 
+      1369 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'widthrawlimit.show',
+          ),
+          1 => 
+          array (
+            0 => 'widthrawlimit',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      1383 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'widthrawlimit.edit',
+          ),
+          1 => 
+          array (
+            0 => 'widthrawlimit',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      1392 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'widthrawlimit.update',
+          ),
+          1 => 
+          array (
+            0 => 'widthrawlimit',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+            'PATCH' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'widthrawlimit.destroy',
+          ),
+          1 => 
+          array (
+            0 => 'widthrawlimit',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      1426 => 
       array (
         0 => 
         array (
@@ -4550,7 +4839,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1284 => 
+      1440 => 
       array (
         0 => 
         array (
@@ -4573,7 +4862,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1293 => 
+      1449 => 
       array (
         0 => 
         array (
@@ -4615,7 +4904,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1326 => 
+      1482 => 
       array (
         0 => 
         array (
@@ -4638,7 +4927,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1340 => 
+      1496 => 
       array (
         0 => 
         array (
@@ -4661,7 +4950,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1349 => 
+      1505 => 
       array (
         0 => 
         array (
@@ -4703,7 +4992,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1369 => 
+      1525 => 
       array (
         0 => 
         array (
@@ -4726,7 +5015,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1404 => 
+      1560 => 
       array (
         0 => 
         array (
@@ -4748,7 +5037,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1428 => 
+      1584 => 
       array (
         0 => 
         array (
@@ -4770,7 +5059,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1464 => 
+      1620 => 
       array (
         0 => 
         array (
@@ -4793,7 +5082,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1478 => 
+      1634 => 
       array (
         0 => 
         array (
@@ -4816,7 +5105,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1487 => 
+      1643 => 
       array (
         0 => 
         array (
@@ -4858,7 +5147,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1518 => 
+      1674 => 
       array (
         0 => 
         array (
@@ -4881,7 +5170,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1532 => 
+      1688 => 
       array (
         0 => 
         array (
@@ -4904,7 +5193,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1541 => 
+      1697 => 
       array (
         0 => 
         array (
@@ -4961,7 +5250,7 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'generated::GKR70f85k7bIlP3p' => 
+    'generated::q5jQL5QEYFO7ViPe' => 
     array (
       'methods' => 
       array (
@@ -4989,8 +5278,8 @@ app('router')->setCompiledRoutes(
                     return response(\\Illuminate\\Support\\Facades\\View::file(\'E:\\\\globaladslmt\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Configuration\'.\'/../resources/health-up.blade.php\', [
                         \'exception\' => $exception,
                     ]), status: $exception ? 500 : 200);
-                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000004d50000000000000000";}}',
-        'as' => 'generated::GKR70f85k7bIlP3p',
+                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000001010000000000000000";}}',
+        'as' => 'generated::q5jQL5QEYFO7ViPe',
       ),
       'fallback' => false,
       'defaults' => 
@@ -5043,7 +5332,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::pzU4kgri5aeyEQKY' => 
+    'generated::GdA5qa1o88HqrT8o' => 
     array (
       'methods' => 
       array (
@@ -5063,7 +5352,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::pzU4kgri5aeyEQKY',
+        'as' => 'generated::GdA5qa1o88HqrT8o',
       ),
       'fallback' => false,
       'defaults' => 
@@ -5152,7 +5441,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::ViRc5JHqRHb57Nb0' => 
+    'generated::2MZqmRzNPPFzcqw3' => 
     array (
       'methods' => 
       array (
@@ -5172,7 +5461,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::ViRc5JHqRHb57Nb0',
+        'as' => 'generated::2MZqmRzNPPFzcqw3',
       ),
       'fallback' => false,
       'defaults' => 
@@ -5371,7 +5660,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::JImF0whVUktIljlB' => 
+    'generated::QpkaPk08ILgQZOv8' => 
     array (
       'methods' => 
       array (
@@ -5391,7 +5680,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::JImF0whVUktIljlB',
+        'as' => 'generated::QpkaPk08ILgQZOv8',
       ),
       'fallback' => false,
       'defaults' => 
@@ -5688,6 +5977,44 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'frontend.adblance',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'total.deposite' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'frontend/total_deposite',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\FrontendController@total_deposite',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\FrontendController@total_deposite',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'total.deposite',
       ),
       'fallback' => false,
       'defaults' => 
@@ -7281,13 +7608,13 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'userwidhraw.request' => 
+    'user.deposit.request' => 
     array (
       'methods' => 
       array (
         0 => 'POST',
       ),
-      'uri' => 'userwidhraw/request',
+      'uri' => 'user/deposit/request',
       'action' => 
       array (
         'middleware' => 
@@ -7302,7 +7629,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'userwidhraw.request',
+        'as' => 'user.deposit.request',
       ),
       'fallback' => false,
       'defaults' => 
@@ -7378,6 +7705,155 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'user.deposit.submit',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'user.withdraw.request' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'user/withdraw/request',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\UserDepositewidthrawrequestController@userwidhraw_request',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\UserDepositewidthrawrequestController@userwidhraw_request',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'user.withdraw.request',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'user.withdraw.status' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'user/withdraw/status',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\UserWidhrawrequestAgentController@checkWithdrawStatus',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\UserWidhrawrequestAgentController@checkWithdrawStatus',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'user.withdraw.status',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'user.withdraw.submit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'user/withdraw/submit/{id}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\UserWidhrawrequestAgentController@userSubmitWithdraw',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\UserWidhrawrequestAgentController@userSubmitWithdraw',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'user.withdraw.submit',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agent.withdraw.accept' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'agent/withdraw/accept/{id}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentWidhrawrequestacceptController@acceptagentwidhrawRequest',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentWidhrawrequestacceptController@acceptagentwidhrawRequest',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.withdraw.accept',
       ),
       'fallback' => false,
       'defaults' => 
@@ -11425,7 +11901,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::gVaZipFyTMoPcYWl' => 
+    'generated::4IN7Z9n2r8SN2STa' => 
     array (
       'methods' => 
       array (
@@ -11447,7 +11923,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::gVaZipFyTMoPcYWl',
+        'as' => 'generated::4IN7Z9n2r8SN2STa',
       ),
       'fallback' => false,
       'defaults' => 
@@ -12423,6 +12899,270 @@ app('router')->setCompiledRoutes(
         'as' => 'agentcommission.destroy',
         'uses' => 'App\\Http\\Controllers\\Backend\\DepositewidhrawComissionagetController@destroy',
         'controller' => 'App\\Http\\Controllers\\Backend\\DepositewidhrawComissionagetController@destroy',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'widthrawlimit.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'widthrawlimit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'widthrawlimit.index',
+        'uses' => 'App\\Http\\Controllers\\Admin\\WidthrawlimitController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\WidthrawlimitController@index',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'widthrawlimit.create' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'widthrawlimit/create',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'widthrawlimit.create',
+        'uses' => 'App\\Http\\Controllers\\Admin\\WidthrawlimitController@create',
+        'controller' => 'App\\Http\\Controllers\\Admin\\WidthrawlimitController@create',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'widthrawlimit.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'widthrawlimit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'widthrawlimit.store',
+        'uses' => 'App\\Http\\Controllers\\Admin\\WidthrawlimitController@store',
+        'controller' => 'App\\Http\\Controllers\\Admin\\WidthrawlimitController@store',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'widthrawlimit.show' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'widthrawlimit/{widthrawlimit}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'widthrawlimit.show',
+        'uses' => 'App\\Http\\Controllers\\Admin\\WidthrawlimitController@show',
+        'controller' => 'App\\Http\\Controllers\\Admin\\WidthrawlimitController@show',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'widthrawlimit.edit' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'widthrawlimit/{widthrawlimit}/edit',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'widthrawlimit.edit',
+        'uses' => 'App\\Http\\Controllers\\Admin\\WidthrawlimitController@edit',
+        'controller' => 'App\\Http\\Controllers\\Admin\\WidthrawlimitController@edit',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'widthrawlimit.update' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+        1 => 'PATCH',
+      ),
+      'uri' => 'widthrawlimit/{widthrawlimit}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'widthrawlimit.update',
+        'uses' => 'App\\Http\\Controllers\\Admin\\WidthrawlimitController@update',
+        'controller' => 'App\\Http\\Controllers\\Admin\\WidthrawlimitController@update',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'widthrawlimit.destroy' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'widthrawlimit/{widthrawlimit}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'as' => 'widthrawlimit.destroy',
+        'uses' => 'App\\Http\\Controllers\\Admin\\WidthrawlimitController@destroy',
+        'controller' => 'App\\Http\\Controllers\\Admin\\WidthrawlimitController@destroy',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
@@ -14075,6 +14815,81 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'agent.deposit.orderrelche',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agent.withdraw.requests' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'agent/withdraw-requests',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentWidhrawrequestacceptController@agentwidhrawRequests',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentWidhrawrequestacceptController@agentwidhrawRequests',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.withdraw.requests',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'agent.withdraw.release' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'agent/withdraw/release/{id}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'agent',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Agent\\AgentWidhrawrequestacceptController@releaseWithdraw',
+        'controller' => 'App\\Http\\Controllers\\Agent\\AgentWidhrawrequestacceptController@releaseWithdraw',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'agent.withdraw.release',
       ),
       'fallback' => false,
       'defaults' => 

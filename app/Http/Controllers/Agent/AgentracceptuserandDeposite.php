@@ -18,17 +18,19 @@ class AgentracceptuserandDeposite extends Controller
      */
 public function agentDepositRequests()
 {
-    $agent_id = Auth::id();
+    $agent_id = Auth::id(); // login agent ID
 
-    // এজেন্টের সব pending এবং user_submitted রিকোয়েস্টগুলো ফেচ করব
     $requests = Userdepositerequest::where('agent_id', $agent_id)
         ->whereIn('status', ['pending', 'user_submitted'])
-        ->with('user') // ইউজার রিলেশন সহ আনব
+        ->with('user')
         ->latest()
         ->get();
-
     return view('agent.userdepositewidhrawaccept.index', compact('requests'));
 }
+
+
+
+
 
 
     /**

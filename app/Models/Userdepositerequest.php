@@ -20,17 +20,18 @@ class Userdepositerequest extends Model
         'agent_commission',
         'admin_commission',
         'type',
+        'orderrelasce',
     ];
 
-    // ইউজার যিনি ডিপোজিট করছেন
-    public function user()
+   public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-
-    // এজেন্ট যিনি রিকোয়েস্টটি হ্যান্ডেল করছেন
     public function agent()
     {
         return $this->belongsTo(User::class, 'agent_id');
     }
+
+
+
 }

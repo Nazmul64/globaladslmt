@@ -16,6 +16,7 @@ class Deposite extends Model
         'photo',
     ];
 
+
     public function user() {
         return $this->belongsTo(User::class);
     }
@@ -23,6 +24,7 @@ class Deposite extends Model
     public function paymentMethod() {
         return $this->belongsTo(PaymentMethod::class);
     }
+
 
 }
 

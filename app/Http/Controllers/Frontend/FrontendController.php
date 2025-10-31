@@ -10,6 +10,7 @@ use App\Models\Paymentmethod;
 use App\Models\Stepguide;
 use App\Models\Support;
 use App\Models\User;
+use App\Models\Userdepositerequest;
 use App\Models\Whychooseu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -69,8 +70,21 @@ public function frontend_stepguide()
 
     return view('frontend.frontendpages.stepguide', compact('step_guides','why_choose_us_items'));
 }
+public function total_deposite()
+{
+    $user_id = Auth::id();
 
+    // ✅ Direct admin deposits
+    $adminDeposits =Deposite::where('user_id', $user_id)->where('status', 'approved')->sum('amount');
 
+    // ✅ Agent deposits
+    $agentDeposits =Userdepositerequest::where('user_id', $user_id)->whereIn('status', ['completed', 'user_submitted', 'agent_confirmed'])->sum('amount');
+
+    // ✅ Total
+    $total_deposite = $adminDeposits + $agentDeposits;
+
+    return view('frontend.totaldeposite.total_deposite', compact('total_deposite'));
+}
 
 
 

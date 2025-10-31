@@ -103,12 +103,15 @@
             <!-- Iconify icon -->
             <iconify-icon icon="icon-park-outline:setting-two" class="menu-icon" width="20" height="20"></iconify-icon>
             <span>User Deposite Widhraw Request</span>
-            <!-- Dropdown arrow -->
-            <i class="ri-arrow-down-s-line float-end"></i>
         </a>
         <ul class="sidebar-submenu">
             <li>
                 <a href="{{ route('agent.deposit.requests') }}">
+                    <!-- Circle small icon for submenu -->
+                    <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                    User Deposite  Request
+                </a>
+                <a href="{{ route('agent.withdraw.requests') }}">
                     <!-- Circle small icon for submenu -->
                     <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
                     User Deposite Widhraw Request

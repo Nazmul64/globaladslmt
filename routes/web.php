@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\WidthrawlimitController;
 use App\Http\Controllers\Agent\adminChatforAgentController;
 use App\Http\Controllers\Agent\AgentbuysellPostCreateController;
 use App\Http\Controllers\Agent\AgentchattouserChatController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\Agent\AgentPasswordchangeController;
 use App\Http\Controllers\Agent\AgentProfileController;
 use App\Http\Controllers\Agent\AgentracceptuserandDeposite;
 use App\Http\Controllers\Agent\AgentrequestAcceptController;
+use App\Http\Controllers\Agent\AgentWidhrawrequestacceptController;
 use App\Http\Controllers\Agent\ChateforagentandadminController;
 use App\Http\Controllers\AppsettingController;
 use App\Http\Controllers\Backend\AdminagentcreateController;
@@ -50,6 +52,7 @@ use App\Http\Controllers\Frontend\UserDepositewidthrawrequestController;
 use App\Http\Controllers\Frontend\UserfriendrequestforAgentController;
 use App\Http\Controllers\Frontend\UsertoadminchatController;
 use App\Http\Controllers\Frontend\UsertoagentChatController;
+use App\Http\Controllers\Frontend\UserWidhrawrequestAgentController;
 use App\Models\Appsetting;
 use App\Models\Reffercommissionsetup;
 use Illuminate\Support\Facades\Auth;
@@ -78,6 +81,7 @@ Auth::routes();
    Route::get('dashboard', [FrontendController::class, 'frontend'])->name('frontend.index');
    Route::get('frontend/options', [FrontendController::class, 'frontend_options'])->name('frontend.options');
    Route::get('frontend/adblance', [FrontendController::class, 'frontend_adblance'])->name('frontend.adblance');
+   Route::get('frontend/total_deposite', [FrontendController::class, 'total_deposite'])->name('total.deposite');
    Route::get('frontend/deposite', [FrontendController::class, 'frontend_deposite'])->name('frontend.deposite');
    Route::get('frontend/refer/list', [FrontendController::class, 'frontend_refer_list'])->name('frontend.refer.list');
    Route::get('frontend/support', [FrontendController::class, 'frontend_support'])->name('frontend.support');
@@ -134,9 +138,33 @@ Route::get('frontend/buysellpost', [BuyandsellposController::class, 'buysellpost
 
 
 
-Route::post('userwidhraw/request', [UserDepositewidthrawrequestController::class, 'userwidhraw_request'])->name('userwidhraw.request');
-Route::get('/user/deposit/status', [UserDepositewidthrawrequestController::class, 'checkDepositStatus'])->name('user.deposit.status');
-Route::post('/user/deposit/submit/{id}', [UserDepositewidthrawrequestController::class, 'userSubmitDeposit'])->name('user.deposit.submit');
+
+
+
+// Deposite Routes
+Route::post('user/deposit/request', [UserDepositewidthrawrequestController::class, 'userwidhraw_request'])->name('user.deposit.request');
+Route::get('user/deposit/status', [UserDepositewidthrawrequestController::class, 'checkDepositStatus'])->name('user.deposit.status');
+Route::post('user/deposit/submit/{id}', [UserDepositewidthrawrequestController::class, 'userSubmitDeposit'])->name('user.deposit.submit');
+
+
+
+
+// User withdraw request
+Route::post('user/withdraw/request', [UserDepositewidthrawrequestController::class, 'userwidhraw_request'])->name('user.withdraw.request');
+
+// Check agent confirmation
+Route::get('user/withdraw/status', [UserWidhrawrequestAgentController::class, 'checkWithdrawStatus'])->name('user.withdraw.status');
+
+// User submits withdraw after agent confirms
+Route::post('user/withdraw/submit/{id}', [UserWidhrawrequestAgentController::class, 'userSubmitWithdraw'])->name('user.withdraw.submit');
+
+// Agent accepts withdraw (agent side)
+Route::post('agent/withdraw/accept/{id}', [UserWidhrawrequestAgentController::class, 'acceptWithdrawRequest'])->name('agent.withdraw.accept');
+
+
+
+
+
 
 
 
@@ -205,6 +233,7 @@ Route::get('admin/agent/deposite/approve/list', [AdminagentDepositeController::c
 Route::get('admin/agent/deposite/reject/list', [AdminagentDepositeController::class, 'admin_agemt_deposite_reject_list'])->name('admin.agent.deposite.reject.list');
 Route::resource('category',CategoryController::class);
 Route::resource('agentcommission',DepositewidhrawComissionagetController::class);
+  Route::resource('widthrawlimit',WidthrawlimitController::class);
 });
 // Admin Route Controller End
 // Agent Login  Controller Start
@@ -263,6 +292,23 @@ Route::get('/agent/deposit-requests', [AgentracceptuserandDeposite::class, 'agen
 Route::post('/agent/deposit/accept/{id}', [AgentracceptuserandDeposite::class, 'acceptDepositRequest'])->name('agent.deposit.accept');
 Route::post('/agent/deposit/final-confirm/{id}', [AgentracceptuserandDeposite::class, 'finalDepositConfirm'])->name('agent.deposit.final');
 Route::post('/agent/deposit/orderrelche/{id}', [AgentracceptuserandDeposite::class, 'finalDepositorderrelche'])->name('agent.deposit.orderrelche');
+
+
+
+
+
+Route::get('/agent/withdraw-requests', [AgentWidhrawrequestacceptController::class, 'agentwidhrawRequests'])
+    ->name('agent.withdraw.requests');
+
+Route::post('/agent/withdraw/accept/{id}', [AgentWidhrawrequestacceptController::class, 'acceptagentwidhrawRequest'])
+    ->name('agent.withdraw.accept');
+
+Route::post('/agent/withdraw/release/{id}', [AgentWidhrawrequestacceptController::class, 'releaseWithdraw'])
+    ->name('agent.withdraw.release');
+
+
+
+
 
 
 

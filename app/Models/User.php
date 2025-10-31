@@ -75,10 +75,10 @@ protected $casts = [
 
 
     // Relation to user's deposits
-    public function deposits()
-    {
-        return $this->hasMany(Deposite::class);
-    }
+    // public function deposits()
+    // {
+    //     return $this->hasMany(Deposite::class);
+    // }
 
 public function packagebuys()
 {
@@ -145,4 +145,14 @@ public function receivedChatRequests()
 {
     return $this->hasMany(ChatRequest::class, 'receiver_id');
 }
+public function deposits()
+    {
+        return $this->hasMany(Userdepositerequest::class);
+    }
+
+    // Relation with withdraws
+    public function withdraws()
+    {
+        return $this->hasMany(UserWidhrawrequest::class);
+    }
 }

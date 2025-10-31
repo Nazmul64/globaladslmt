@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('agent_id')->constrained('users')->onDelete('cascade');
             $table->decimal('amount', 15, 2);
-            $table->enum('status', ['pending', 'agent_confirmed', 'user_submitted', 'completed', 'rejected'])->default('pending');
+            $table->enum('status', ['pending', 'agent_confirmed', 'user_submitted', 'completed', 'rejected', 'orderrelasce'])->default('pending');
             $table->string('transaction_id')->nullable();
             $table->string('sender_account')->nullable();
             $table->string('photo')->nullable();

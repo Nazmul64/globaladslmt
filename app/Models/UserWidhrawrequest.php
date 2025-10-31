@@ -19,6 +19,7 @@ class UserWidhrawrequest extends Model
         'photo',
         'agent_commission',
         'admin_commission',
+        'orderrelasce',
     ];
 
     public function user()

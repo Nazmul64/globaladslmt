@@ -304,6 +304,12 @@
                     Deposit Limit List
                 </a>
             </li>
+            <li>
+                <a href="{{ route('widthrawlimit.index') }}">
+                    <i class="fa-solid fa-list fa-lg me-2"></i>
+                    Widthraw Limit List
+                </a>
+            </li>
         </ul>
     </li>
     <li class="dropdown">

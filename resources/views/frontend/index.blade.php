@@ -71,6 +71,12 @@
             </div>
             <div class="menu-label">P2P</div>
         </div>
+         <div class="menu-card">
+            <div class="menu-icon-circle">
+                <a href="{{route('total.deposite')}}"><i class="fas fa-coins"style="color:white;"></i></a>
+            </div>
+            <div class="menu-label">Total Deposite</div>
+        </div>
 
     </div>
     <button class="usertoadminchat-floating-btn" id="usertoadminchatButton">
