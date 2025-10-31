@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Ad;
 use App\Models\Deposite;
+use App\Models\Depositelimite;
 use App\Models\Package;
 use App\Models\Paymentmethod;
 use App\Models\Stepguide;
 use App\Models\Support;
 use App\Models\User;
 use App\Models\Userdepositerequest;
+use App\Models\UserWidthraw;
 use App\Models\Whychooseu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -152,7 +154,17 @@ public function frontend_agent_list()
     return view('frontend.frontendpages.agent_list', compact('agents'));
 }
 
+public function frontend_widthraw()
+{
+    $withdraw_limit = \App\Models\Widthrawlimit::first();
+    $withdraw_charge = \App\Models\Depositelimite::first();
+    $payment_methods = \App\Models\Paymentmethod::all();
 
-
+    return view('frontend.widthraw.index', [
+        'payment_methods'    => $payment_methods,
+        'widthraw_max_min'   => $withdraw_limit,    // min & max amount
+        'widthraw_charge'    => $withdraw_charge->charge ?? 0, // withdraw charge
+    ]);
+}
 
 }

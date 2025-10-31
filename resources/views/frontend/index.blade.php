@@ -34,7 +34,7 @@
 
         <div class="menu-card">
             <div class="menu-icon-circle">
-                <a href="widthra.html"><i class="fas fa-money-bill-wave"style="color:white;"></i></a>
+                <a href="{{route('frontend.widthraw')}}"><i class="fas fa-money-bill-wave"style="color:white;"></i></a>
             </div>
             <div class="menu-label">Withdraw</div>
         </div>

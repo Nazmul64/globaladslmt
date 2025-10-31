@@ -9,5 +9,6 @@ class Widthrawlimit extends Model
    protected $fillable =[
       'max_withdraw_limit',
       'min_withdraw_limit',
+      'payment_name_id',
    ];
 }

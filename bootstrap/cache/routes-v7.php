@@ -13,7 +13,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::q5jQL5QEYFO7ViPe',
+            '_route' => 'generated::Ib7KFJ5LIRe99vIV',
           ),
           1 => NULL,
           2 => 
@@ -50,7 +50,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::GdA5qa1o88HqrT8o',
+            '_route' => 'generated::NBERnumkyd0zPbFO',
           ),
           1 => NULL,
           2 => 
@@ -105,7 +105,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::2MZqmRzNPPFzcqw3',
+            '_route' => 'generated::Gy3CEeSJoFGpo9mf',
           ),
           1 => NULL,
           2 => 
@@ -196,7 +196,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::QpkaPk08ILgQZOv8',
+            '_route' => 'generated::oER3EHsIelUabYOZ',
           ),
           1 => NULL,
           2 => 
@@ -333,6 +333,26 @@ app('router')->setCompiledRoutes(
           0 => 
           array (
             '_route' => 'frontend.options',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/frontend/widthraw' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'frontend.widthraw',
           ),
           1 => NULL,
           2 => 
@@ -1235,6 +1255,25 @@ app('router')->setCompiledRoutes(
           array (
             'GET' => 0,
             'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/user/deposite/manual' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'user.withdraw.store',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
           ),
           3 => NULL,
           4 => false,
@@ -4314,7 +4353,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::4IN7Z9n2r8SN2STa',
+            '_route' => 'generated::s7Je0lrPJ0wSRKAU',
           ),
           1 => 
           array (
@@ -5250,7 +5289,7 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'generated::q5jQL5QEYFO7ViPe' => 
+    'generated::Ib7KFJ5LIRe99vIV' => 
     array (
       'methods' => 
       array (
@@ -5279,7 +5318,7 @@ app('router')->setCompiledRoutes(
                         \'exception\' => $exception,
                     ]), status: $exception ? 500 : 200);
                 }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000001010000000000000000";}}',
-        'as' => 'generated::q5jQL5QEYFO7ViPe',
+        'as' => 'generated::Ib7KFJ5LIRe99vIV',
       ),
       'fallback' => false,
       'defaults' => 
@@ -5332,7 +5371,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::GdA5qa1o88HqrT8o' => 
+    'generated::NBERnumkyd0zPbFO' => 
     array (
       'methods' => 
       array (
@@ -5352,7 +5391,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::GdA5qa1o88HqrT8o',
+        'as' => 'generated::NBERnumkyd0zPbFO',
       ),
       'fallback' => false,
       'defaults' => 
@@ -5441,7 +5480,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::2MZqmRzNPPFzcqw3' => 
+    'generated::Gy3CEeSJoFGpo9mf' => 
     array (
       'methods' => 
       array (
@@ -5461,7 +5500,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::2MZqmRzNPPFzcqw3',
+        'as' => 'generated::Gy3CEeSJoFGpo9mf',
       ),
       'fallback' => false,
       'defaults' => 
@@ -5660,7 +5699,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::QpkaPk08ILgQZOv8' => 
+    'generated::oER3EHsIelUabYOZ' => 
     array (
       'methods' => 
       array (
@@ -5680,7 +5719,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::QpkaPk08ILgQZOv8',
+        'as' => 'generated::oER3EHsIelUabYOZ',
       ),
       'fallback' => false,
       'defaults' => 
@@ -5939,6 +5978,44 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'frontend.options',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'frontend.widthraw' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'frontend/widthraw',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\FrontendController@frontend_widthraw',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\FrontendController@frontend_widthraw',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'frontend.widthraw',
       ),
       'fallback' => false,
       'defaults' => 
@@ -7854,6 +7931,43 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'agent.withdraw.accept',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'user.withdraw.store' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'user/deposite/manual',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'user',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Frontend\\UserWidthrawController@user_deposite_manual',
+        'controller' => 'App\\Http\\Controllers\\Frontend\\UserWidthrawController@user_deposite_manual',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'user.withdraw.store',
       ),
       'fallback' => false,
       'defaults' => 
@@ -11901,7 +12015,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::4IN7Z9n2r8SN2STa' => 
+    'generated::s7Je0lrPJ0wSRKAU' => 
     array (
       'methods' => 
       array (
@@ -11923,7 +12037,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::4IN7Z9n2r8SN2STa',
+        'as' => 'generated::s7Je0lrPJ0wSRKAU',
       ),
       'fallback' => false,
       'defaults' => 

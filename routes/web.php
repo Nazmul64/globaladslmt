@@ -48,11 +48,13 @@ use App\Http\Controllers\Frontend\KeyController;
 use App\Http\Controllers\Frontend\PackageBuyControllery;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\UserchatController;
+use App\Http\Controllers\Frontend\UserDepositeController;
 use App\Http\Controllers\Frontend\UserDepositewidthrawrequestController;
 use App\Http\Controllers\Frontend\UserfriendrequestforAgentController;
 use App\Http\Controllers\Frontend\UsertoadminchatController;
 use App\Http\Controllers\Frontend\UsertoagentChatController;
 use App\Http\Controllers\Frontend\UserWidhrawrequestAgentController;
+use App\Http\Controllers\Frontend\UserWidthrawController;
 use App\Models\Appsetting;
 use App\Models\Reffercommissionsetup;
 use Illuminate\Support\Facades\Auth;
@@ -80,6 +82,7 @@ Auth::routes();
   Route::middleware(['user'])->group(function () {
    Route::get('dashboard', [FrontendController::class, 'frontend'])->name('frontend.index');
    Route::get('frontend/options', [FrontendController::class, 'frontend_options'])->name('frontend.options');
+   Route::get('frontend/widthraw', [FrontendController::class, 'frontend_widthraw'])->name('frontend.widthraw');
    Route::get('frontend/adblance', [FrontendController::class, 'frontend_adblance'])->name('frontend.adblance');
    Route::get('frontend/total_deposite', [FrontendController::class, 'total_deposite'])->name('total.deposite');
    Route::get('frontend/deposite', [FrontendController::class, 'frontend_deposite'])->name('frontend.deposite');
@@ -137,10 +140,6 @@ Route::get('/usertoadminchat/unread-count', [UsertoadminchatController::class, '
 Route::get('frontend/buysellpost', [BuyandsellposController::class, 'buysellpost'])->name('buy.sellpost');
 
 
-
-
-
-
 // Deposite Routes
 Route::post('user/deposit/request', [UserDepositewidthrawrequestController::class, 'userwidhraw_request'])->name('user.deposit.request');
 Route::get('user/deposit/status', [UserDepositewidthrawrequestController::class, 'checkDepositStatus'])->name('user.deposit.status');
@@ -161,6 +160,8 @@ Route::post('user/withdraw/submit/{id}', [UserWidhrawrequestAgentController::cla
 // Agent accepts withdraw (agent side)
 Route::post('agent/withdraw/accept/{id}', [UserWidhrawrequestAgentController::class, 'acceptWithdrawRequest'])->name('agent.withdraw.accept');
 
+
+Route::post('/user/deposite/manual', [UserWidthrawController::class, 'user_deposite_manual'])->name('user.withdraw.store');
 
 
 
