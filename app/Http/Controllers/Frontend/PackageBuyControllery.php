@@ -14,12 +14,15 @@ use Illuminate\Http\Request;
 
 class PackageBuyControllery extends Controller
 {
+    /**
+     * User buys a package
+     */
     public function frontend_packages_buy(Request $request, $package_id)
     {
         $user = Auth::user();
         $package = Package::findOrFail($package_id);
 
-        // Check if package has price
+        // Check if package price is set
         if (!$package->price) {
             return redirect()->back()->with('error', 'Package price not set!');
         }
@@ -35,15 +38,17 @@ class PackageBuyControllery extends Controller
 
         DB::transaction(function () use ($user, $package) {
 
-            // 1. Insert into packagebuys
+            // 1. Insert into packagebuys with daily_income & daily_limit from package
             $packageBuy = Packagebuy::create([
                 'user_id' => $user->id,
                 'package_id' => $package->id,
                 'amount' => $package->price,
+                'daily_income' => $package->daily_income,
+                'daily_limit' => $package->daily_limit,
                 'status' => 'approved',
             ]);
 
-            // 2. Deduct from user's approved deposits
+            // 2. Deduct amount from user's approved deposits
             $amountToDeduct = $package->price;
             $userDeposits = Deposite::where('user_id', $user->id)
                                      ->where('status', 'approved')
@@ -74,12 +79,15 @@ class PackageBuyControllery extends Controller
         return redirect()->back()->with('success', 'Package purchased successfully!');
     }
 
+    /**
+     * Give referral commission recursively based on levels
+     */
     private function giveReferralCommission(User $user, $packagePrice)
     {
         $referrer = $user->referrer;
+
         if (!$referrer) return;
 
-        // Get commission levels
         $commissionLevels = Reffercommissionsetup::orderBy('reffer_level', 'asc')->get();
 
         foreach ($commissionLevels as $commission) {
@@ -91,7 +99,7 @@ class PackageBuyControllery extends Controller
             $referrer->refer_income += $commissionAmount;
             $referrer->save();
 
-            $referrer = $referrer->referrer;
+            $referrer = $referrer->referrer; // move to next level
         }
     }
 }

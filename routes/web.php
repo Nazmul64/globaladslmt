@@ -310,17 +310,9 @@ Route::post('/agent/deposit/final-confirm/{id}', [AgentracceptuserandDeposite::c
 Route::post('/agent/deposit/orderrelche/{id}', [AgentracceptuserandDeposite::class, 'finalDepositorderrelche'])->name('agent.deposit.orderrelche');
 
 
-
-
-
-Route::get('/agent/withdraw-requests', [AgentWidhrawrequestacceptController::class, 'agentwidhrawRequests'])
-    ->name('agent.withdraw.requests');
-
-Route::post('/agent/withdraw/accept/{id}', [AgentWidhrawrequestacceptController::class, 'acceptagentwidhrawRequest'])
-    ->name('agent.withdraw.accept');
-
-Route::post('/agent/withdraw/release/{id}', [AgentWidhrawrequestacceptController::class, 'releaseWithdraw'])
-    ->name('agent.withdraw.release');
+Route::get('/agent/withdraw-requests', [AgentWidhrawrequestacceptController::class, 'agentwidhrawRequests'])->name('agent.withdraw.requests');
+Route::post('/agent/withdraw/accept/{id}', [AgentWidhrawrequestacceptController::class, 'acceptagentwidhrawRequest'])->name('agent.withdraw.accept');
+Route::post('/agent/withdraw/release/{id}', [AgentWidhrawrequestacceptController::class, 'releaseWithdraw'])->name('agent.withdraw.release');
 
 
 

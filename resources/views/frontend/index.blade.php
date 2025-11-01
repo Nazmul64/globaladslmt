@@ -1,15 +1,65 @@
 @extends('frontend.master')
-
 @section('content')
-
  <div class="row">
+<!-- Start Task Button -->
+<div class="menu-card text-center">
+    <div class="menu-icon-circle">
+        <a href="javascript:void(0)" id="startTaskBtn">
+            <i class="fas fa-bookmark" style="color:white;"></i>
+        </a>
+    </div>
+    <div class="menu-label">Start Task</div>
+</div>
 
-        <div class="menu-card">
-            <div class="menu-icon-circle">
-                <a href="{{route('frontend.ads')}}"><i class="fas fa-bookmark"style="color:white;"></i></a>
-            </div>
-            <div class="menu-label">Start Task</div>
-        </div>
+<!-- Task Info Modal -->
+<div class="modal fade" id="taskInfoModal" tabindex="-1" aria-labelledby="taskInfoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="taskInfoModalLabel">📝 Task Information</h5>
+        <button type="button" class="btn-close text-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        @foreach ($work_notices as $item)
+          <p>👉{{$item->title ?? ''}}</p>
+          <p>✅{{$item->description ?? ''}}</p>
+        @endforeach
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="goToTaskBtn" class="btn btn-success">Go to Task</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const startTaskBtn = document.getElementById("startTaskBtn");
+    const goToTaskBtn = document.getElementById("goToTaskBtn");
+
+    // Backend থেকে প্যাকেজ আছে কি না পাঠানো
+    const hasPackage = @json($has_active_package);
+
+    // Modal ওপেন (backdrop নেই)
+    startTaskBtn.addEventListener("click", function() {
+        const modal = new bootstrap.Modal(document.getElementById('taskInfoModal'), {
+            backdrop: false, // overlay থাকবে না
+            keyboard: true
+        });
+        modal.show();
+    });
+
+    // Go to Task ক্লিক
+    goToTaskBtn.addEventListener("click", function() {
+        if (hasPackage) {
+            window.location.href = "{{ route('frontend.ads') }}";
+        } else {
+            alert("⚠️ Please buy a package first to access tasks!");
+        }
+    });
+});
+</script>
 
         <div class="menu-card">
             <div class="menu-icon-circle">

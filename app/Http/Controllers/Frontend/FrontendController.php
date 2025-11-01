@@ -7,6 +7,7 @@ use App\Models\Ad;
 use App\Models\Deposite;
 use App\Models\Depositelimite;
 use App\Models\Package;
+use App\Models\Packagebuy;
 use App\Models\Paymentmethod;
 use App\Models\Stepguide;
 use App\Models\Support;
@@ -14,14 +15,19 @@ use App\Models\User;
 use App\Models\Userdepositerequest;
 use App\Models\UserWidthraw;
 use App\Models\Whychooseu;
+use App\Models\Wornotice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class FrontendController extends Controller
 {
-  public function frontend() {
-    return view('frontend.index');
+public function frontend() {
+    $auth_user_id = Auth::id();
+    $has_active_package = Packagebuy::where('user_id', $auth_user_id)->where('status', 'approved') ->exists();
+    $work_notices=Wornotice::all();
+    return view('frontend.index', compact('has_active_package','work_notices'));
 }
+
     public function frontend_options(){
           return view('frontend.frontendpages.options');
     }
@@ -135,16 +141,16 @@ public function frontend_refer_list()
     }
 
 public function frontend_ads()
-{
-    if (!Auth::check()) {
-        return redirect()->route('user.login')->withErrors('Please login to view ads.');
+    {
+        if (!Auth::check()) {
+            return redirect()->route('user.login')->withErrors('Please login to view ads.');
+        }
+
+        $ads = Ad::first(); // Ads table থেকে প্রথম রো
+        $packageBuy = Packagebuy::where('user_id', Auth::id())->latest()->first();
+
+        return view('frontend.frontendpages.ads', compact('ads', 'packageBuy'));
     }
-
-    // Ads গুলো টেবিল থেকে আনা হচ্ছে
-    $ads = Ad::first(); // ধরুন একটিমাত্র রোতে সব ad code আছে
-
-    return view('frontend.frontendpages.ads', compact('ads'));
-}
 public function frontend_agent_list()
 {
     $agents = User::where('role', 'agent')
