@@ -157,13 +157,13 @@ public function frontend_agent_list()
 public function frontend_widthraw()
 {
     $withdraw_limit = \App\Models\Widthrawlimit::first();
-    $withdraw_charge = \App\Models\Depositelimite::first();
+    $withdraw_charge = \App\Models\Agentcommissonsetup::first();
     $payment_methods = \App\Models\Paymentmethod::all();
 
     return view('frontend.widthraw.index', [
         'payment_methods'    => $payment_methods,
         'widthraw_max_min'   => $withdraw_limit,    // min & max amount
-        'widthraw_charge'    => $withdraw_charge->charge ?? 0, // withdraw charge
+        'widthraw_charge'    => $withdraw_charge->withdraw_total_commission ?? 0, // withdraw charge
     ]);
 }
 

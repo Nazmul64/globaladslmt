@@ -13,7 +13,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::Ib7KFJ5LIRe99vIV',
+            '_route' => 'generated::jpyyb4NFbGvLzrVo',
           ),
           1 => NULL,
           2 => 
@@ -50,7 +50,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::NBERnumkyd0zPbFO',
+            '_route' => 'generated::l0pn7vmAMcsPLbsu',
           ),
           1 => NULL,
           2 => 
@@ -105,7 +105,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::Gy3CEeSJoFGpo9mf',
+            '_route' => 'generated::wH4LFMtjerCx2V3c',
           ),
           1 => NULL,
           2 => 
@@ -196,7 +196,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::oER3EHsIelUabYOZ',
+            '_route' => 'generated::EVrdAQuehaJ1aRhN',
           ),
           1 => NULL,
           2 => 
@@ -2556,6 +2556,66 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/admin/user/widtharw/approved/index' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.widtharw.approved.index',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/withdraw/approved/list' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'approved.list',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/withdraw/rejected/list' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'rejected.list',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
       '/agent/login' => 
       array (
         0 => 
@@ -3259,7 +3319,7 @@ app('router')->setCompiledRoutes(
     ),
     2 => 
     array (
-      0 => '{^(?|/pa(?|ssword/reset/([^/]++)(*:34)|ckage/(?|buy/([^/]++)(*:62)|([^/]++)(?|(*:80)|/edit(*:92)|(*:99)))|ymentmethod/([^/]++)(?|(*:131)|/edit(*:144)|(*:152)))|/frontends/userto/agent/chat/message/([^/]++)(*:207)|/user/(?|deposit/submit/([^/]++)(*:247)|withdraw/submit/([^/]++)(*:279))|/a(?|gent(?|/(?|withdraw/(?|accept/([^/]++)(*:331)|release/([^/]++)(*:355))|approve/([^/]++)(*:380)|reject/([^/]++)(*:403)|kyc/(?|approve/([^/]++)(*:434)|reject/([^/]++)(*:457))|deposit/(?|accept/([^/]++)(*:492)|final\\-confirm/([^/]++)(*:523)|orderrelche/([^/]++)(*:551)))|c(?|reate/([^/]++)(?|(*:582)|/edit(*:595)|(*:603))|ommission/([^/]++)(?|(*:633)|/edit(*:646)|(*:654)))|\\-deposite/(?|approve/([^/]++)(*:694)|reject/([^/]++)(*:717))|buysellpost/([^/]++)(?|(*:749)|/edit(*:762)|(*:770)))|pp(?|setting/([^/]++)(?|(*:804)|/edit(*:817)|(*:825))|rove/([^/]++)(*:847))|d(?|s/([^/]++)(?|(*:873)|/edit(*:886)|(*:894))|min/(?|to/chat/(?|fetch/([^/]++)(*:935)|mark\\-read/([^/]++)(*:962))|agent/(?|chat/(?|fetch/([^/]++)(*:1002)|mark\\-read/([^/]++)(*:1030))|unread\\-count/([^/]++)(*:1062)))))|/re(?|ffercommission/([^/]++)(?|(*:1107)|/edit(*:1121)|(*:1130))|ject/(?|([^/]++)(*:1156)|list(*:1169)))|/notice/([^/]++)(?|(*:1199)|/edit(*:1213)|(*:1222))|/w(?|orknotice/([^/]++)(?|(*:1258)|/edit(*:1272)|(*:1281))|hychooseu/([^/]++)(?|(*:1312)|/edit(*:1326)|(*:1335))|idthrawlimit/([^/]++)(?|(*:1369)|/edit(*:1383)|(*:1392)))|/s(?|upport/([^/]++)(?|(*:1426)|/edit(*:1440)|(*:1449))|t(?|epguide/([^/]++)(?|(*:1482)|/edit(*:1496)|(*:1505))|orage/(.*)(*:1525)))|/kyc/(?|approve/([^/]++)(*:1560)|reject/([^/]++)(*:1584))|/depositelimit/([^/]++)(?|(*:1620)|/edit(*:1634)|(*:1643))|/category/([^/]++)(?|(*:1674)|/edit(*:1688)|(*:1697)))/?$}sDu',
+      0 => '{^(?|/pa(?|ssword/reset/([^/]++)(*:34)|ckage/(?|buy/([^/]++)(*:62)|([^/]++)(?|(*:80)|/edit(*:92)|(*:99)))|ymentmethod/([^/]++)(?|(*:131)|/edit(*:144)|(*:152)))|/frontends/userto/agent/chat/message/([^/]++)(*:207)|/user/(?|deposit/submit/([^/]++)(*:247)|withdraw/submit/([^/]++)(*:279))|/a(?|gent(?|/(?|withdraw/(?|accept/([^/]++)(*:331)|release/([^/]++)(*:355))|approve/([^/]++)(*:380)|reject/([^/]++)(*:403)|kyc/(?|approve/([^/]++)(*:434)|reject/([^/]++)(*:457))|deposit/(?|accept/([^/]++)(*:492)|final\\-confirm/([^/]++)(*:523)|orderrelche/([^/]++)(*:551)))|c(?|reate/([^/]++)(?|(*:582)|/edit(*:595)|(*:603))|ommission/([^/]++)(?|(*:633)|/edit(*:646)|(*:654)))|\\-deposite/(?|approve/([^/]++)(*:694)|reject/([^/]++)(*:717))|buysellpost/([^/]++)(?|(*:749)|/edit(*:762)|(*:770)))|pp(?|setting/([^/]++)(?|(*:804)|/edit(*:817)|(*:825))|rove/([^/]++)(*:847))|d(?|s/([^/]++)(?|(*:873)|/edit(*:886)|(*:894))|min/(?|to/chat/(?|fetch/([^/]++)(*:935)|mark\\-read/([^/]++)(*:962))|agent/(?|chat/(?|fetch/([^/]++)(*:1002)|mark\\-read/([^/]++)(*:1030))|unread\\-count/([^/]++)(*:1062))|withdraw/(?|approve/([^/]++)(*:1100)|reject/([^/]++)(*:1124)))))|/re(?|ffercommission/([^/]++)(?|(*:1169)|/edit(*:1183)|(*:1192))|ject/(?|([^/]++)(*:1218)|list(*:1231)))|/notice/([^/]++)(?|(*:1261)|/edit(*:1275)|(*:1284))|/w(?|orknotice/([^/]++)(?|(*:1320)|/edit(*:1334)|(*:1343))|hychooseu/([^/]++)(?|(*:1374)|/edit(*:1388)|(*:1397))|idthrawlimit/([^/]++)(?|(*:1431)|/edit(*:1445)|(*:1454)))|/s(?|upport/([^/]++)(?|(*:1488)|/edit(*:1502)|(*:1511))|t(?|epguide/([^/]++)(?|(*:1544)|/edit(*:1558)|(*:1567))|orage/(.*)(*:1587)))|/kyc/(?|approve/([^/]++)(*:1622)|reject/([^/]++)(*:1646))|/depositelimit/([^/]++)(?|(*:1682)|/edit(*:1696)|(*:1705))|/category/([^/]++)(?|(*:1736)|/edit(*:1750)|(*:1759)))/?$}sDu',
     ),
     3 => 
     array (
@@ -4353,7 +4413,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::s7Je0lrPJ0wSRKAU',
+            '_route' => 'generated::y0pWlo2ckHc0UGb6',
           ),
           1 => 
           array (
@@ -4370,7 +4430,51 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1107 => 
+      1100 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.widthraw.approve',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      1124 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'admin.widthraw.reject',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      1169 => 
       array (
         0 => 
         array (
@@ -4393,7 +4497,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1121 => 
+      1183 => 
       array (
         0 => 
         array (
@@ -4416,7 +4520,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1130 => 
+      1192 => 
       array (
         0 => 
         array (
@@ -4458,7 +4562,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1156 => 
+      1218 => 
       array (
         0 => 
         array (
@@ -4481,7 +4585,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1169 => 
+      1231 => 
       array (
         0 => 
         array (
@@ -4503,7 +4607,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1199 => 
+      1261 => 
       array (
         0 => 
         array (
@@ -4526,7 +4630,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1213 => 
+      1275 => 
       array (
         0 => 
         array (
@@ -4549,7 +4653,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1222 => 
+      1284 => 
       array (
         0 => 
         array (
@@ -4591,7 +4695,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1258 => 
+      1320 => 
       array (
         0 => 
         array (
@@ -4614,7 +4718,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1272 => 
+      1334 => 
       array (
         0 => 
         array (
@@ -4637,7 +4741,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1281 => 
+      1343 => 
       array (
         0 => 
         array (
@@ -4679,7 +4783,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1312 => 
+      1374 => 
       array (
         0 => 
         array (
@@ -4702,7 +4806,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1326 => 
+      1388 => 
       array (
         0 => 
         array (
@@ -4725,7 +4829,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1335 => 
+      1397 => 
       array (
         0 => 
         array (
@@ -4767,7 +4871,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1369 => 
+      1431 => 
       array (
         0 => 
         array (
@@ -4790,7 +4894,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1383 => 
+      1445 => 
       array (
         0 => 
         array (
@@ -4813,7 +4917,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1392 => 
+      1454 => 
       array (
         0 => 
         array (
@@ -4855,7 +4959,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1426 => 
+      1488 => 
       array (
         0 => 
         array (
@@ -4878,7 +4982,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1440 => 
+      1502 => 
       array (
         0 => 
         array (
@@ -4901,7 +5005,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1449 => 
+      1511 => 
       array (
         0 => 
         array (
@@ -4943,7 +5047,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1482 => 
+      1544 => 
       array (
         0 => 
         array (
@@ -4966,7 +5070,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1496 => 
+      1558 => 
       array (
         0 => 
         array (
@@ -4989,7 +5093,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1505 => 
+      1567 => 
       array (
         0 => 
         array (
@@ -5031,7 +5135,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1525 => 
+      1587 => 
       array (
         0 => 
         array (
@@ -5054,7 +5158,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1560 => 
+      1622 => 
       array (
         0 => 
         array (
@@ -5076,7 +5180,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1584 => 
+      1646 => 
       array (
         0 => 
         array (
@@ -5098,7 +5202,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1620 => 
+      1682 => 
       array (
         0 => 
         array (
@@ -5121,7 +5225,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1634 => 
+      1696 => 
       array (
         0 => 
         array (
@@ -5144,7 +5248,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1643 => 
+      1705 => 
       array (
         0 => 
         array (
@@ -5186,7 +5290,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1674 => 
+      1736 => 
       array (
         0 => 
         array (
@@ -5209,7 +5313,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1688 => 
+      1750 => 
       array (
         0 => 
         array (
@@ -5232,7 +5336,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      1697 => 
+      1759 => 
       array (
         0 => 
         array (
@@ -5289,7 +5393,7 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'generated::Ib7KFJ5LIRe99vIV' => 
+    'generated::jpyyb4NFbGvLzrVo' => 
     array (
       'methods' => 
       array (
@@ -5318,7 +5422,7 @@ app('router')->setCompiledRoutes(
                         \'exception\' => $exception,
                     ]), status: $exception ? 500 : 200);
                 }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000001010000000000000000";}}',
-        'as' => 'generated::Ib7KFJ5LIRe99vIV',
+        'as' => 'generated::jpyyb4NFbGvLzrVo',
       ),
       'fallback' => false,
       'defaults' => 
@@ -5371,7 +5475,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::NBERnumkyd0zPbFO' => 
+    'generated::l0pn7vmAMcsPLbsu' => 
     array (
       'methods' => 
       array (
@@ -5391,7 +5495,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::NBERnumkyd0zPbFO',
+        'as' => 'generated::l0pn7vmAMcsPLbsu',
       ),
       'fallback' => false,
       'defaults' => 
@@ -5480,7 +5584,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::Gy3CEeSJoFGpo9mf' => 
+    'generated::wH4LFMtjerCx2V3c' => 
     array (
       'methods' => 
       array (
@@ -5500,7 +5604,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::Gy3CEeSJoFGpo9mf',
+        'as' => 'generated::wH4LFMtjerCx2V3c',
       ),
       'fallback' => false,
       'defaults' => 
@@ -5699,7 +5803,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::oER3EHsIelUabYOZ' => 
+    'generated::EVrdAQuehaJ1aRhN' => 
     array (
       'methods' => 
       array (
@@ -5719,7 +5823,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::oER3EHsIelUabYOZ',
+        'as' => 'generated::EVrdAQuehaJ1aRhN',
       ),
       'fallback' => false,
       'defaults' => 
@@ -12015,7 +12119,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::s7Je0lrPJ0wSRKAU' => 
+    'generated::y0pWlo2ckHc0UGb6' => 
     array (
       'methods' => 
       array (
@@ -12037,7 +12141,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::s7Je0lrPJ0wSRKAU',
+        'as' => 'generated::y0pWlo2ckHc0UGb6',
       ),
       'fallback' => false,
       'defaults' => 
@@ -13282,6 +13386,194 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.widtharw.approved.index' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/user/widtharw/approved/index',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\AdminuserdepositeApprovedController@admin_widthraw_approvedindex',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AdminuserdepositeApprovedController@admin_widthraw_approvedindex',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'admin.widtharw.approved.index',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.widthraw.approve' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+      ),
+      'uri' => 'admin/withdraw/approve/{id}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\AdminuserdepositeApprovedController@approveWithdraw',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AdminuserdepositeApprovedController@approveWithdraw',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'admin.widthraw.approve',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.widthraw.reject' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PUT',
+      ),
+      'uri' => 'admin/withdraw/reject/{id}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\AdminuserdepositeApprovedController@rejectWithdraw',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AdminuserdepositeApprovedController@rejectWithdraw',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'admin.widthraw.reject',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'approved.list' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/withdraw/approved/list',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\AdminuserdepositeApprovedController@approved_list',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AdminuserdepositeApprovedController@approved_list',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'approved.list',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'rejected.list' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/withdraw/rejected/list',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'is_admin',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\AdminuserdepositeApprovedController@rejected_list',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AdminuserdepositeApprovedController@rejected_list',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'rejected.list',
       ),
       'fallback' => false,
       'defaults' => 

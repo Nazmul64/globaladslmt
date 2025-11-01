@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminuserdepositeApprovedController;
 use App\Http\Controllers\Admin\WidthrawlimitController;
 use App\Http\Controllers\Agent\adminChatforAgentController;
 use App\Http\Controllers\Agent\AgentbuysellPostCreateController;
@@ -234,9 +235,23 @@ Route::get('admin/agent/deposite/approve/list', [AdminagentDepositeController::c
 Route::get('admin/agent/deposite/reject/list', [AdminagentDepositeController::class, 'admin_agemt_deposite_reject_list'])->name('admin.agent.deposite.reject.list');
 Route::resource('category',CategoryController::class);
 Route::resource('agentcommission',DepositewidhrawComissionagetController::class);
-  Route::resource('widthrawlimit',WidthrawlimitController::class);
+Route::resource('widthrawlimit',WidthrawlimitController::class);
+Route::get('admin/user/widtharw/approved/index', [AdminuserdepositeApprovedController::class, 'admin_widthraw_approvedindex'])->name('admin.widtharw.approved.index');
+Route::put('/admin/withdraw/approve/{id}', [AdminuserdepositeApprovedController::class, 'approveWithdraw'])->name('admin.widthraw.approve');
+Route::put('/admin/withdraw/reject/{id}', [AdminuserdepositeApprovedController::class, 'rejectWithdraw'])->name('admin.widthraw.reject');
+Route::get('/admin/withdraw/approved/list', [AdminuserdepositeApprovedController::class, 'approved_list'])->name('approved.list');
+Route::get('/admin/withdraw/rejected/list', [AdminuserdepositeApprovedController::class, 'rejected_list'])->name('rejected.list');
 });
 // Admin Route Controller End
+
+
+
+
+
+
+
+
+
 // Agent Login  Controller Start
 Route::get('agent/login', [AgentauthController::class, 'agent_login'])->name('agent.login');
 Route::get('agent/register', [AgentauthController::class, 'agent_register'])->name('agent.register');

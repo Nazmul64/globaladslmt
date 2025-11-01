@@ -31,4 +31,9 @@ class UserWidthraw extends Model
     {
         return $query->where('status', 'completed');
     }
+  public function payment_name()
+    {
+        return $this->belongsTo(Paymentmethod::class, 'payment_method_id');
+    }
+
 }

@@ -9,7 +9,7 @@
         </div>
 
         <div class="nav-item">
-            <a href="widthra.html">
+            <a href="{{route('frontend.widthraw')}}">
                 <i class="fas fa-wallet"></i>
                 <div class="nav-label">Withdraw</div>
             </a>

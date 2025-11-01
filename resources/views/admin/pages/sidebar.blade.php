@@ -353,29 +353,32 @@
             </li>
         </ul>
     </li>
-
-
-
-
-
-      <li>
-        <a href="access-denied.html">
-          <i class="ri-folder-lock-line text-xl me-14 d-flex w-auto"></i>
-          <span>Access Denied</span>
+   <li class="dropdown">
+        <a href="javascript:void(0)">
+            <i class="fa-solid fa-money-bill-transfer fa-xl me-2"></i>
+            <span>User Withdraw</span>
         </a>
-      </li>
-      <li>
-        <a href="maintenance.html">
-          <i class="ri-hammer-line text-xl me-14 d-flex w-auto"></i>
-          <span>Maintenance</span>
-        </a>
-      </li>
-      <li>
-        <a href="blank-page.html">
-          <i class="ri-checkbox-multiple-blank-line text-xl me-14 d-flex w-auto"></i>
-          <span>Blank Page</span>
-        </a>
-      </li>
+        <ul class="sidebar-submenu">
+            <li>
+                <a href="{{ route('admin.widtharw.approved.index') }}">
+                    <i class="fa-solid fa-list fa-lg me-2"></i>
+                    User Withdraw approved
+                </a>
+            </li>
+              <li>
+                <a href="{{ route('approved.list') }}">
+                    <i class="fa-solid fa-list fa-lg me-2"></i>
+                    Approved List
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('rejected.list') }}">
+                    <i class="fa-solid fa-list fa-lg me-2"></i>
+                    Rejected List
+                </a>
+            </li>
+        </ul>
+    </li>
       <li class="dropdown">
         <a href="javascript:void(0)">
           <iconify-icon icon="icon-park-outline:setting-two" class="menu-icon"></iconify-icon>

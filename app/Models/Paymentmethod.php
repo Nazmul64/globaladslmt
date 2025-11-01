@@ -13,4 +13,6 @@ class Paymentmethod extends Model
         'method_number',
         'new_photo',
     ];
+
+
 }

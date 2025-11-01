@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('wallet_address')->nullable();
             $table->unsignedBigInteger('user_id')->nullable()->comment('User who made the deposit');
             $table->decimal('amount')->nullable();
-            $table->enum('status', ['pending', 'completed', 'rejected'])->default('pending');
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();
         });
     }
