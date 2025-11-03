@@ -8,12 +8,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script async src="https://cdn.startappnetwork.com/sdk.js"></script>
-    <script src="https://cdn.start.io/adunit.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {{-- START.IO SDK - Load First --}}
+  <script src="https://s.start.io/js/sdk/v1/start.min.js" async></script>
+<script src="https://cdn.start.io/adunit.js"></script>
+
 <div id="startio-banner"></div>
+
 <script>
-  startio.display('startio-banner');
+    @php
+        use App\Models\Ad; // ✅ Correct namespace (Models not Model)
+        $start_io = App\Models\Ad::first(); // ✅ Missing semicolon
+    @endphp
+
+    // ✅ Use the app ID or placement ID dynamically if available
+    startio.display('startio-banner', {
+        appId: '{{ $start_io->code ?? "default_app_id" }}',
+        placementId: '{{ $start_io->code ?? "default_placement_id" }}'
+    });
 </script>
+
 
     <!-- Bootstrap & FontAwesome -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">

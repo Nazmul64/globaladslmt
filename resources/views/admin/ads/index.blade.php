@@ -6,19 +6,24 @@
         <h4>Ads List</h4>
         <a href="{{ route('ads.create') }}" class="btn btn-primary">Add New Ad</a>
     </div>
+
     <div class="card shadow">
         <div class="card-body">
             @if($ads->isEmpty())
                 <p class="text-center">No ads found.</p>
             @else
             <table class="table table-bordered table-striped text-center">
-                <thead>
+                <thead class="table-light">
                     <tr>
                         <th>#</th>
-                        <th>Code</th>
-                        <th>Show MRCE Ads</th>
-                        <th>Show Button Timer Ads</th>
-                        <th>Show Banner Ads</th>
+                        <th>Banner Top</th>
+                        <th>Banner Bottom</th>
+                        <th>Interstitial</th>
+                        <th>Rewarded</th>
+                        <th>Native</th>
+                        <th>MRCE</th>
+                        <th>Button Timer</th>
+                        <th>Banner Ads</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -26,7 +31,11 @@
                     @foreach($ads as $index => $ad)
                     <tr>
                         <td>{{ $index + 1 }}</td>
-                        <td>{{ $ad->code }}</td>
+                        <td>{{ Str::limit($ad->banner_ad_1, 20) }}</td>
+                        <td>{{ Str::limit($ad->banner_ad_2, 20) }}</td>
+                        <td>{{ Str::limit($ad->interstitial, 20) }}</td>
+                        <td>{{ Str::limit($ad->rewarded_video, 20) }}</td>
+                        <td>{{ Str::limit($ad->native, 20) }}</td>
                         <td>{{ ucfirst($ad->show_mrce_ads) }}</td>
                         <td>{{ ucfirst($ad->show_button_timer_ads) }}</td>
                         <td>{{ ucfirst($ad->show_banner_ads) }}</td>

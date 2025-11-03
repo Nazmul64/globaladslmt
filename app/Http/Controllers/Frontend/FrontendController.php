@@ -141,16 +141,20 @@ public function frontend_refer_list()
     }
 
 public function frontend_ads()
-    {
-        if (!Auth::check()) {
-            return redirect()->route('user.login')->withErrors('Please login to view ads.');
-        }
-
-        $ads = Ad::first(); // Ads table থেকে প্রথম রো
-        $packageBuy = Packagebuy::where('user_id', Auth::id())->latest()->first();
-
-        return view('frontend.frontendpages.ads', compact('ads', 'packageBuy'));
+{
+    if (!Auth::check()) {
+        return redirect()->route('user.login')->withErrors('Please login to view ads.');
     }
+
+    // Get ads configuration (first row or default empty object)
+    $ads = Ad::first() ?? new Ad();
+
+    // Get user's package
+    $packageBuy = Packagebuy::where('user_id', Auth::id())->latest()->first();
+
+    return view('frontend.frontendpages.ads', compact('ads', 'packageBuy'));
+}
+
 public function frontend_agent_list()
 {
     $agents = User::where('role', 'agent')

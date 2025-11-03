@@ -4,6 +4,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminuserdepositeApprovedController;
 use App\Http\Controllers\Admin\WidthrawlimitController;
+use App\Http\Controllers\Api\AdsApiController;
 use App\Http\Controllers\Agent\adminChatforAgentController;
 use App\Http\Controllers\Agent\AgentbuysellPostCreateController;
 use App\Http\Controllers\Agent\AgentchattouserChatController;
@@ -48,6 +49,7 @@ use App\Http\Controllers\Frontend\DepositeController;
 use App\Http\Controllers\Frontend\KeyController;
 use App\Http\Controllers\Frontend\PackageBuyControllery;
 use App\Http\Controllers\Frontend\ProfileController;
+use App\Http\Controllers\Frontend\TaskController;
 use App\Http\Controllers\Frontend\UserchatController;
 use App\Http\Controllers\Frontend\UserDepositeController;
 use App\Http\Controllers\Frontend\UserDepositewidthrawrequestController;
@@ -68,6 +70,10 @@ Auth::routes();
 // Frontend Pages Route Controller Start
 
 
+Route::get('/ads', [AdsApiController::class, 'index']);       // All ads
+Route::get('/ads/{id}', [AdsApiController::class, 'show']);  // Single ad
+Route::get('/ads-settings', [AdsApiController::class, 'latest']); // Latest ad settings
+
 // Frontend Pages Route Controller End
 
 
@@ -81,8 +87,24 @@ Auth::routes();
 
 // Frontend Route Controller Start
   Route::middleware(['user'])->group(function () {
+
+
+    // Ad View Page - Shows advertisement
+    Route::get('/task/ad-view', [TaskController::class, 'ads_view'])->name('task.ad.view');
+
+    // Complete Task - After ad view
+    Route::post('/task/complete', [TaskController::class, 'complete'])->name('task.complete');
+
+    // Bonus Reward - From rewarded video
+    Route::post('/task/bonus-reward', [TaskController::class, 'bonusReward'])->name('task.bonus.reward');
+
+
+
+
+
    Route::get('dashboard', [FrontendController::class, 'frontend'])->name('frontend.index');
    Route::get('frontend/options', [FrontendController::class, 'frontend_options'])->name('frontend.options');
+   Route::get('frontend/ads/view', [FrontendController::class, 'ads_view'])->name('task.ad.view');
    Route::get('frontend/widthraw', [FrontendController::class, 'frontend_widthraw'])->name('frontend.widthraw');
    Route::get('frontend/adblance', [FrontendController::class, 'frontend_adblance'])->name('frontend.adblance');
    Route::get('frontend/total_deposite', [FrontendController::class, 'total_deposite'])->name('total.deposite');
@@ -145,8 +167,6 @@ Route::get('frontend/buysellpost', [BuyandsellposController::class, 'buysellpost
 Route::post('user/deposit/request', [UserDepositewidthrawrequestController::class, 'userwidhraw_request'])->name('user.deposit.request');
 Route::get('user/deposit/status', [UserDepositewidthrawrequestController::class, 'checkDepositStatus'])->name('user.deposit.status');
 Route::post('user/deposit/submit/{id}', [UserDepositewidthrawrequestController::class, 'userSubmitDeposit'])->name('user.deposit.submit');
-
-
 
 
 // User withdraw request
@@ -313,10 +333,6 @@ Route::post('/agent/deposit/orderrelche/{id}', [AgentracceptuserandDeposite::cla
 Route::get('/agent/withdraw-requests', [AgentWidhrawrequestacceptController::class, 'agentwidhrawRequests'])->name('agent.withdraw.requests');
 Route::post('/agent/withdraw/accept/{id}', [AgentWidhrawrequestacceptController::class, 'acceptagentwidhrawRequest'])->name('agent.withdraw.accept');
 Route::post('/agent/withdraw/release/{id}', [AgentWidhrawrequestacceptController::class, 'releaseWithdraw'])->name('agent.withdraw.release');
-
-
-
-
 
 
 

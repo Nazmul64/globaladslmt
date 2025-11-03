@@ -11,11 +11,28 @@
                 @csrf
 
                 <div class="mb-3">
-                    <label for="code" class="form-label">Ad Code</label>
-                    <textarea name="code" id="code" class="form-control" rows="5" required>{{ old('code') }}</textarea>
-                    @error('code')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
+                    <label for="banner_ad_1" class="form-label">Banner Ad Top</label>
+                    <textarea name="banner_ad_1" id="banner_ad_1" class="form-control" rows="3">{{ old('banner_ad_1') }}</textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="banner_ad_2" class="form-label">Banner Ad Bottom</label>
+                    <textarea name="banner_ad_2" id="banner_ad_2" class="form-control" rows="3">{{ old('banner_ad_2') }}</textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="interstitial" class="form-label">Interstitial Ad</label>
+                    <textarea name="interstitial" id="interstitial" class="form-control" rows="3">{{ old('interstitial') }}</textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="rewarded_video" class="form-label">Rewarded Video Ad</label>
+                    <textarea name="rewarded_video" id="rewarded_video" class="form-control" rows="3">{{ old('rewarded_video') }}</textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="native" class="form-label">Native Ad</label>
+                    <textarea name="native" id="native" class="form-control" rows="3">{{ old('native') }}</textarea>
                 </div>
 
                 <div class="mb-3">
@@ -25,9 +42,6 @@
                         <option value="enabled" {{ old('show_mrce_ads')=='enabled'?'selected':'' }}>Enabled</option>
                         <option value="disabled" {{ old('show_mrce_ads')=='disabled'?'selected':'' }}>Disabled</option>
                     </select>
-                    @error('show_mrce_ads')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
                 </div>
 
                 <div class="mb-3">
@@ -37,9 +51,6 @@
                         <option value="enabled" {{ old('show_button_timer_ads')=='enabled'?'selected':'' }}>Enabled</option>
                         <option value="disabled" {{ old('show_button_timer_ads')=='disabled'?'selected':'' }}>Disabled</option>
                     </select>
-                    @error('show_button_timer_ads')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
                 </div>
 
                 <div class="mb-3">
@@ -49,9 +60,6 @@
                         <option value="enabled" {{ old('show_banner_ads')=='enabled'?'selected':'' }}>Enabled</option>
                         <option value="disabled" {{ old('show_banner_ads')=='disabled'?'selected':'' }}>Disabled</option>
                     </select>
-                    @error('show_banner_ads')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
                 </div>
 
                 <button type="submit" class="btn btn-success w-100">Create Ad</button>

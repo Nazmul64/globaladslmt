@@ -3,22 +3,22 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Ad; // মডেল নাম নিশ্চিত করো
+use App\Models\Ad;
 use Illuminate\Http\Request;
 
 class AdsController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of all ads.
      */
     public function index()
     {
-        $ads =Ad::orderBy('id', 'desc')->get();
+        $ads = Ad::orderBy('id', 'desc')->get();
         return view('admin.ads.index', compact('ads'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new ad.
      */
     public function create()
     {
@@ -26,38 +26,37 @@ class AdsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created ad in the database.
      */
     public function store(Request $request)
     {
         $request->validate([
-            'code' => 'required|string',
+            'banner_ad_1' => 'nullable|string',
+            'banner_ad_2' => 'nullable|string',
+            'interstitial' => 'nullable|string',
+            'rewarded_video' => 'nullable|string',
+            'native' => 'nullable|string',
             'show_mrce_ads' => 'required|in:enabled,disabled',
             'show_button_timer_ads' => 'required|in:enabled,disabled',
             'show_banner_ads' => 'required|in:enabled,disabled',
         ]);
 
-        Ad::create([
-            'code' => $request->code,
-            'show_mrce_ads' => $request->show_mrce_ads,
-            'show_button_timer_ads' => $request->show_button_timer_ads,
-            'show_banner_ads' => $request->show_banner_ads,
-        ]);
+        Ad::create($request->only([
+            'banner_ad_1',
+            'banner_ad_2',
+            'interstitial',
+            'rewarded_video',
+            'native',
+            'show_mrce_ads',
+            'show_button_timer_ads',
+            'show_banner_ads',
+        ]));
 
-        return redirect()->route('ads.index')->with('success', 'Ads successfully created.');
+        return redirect()->route('ads.index')->with('success', 'Ad successfully created.');
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show($id)
-    {
-        $ad = Ad::findOrFail($id);
-        return view('admin.ads.show', compact('ad'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified ad.
      */
     public function edit($id)
     {
@@ -66,37 +65,45 @@ class AdsController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified ad in the database.
      */
     public function update(Request $request, $id)
     {
         $ad = Ad::findOrFail($id);
 
         $request->validate([
-            'code' => 'required|string',
+            'banner_ad_1' => 'nullable|string',
+            'banner_ad_2' => 'nullable|string',
+            'interstitial' => 'nullable|string',
+            'rewarded_video' => 'nullable|string',
+            'native' => 'nullable|string',
             'show_mrce_ads' => 'required|in:enabled,disabled',
             'show_button_timer_ads' => 'required|in:enabled,disabled',
             'show_banner_ads' => 'required|in:enabled,disabled',
         ]);
 
-        $ad->update([
-            'code' => $request->code,
-            'show_mrce_ads' => $request->show_mrce_ads,
-            'show_button_timer_ads' => $request->show_button_timer_ads,
-            'show_banner_ads' => $request->show_banner_ads,
-        ]);
+        $ad->update($request->only([
+            'banner_ad_1',
+            'banner_ad_2',
+            'interstitial',
+            'rewarded_video',
+            'native',
+            'show_mrce_ads',
+            'show_button_timer_ads',
+            'show_banner_ads',
+        ]));
 
-        return redirect()->route('ads.index')->with('success', 'Ads successfully updated.');
+        return redirect()->route('ads.index')->with('success', 'Ad successfully updated.');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified ad from the database.
      */
     public function destroy($id)
     {
         $ad = Ad::findOrFail($id);
         $ad->delete();
 
-        return redirect()->route('ads.index')->with('success', 'Ads successfully deleted.');
+        return redirect()->route('ads.index')->with('success', 'Ad successfully deleted.');
     }
 }
