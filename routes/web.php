@@ -90,7 +90,7 @@ Route::get('/ads-settings', [AdsApiController::class, 'latest']); // Latest ad s
 
 
     // Ad View Page - Shows advertisement
-    Route::get('/task/ad-view', [TaskController::class, 'ads_view'])->name('task.ad.view');
+    Route::get('/task/ad-views', [TaskController::class, 'ads_views'])->name('task.ad.views');
 
     // Complete Task - After ad view
     Route::post('/task/complete', [TaskController::class, 'complete'])->name('task.complete');

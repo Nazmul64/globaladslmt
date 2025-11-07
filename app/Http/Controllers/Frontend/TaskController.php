@@ -28,7 +28,7 @@ class TaskController extends Controller
             ->first();
 
         // Get ad settings
-        $ads = AdSetting::first();
+        $ads = Ad::first();
 
         // Count today's completed tasks
         $completedTasks = TaskCompletion::where('user_id', $user->id)
