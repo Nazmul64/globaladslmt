@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\DepositeUserController;
 use App\Http\Controllers\Api\KycsubmitforuserController;
 use App\Http\Controllers\Api\PasswordchangeController;
 use App\Http\Controllers\Api\PaymentmethodController;
@@ -23,6 +24,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Optional: Delete profile photo
     Route::delete('profile/photo', [ProfilechangeController::class, 'deletePhoto']);
     Route::get('paymentmethod', [PaymentmethodController::class, 'paymentmethod']);
+    Route::post('deposite', [DepositeUserController::class, 'deposite']);
 
 
 });
