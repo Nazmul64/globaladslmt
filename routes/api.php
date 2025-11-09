@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\PasswordchangeController;
 use App\Http\Controllers\Api\PaymentmethodController;
 use App\Http\Controllers\Api\ProfilechangeController;
 use App\Http\Controllers\Api\RegisterController;
+use App\Http\Controllers\Api\Depositeinstrctionshow;
+
 use Illuminate\Support\Facades\Route;
 
 Route::post('register', [RegisterController::class, 'register']);
@@ -39,5 +41,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::get('paymentmethod', [PaymentmethodController::class, 'paymentmethod']);
   Route::get('kycsubmit/kyc-status', [KycsubmitforuserController::class, 'kycStatus']);
   Route::post('kycsubmit/kyc-resubmit', [KycsubmitforuserController::class, 'kycResubmit']);
+  Route::get('/deposit-instructions', [Depositeinstrctionshow::class, 'Depositeinstrctionshow']);
+  Route::get('/deposit-instructions/videos', [Depositeinstrctionshow::class, 'Depositeinstrctionshowvideos']);
 
 
