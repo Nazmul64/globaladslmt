@@ -32,6 +32,7 @@ use App\Http\Controllers\Backend\AgentkyapprovedcController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\DepositelimiteController;
 use App\Http\Controllers\Backend\DepositewidhrawComissionagetController;
+use App\Http\Controllers\Backend\DepositInstructionController;
 use App\Http\Controllers\Backend\NoticesController;
 use App\Http\Controllers\Backend\PackageController;
 use App\Http\Controllers\Backend\PaymentmethodController;
@@ -59,6 +60,7 @@ use App\Http\Controllers\Frontend\UsertoagentChatController;
 use App\Http\Controllers\Frontend\UserWidhrawrequestAgentController;
 use App\Http\Controllers\Frontend\UserWidthrawController;
 use App\Models\Appsetting;
+use App\Models\DepositInstruction;
 use App\Models\Reffercommissionsetup;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -261,6 +263,11 @@ Route::put('/admin/withdraw/approve/{id}', [AdminuserdepositeApprovedController:
 Route::put('/admin/withdraw/reject/{id}', [AdminuserdepositeApprovedController::class, 'rejectWithdraw'])->name('admin.widthraw.reject');
 Route::get('/admin/withdraw/approved/list', [AdminuserdepositeApprovedController::class, 'approved_list'])->name('approved.list');
 Route::get('/admin/withdraw/rejected/list', [AdminuserdepositeApprovedController::class, 'rejected_list'])->name('rejected.list');
+
+
+
+
+Route::resource('depositeinstruction',DepositInstructionController::class);
 });
 // Admin Route Controller End
 

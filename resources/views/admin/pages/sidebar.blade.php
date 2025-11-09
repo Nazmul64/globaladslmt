@@ -382,29 +382,15 @@
       <li class="dropdown">
         <a href="javascript:void(0)">
           <iconify-icon icon="icon-park-outline:setting-two" class="menu-icon"></iconify-icon>
-          <span>Settings</span>
+          <span>Deposite Instructions</span>
         </a>
         <ul class="sidebar-submenu">
           <li>
-            <a href="{{route('appsetting.index')}}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Settings</a>
+            <a href="{{route('depositeinstruction.index')}}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Deposite Instructions</a>
           </li>
           <li>
             <a href="notification.html"><i class="ri-circle-fill circle-icon text-warning-main w-auto"></i>
               Notification</a>
-          </li>
-
-          <li>
-            <a href="theme.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Theme</a>
-          </li>
-          <li>
-            <a href="currencies.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Currencies</a>
-          </li>
-          <li>
-            <a href="language.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Languages</a>
-          </li>
-          <li>
-            <a href="payment-gateway.html"><i class="ri-circle-fill circle-icon text-danger-main w-auto"></i> Payment
-              Gateway</a>
           </li>
         </ul>
       </li>

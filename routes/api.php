@@ -15,8 +15,6 @@ Route::post('logout', [RegisterController::class,'logout']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('kycsubmit', [KycsubmitforuserController::class,'kycsubmit']);
-    Route::get('kyc/status', [KycsubmitforuserController::class, 'getKycStatus']);
-    Route::post('kyc/resubmit', [KycsubmitforuserController::class, 'resubmitKyc']);
     Route::post('chagepassword', [PasswordchangeController::class, 'chagepassword']);
     Route::get('profile', [ProfilechangeController::class, 'getProfile']);
     // Update profile (name, email, photo)
@@ -25,8 +23,21 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('profile/photo', [ProfilechangeController::class, 'deletePhoto']);
     Route::get('paymentmethod', [PaymentmethodController::class, 'paymentmethod']);
     Route::post('deposite', [DepositeUserController::class, 'deposite']);
+     Route::get('totaldeposite', [DepositeUserController::class, 'totaldeposite']);
+
+    // All deposits list
+    Route::get('userDeposits', [DepositeUserController::class, 'userDeposits']);
+
+    // Optional: Get deposits by status (pending/approved/rejected)
+    Route::get('userDeposits/{status}', [DepositeUserController::class, 'userDepositsByStatus']);
+
+    // Optional: Get single deposit details
+    Route::get('deposit/{id}', [DepositeUserController::class, 'getDepositById']);
 
 
 });
   Route::get('paymentmethod', [PaymentmethodController::class, 'paymentmethod']);
+  Route::get('kycsubmit/kyc-status', [KycsubmitforuserController::class, 'kycStatus']);
+  Route::post('kycsubmit/kyc-resubmit', [KycsubmitforuserController::class, 'kycResubmit']);
+
 

@@ -15,7 +15,6 @@ class RegisterController extends BaseController
      */
     public function register(Request $request)
     {
-        // Validate request
         $validator = Validator::make($request->all(), [
             'name'                  => 'required|string|max:255',
             'email'                 => 'required|email|unique:users,email',
@@ -36,7 +35,7 @@ class RegisterController extends BaseController
             $referredBy = $referrer ? $referrer->id : null;
         }
 
-        // Generate unique ref code
+        // Generate unique referral code
         do {
             $newRefCode = str_pad(rand(10000000, 99999999), 8, '0', STR_PAD_LEFT);
         } while (User::where('ref_code', $newRefCode)->exists());
@@ -51,15 +50,13 @@ class RegisterController extends BaseController
             'password'    => Hash::make($request->password),
         ]);
 
-        // Generate token
+        // Token (No Expiry)
         $token = $user->createToken('RestApi')->plainTextToken;
 
-        $success = [
+        return $this->sendResponse([
             'token' => $token,
-            'name'  => $user->name,
-        ];
-
-        return $this->sendResponse($success, 'User Registered Successfully');
+            'user'  => $user,
+        ], 'User Registered Successfully');
     }
 
     /**
@@ -79,34 +76,59 @@ class RegisterController extends BaseController
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return $this->sendError('Invalid credentials', [], 401);
+            return $this->sendError('Invalid email or password', [], 401);
         }
 
-        // Generate new token
+        // Optional: Remove previous tokens
+        // $user->tokens()->delete();
+
+        // Token (No Expiry)
         $token = $user->createToken('RestApi')->plainTextToken;
 
-        $success = [
+        return $this->sendResponse([
             'token' => $token,
-            'name'  => $user->name,
-        ];
-
-        return $this->sendResponse($success, 'User Logged In Successfully');
+            'user'  => $user,
+        ], 'User Logged In Successfully');
     }
 
     /**
-     * User Logout
+     * Logout User
      */
     public function logout(Request $request)
     {
         $user = $request->user();
-
-        if (!$user) {
-            return $this->sendError('User not found', [], 404);
+        if ($user) {
+            $request->user()->currentAccessToken()->delete();
         }
 
-        // Revoke all tokens
-        $user->tokens()->delete();
+        return $this->sendResponse([], 'User Logged Out Successfully');
+    }
 
-        return $this->sendResponse([], 'User logged out successfully');
+    /**
+     * Get User Profile
+     */
+    public function profile(Request $request)
+    {
+        return $this->sendResponse($request->user(), 'User profile retrieved successfully');
+    }
+
+    /**
+     * Refresh Token
+     */
+    public function refreshToken(Request $request)
+    {
+        $user = $request->user();
+
+        if (!$user) {
+            return $this->sendError('Unauthorized', [], 401);
+        }
+
+        $request->user()->currentAccessToken()->delete();
+        $token = $user->createToken('RestApi')->plainTextToken;
+
+        return $this->sendResponse([
+            'token' => $token,
+            'user'  => $user,
+        ], 'Token refreshed successfully');
     }
 }
