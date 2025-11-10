@@ -7,7 +7,10 @@ use App\Http\Controllers\Api\PaymentmethodController;
 use App\Http\Controllers\Api\ProfilechangeController;
 use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\Depositeinstrctionshow;
-
+use App\Http\Controllers\Api\P2PshowforuserController;
+use App\Http\Controllers\Api\PackagesbuyuserController;
+use App\Http\Controllers\Api\PackagesshowuserController;
+use App\Models\Package;
 use Illuminate\Support\Facades\Route;
 
 Route::post('register', [RegisterController::class, 'register']);
@@ -25,19 +28,30 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('profile/photo', [ProfilechangeController::class, 'deletePhoto']);
     Route::get('paymentmethod', [PaymentmethodController::class, 'paymentmethod']);
     Route::post('deposite', [DepositeUserController::class, 'deposite']);
-     Route::get('totaldeposite', [DepositeUserController::class, 'totaldeposite']);
-
+    Route::get('totaldeposite', [DepositeUserController::class, 'totaldeposite']);
     // All deposits list
     Route::get('userDeposits', [DepositeUserController::class, 'userDeposits']);
-
     // Optional: Get deposits by status (pending/approved/rejected)
     Route::get('userDeposits/{status}', [DepositeUserController::class, 'userDepositsByStatus']);
-
     // Optional: Get single deposit details
     Route::get('deposit/{id}', [DepositeUserController::class, 'getDepositById']);
 
+    Route::get('/deposit/balance', [PackagesshowuserController::class, 'getBalance']);
+    Route::post('/packagebuy/{id}', [PackagesbuyuserController::class, 'packagebuy']);
+    Route::get('buysellpost', [P2PshowforuserController::class, 'buysellpost']);
+
 
 });
+Route::get('/packageshow', [PackagesshowuserController::class, 'packageshow']);
+Route::get('buysellpost', [P2PshowforuserController::class, 'buysellpost']);
+
+
+
+
+
+
+
+
   Route::get('paymentmethod', [PaymentmethodController::class, 'paymentmethod']);
   Route::get('kycsubmit/kyc-status', [KycsubmitforuserController::class, 'kycStatus']);
   Route::post('kycsubmit/kyc-resubmit', [KycsubmitforuserController::class, 'kycResubmit']);

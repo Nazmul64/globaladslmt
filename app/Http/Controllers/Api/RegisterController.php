@@ -37,7 +37,7 @@ class RegisterController extends BaseController
 
         // Generate unique referral code
         do {
-            $newRefCode = str_pad(rand(10000000, 99999999), 8, '0', STR_PAD_LEFT);
+            $newRefCode = str_pad(rand(11111111, 99999999), 8, '0', STR_PAD_LEFT);
         } while (User::where('ref_code', $newRefCode)->exists());
 
         // Create user
@@ -50,7 +50,7 @@ class RegisterController extends BaseController
             'password'    => Hash::make($request->password),
         ]);
 
-        // Token (No Expiry)
+        // Token valid until user logout (No Expiry)
         $token = $user->createToken('RestApi')->plainTextToken;
 
         return $this->sendResponse([
@@ -60,7 +60,7 @@ class RegisterController extends BaseController
     }
 
     /**
-     * User Login
+     * User Login (Stays logged in for years unless logout)
      */
     public function login(Request $request)
     {
@@ -79,10 +79,7 @@ class RegisterController extends BaseController
             return $this->sendError('Invalid email or password', [], 401);
         }
 
-        // Optional: Remove previous tokens
-        // $user->tokens()->delete();
-
-        // Token (No Expiry)
+        // Token valid for unlimited time (no auto logout)
         $token = $user->createToken('RestApi')->plainTextToken;
 
         return $this->sendResponse([
@@ -92,12 +89,11 @@ class RegisterController extends BaseController
     }
 
     /**
-     * Logout User
+     * Logout User (User must click logout manually)
      */
     public function logout(Request $request)
     {
-        $user = $request->user();
-        if ($user) {
+        if ($request->user()) {
             $request->user()->currentAccessToken()->delete();
         }
 
@@ -113,7 +109,7 @@ class RegisterController extends BaseController
     }
 
     /**
-     * Refresh Token
+     * Refresh Token (Optional)
      */
     public function refreshToken(Request $request)
     {
