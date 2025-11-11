@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AgentlistController;
 use App\Http\Controllers\Api\DepositeUserController;
 use App\Http\Controllers\Api\KycsubmitforuserController;
 use App\Http\Controllers\Api\PasswordchangeController;
@@ -46,6 +47,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
 });
 Route::get('/packageshow', [PackagesshowuserController::class, 'packageshow']);
+Route::get('test', [AgentlistController::class, 'test']);
+Route::get('agentlist', [AgentlistController::class, 'agentlist']);
+Route::get('agent/{id}', [AgentlistController::class, 'show']);
 
 
 

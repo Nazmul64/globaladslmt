@@ -254,7 +254,7 @@
 
             <!-- Pending/All KYC List -->
             <li>
-                <a href="{{ route('agent.kyc.list') }}">
+                <a href="{{ route('kyc.list') }}">
                     <i class="fa-solid fa-hourglass-half fa-lg me-2 text-warning"></i>
                     Pending / All KYC List
                 </a>
