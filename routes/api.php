@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\Depositeinstrctionshow;
 use App\Http\Controllers\Api\P2PshowforuserController;
 use App\Http\Controllers\Api\PackagesbuyuserController;
 use App\Http\Controllers\Api\PackagesshowuserController;
+use App\Http\Controllers\Api\UserforadminChatController;
 use App\Models\Package;
 use Illuminate\Support\Facades\Route;
 
@@ -39,11 +40,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/deposit/balance', [PackagesshowuserController::class, 'getBalance']);
     Route::post('/packagebuy/{id}', [PackagesbuyuserController::class, 'packagebuy']);
     Route::get('buysellpost', [P2PshowforuserController::class, 'buysellpost']);
-
+    Route::get('/usertoadminchat/fetch', [UserforadminChatController::class, 'fetchMessages']);
+    Route::post('/usertoadminchat/send', [UserforadminChatController::class, 'sendMessage']);
+    Route::post('/usertoadminchat/mark-read', [UserforadminChatController::class, 'markAsRead']);
 
 });
 Route::get('/packageshow', [PackagesshowuserController::class, 'packageshow']);
-Route::get('buysellpost', [P2PshowforuserController::class, 'buysellpost']);
+
+
+
 
 
 

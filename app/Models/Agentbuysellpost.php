@@ -23,9 +23,23 @@ class Agentbuysellpost extends Model
         return $this->belongsTo(User::class, 'agent_id');
     }
 
+    // public function category()
+    // {
+    //     return $this->belongsTo(Category::class, 'category_id');
+    // }
+
+
+        public function agent()
+    {
+        return $this->belongsTo(User::class, 'agent_id', 'id');
+        // যদি Agent আলাদা model হয়, তাহলে:
+        // return $this->belongsTo(Agent::class, 'agent_id', 'id');
+    }
+
+    // ✅ Category Relationship
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
 }
