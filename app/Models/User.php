@@ -157,4 +157,10 @@ public function deposits()
     {
         return $this->hasMany(UserWidhrawrequest::class);
     }
+
+
+public function sentChatRequests()
+{
+    return $this->hasMany(ChatRequest::class, 'sender_id');
+}
 }
