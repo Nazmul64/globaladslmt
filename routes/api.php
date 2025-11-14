@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Agentfrientrequest;
 use App\Http\Controllers\Api\AgentlistController;
+use App\Http\Controllers\Api\ChatRequestController;
 use App\Http\Controllers\Api\DepositeUserController;
 use App\Http\Controllers\Api\KycsubmitforuserController;
 use App\Http\Controllers\Api\PasswordchangeController;
@@ -12,8 +13,10 @@ use App\Http\Controllers\Api\Depositeinstrctionshow;
 use App\Http\Controllers\Api\P2PshowforuserController;
 use App\Http\Controllers\Api\PackagesbuyuserController;
 use App\Http\Controllers\Api\PackagesshowuserController;
+use App\Http\Controllers\Api\PaymenthistoryiController;
 use App\Http\Controllers\Api\UserforadminChatController;
 use App\Http\Controllers\Api\UsertoagentChatController;
+use App\Http\Controllers\Api\UserWidthrawController;
 use App\Models\Package;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
@@ -75,19 +78,72 @@ Route::middleware('auth:sanctum')->group(function () {
     // Get all connected agents/users
     Route::get('friend-request/connected', [Agentfrientrequest::class, 'getConnectedAgents']);
 
-    // User info route
-    // Route::get('/user', function (Request $request) {
-    //     return response()->json([
-    //         'status' => true,
-    //         'data' => $request->user(),
-    //     ]);
-    // });
-Route::post('frontends/userto/agent/chat/submit', [UsertoagentChatController::class, 'frontend_chat_submit']);
-Route::get('frontends/userto/message/chat/messages', [UsertoagentChatController::class, 'frontend_chat_messages']);
-Route::get('frontends/userto/unread/agent/chat/unread-counts', [UsertoagentChatController::class, 'getUnreadCounts']);
-Route::delete('frontends/userto/agent/chat/message/{message_id}', [UsertoagentChatController::class, 'deleteMessage']);
-Route::get('frontends/user/toagent/chat', [UsertoagentChatController::class, 'frontend_user_toagent_chat']);
+
+
+
+    Route::get('/usertoagentchat/agent', [UsertoagentChatController::class, 'getAgentInfo']);
+
+    // Fetch messages
+    Route::get('/usertoagentchat/fetch', [UsertoagentChatController::class, 'fetchMessages']);
+
+    // Send message
+    Route::post('/usertoagentchat/send', [UsertoagentChatController::class, 'sendMessage']);
+
+    // Mark messages as read
+    Route::post('/usertoagentchat/mark-read', [UsertoagentChatController::class, 'markAsRead']);
+
+    // Delete message
+    Route::delete('/usertoagentchat/message/{id}', [UsertoagentChatController::class, 'deleteMessage']);
+
+    // Get unread count
+    Route::get('/usertoagentchat/unread-count', [UsertoagentChatController::class, 'getUnreadCount']);
+    Route::get('userwidthrawshow', [UserWidthrawController::class, 'userwidthrawshow']);
+    Route::post('userwidthrawstore', [UserWidthrawController::class, 'userwidthrawstore']);
+
+
+
+
+
+    // Paymenthistory Start
+    Route::get('paymenthistory', [PaymenthistoryiController::class, 'paymenthistory']);
+
+    // Paymenthistory End
+
+
+
+
 });
+
+
+
+
+
+
+
+Route::get('/friends', [ChatRequestController::class, 'index']);
+Route::get('/user-search', [ChatRequestController::class, 'search']);
+Route::post('/user/friend/request', [ChatRequestController::class, 'sendFriendRequest']);
+Route::get('/user/friend/request/accept/view', [ChatRequestController::class, 'sendFriendRequestaccept']);
+Route::post('/user/friend/request/accept', [ChatRequestController::class, 'acceptRequest']);
+Route::post('/user/friend/request/reject', [ChatRequestController::class, 'rejectRequest']);
+Route::post('/cancel/friend/request', [ChatRequestController::class, 'cancelFriendRequest']);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

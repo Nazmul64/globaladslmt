@@ -84,4 +84,6 @@ class ChatRequest extends Model
         return $this->status === 'rejected';
     }
 
+
+
 }

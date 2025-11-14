@@ -5,321 +5,306 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\BaseController;
 use App\Models\User;
 use App\Models\Usertoagentchat;
-use App\Models\ChatRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Schema;
 
 class UsertoagentChatController extends BaseController
 {
     /**
-     * Fetch agent list with accepted chat requests (JSON)
+     * Get First Available Agent
      */
-    public function frontend_user_toagent_chat()
+    private function getAvailableAgent()
     {
-        try {
-            $user_id = auth()->id();
+        $agent = User::where('role', 'agent')
+            ->where('status', 'approved')
+            ->first();
 
-            if (!$user_id) {
-                return $this->sendError('Unauthorized. Please login.', [], 401);
-            }
-
-            Log::info('=== Fetching Agents for User ===', ['user_id' => $user_id]);
-
-            // Base columns
-            $columns = ['id', 'name', 'email'];
-
-            // Add optional columns if exist
-            if (Schema::hasColumn('users', 'photo')) {
-                $columns[] = 'photo';
-            }
-            if (Schema::hasColumn('users', 'status')) {
-                $columns[] = 'status';
-            }
-
-            // Get all accepted agents
-            $agents = User::where('role', 'agent')
-                ->whereHas('receivedChatRequests', function ($query) use ($user_id) {
-                    $query->where('sender_id', $user_id)
-                        ->where('status', 'accepted');
-                })
-                ->select($columns)
-                ->orderBy('name', 'asc')
-                ->get()
-                ->map(function ($agent) {
-                    return [
-                        'id' => $agent->id,
-                        'name' => $agent->name,
-                        'email' => $agent->email,
-                        'photo' => $agent->photo ?? null,
-                        'status' => $agent->status ?? 'offline',
-                        'unread_count' => 0,
-                    ];
-                });
-
-            Log::info('Agents fetched successfully.', ['count' => $agents->count()]);
-
-            if ($agents->isEmpty()) {
-                return $this->sendResponse([], 'No agents available. Send chat requests first.');
-            }
-
-            return $this->sendResponse($agents, 'Agent list fetched successfully.');
-        } catch (\Exception $e) {
-            Log::error('Error fetching agents', ['error' => $e->getMessage()]);
-            return $this->sendError('Failed to fetch agents.', [], 500);
+        if (!$agent) {
+            $agent = User::where('role', 'agent')->first();
         }
+
+        return $agent;
     }
 
     /**
-     * Send message (JSON)
+     * Send Message (Text / Image)
      */
-    public function frontend_chat_submit(Request $request)
+    public function sendMessage(Request $request)
     {
         try {
-            $validator = Validator::make($request->all(), [
-                'receiver_id' => 'required|integer|exists:users,id',
-                'message' => 'nullable|string|max:5000',
-                'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            $request->validate([
+                'message'       => 'nullable|string|max:1000',
+                'image'         => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'message_type'  => 'nullable|in:text,image',
             ]);
 
-            if ($validator->fails()) {
-                return $this->sendError('Validation error.', $validator->errors(), 422);
+            $userId = Auth::id();
+            $user   = Auth::user();
+
+            if (!$userId) { return response()->json(['success' => false, 'message' => 'Unauthorized'], 401); }
+            if ($user->role !== 'user') {
+                return response()->json(['success' => false, 'message' => 'Only users can send messages'], 403);
             }
 
-            $validated = $validator->validated();
-            $currentUserId = Auth::id();
-            $receiverId = $validated['receiver_id'];
+            $agent = $this->getAvailableAgent();
+            if (!$agent) {
+                return response()->json(['success' => false, 'message' => 'No agent available'], 404);
+            }
 
-            Log::info('=== Sending Message ===', [
-                'sender' => $currentUserId,
-                'receiver' => $receiverId,
+            if (empty($request->message) && !$request->hasFile('image')) {
+                return response()->json(['success' => false, 'message' => 'Either message or image required'], 422);
+            }
+
+            $imagePath   = null;
+            $messageType = $request->input('message_type', 'text');
+
+            // ========== UPLOAD CHAT IMAGE → uploads/chat ==========
+            if ($request->hasFile('image')) {
+                $image      = $request->file('image');
+                $imageName  = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+
+                // Move to public/uploads/chat
+                $image->move(public_path('uploads/chat'), $imageName);
+
+                $imagePath  = 'uploads/chat/' . $imageName;
+                $messageType = 'image';
+            }
+
+            $chat = Usertoagentchat::create([
+                'sender_id'    => $userId,
+                'receiver_id'  => $agent->id,
+                'message'      => $request->message ?? '',
+                'image'        => $imagePath,
+                'message_type' => $messageType,
+                'is_read'      => false,
             ]);
 
-            // Verify agent
-            $receiver = User::where('id', $receiverId)
-                ->where('role', 'agent')
-                ->first();
+            return response()->json([
+                'success' => true,
+                'message' => 'মেসেজ সফলভাবে পাঠানো হয়েছে',
+                'data'    => [
+                    'id'          => $chat->id,
+                    'sender_id'   => $chat->sender_id,
+                    'sender_type' => 'user',
+                    'receiver_id' => $chat->receiver_id,
+                    'message'     => $chat->message ?? '',
+                    'message_type'=> $chat->message_type,
+                    'image_url'   => $imagePath ? asset($imagePath) : null,
+                    'is_read'     => (bool) $chat->is_read,
+                    'created_at'  => $chat->created_at->toIso8601String(),
+                ]
+            ], 201);
 
-            if (!$receiver) {
-                return $this->sendError('Invalid agent selected.', [], 400);
-            }
-
-            // Verify accepted chat request
-            $chatRequest = ChatRequest::where('sender_id', $currentUserId)
-                ->where('receiver_id', $receiverId)
-                ->where('status', 'accepted')
-                ->first();
-
-            if (!$chatRequest) {
-                return $this->sendError('Chat request not accepted yet.', [], 403);
-            }
-
-            if (empty($validated['message']) && !$request->hasFile('photo')) {
-                return $this->sendError('Please enter a message or select a photo.', [], 400);
-            }
-
-            DB::beginTransaction();
-
-            $chat = new Usertoagentchat();
-            $chat->sender_id = $currentUserId;
-            $chat->receiver_id = $receiverId;
-            $chat->message = $validated['message'] ?? null;
-            $chat->is_read = false;
-
-            // Photo upload
-            if ($request->hasFile('photo')) {
-                $photo = $request->file('photo');
-                $photoName = 'chat_' . time() . '_' . uniqid() . '.' . $photo->getClientOriginalExtension();
-                $uploadPath = public_path('uploads/chat');
-
-                if (!file_exists($uploadPath)) {
-                    mkdir($uploadPath, 0755, true);
-                }
-
-                $photo->move($uploadPath, $photoName);
-                $chat->photo = 'uploads/chat/' . $photoName;
-            }
-
-            $chat->save();
-            DB::commit();
-
-            return $this->sendResponse([
-                'id' => $chat->id,
-                'sender_id' => $chat->sender_id,
-                'receiver_id' => $chat->receiver_id,
-                'message' => $chat->message,
-                'photo' => $chat->photo,
-                'is_read' => $chat->is_read,
-                'created_at' => $chat->created_at->toDateTimeString(),
-            ], 'Message sent successfully.');
         } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error('Error sending message', ['error' => $e->getMessage()]);
-            return $this->sendError('Failed to send message.', [], 500);
+            Log::error('Send message error: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Failed to send message'], 500);
         }
     }
 
+
     /**
-     * Load chat messages (JSON)
+     * Fetch Messages
      */
-    public function frontend_chat_messages(Request $request)
+    public function fetchMessages(Request $request)
     {
         try {
-            $validator = Validator::make($request->all(), [
-                'receiver_id' => 'required|integer|exists:users,id',
+            $userId = Auth::id();
+            $user = Auth::user();
+
+            if (!$userId) { return response()->json(['success' => false, 'message' => 'Unauthorized'], 401); }
+            if ($user->role !== 'user') { return response()->json(['success' => false, 'message' => 'Only users allowed'], 403); }
+
+            $agent = $this->getAvailableAgent();
+            if (!$agent) { return response()->json(['success' => false, 'message' => 'No agent available'], 404); }
+
+            $agentId = $agent->id;
+
+            $perPage = min(max((int)$request->input('per_page', 50), 1), 100);
+            $page    = max((int)$request->input('page', 1), 1);
+
+            $messages = Usertoagentchat::where(function ($q) use ($agentId, $userId) {
+                $q->where('sender_id', $userId)->where('receiver_id', $agentId);
+            })->orWhere(function ($q) use ($agentId, $userId) {
+                $q->where('sender_id', $agentId)->where('receiver_id', $userId);
+            })
+            ->orderBy('created_at', 'asc')
+            ->paginate($perPage, ['*'], 'page', $page);
+
+            $transformed = $messages->map(function ($msg) use ($agentId) {
+                return [
+                    'id'          => $msg->id,
+                    'sender_id'   => $msg->sender_id,
+                    'sender_type' => $msg->sender_id == $agentId ? 'agent' : 'user',
+                    'receiver_id' => $msg->receiver_id,
+                    'message'     => $msg->message ?? '',
+                    'message_type'=> $msg->message_type ?? 'text',
+                    'image_url'   => $msg->image ? asset($msg->image) : null,
+                    'is_read'     => (bool) $msg->is_read,
+                    'created_at'  => $msg->created_at->toIso8601String(),
+                ];
+            });
+
+            return response()->json([
+                'success' => true,
+                'message' => 'মেসেজ সফলভাবে লোড হয়েছে',
+                'data'    => [
+                    'messages'   => $transformed,
+                    'pagination' => [
+                        'current_page' => $messages->currentPage(),
+                        'last_page'    => $messages->lastPage(),
+                        'per_page'     => $messages->perPage(),
+                        'total'        => $messages->total(),
+                    ],
+                ]
             ]);
 
-            if ($validator->fails()) {
-                return $this->sendError('Validation error.', $validator->errors(), 422);
-            }
+        } catch (\Exception $e) {
+            Log::error('Fetch error: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Failed to fetch messages'], 500);
+        }
+    }
 
-            $validated = $validator->validated();
-            $currentUserId = Auth::id();
-            $receiverId = $validated['receiver_id'];
 
-            Log::info('=== Loading Messages ===', [
-                'user' => $currentUserId,
-                'chat_with' => $receiverId,
-            ]);
+    /**
+     * Mark Agent → User Messages as Read
+     */
+    public function markAsRead()
+    {
+        try {
+            $userId = Auth::id();
+            $user = Auth::user();
 
-            // Verify agent
-            $receiver = User::where('id', $receiverId)
-                ->where('role', 'agent')
-                ->first();
+            if (!$userId) { return response()->json(['success' => false, 'message' => 'Unauthorized'], 401); }
+            if ($user->role !== 'user') { return response()->json(['success' => false, 'message' => 'Only users'], 403); }
 
-            if (!$receiver) {
-                return $this->sendError('Invalid agent selected.', [], 400);
-            }
+            $agent = $this->getAvailableAgent();
+            if (!$agent) { return response()->json(['success' => false, 'message' => 'No agent'], 404); }
 
-            // Verify chat request
-            $chatRequest = ChatRequest::where('sender_id', $currentUserId)
-                ->where('receiver_id', $receiverId)
-                ->where('status', 'accepted')
-                ->first();
-
-            if (!$chatRequest) {
-                return $this->sendError('Chat request not accepted yet.', [], 403);
-            }
-
-            $messages = Usertoagentchat::where(function ($query) use ($currentUserId, $receiverId) {
-                    $query->where('sender_id', $currentUserId)
-                        ->where('receiver_id', $receiverId);
-                })
-                ->orWhere(function ($query) use ($currentUserId, $receiverId) {
-                    $query->where('sender_id', $receiverId)
-                        ->where('receiver_id', $currentUserId);
-                })
-                ->orderBy('created_at', 'asc')
-                ->get()
-                ->map(function ($msg) {
-                    return [
-                        'id' => $msg->id,
-                        'sender_id' => $msg->sender_id,
-                        'receiver_id' => $msg->receiver_id,
-                        'message' => $msg->message,
-                        'photo' => $msg->photo,
-                        'is_read' => (bool) $msg->is_read,
-                        'created_at' => $msg->created_at->toDateTimeString(),
-                    ];
-                });
-
-            // Mark unread as read
-            Usertoagentchat::where('receiver_id', $currentUserId)
-                ->where('sender_id', $receiverId)
+            $updated = Usertoagentchat::where('sender_id', $agent->id)
+                ->where('receiver_id', $userId)
                 ->where('is_read', false)
                 ->update(['is_read' => true]);
 
-            return $this->sendResponse($messages, 'Messages fetched successfully.');
+            return response()->json([
+                'success' => true,
+                'message' => 'মেসেজ পড়া হয়েছে হিসেবে চিহ্নিত',
+                'data'    => ['updated_count' => $updated]
+            ]);
+
         } catch (\Exception $e) {
-            Log::error('Error loading messages', ['error' => $e->getMessage()]);
-            return $this->sendError('Failed to load messages.', [], 500);
+            return response()->json(['success' => false, 'message' => 'Failed to mark as read'], 500);
         }
     }
 
-    /**
-     * Get unread message counts (JSON)
-     */
-    public function getUnreadCounts()
-    {
-        try {
-            $currentUserId = Auth::id();
-
-            $unreadCounts = Usertoagentchat::select('sender_id', DB::raw('COUNT(*) as count'))
-                ->where('receiver_id', $currentUserId)
-                ->where('is_read', false)
-                ->groupBy('sender_id')
-                ->pluck('count', 'sender_id');
-
-            $data = [
-                'total_unread_count' => $unreadCounts->sum(),
-                'unread_by_user' => $unreadCounts,
-            ];
-
-            return $this->sendResponse($data, 'Unread counts fetched successfully.');
-        } catch (\Exception $e) {
-            Log::error('Error getting unread counts', ['error' => $e->getMessage()]);
-            return $this->sendError('Failed to get unread counts.', [], 500);
-        }
-    }
 
     /**
-     * Get last messages (JSON)
+     * Delete Own Message
      */
-    public function getLastMessages()
+    public function deleteMessage($messageId)
     {
         try {
-            $currentUserId = Auth::id();
+            $userId = Auth::id();
+            $user = Auth::user();
 
-            $lastMessages = Usertoagentchat::select('usertoagentchats.*')
-                ->whereIn('id', function ($query) use ($currentUserId) {
-                    $query->select(DB::raw('MAX(id)'))
-                        ->from('usertoagentchats')
-                        ->where(function ($q) use ($currentUserId) {
-                            $q->where('sender_id', $currentUserId)
-                                ->orWhere('receiver_id', $currentUserId);
-                        })
-                        ->groupBy(DB::raw('CASE WHEN sender_id = ' . $currentUserId . ' THEN receiver_id ELSE sender_id END'));
-                })
-                ->with(['sender:id,name', 'receiver:id,name'])
-                ->orderBy('created_at', 'desc')
-                ->get();
+            if (!$userId) { return response()->json(['success' => false, 'message' => 'Unauthorized'], 401); }
+            if ($user->role !== 'user') { return response()->json(['success' => false, 'message' => 'Only users'], 403); }
 
-            return $this->sendResponse($lastMessages, 'Last messages fetched successfully.');
-        } catch (\Exception $e) {
-            Log::error('Error getting last messages', ['error' => $e->getMessage()]);
-            return $this->sendError('Failed to get last messages.', [], 500);
-        }
-    }
+            $message = Usertoagentchat::find($messageId);
+            if (!$message) { return response()->json(['success' => false, 'message' => 'Message not found'], 404); }
 
-    /**
-     * Delete message (JSON)
-     */
-    public function deleteMessage($message_id)
-    {
-        try {
-            $message = Usertoagentchat::find($message_id);
-
-            if (!$message) {
-                return $this->sendError('Message not found.', [], 404);
+            if ($message->sender_id != $userId) {
+                return response()->json(['success' => false, 'message' => 'You cannot delete this message'], 403);
             }
 
-            if ($message->sender_id != Auth::id()) {
-                return $this->sendError('You can only delete your own messages.', [], 403);
-            }
-
-            if ($message->photo && file_exists(public_path($message->photo))) {
-                unlink(public_path($message->photo));
+            // Delete image from uploads/chat
+            if ($message->image && file_exists(public_path($message->image))) {
+                unlink(public_path($message->image));
             }
 
             $message->delete();
 
-            return $this->sendResponse([], 'Message deleted successfully.');
+            return response()->json(['success' => true, 'message' => 'মেসেজ সফলভাবে মুছে ফেলা হয়েছে']);
+
         } catch (\Exception $e) {
-            Log::error('Error deleting message', ['error' => $e->getMessage()]);
-            return $this->sendError('Failed to delete message.', [], 500);
+            return response()->json(['success' => false, 'message' => 'Failed to delete message'], 500);
+        }
+    }
+
+
+    /**
+     * Get Agent Info
+     */
+    public function getAgentInfo()
+    {
+        try {
+            $userId = Auth::id();
+            $user = Auth::user();
+
+            if (!$userId) { return response()->json(['success' => false, 'message' => 'Unauthorized'], 401); }
+            if ($user->role !== 'user') { return response()->json(['success' => false, 'message' => 'Only users'], 403); }
+
+            $agent = $this->getAvailableAgent();
+            if (!$agent) { return response()->json(['success' => false, 'message' => 'এজেন্ট পাওয়া যায়নি'], 404); }
+
+            // Agent avatar → uploads/profile/
+            $avatar = null;
+            if ($agent->photo) {
+                $avatar = asset('uploads/profile/' . basename($agent->photo));
+            }
+
+            $unreadCount = Usertoagentchat::where('sender_id', $agent->id)
+                ->where('receiver_id', $userId)
+                ->where('is_read', false)
+                ->count();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'এজেন্ট তথ্য লোড হয়েছে',
+                'data'    => [
+                    'id'           => $agent->id,
+                    'name'         => $agent->name ?? 'Support Agent',
+                    'email'        => $agent->email,
+                    'avatar'       => $avatar,
+                    'status'       => $agent->status ?? 'available',
+                    'unread_count' => $unreadCount,
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Failed to get agent info'], 500);
+        }
+    }
+
+
+    /**
+     * Get Unread Count
+     */
+    public function getUnreadCount()
+    {
+        try {
+            $userId = Auth::id();
+            $user = Auth::user();
+
+            if (!$userId) { return response()->json(['success' => false, 'message' => 'Unauthorized'], 401); }
+            if ($user->role !== 'user') { return response()->json(['success' => false, 'message' => 'Only users'], 403); }
+
+            $agent = $this->getAvailableAgent();
+            if (!$agent) { return response()->json(['success' => false, 'message' => 'No agent available'], 404); }
+
+            $count = Usertoagentchat::where('sender_id', $agent->id)
+                ->where('receiver_id', $userId)
+                ->where('is_read', false)
+                ->count();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Unread count retrieved',
+                'data'    => ['unread_count' => $count]
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Failed to get unread count'], 500);
         }
     }
 }
