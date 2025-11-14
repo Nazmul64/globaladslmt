@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\PaymentmethodController;
 use App\Http\Controllers\Api\ProfilechangeController;
 use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\Depositeinstrctionshow;
+use App\Http\Controllers\Api\HowtoworkController;
 use App\Http\Controllers\Api\P2PshowforuserController;
 use App\Http\Controllers\Api\PackagesbuyuserController;
 use App\Http\Controllers\Api\PackagesshowuserController;
@@ -110,13 +111,19 @@ Route::middleware('auth:sanctum')->group(function () {
     // Paymenthistory End
 
 
+    //How to work Start
+     Route::get('howtowork', [HowtoworkController::class, 'howtowork']);
+   //How to work Start
+
 
 
 });
 
 
 
-
+  //How to work Start
+ Route::get('howtowork', [HowtoworkController::class, 'howtowork']);
+   //How to work Start
 
 
 
