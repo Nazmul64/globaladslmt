@@ -120,7 +120,7 @@
             <li>
                 <a href="{{ route('notice.index') }}">
                     <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
-                    Notice Setup
+                   Package Buy Notice
                 </a>
             </li>
               <li>

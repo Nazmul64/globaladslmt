@@ -11,6 +11,8 @@ class Packagebuy extends Model
         'package_id',
         'amount',
         'status',
+        'daily_income',
+        'daily_limit',
     ];
 
     public function user()

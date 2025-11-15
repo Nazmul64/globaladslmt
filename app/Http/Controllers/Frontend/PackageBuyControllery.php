@@ -14,20 +14,12 @@ use Illuminate\Http\Request;
 
 class PackageBuyControllery extends Controller
 {
-    /**
-     * User buys a package
-     */
     public function frontend_packages_buy(Request $request, $package_id)
     {
         $user = Auth::user();
         $package = Package::findOrFail($package_id);
 
-        // Check if package price is set
-        if (!$package->price) {
-            return redirect()->back()->with('error', 'Package price not set!');
-        }
-
-        // Total approved deposit of user
+        // Check balance
         $totalApprovedDeposit = Deposite::where('user_id', $user->id)
                                         ->where('status', 'approved')
                                         ->sum('amount');
@@ -38,22 +30,37 @@ class PackageBuyControllery extends Controller
 
         DB::transaction(function () use ($user, $package) {
 
-            // 1. Insert into packagebuys with daily_income & daily_limit from package
-            $packageBuy = Packagebuy::create([
-                'user_id' => $user->id,
-                'package_id' => $package->id,
-                'amount' => $package->price,
-                'daily_income' => $package->daily_income,
-                'daily_limit' => $package->daily_limit,
-                'status' => 'approved',
-            ]);
+            // Check previous package
+            $previousPackage = Packagebuy::where('user_id', $user->id)->first();
 
-            // 2. Deduct amount from user's approved deposits
+            if ($previousPackage) {
+                // 🟡 Update Existing Package (Shift system)
+                $previousPackage->package_id = $package->id;
+                $previousPackage->amount = $package->price;
+                $previousPackage->daily_income = $package->daily_income;
+                $previousPackage->daily_limit = $package->daily_limit;
+                $previousPackage->save();
+            } else {
+                // 🟢 New Package Buy (First time)
+                $previousPackage = Packagebuy::create([
+                    'user_id' => $user->id,
+                    'package_id' => $package->id,
+                    'amount' => $package->price,
+                    'daily_income' => $package->daily_income,
+                    'daily_limit' => $package->daily_limit,
+                    'status' => 'approved',
+                ]);
+
+                // Referral only first time
+                $this->giveReferralCommission($user, $package->price);
+            }
+
+            // Deduct Deposit
             $amountToDeduct = $package->price;
             $userDeposits = Deposite::where('user_id', $user->id)
-                                     ->where('status', 'approved')
-                                     ->orderBy('id', 'asc')
-                                     ->get();
+                        ->where('status', 'approved')
+                        ->orderBy('id', 'asc')
+                        ->get();
 
             foreach ($userDeposits as $deposit) {
                 if ($amountToDeduct <= 0) break;
@@ -68,20 +75,12 @@ class PackageBuyControllery extends Controller
                     $deposit->save();
                 }
             }
-
-            // 3. Give referral commission if this is the first purchase
-            $firstPurchase = Packagebuy::where('user_id', $user->id)->count() === 1;
-            if ($firstPurchase) {
-                $this->giveReferralCommission($user, $package->price);
-            }
         });
 
-        return redirect()->back()->with('success', 'Package purchased successfully!');
+        return redirect()->back()->with('success', 'Package updated/purchased successfully!');
     }
 
-    /**
-     * Give referral commission recursively based on levels
-     */
+
     private function giveReferralCommission(User $user, $packagePrice)
     {
         $referrer = $user->referrer;
@@ -99,7 +98,7 @@ class PackageBuyControllery extends Controller
             $referrer->refer_income += $commissionAmount;
             $referrer->save();
 
-            $referrer = $referrer->referrer; // move to next level
+            $referrer = $referrer->referrer;
         }
     }
 }

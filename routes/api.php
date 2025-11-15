@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\P2PshowforuserController;
 use App\Http\Controllers\Api\PackagesbuyuserController;
 use App\Http\Controllers\Api\PackagesshowuserController;
 use App\Http\Controllers\Api\PaymenthistoryiController;
+use App\Http\Controllers\Api\UserbalanceshowController;
 use App\Http\Controllers\Api\UserchatController;
 use App\Http\Controllers\Api\UserforadminChatController;
 use App\Http\Controllers\Api\UsertoagentChatController;
@@ -47,11 +48,32 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('deposit/{id}', [DepositeUserController::class, 'getDepositById']);
 
     Route::get('/deposit/balance', [PackagesshowuserController::class, 'getBalance']);
-    Route::post('/packagebuy/{id}', [PackagesbuyuserController::class, 'packagebuy']);
     Route::get('buysellpost', [P2PshowforuserController::class, 'buysellpost']);
     Route::get('/usertoadminchat/fetch', [UserforadminChatController::class, 'fetchMessages']);
     Route::post('/usertoadminchat/send', [UserforadminChatController::class, 'sendMessage']);
     Route::post('/usertoadminchat/mark-read', [UserforadminChatController::class, 'markAsRead']);
+
+
+
+
+
+
+    // Get user's current active package
+    Route::get('/user/current-package', [PackagesbuyuserController::class, 'getCurrentPackage']);
+
+    // Get user's balance info
+    Route::get('/user/balance', [PackagesbuyuserController::class, 'getUserBalance']);
+
+    // Buy or update package
+    Route::post('/packagebuy/{package_id}', [PackagesbuyuserController::class, 'packagebuy']);
+
+
+
+
+
+
+
+
 
 
 
@@ -144,7 +166,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('chat/message/delete', [UserchatController::class, 'deleteMessage']);
     Route::post('chat/message/mark-read', [UserchatController::class, 'markAsRead']);
     Route::get('chat/last-messages', [UserchatController::class, 'getLastMessages']);
-
+    Route::get('userbalanceshow', [UserbalanceshowController::class, 'userbalanceshow']);
 });
 
 
