@@ -31,7 +31,7 @@
                 <td>{{ $deposit->sender_account }}</td>
                 <td>
                     @if($deposit->photo)
-                        <img src="{{ asset('uploads/agentdeposite/' . $deposit->photo) }}" alt="Deposit Photo" width="50" height="50" style="object-fit: cover;">
+                        <img src="{{ asset('uploads/deposits/' . $deposit->photo) }}" alt="Deposit Photo" width="50" height="50" style="object-fit: cover;">
                     @else
                         <span class="text-muted">No Image</span>
                     @endif
@@ -46,11 +46,11 @@
                 </td>
                 <td>
                     @if($deposit->status == 'pending')
-                        <form action="{{ route('admin.agentdeposit.approve', $deposit->id) }}" method="POST" style="display:inline;">
+                        <form action="{{ route('admin.deposite.approve', $deposit->id) }}" method="POST" style="display:inline;">
                             @csrf
                             <button type="submit" class="btn btn-success btn-sm">Approve</button>
                         </form>
-                        <form action="{{ route('admin.agentdeposit.reject', $deposit->id) }}" method="POST" style="display:inline;">
+                        <form action="{{ route('admin.deposite.reject', $deposit->id) }}" method="POST" style="display:inline;">
                             @csrf
                             <button type="submit" class="btn btn-danger btn-sm">Reject</button>
                         </form>

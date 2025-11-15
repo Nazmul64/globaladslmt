@@ -9,7 +9,7 @@
         <input type="text" id="rejectedDepositSearch" class="form-control" placeholder="Search by transaction ID, sender, or amount">
     </div>
 
-    @if($rejected->count() > 0)
+    @if(isset($rejected) && $rejected->count() > 0)
     <table class="table table-bordered mt-3" id="rejectedDepositsTable">
         <thead class="table-light">
             <tr>
@@ -31,8 +31,7 @@
                 <td>{{ $deposit->sender_account }}</td>
                 <td>
                     @if($deposit->photo)
-                       <img src="{{ asset('uploads/agentdeposite/' . $deposit->photo) }}" alt="Deposit Photo" width="50" height="50" style="object-fit: cover;">
-
+                        <img src="{{ asset('uploads/deposits/' . $deposit->photo) }}" alt="Deposit Photo" width="50" height="50" style="object-fit: cover;">
                     @else
                         <span class="text-muted">No Image</span>
                     @endif

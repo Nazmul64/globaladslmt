@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\UserchatController;
 use App\Http\Controllers\Api\UserforadminChatController;
 use App\Http\Controllers\Api\UsertoagentChatController;
 use App\Http\Controllers\Api\UserWidthrawController;
+use App\Http\Controllers\Api\WroknoticesController;
 use App\Models\Package;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
@@ -166,7 +167,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('chat/message/delete', [UserchatController::class, 'deleteMessage']);
     Route::post('chat/message/mark-read', [UserchatController::class, 'markAsRead']);
     Route::get('chat/last-messages', [UserchatController::class, 'getLastMessages']);
+    // Balance show
     Route::get('userbalanceshow', [UserbalanceshowController::class, 'userbalanceshow']);
+    // Balance show
+
+  // Wrok Notices show
+    Route::get('worknotices', [WroknoticesController::class, 'worknotices']);
+  // Wrok Notices show
 });
 
 
