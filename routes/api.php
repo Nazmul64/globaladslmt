@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\P2PshowforuserController;
 use App\Http\Controllers\Api\PackagesbuyuserController;
 use App\Http\Controllers\Api\PackagesshowuserController;
 use App\Http\Controllers\Api\PaymenthistoryiController;
+use App\Http\Controllers\Api\UserchatController;
 use App\Http\Controllers\Api\UserforadminChatController;
 use App\Http\Controllers\Api\UsertoagentChatController;
 use App\Http\Controllers\Api\UserWidthrawController;
@@ -115,7 +116,34 @@ Route::middleware('auth:sanctum')->group(function () {
      Route::get('howtowork', [HowtoworkController::class, 'howtowork']);
    //How to work Start
 
+     Route::get('/user-search', [ChatRequestController::class, 'search']);
 
+    // Friend Requests
+    Route::post('/user/friend/request', [ChatRequestController::class, 'sendFriendRequest']);
+    Route::post('/cancel/friend/request', [ChatRequestController::class, 'cancelFriendRequest']);
+
+    // Received Requests
+    Route::get('/user/friend/request/accept/view', [ChatRequestController::class, 'sendFriendRequestaccept']);
+    Route::post('/user/friend/request/accept', [ChatRequestController::class, 'acceptRequest']);
+    Route::post('/user/friend/request/reject', [ChatRequestController::class, 'rejectRequest']);
+
+    // Friends List
+    Route::get('/friends', [ChatRequestController::class, 'friends']);
+    Route::get('/friends/count', [ChatRequestController::class, 'friendsCount']);
+    Route::post('/unfriend', [ChatRequestController::class, 'unfriend']);
+
+
+
+
+    Route::get('chat/frontend/list', [UserchatController::class, 'frontend_chat_list']);
+    Route::post('chat/frontend/submit', [UserchatController::class, 'frontend_chat_submit']);
+    Route::get('chat/frontend/messages', [UserchatController::class, 'frontend_chat_messages']);
+    Route::get('chat/unread-counts', [UserchatController::class, 'getUnreadCounts']);
+
+    // Optional bonus features
+    Route::delete('chat/message/delete', [UserchatController::class, 'deleteMessage']);
+    Route::post('chat/message/mark-read', [UserchatController::class, 'markAsRead']);
+    Route::get('chat/last-messages', [UserchatController::class, 'getLastMessages']);
 
 });
 
@@ -127,13 +155,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 
-Route::get('/friends', [ChatRequestController::class, 'index']);
-Route::get('/user-search', [ChatRequestController::class, 'search']);
-Route::post('/user/friend/request', [ChatRequestController::class, 'sendFriendRequest']);
-Route::get('/user/friend/request/accept/view', [ChatRequestController::class, 'sendFriendRequestaccept']);
-Route::post('/user/friend/request/accept', [ChatRequestController::class, 'acceptRequest']);
-Route::post('/user/friend/request/reject', [ChatRequestController::class, 'rejectRequest']);
-Route::post('/cancel/friend/request', [ChatRequestController::class, 'cancelFriendRequest']);
+
+
 
 
 
