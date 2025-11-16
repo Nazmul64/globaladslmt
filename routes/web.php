@@ -39,6 +39,7 @@ use App\Http\Controllers\Backend\PaymentmethodController;
 use App\Http\Controllers\Backend\ReffercommissionsetupController;
 use App\Http\Controllers\Backend\StepguideController;
 use App\Http\Controllers\Backend\SupportController;
+use App\Http\Controllers\Backend\TakaandDollarsigendController;
 use App\Http\Controllers\Backend\WhychooseusControllerController;
 use App\Http\Controllers\Backend\WorkNoticesController;
 use App\Http\Controllers\Frontend\AgentkycController;
@@ -166,26 +167,61 @@ Route::get('frontend/buysellpost', [BuyandsellposController::class, 'buysellpost
 
 
 // Deposite Routes
-Route::post('user/deposit/request', [UserDepositewidthrawrequestController::class, 'userwidhraw_request'])->name('user.deposit.request');
-Route::get('user/deposit/status', [UserDepositewidthrawrequestController::class, 'checkDepositStatus'])->name('user.deposit.status');
-Route::post('user/deposit/submit/{id}', [UserDepositewidthrawrequestController::class, 'userSubmitDeposit'])->name('user.deposit.submit');
+// Route::post('user/deposit/request', [UserDepositewidthrawrequestController::class, 'userwidhraw_request'])->name('user.deposit.request');
+// Route::get('user/deposit/status', [UserDepositewidthrawrequestController::class, 'checkDepositStatus'])->name('user.deposit.status');
+// Route::post('user/deposit/submit/{id}', [UserDepositewidthrawrequestController::class, 'userSubmitDeposit'])->name('user.deposit.submit');
 
 
-// User withdraw request
-Route::post('user/withdraw/request', [UserDepositewidthrawrequestController::class, 'userwidhraw_request'])->name('user.withdraw.request');
 
-// Check agent confirmation
+// Route::post('user/withdraw/request', [UserDepositewidthrawrequestController::class, 'userwidhraw_request'])->name('user.withdraw.request');
+
+
 Route::get('user/withdraw/status', [UserWidhrawrequestAgentController::class, 'checkWithdrawStatus'])->name('user.withdraw.status');
 
-// User submits withdraw after agent confirms
+
 Route::post('user/withdraw/submit/{id}', [UserWidhrawrequestAgentController::class, 'userSubmitWithdraw'])->name('user.withdraw.submit');
 
-// Agent accepts withdraw (agent side)
+
 Route::post('agent/withdraw/accept/{id}', [UserWidhrawrequestAgentController::class, 'acceptWithdrawRequest'])->name('agent.withdraw.accept');
 
 
 Route::post('/user/deposite/manual', [UserWidthrawController::class, 'user_deposite_manual'])->name('user.withdraw.store');
+    Route::get('buysellpost', [UserDepositewidthrawrequestController::class, 'buysellpost'])
+        ->name('buysellpost');
 
+    // ========== DEPOSIT ROUTES ==========
+
+    // Step 1: User sends deposit request
+    Route::post('user/deposit/request', [UserDepositewidthrawrequestController::class, 'userwidhraw_request'])
+        ->name('user.deposit.request');
+
+    // Step 2: Check deposit status (polling)
+    Route::get('user/deposit/status', [UserDepositewidthrawrequestController::class, 'checkDepositStatus'])
+        ->name('user.deposit.status');
+
+    // Step 3: User submits payment details
+    Route::post('user/deposit/submit/{id}', [UserDepositewidthrawrequestController::class, 'userSubmitDeposit'])
+        ->name('user.deposit.submit');
+
+    // ========== WITHDRAW ROUTES ==========
+
+    // Step 1: User sends withdraw request
+    Route::post('user/withdraw/request', [UserDepositewidthrawrequestController::class, 'userwidhraw_request'])
+        ->name('user.withdraw.request');
+
+    // Step 2: Check withdraw status (polling)
+    Route::get('user/withdraw/status', [UserDepositewidthrawrequestController::class, 'checkWithdrawStatus'])
+        ->name('user.withdraw.status');
+
+    // Step 3: User releases withdraw funds
+    Route::post('user/withdraw/submit/{id}', [UserDepositewidthrawrequestController::class, 'userSubmitWithdraw'])
+        ->name('user.withdraw.submit');
+
+    // ========== AGENT ROUTES ==========
+
+    // Agent accepts withdraw request
+    Route::post('agent/withdraw/accept/{id}', [UserDepositewidthrawrequestController::class, 'acceptWithdrawRequest'])
+        ->name('agent.withdraw.accept');
 
 
 
@@ -221,6 +257,7 @@ Route::middleware(['is_admin'])->group(function () {
   Route::resource('support',SupportController::class);
   Route::resource('stepguide',StepguideController::class);
   Route::resource('whychooseu',WhychooseusControllerController::class);
+  Route::resource('dollarsiged',TakaandDollarsigendController::class);
 
 
 

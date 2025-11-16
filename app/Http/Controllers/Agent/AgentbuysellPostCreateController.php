@@ -5,46 +5,53 @@ namespace App\Http\Controllers\Agent;
 use App\Http\Controllers\Controller;
 use App\Models\Agentbuysellpost;
 use App\Models\Category;
+use App\Models\TakaandDollarsigend;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AgentbuysellPostCreateController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display all posts
      */
     public function index()
     {
-        $posts = Agentbuysellpost::latest()->get();
+
+        $posts = Agentbuysellpost::with(['category', 'dollarsign'])->latest()->get();
         return view('agent.agentbuysellpost.index', compact('posts'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show create form
      */
     public function create()
     {
         $categories = Category::all();
-        return view('agent.agentbuysellpost.create', compact('categories'));
+        $takaandDollarsigend = TakaandDollarsigend::all();
+        return view('agent.agentbuysellpost.create', compact('categories', 'takaandDollarsigend'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a new post
      */
     public function store(Request $request)
     {
         $validated = $request->validate([
             'category_id' => 'required|exists:categories,id',
-            'photo' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'dollarsigends_id' => 'required|exists:takaand_dollarsigends,id',
+            'photo.*' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             'trade_limit' => 'required|integer|min:1',
             'trade_limit_two' => 'required|integer|gte:trade_limit',
-            'available_balance' => 'required|numeric|min:0',
-            'duration' => 'required|integer|min:1',
+            'rate_balance' => 'required|numeric|min:0',
             'payment_name' => 'required|string|max:255',
             'status' => 'required|in:pending,approved,rejected',
         ]);
 
-        $validated['photo'] = $this->uploadImage($request->file('photo'));
-        $validated['agent_id'] = auth()->id();
+        $validated['agent_id'] = Auth::id();
+
+        if ($request->hasFile('photo')) {
+            $validated['photo'] = json_encode($this->uploadMultipleImages($request->file('photo')));
+        }
 
         Agentbuysellpost::create($validated);
 
@@ -53,38 +60,44 @@ class AgentbuysellPostCreateController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show edit form
      */
-public function edit($id)
-{
-    $agentBuySellPost = Agentbuysellpost::findOrFail($id); // Correct variable name
-    $categories = Category::all();
-    return view('agent.agentbuysellpost.edit', compact('agentBuySellPost', 'categories'));
-}
-
+    public function edit($id)
+    {
+        $agentBuySellPost = Agentbuysellpost::findOrFail($id);
+        $categories = Category::all();
+        $takaandDollarsigend = TakaandDollarsigend::all();
+        return view('agent.agentbuysellpost.edit', compact('agentBuySellPost', 'categories', 'takaandDollarsigend'));
+    }
 
     /**
-     * Update the specified resource in storage.
+     * Update an existing post
      */
     public function update(Request $request, Agentbuysellpost $agentbuysellpost)
     {
         $validated = $request->validate([
             'category_id' => 'required|exists:categories,id',
-            'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'dollarsigends_id' => 'required|exists:takaand_dollarsigends,id',
+            'photo.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'trade_limit' => 'required|integer|min:1',
             'trade_limit_two' => 'required|integer|gte:trade_limit',
-            'available_balance' => 'required|numeric|min:0',
-            'duration' => 'required|integer|min:1',
+            'rate_balance' => 'required|numeric|min:0',
             'payment_name' => 'required|string|max:255',
             'status' => 'required|in:pending,approved,rejected',
         ]);
 
-        // Handle photo update
+        // Handle new uploaded photos
         if ($request->hasFile('photo')) {
-            if ($agentbuysellpost->photo && file_exists(public_path($agentbuysellpost->photo))) {
-                unlink(public_path($agentbuysellpost->photo));
+            // Delete old photos
+            if ($agentbuysellpost->photo) {
+                foreach (json_decode($agentbuysellpost->photo) as $oldPhoto) {
+                    $filePath = public_path($oldPhoto);
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
+                }
             }
-            $validated['photo'] = $this->uploadImage($request->file('photo'));
+            $validated['photo'] = json_encode($this->uploadMultipleImages($request->file('photo')));
         }
 
         $agentbuysellpost->update($validated);
@@ -94,12 +107,17 @@ public function edit($id)
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete a post
      */
     public function destroy(Agentbuysellpost $agentbuysellpost)
     {
-        if ($agentbuysellpost->photo && file_exists(public_path($agentbuysellpost->photo))) {
-            unlink(public_path($agentbuysellpost->photo));
+        if ($agentbuysellpost->photo) {
+            foreach (json_decode($agentbuysellpost->photo) as $photo) {
+                $filePath = public_path($photo);
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
+            }
         }
 
         $agentbuysellpost->delete();
@@ -109,12 +127,16 @@ public function edit($id)
     }
 
     /**
-     * Upload image helper
+     * Upload multiple images helper
      */
-    private function uploadImage($image)
+    private function uploadMultipleImages($images)
     {
-        $imageName = uniqid('post_') . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('uploads/agentbuysellpost'), $imageName);
-        return 'uploads/agentbuysellpost/' . $imageName;
+        $uploadedImages = [];
+        foreach ($images as $image) {
+            $filename = uniqid('post_') . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/agentbuysellpost'), $filename);
+            $uploadedImages[] = 'uploads/agentbuysellpost/' . $filename;
+        }
+        return $uploadedImages;
     }
 }

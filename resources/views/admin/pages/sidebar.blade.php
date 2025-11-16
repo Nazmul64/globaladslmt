@@ -35,6 +35,23 @@
             </li>
         </ul>
     </li>
+   <li class="dropdown">
+        <a href="javascript:void(0)">
+            <i class="bi bi-people-fill menu-icon"></i>
+            <span>Taka & Dollar Signed</span>
+        </a>
+        <ul class="sidebar-submenu">
+            <!-- Dollar Signed -->
+            <li>
+                <a href="{{ route('dollarsiged.index') }}">
+                    <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                    Dollar Signed List
+                </a>
+            </li>
+
+        </ul>
+    </li>
+
         <li class="dropdown">
             <a href="javascript:void(0)">
                 <i class="bi bi-people-fill menu-icon"></i>

@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('photo')->nullable();
             $table->unsignedInteger('trade_limit')->default(0);
             $table->unsignedInteger('trade_limit_two')->default(0);
-            $table->decimal('available_balance')->default(0.00);
-            $table->unsignedInteger('duration')->comment('Time in minutes');
+            $table->unsignedInteger('rate_balance')->default(0);
             $table->string('payment_name')->nullable();
             $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('dollarsigends_id');
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('approved');
             $table->timestamps();
     });

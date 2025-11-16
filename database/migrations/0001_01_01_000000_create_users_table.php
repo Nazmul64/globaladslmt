@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('country')->nullable();
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->enum('role', ['is_admin', 'user', 'agent'])->default('user');
             $table->boolean('is_blocked')->default(false);
             // Referral system

@@ -27,4 +27,5 @@ class AgentDeposite extends Model
     {
         return $this->belongsTo(User::class, 'agent_id');
     }
+
 }

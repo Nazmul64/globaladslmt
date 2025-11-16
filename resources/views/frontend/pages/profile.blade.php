@@ -36,9 +36,7 @@
             </div>
             @php
                 $user = auth()->user();
-                $user_balance = App\Models\Deposite::where('user_id', $user->id)
-                                    ->where('status', 'approved')
-                                    ->sum('amount');
+                $user_balance = App\Models\User::sum('balance');
             @endphp
 
             <!-- User Balance -->
