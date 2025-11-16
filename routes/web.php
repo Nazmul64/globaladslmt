@@ -49,6 +49,7 @@ use App\Http\Controllers\Frontend\FrontendAuthController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\DepositeController;
 use App\Http\Controllers\Frontend\KeyController;
+use App\Http\Controllers\Frontend\P2pwidthrawhistoryController;
 use App\Http\Controllers\Frontend\PackageBuyControllery;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\TaskController;
@@ -226,9 +227,10 @@ Route::post('/user/deposite/manual', [UserWidthrawController::class, 'user_depos
 
 
 
-
-
-
+// P2p withdraw History Start
+Route::get('p2p/widthraw/history', [P2pwidthrawhistoryController::class, 'p2p_widthraw_history'])->name('p2p.widthraw.history');
+Route::get('p2p/diposite/history', [P2pwidthrawhistoryController::class, 'p2p_diposite_history'])->name('p2p.diposite.history');
+// P2p withdraw History End
 
 });
 // Frontend Route Controller End

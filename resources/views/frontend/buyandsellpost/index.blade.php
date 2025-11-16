@@ -551,9 +551,16 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="alert alert-success">
-                        <i class="fas fa-check-circle me-2"></i>
-                        <strong>Great!</strong> Agent has confirmed your deposit request. Now submit your payment details.
+                   <div class="d-flex flex-wrap gap-2 mb-3">
+                        <a href="{{ route('frontend.user.toagent.chat') }}" class="btn btn-primary">
+                            <i class="fas fa-comment me-1"></i> Live Chat
+                        </a>
+                        <a href="{{ route('p2p.diposite.history') }}" class="btn btn-success">
+                            <i class="fas fa-history me-1"></i> P2P Deposit History
+                        </a>
+                        <a href="{{ route('p2p.widthraw.history') }}" class="btn btn-warning text-white">
+                            <i class="fas fa-history me-1"></i> P2P Withdraw History
+                        </a>
                     </div>
 
                     {{-- Payment Methods Dropdown with Copy Button --}}

@@ -4,8 +4,8 @@
 <div class="container mt-4">
     <h4 class="mb-3 text-center">💵 User Deposit Requests</h4>
 
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover align-middle text-center shadow-sm">
+    <div class="table-responsive shadow-sm">
+        <table class="table table-bordered table-hover align-middle text-center">
             <thead class="table-primary">
                 <tr>
                     <th>User Name</th>
@@ -18,13 +18,20 @@
             <tbody>
                 @forelse($requests as $req)
                     <tr>
+                        {{-- User Name --}}
                         <td>{{ $req->user->name ?? 'N/A' }}</td>
+
+                        {{-- Amount --}}
                         <td>${{ number_format($req->amount, 2) }}</td>
 
                         {{-- Photo Thumbnail --}}
                         <td>
                             @if($req->photo)
-                                <img src="{{ asset('uploads/deposit/' . $req->photo) }}" width="50" height="50" class="rounded border" style="object-fit: cover;">
+                                <a href="{{ asset($req->photo) }}" target="_blank">
+                                    <img src="{{ asset($req->photo) }}"
+                                         width="50" height="50" class="rounded border"
+                                         style="object-fit: cover;">
+                                </a>
                             @else
                                 <span class="text-muted">No Image</span>
                             @endif
@@ -47,7 +54,7 @@
                             </span>
                         </td>
 
-                        {{-- Actions --}}
+                        {{-- Action Buttons --}}
                         <td>
                             @if($req->status === 'pending')
                                 <form action="{{ route('agent.deposit.accept', $req->id) }}" method="POST">
@@ -56,7 +63,6 @@
                                 </form>
 
                             @elseif($req->status === 'user_submitted')
-                                {{-- View & Confirm Modal Trigger --}}
                                 <button type="button" class="btn btn-primary btn-sm w-100"
                                         data-bs-toggle="modal" data-bs-target="#paymentModal{{ $req->id }}">
                                     👁 View & Confirm
@@ -78,7 +84,10 @@
                                                 <p><strong>Sender Account:</strong> {{ $req->sender_account ?? 'N/A' }}</p>
                                                 <p><strong>Screenshot:</strong></p>
                                                 @if($req->photo)
-                                                    <img src="{{ asset('uploads/deposit/' . $req->photo) }}"class="img-fluid rounded border shadow-sm">
+                                                    <a href="{{ asset($req->photo) }}" target="_blank">
+                                                        <img src="{{ asset($req->photo) }}"
+                                                             class="img-fluid rounded border shadow-sm">
+                                                    </a>
                                                 @else
                                                     <p class="text-muted">No screenshot uploaded.</p>
                                                 @endif
@@ -94,13 +103,11 @@
                                         </div>
                                     </div>
                                 </div>
-
                             @else
                                 <span class="text-muted">No Action</span>
                             @endif
                         </td>
                     </tr>
-
                 @empty
                     <tr>
                         <td colspan="5" class="text-muted">No deposit requests found.</td>
