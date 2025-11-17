@@ -41,8 +41,21 @@
           </li>
         </ul>
       </li>
-
-
+     <li class="dropdown">
+        <a href="javascript:void(0)">
+            <iconify-icon icon="mdi:bank-transfer" class="menu-icon"></iconify-icon>
+            <span>Paymentsetup</span>
+        </a>
+        <ul class="sidebar-submenu">
+            <!-- 🏦 Deposit -->
+            <li>
+                <a href="{{ route('paymentsetup.index') }}">
+                    <iconify-icon icon="mdi:cash-plus" class="menu-icon text-success"></iconify-icon>
+                    Paymentsetup
+                </a>
+            </li>
+        </ul>
+    </li>
     <li class="dropdown">
         <a href="javascript:void(0)">
             <iconify-icon icon="mdi:bank-transfer" class="menu-icon"></iconify-icon>

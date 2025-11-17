@@ -10,6 +10,7 @@ use App\Http\Controllers\Agent\AgentbuysellPostCreateController;
 use App\Http\Controllers\Agent\AgentchattouserChatController;
 use App\Http\Controllers\Agent\AgentDepositeController;
 use App\Http\Controllers\Agent\AgentPasswordchangeController;
+use App\Http\Controllers\Agent\AgentPaymentmethodController;
 use App\Http\Controllers\Agent\AgentProfileController;
 use App\Http\Controllers\Agent\AgentracceptuserandDeposite;
 use App\Http\Controllers\Agent\AgentrequestAcceptController;
@@ -393,7 +394,7 @@ Route::post('/agent/deposit/orderrelche/{id}', [AgentracceptuserandDeposite::cla
 Route::get('/agent/withdraw-requests', [AgentWidhrawrequestacceptController::class, 'agentwidhrawRequests'])->name('agent.withdraw.requests');
 Route::post('/agent/withdraw/accept/{id}', [AgentWidhrawrequestacceptController::class, 'acceptagentwidhrawRequest'])->name('agent.withdraw.accept');
 Route::post('/agent/withdraw/release/{id}', [AgentWidhrawrequestacceptController::class, 'releaseWithdraw'])->name('agent.withdraw.release');
-
+Route::resource('paymentsetup',AgentPaymentmethodController::class);
 
 
 

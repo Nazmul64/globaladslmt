@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Agentbuysellpost;
+use App\Models\Agentpaymentmethod;
 use App\Models\Category;
 use App\Models\Paymentmethod;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ public function buysellpost()
     $categories = Category::all();
     $amount = Auth::user()->balance ?? 0;
     $agent_id = Auth::user()->agent_id;
-    $payment_method =Paymentmethod::all();
+    $payment_method =Agentpaymentmethod::all();
 
     // সব approved পোস্ট with relations
     $all_agentbuysellpost = Agentbuysellpost::with(['category', 'user', 'agentamounts', 'dollarsign'])
