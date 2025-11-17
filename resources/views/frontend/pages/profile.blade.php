@@ -18,8 +18,8 @@
                 @else
                  <span class="badge bg-danger ms-2"><i class="fas fa-times-circle me-1">
                     </i> Unverified</span>
-                     @endif
-                    </div>
+                    @endif
+            </div>
 
                 @if($usercopy)
                 <div class="info-row">

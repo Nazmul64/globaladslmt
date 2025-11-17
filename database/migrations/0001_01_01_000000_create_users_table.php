@@ -20,10 +20,12 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('country')->nullable();
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->timestamp('last_active_at')->nullable(); // ✔ removed `after()`
+
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->enum('role', ['is_admin', 'user', 'agent'])->default('user');
             $table->boolean('is_blocked')->default(false);
+
             // Referral system
             $table->unsignedBigInteger('referred_by')->nullable()->comment('User ID who referred this user');
             $table->unsignedBigInteger('ref_id')->nullable()->comment('Alternate referral user ID');

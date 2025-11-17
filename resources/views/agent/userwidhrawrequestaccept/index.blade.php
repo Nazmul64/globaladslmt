@@ -9,6 +9,8 @@
             <tr>
                 <th>User</th>
                 <th>Amount</th>
+                <th>Number Recive</th>
+                <th>Instruction</th>
                 <th>Status</th>
                 <th>Action</th>
             </tr>
@@ -18,6 +20,8 @@
                 <tr>
                     <td>{{ $req->user->name ?? 'Unknown' }}</td>
                     <td>{{ number_format($req->amount, 2) }} USDT</td>
+                    <td>{{ ($req->sender_account ?? '') }}</td>
+                    <td>{{ ($req->transaction_id ?? '') }}</td>
                     <td>
                         <span class="badge
                             @if($req->status == 'pending') bg-warning

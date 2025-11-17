@@ -389,6 +389,9 @@ Route::get('/agent/deposit-requests', [AgentracceptuserandDeposite::class, 'agen
 Route::post('/agent/deposit/accept/{id}', [AgentracceptuserandDeposite::class, 'acceptDepositRequest'])->name('agent.deposit.accept');
 Route::post('/agent/deposit/final-confirm/{id}', [AgentracceptuserandDeposite::class, 'finalDepositConfirm'])->name('agent.deposit.final');
 Route::post('/agent/deposit/orderrelche/{id}', [AgentracceptuserandDeposite::class, 'finalDepositorderrelche'])->name('agent.deposit.orderrelche');
+Route::post('/agent/deposit/rejected/{id}', [AgentracceptuserandDeposite::class, 'agentrejected'])->name('agent.deposit.rejected');
+
+
 
 
 Route::get('/agent/withdraw-requests', [AgentWidhrawrequestacceptController::class, 'agentwidhrawRequests'])->name('agent.withdraw.requests');

@@ -43,6 +43,8 @@ class User extends Authenticatable
 protected $casts = [
     'refer_income' => 'float',
     'generation_income' => 'float',
+    'email_verified_at' => 'datetime',
+    'last_active_at' => 'datetime',
 ];
 
     /**
