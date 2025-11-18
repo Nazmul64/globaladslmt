@@ -166,8 +166,7 @@ Route::post('/usertoadminchat/send', [UsertoadminchatController::class, 'sendMes
 Route::post('/usertoadminchat/mark-read', [UsertoadminchatController::class, 'markRead'])->name('usertoadminchat.markread');
 Route::get('/usertoadminchat/unread-count', [UsertoadminchatController::class, 'unreadCount'])->name('usertoadminchat.unreadcount');
 Route::get('frontend/buysellpost', [BuyandsellposController::class, 'buysellpost'])->name('buy.sellpost');
-
-
+Route::post('/user/deposite/manual', [UserWidthrawController::class, 'user_deposite_manual'])->name('user.withdraw.store');
 // Deposite Routes
 // Route::post('user/deposit/request', [UserDepositewidthrawrequestController::class, 'userwidhraw_request'])->name('user.deposit.request');
 // Route::get('user/deposit/status', [UserDepositewidthrawrequestController::class, 'checkDepositStatus'])->name('user.deposit.status');
@@ -187,7 +186,7 @@ Route::post('user/withdraw/submit/{id}', [UserWidhrawrequestAgentController::cla
 Route::post('agent/withdraw/accept/{id}', [UserWidhrawrequestAgentController::class, 'acceptWithdrawRequest'])->name('agent.withdraw.accept');
 
 
-Route::post('/user/deposite/manual', [UserWidthrawController::class, 'user_deposite_manual'])->name('user.withdraw.store');
+
     Route::get('buysellpost', [UserDepositewidthrawrequestController::class, 'buysellpost'])
         ->name('buysellpost');
 
@@ -397,6 +396,7 @@ Route::post('/agent/deposit/rejected/{id}', [AgentracceptuserandDeposite::class,
 Route::get('/agent/withdraw-requests', [AgentWidhrawrequestacceptController::class, 'agentwidhrawRequests'])->name('agent.withdraw.requests');
 Route::post('/agent/withdraw/accept/{id}', [AgentWidhrawrequestacceptController::class, 'acceptagentwidhrawRequest'])->name('agent.withdraw.accept');
 Route::post('/agent/withdraw/release/{id}', [AgentWidhrawrequestacceptController::class, 'releaseWithdraw'])->name('agent.withdraw.release');
+Route::post('/agent/withdraw/rejected/{id}', [AgentWidhrawrequestacceptController::class, 'agentrejected'])->name('agent.withdraw.rejected');
 Route::resource('paymentsetup',AgentPaymentmethodController::class);
 
 

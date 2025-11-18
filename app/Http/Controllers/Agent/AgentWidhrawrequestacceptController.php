@@ -5,75 +5,62 @@ namespace App\Http\Controllers\Agent;
 use App\Http\Controllers\Controller;
 use App\Models\UserWidhrawrequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class AgentWidhrawrequestacceptController extends Controller
 {
+    /**
+     * Display paginated withdraw requests for logged-in agent
+     * Custom order: pending > agent_confirmed > completed > rejected
+     */
     public function agentwidhrawRequests()
     {
         $requests = UserWidhrawrequest::with('user')
             ->where('agent_id', Auth::id())
-            ->whereIn('status', ['pending', 'agent_confirmed'])
+            ->whereIn('status', ['pending', 'agent_confirmed', 'completed', 'rejected'])
+            ->orderByRaw("FIELD(status, 'pending', 'agent_confirmed', 'completed', 'rejected')")
             ->latest()
-            ->get();
+            ->paginate(5); // 10 requests per page
 
         return view('agent.userwidhrawrequestaccept.index', compact('requests'));
     }
 
     /**
-     * Agent accepts a withdraw request.
+     * Accept a withdraw request (pending -> agent_confirmed)
      */
     public function acceptagentwidhrawRequest($id)
     {
-        $withdrawRequest = UserWidhrawrequest::findOrFail($id);
+        $request = UserWidhrawrequest::findOrFail($id);
 
-        if ($withdrawRequest->agent_id !== Auth::id()) {
+        if ($request->agent_id !== Auth::id()) {
             return back()->with('error', 'Unauthorized request.');
         }
 
-        if ($withdrawRequest->status !== 'pending') {
+        if ($request->status !== 'pending') {
             return back()->with('error', 'This request cannot be accepted again.');
         }
 
-        $withdrawRequest->update(['status' => 'agent_confirmed']);
+        $request->update(['status' => 'agent_confirmed']);
 
-        return back()->with('success', 'Withdraw request accepted successfully.');
+        return back()->with('success', 'Withdraw request accepted. Waiting for user release.');
     }
 
     /**
-     * Agent releases withdraw amount to user.
+     * Reject a withdraw request
      */
-    public function releaseWithdraw($id)
+    public function agentRejected($id)
     {
-        $withdrawRequest = UserWidhrawrequest::with('user')->findOrFail($id);
+        $request = UserWidhrawrequest::findOrFail($id);
 
-        if ($withdrawRequest->agent_id !== Auth::id()) {
-            return back()->with('error', 'Unauthorized access.');
+        if ($request->agent_id !== Auth::id()) {
+            return back()->with('error', 'Unauthorized action.');
         }
 
-        if ($withdrawRequest->status !== 'agent_confirmed') {
-            return back()->with('error', 'Invalid status for release.');
+        if (in_array($request->status, ['completed', 'rejected'])) {
+            return back()->with('info', 'This request cannot be changed.');
         }
 
-        DB::transaction(function () use ($withdrawRequest) {
-            $user = $withdrawRequest->user;
-            $agent = Auth::user();
+        $request->update(['status' => 'rejected']);
 
-            // Verify user balance
-            if ($user->balance < $withdrawRequest->amount) {
-                throw new \Exception('User has insufficient balance.');
-            }
-
-            // Deduct from user
-            $user->decrement('balance', $withdrawRequest->amount);
-
-            // Add to agent
-            $agent->increment('balance', $withdrawRequest->amount);
-
-            // Update withdraw status
-            $withdrawRequest->update(['status' => 'completed']);
-        });
-
-        return back()->with('success', 'Withdraw released successfully.');
+        return back()->with('success', 'Withdraw request rejected successfully.');
     }
 }

@@ -31,31 +31,23 @@ class UserDepositewidthrawrequestController extends Controller
                 ->latest()
                 ->get();
 
-            // Calculate total orders and agent stats
             foreach ($all_agentbuysellpost as $post) {
                 $agentId = $post->user_id;
 
-                // Count completed deposits
                 $completedDeposits = Userdepositerequest::where('agent_id', $agentId)
                     ->where('status', 'completed')
                     ->count();
 
-                // Count completed withdraws
                 $completedWithdraws = UserWidhrawrequest::where('agent_id', $agentId)
                     ->where('status', 'completed')
                     ->count();
 
-                // Total orders count (এজেন্ট কতটা অর্ডার করেছে)
                 $totalOrders = $completedDeposits + $completedWithdraws;
-
-                // Success rate calculation (98-100% range)
                 $successRate = $totalOrders > 0 ? min(100, 98 + ($totalOrders % 3)) : 0;
 
-                // Attach to post
                 $post->total_orders = $totalOrders;
                 $post->success_rate = number_format($successRate, 1);
 
-                // Check if agent is online (last_active_at থেকে চেক করবে)
                 $lastActive = $post->user->last_active_at;
                 $post->is_online = $lastActive && Carbon::parse($lastActive)->diffInMinutes(now()) <= 5;
             }
@@ -72,31 +64,45 @@ class UserDepositewidthrawrequestController extends Controller
     }
 
     /**
-     * User Sends Deposit/Withdraw Request
+     * User Sends Deposit/Withdraw Request - FIXED WITHOUT payment_method_id
      */
     public function userwidhraw_request(Request $request)
     {
         DB::beginTransaction();
 
         try {
-            Log::info('Request Started', [
+            Log::info('=== Request Started ===', [
                 'type' => $request->type,
                 'user_id' => Auth::id(),
-                'data' => $request->except('_token')
+                'all_data' => $request->all()
             ]);
 
-            $validator = Validator::make($request->all(), [
+            // Validation rules based on type
+            $rules = [
                 'type' => 'required|in:deposit,withdraw',
                 'agent_id' => 'required|exists:users,id',
                 'post_id' => 'required|exists:agentbuysellposts,id',
                 'amount' => 'required|numeric|min:0.01',
-            ]);
+            ];
+
+            // Add withdraw-specific validation
+            if ($request->type === 'withdraw') {
+                $rules['sender_account'] = 'required|string|max:500'; // এখানে পেমেন্ট মেথড + একাউন্ট নাম্বার থাকবে
+                $rules['transaction_id'] = 'nullable|string|max:500'; // Instruction/Note
+            }
+
+            $validator = Validator::make($request->all(), $rules);
 
             if ($validator->fails()) {
                 DB::rollBack();
-                return response()->json(['success' => false, 'message' => $validator->errors()->first()], 422);
+                Log::error('Validation Failed', ['errors' => $validator->errors()->all()]);
+                return response()->json([
+                    'success' => false,
+                    'message' => $validator->errors()->first()
+                ], 422);
             }
 
+            // Check balance for withdraw
             if ($request->type === 'withdraw') {
                 $user = User::lockForUpdate()->find(Auth::id());
                 if ($user->balance < $request->amount) {
@@ -108,6 +114,7 @@ class UserDepositewidthrawrequestController extends Controller
                 }
             }
 
+            // Check trade limits
             $post = Agentbuysellpost::find($request->post_id);
             if ($post) {
                 if ($request->amount < $post->trade_limit || $request->amount > $post->trade_limit_two) {
@@ -119,6 +126,7 @@ class UserDepositewidthrawrequestController extends Controller
                 }
             }
 
+            // Check for existing pending requests
             if ($request->type === 'deposit') {
                 $existingRequest = Userdepositerequest::where('user_id', Auth::id())
                     ->whereIn('status', ['pending', 'agent_confirmed', 'user_submitted'])
@@ -137,34 +145,55 @@ class UserDepositewidthrawrequestController extends Controller
                 ], 400);
             }
 
+            // Prepare data
             $data = [
                 'user_id' => Auth::id(),
                 'agent_id' => $request->agent_id,
                 'amount' => $request->amount,
                 'status' => 'pending',
-                'transaction_id' => null,
-                'sender_account' => null,
-                'photo' => null,
                 'agent_commission' => 0,
                 'admin_commission' => 0,
             ];
 
+            // Create request based on type
             if ($request->type === 'deposit') {
                 $data['type'] = 'deposit';
+                $data['transaction_id'] = null;
+                $data['sender_account'] = null;
+                $data['photo'] = null;
+
                 $record = Userdepositerequest::create($data);
                 $message = 'Deposit request sent successfully! Waiting for agent confirmation.';
+
+                Log::info('Deposit Request Created', [
+                    'id' => $record->id,
+                    'user_id' => Auth::id(),
+                    'agent_id' => $request->agent_id,
+                    'amount' => $request->amount
+                ]);
             } else {
+                // WITHDRAW REQUEST - sender_account এ পেমেন্ট মেথড + একাউন্ট নাম্বার সেভ হবে
+                $data['sender_account'] = $request->sender_account; // "Bkash: 01712345678" format
+                $data['transaction_id'] = $request->transaction_id ?? null; // Instruction/Note
+                $data['photo'] = null;
+
+                Log::info('=== Creating Withdraw Request ===', [
+                    'data_to_save' => $data
+                ]);
+
                 $record = UserWidhrawrequest::create($data);
                 $message = 'Withdraw request sent successfully! Waiting for agent confirmation.';
-            }
 
-            Log::info('Request Created Successfully', [
-                'type' => $request->type,
-                'id' => $record->id,
-                'user_id' => Auth::id(),
-                'agent_id' => $request->agent_id,
-                'amount' => $request->amount
-            ]);
+                Log::info('Withdraw Request Created Successfully', [
+                    'id' => $record->id,
+                    'user_id' => Auth::id(),
+                    'agent_id' => $request->agent_id,
+                    'amount' => $request->amount,
+                    'sender_account' => $request->sender_account,
+                    'transaction_id' => $request->transaction_id,
+                    'saved_data' => $record->toArray()
+                ]);
+            }
 
             DB::commit();
 
@@ -176,15 +205,19 @@ class UserDepositewidthrawrequestController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Request Creation Error', [
+            Log::error('=== Request Creation Error ===', [
                 'error' => $e->getMessage(),
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),
                 'trace' => $e->getTraceAsString(),
                 'type' => $request->type ?? 'unknown',
-                'user_id' => Auth::id()
+                'user_id' => Auth::id(),
+                'request_data' => $request->all()
             ]);
-            return response()->json(['success' => false, 'message' => 'Failed to send request: ' . $e->getMessage()], 500);
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to send request: ' . $e->getMessage()
+            ], 500);
         }
     }
 
@@ -194,7 +227,9 @@ class UserDepositewidthrawrequestController extends Controller
     public function checkDepositStatus()
     {
         try {
-            if (!Auth::check()) return response()->json(['status' => 'error', 'message' => 'Unauthorized'], 401);
+            if (!Auth::check()) {
+                return response()->json(['status' => 'error', 'message' => 'Unauthorized'], 401);
+            }
 
             $deposit = Userdepositerequest::where('user_id', Auth::id())
                 ->where('status', 'agent_confirmed')
@@ -207,15 +242,17 @@ class UserDepositewidthrawrequestController extends Controller
                     'user_id' => Auth::id(),
                     'amount' => $deposit->amount
                 ]);
-                return response()->json(['status' => 'agent_confirmed', 'deposit_id' => $deposit->id, 'amount' => $deposit->amount]);
+                return response()->json([
+                    'status' => 'agent_confirmed',
+                    'deposit_id' => $deposit->id,
+                    'amount' => $deposit->amount
+                ]);
             }
 
             return response()->json(['status' => 'pending']);
         } catch (\Exception $e) {
             Log::error('Deposit Status Check Error', [
                 'error' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
                 'user_id' => Auth::id()
             ]);
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
@@ -237,13 +274,19 @@ class UserDepositewidthrawrequestController extends Controller
 
             if ($validator->fails()) {
                 DB::rollBack();
-                return response()->json(['success' => false, 'message' => $validator->errors()->first()], 422);
+                return response()->json([
+                    'success' => false,
+                    'message' => $validator->errors()->first()
+                ], 422);
             }
 
             $deposit = Userdepositerequest::lockForUpdate()->find($id);
             if (!$deposit || $deposit->user_id !== Auth::id() || $deposit->status !== 'agent_confirmed') {
                 DB::rollBack();
-                return response()->json(['success' => false, 'message' => 'Invalid or unauthorized deposit request'], 400);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invalid or unauthorized deposit request'
+                ], 400);
             }
 
             $photoPath = $deposit->photo;
@@ -251,8 +294,12 @@ class UserDepositewidthrawrequestController extends Controller
                 $file = $request->file('photo');
                 $filename = 'deposit_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
                 $uploadPath = public_path('uploads/deposit');
-                if (!file_exists($uploadPath)) mkdir($uploadPath, 0755, true);
-                if ($deposit->photo && file_exists(public_path($deposit->photo))) @unlink(public_path($deposit->photo));
+                if (!file_exists($uploadPath)) {
+                    mkdir($uploadPath, 0755, true);
+                }
+                if ($deposit->photo && file_exists(public_path($deposit->photo))) {
+                    @unlink(public_path($deposit->photo));
+                }
                 $file->move($uploadPath, $filename);
                 $photoPath = 'uploads/deposit/' . $filename;
             }
@@ -265,18 +312,22 @@ class UserDepositewidthrawrequestController extends Controller
 
             DB::commit();
 
-            return response()->json(['success' => true, 'message' => 'Deposit details submitted successfully! Waiting for final approval.']);
+            return response()->json([
+                'success' => true,
+                'message' => 'Deposit details submitted successfully! Waiting for final approval.'
+            ]);
 
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Deposit Submit Error', [
                 'error' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
                 'deposit_id' => $id,
                 'user_id' => Auth::id()
             ]);
-            return response()->json(['success' => false, 'message' => 'Failed to submit deposit: ' . $e->getMessage()], 500);
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to submit deposit: ' . $e->getMessage()
+            ], 500);
         }
     }
 
@@ -286,7 +337,9 @@ class UserDepositewidthrawrequestController extends Controller
     public function checkWithdrawStatus()
     {
         try {
-            if (!Auth::check()) return response()->json(['status' => 'error', 'message' => 'Unauthorized'], 401);
+            if (!Auth::check()) {
+                return response()->json(['status' => 'error', 'message' => 'Unauthorized'], 401);
+            }
 
             $withdraw = UserWidhrawrequest::where('user_id', Auth::id())
                 ->where('status', 'agent_confirmed')
@@ -294,11 +347,18 @@ class UserDepositewidthrawrequestController extends Controller
                 ->first();
 
             if ($withdraw) {
-                return response()->json(['status' => 'agent_confirmed', 'withdraw_id' => $withdraw->id, 'amount' => $withdraw->amount]);
+                return response()->json([
+                    'status' => 'agent_confirmed',
+                    'withdraw_id' => $withdraw->id,
+                    'amount' => $withdraw->amount
+                ]);
             }
             return response()->json(['status' => 'pending']);
         } catch (\Exception $e) {
-            Log::error('Withdraw Status Check Error', ['error' => $e->getMessage(), 'user_id' => Auth::id()]);
+            Log::error('Withdraw Status Check Error', [
+                'error' => $e->getMessage(),
+                'user_id' => Auth::id()
+            ]);
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }
@@ -313,16 +373,23 @@ class UserDepositewidthrawrequestController extends Controller
             $withdraw = UserWidhrawrequest::lockForUpdate()->find($id);
             if (!$withdraw || $withdraw->user_id !== Auth::id() || $withdraw->status !== 'agent_confirmed') {
                 DB::rollBack();
-                return response()->json(['success' => false, 'message' => 'Invalid or unauthorized withdraw request'], 400);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invalid or unauthorized withdraw request'
+                ], 400);
             }
 
             $user = User::lockForUpdate()->find($withdraw->user_id);
             if (!$user || $user->balance < $withdraw->amount) {
                 DB::rollBack();
-                return response()->json(['success' => false, 'message' => 'Insufficient balance'], 400);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Insufficient balance'
+                ], 400);
             }
 
-            $agentDeposit = AgentDeposite::lockForUpdate()->firstOrCreate(['agent_id' => $withdraw->agent_id], ['amount' => 0]);
+            $agentDeposit = AgentDeposite::lockForUpdate()
+                ->firstOrCreate(['agent_id' => $withdraw->agent_id], ['amount' => 0]);
 
             $agentCommission = 0;
             $adminCommission = 0;
@@ -353,11 +420,21 @@ class UserDepositewidthrawrequestController extends Controller
 
             DB::commit();
 
-            return response()->json(['success' => true, 'message' => 'Withdraw released successfully!', 'new_balance' => number_format($user->balance, 2)]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Withdraw released successfully!',
+                'new_balance' => number_format($user->balance, 2)
+            ]);
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Withdraw Release Error', ['error' => $e->getMessage(), 'user_id' => Auth::id()]);
-            return response()->json(['success' => false, 'message' => 'Failed to release withdraw: ' . $e->getMessage()], 500);
+            Log::error('Withdraw Release Error', [
+                'error' => $e->getMessage(),
+                'user_id' => Auth::id()
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to release withdraw: ' . $e->getMessage()
+            ], 500);
         }
     }
 
@@ -381,7 +458,10 @@ class UserDepositewidthrawrequestController extends Controller
             return back()->with('success', 'Withdraw request accepted. User can now release funds.');
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Accept Withdraw Error', ['error' => $e->getMessage(), 'agent_id' => Auth::id()]);
+            Log::error('Accept Withdraw Error', [
+                'error' => $e->getMessage(),
+                'agent_id' => Auth::id()
+            ]);
             return back()->with('error', 'Failed to accept request: ' . $e->getMessage());
         }
     }

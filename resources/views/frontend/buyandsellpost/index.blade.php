@@ -43,12 +43,9 @@
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
-
-/* Optional: Adjust modal backdrop transparency if needed */
 .modal-backdrop {
     --bs-backdrop-zindex:none;
     --bs-backdrop-bg:none;
-
 }
 .dashboard-grid .row {
     max-width:2000px;
@@ -99,15 +96,11 @@
                 $lastActive = App\Models\User::where('id', $post->user->id)
                         ->value('last_active_at');
 
-                    // Determine if user is online (e.g., active in the last 5 minutes)
-                    $isOnline = false;
-
-                    if ($lastActive) {
-                        $isOnline = \Carbon\Carbon::parse($lastActive)
-                            ->greaterThan(\Carbon\Carbon::now()->subMinutes(5));
-                    }
-
-
+                $isOnline = false;
+                if ($lastActive) {
+                    $isOnline = \Carbon\Carbon::parse($lastActive)
+                        ->greaterThan(\Carbon\Carbon::now()->subMinutes(5));
+                }
             @endphp
 
             <div class="col-12 col-md-6 col-lg-4 post-item" data-category-id="{{ $post->category_id }}" data-type="{{ $postType }}">
@@ -120,9 +113,6 @@
                                     {{ strtoupper(substr($post->user->name ?? 'A', 0, 1)) }}
                                 </div>
                                 <div>
-                                    @php
-                                         $isPostOwnerVerified = App\Models\Kyc::where('user_id', $post->user->id)->where('status', 'approved')->exists();
-                                    @endphp
                                     <div class="d-flex align-items-center gap-2 flex-wrap">
                                         <strong class="fs-6">{{ $post->user->name ?? 'Unknown' }}</strong>
                                         @if($isPostOwnerVerified)
@@ -137,23 +127,16 @@
                                     </div>
 
                                     @php
-                                        // Completed withdraw requests by this agent
                                         $completedWithdraw = App\Models\UserWidhrawrequest::where('agent_id', $post->user->id)
                                             ->where('status', 'completed')
                                             ->count();
 
-                                        // Completed deposit requests by this agent
                                         $completedDeposit = App\Models\Userdepositerequest::where('agent_id', $post->user->id)
                                             ->where('status', 'completed')
                                             ->count();
 
-                                        // Total orders = deposit + withdraw
                                         $totalOrders = $completedDeposit + $completedWithdraw;
-
-                                        // Calculate success percentage (withdraw / total) * 100
                                         $successPercentage = $totalOrders > 0 ? ($completedWithdraw / $totalOrders) * 100 : 0;
-
-                                        // Round to 1 decimal place
                                         $successPercentage = round($successPercentage, 1);
                                     @endphp
 
@@ -177,25 +160,10 @@
                             <span class="badge bg-light text-dark">
                                 <i class="fas fa-chart-line text-info"></i> {{ $post->trade_limit }}$-${{ $post->trade_limit_two }}
                             </span>
-                         @php
-                            $user = $post->user;
-                         @endphp
-
-                            @php
-                                $lastActive = $user->last_active_at;
-                                $now = \Carbon\Carbon::now();
-                                $isOnline = $lastActive && \Carbon\Carbon::parse($lastActive)->greaterThan($now->subMinutes(5));
-                                $duration = $lastActive ? \Carbon\Carbon::parse($lastActive)->diffInMinutes($now) : 15;
-                            @endphp
-
                             <span class="badge bg-light text-dark">
                                 <i class="fas fa-clock {{ $isOnline ? 'text-success' : 'text-secondary' }}"></i>
                                 {{ $isOnline ? 'Online' : 'Offline' }}
-                                @if(!$isOnline)
-                                    ({{ $duration }} min ago)
-                                @endif
                             </span>
-
                         </div>
 
                         <!-- Payment Methods -->
@@ -430,7 +398,7 @@
     </div>
 </div>
 
-{{-- Withdraw Request Modal --}}
+{{-- Withdraw Request Modal - FIXED WITHOUT payment_method_id --}}
 <div class="modal fade" id="withdrawRequestModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -439,6 +407,7 @@
                 <input type="hidden" id="withdraw_post_id" name="post_id">
                 <input type="hidden" id="withdraw_agent_id" name="agent_id">
                 <input type="hidden" name="type" value="withdraw">
+                <input type="hidden" id="hidden_sender_account" name="sender_account">
 
                 <div class="modal-header bg-success text-white">
                     <h5 class="modal-title">
@@ -447,18 +416,38 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
+                    {{-- Payment Method Selection --}}
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Payment Method</label>
-                        <select name="payment_method_id" class="form-select" required>
+                        <label class="form-label fw-bold">
+                            <i class="fas fa-wallet me-2"></i>Payment Method <span class="text-danger">*</span>
+                        </label>
+                        <select id="withdraw_payment_method_select" class="form-select" required>
                             <option value="">Select Payment Method</option>
                             @foreach ($payment_method as $item)
-                                <option value="{{ $item->id }}">
+                                <option value="{{ $item->id }}"
+                                        data-method-name="{{ $item->method_name }}"
+                                        data-method-number="{{ $item->method_number ?? '' }}">
                                     {{ $item->method_name }} - {{ $item->method_number ?? 'N/A' }}
                                 </option>
                             @endforeach
                         </select>
+                        <small class="text-muted">Select where you want to receive payment</small>
                     </div>
 
+                    {{-- Receiver Account Number --}}
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            <i class="fas fa-phone me-2"></i>Receiver Account Number <span class="text-danger">*</span>
+                        </label>
+                        <input type="text"
+                               id="withdraw_account_number"
+                               class="form-control"
+                               placeholder="Enter your account number (e.g., 01712345678)"
+                               required>
+                        <small class="text-muted">Enter the account number where you'll receive payment</small>
+                    </div>
+
+                    {{-- Quick Links --}}
                     <div class="d-flex flex-wrap gap-2 mb-3">
                         <a href="{{ route('frontend.user.toagent.chat') }}" class="btn btn-sm btn-primary">
                             <i class="fas fa-comment me-1"></i> Live Chat
@@ -471,18 +460,43 @@
                         </a>
                     </div>
 
+                    {{-- Amount Input --}}
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Amount (USDT)</label>
-                        <input type="number" id="withdraw_amount" name="amount" class="form-control form-control-lg" placeholder="Enter amount" step="0.01">
+                        <label class="form-label fw-bold">
+                            <i class="fas fa-dollar-sign me-2"></i>Amount (USDT) <span class="text-danger">*</span>
+                        </label>
+                        <input type="number"
+                               id="withdraw_amount"
+                               name="amount"
+                               class="form-control form-control-lg"
+                               placeholder="Enter amount"
+                               step="0.01"
+                               required>
                         <small class="text-muted" id="withdraw_limit_text"></small>
                     </div>
+
+                    {{-- Transaction ID / Instruction --}}
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Send Number</label>
-                        <input type="text" name="sender_account" class="form-control" placeholder="Enter Your Number">
+                        <label class="form-label fw-bold">
+                            <i class="fas fa-sticky-note me-2"></i>Instruction / Note
+                        </label>
+                        <textarea name="transaction_id"
+                                  id="withdraw_transaction_id"
+                                  class="form-control"
+                                  rows="2"
+                                  placeholder="Any special instruction for agent (Optional)"></textarea>
+                        <small class="text-muted">Optional: Add any special note for the agent</small>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Instruction</label>
-                        <input type="text" name="transaction_id" class="form-control" placeholder="Enter Instruction">
+
+                    {{-- Summary Box --}}
+                    <div class="alert alert-warning">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Important:</strong>
+                        <ul class="mb-0 mt-2">
+                            <li>Double-check your payment method and account number</li>
+                            <li>Wait for agent confirmation</li>
+                            <li>Release funds only after receiving payment</li>
+                        </ul>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -650,7 +664,7 @@
         setInterval(() => pollStatus('deposit'), 5000);
         setInterval(() => pollStatus('withdraw'), 5000);
 
-        // Deposit Request Form
+        // ========== DEPOSIT REQUEST FORM ==========
         document.getElementById('depositRequestForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const formData = new FormData(this);
@@ -690,7 +704,7 @@
             });
         });
 
-        // Deposit Confirmation Form
+        // ========== DEPOSIT CONFIRMATION FORM ==========
         document.getElementById('depositConfirmForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -713,7 +727,7 @@
             const originalHTML = submitBtn.innerHTML;
 
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2 "></span>Submitting...';
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Submitting...';
             showLoading();
 
             fetch(`{{ url('user/deposit/submit') }}/${depositId}`, {
@@ -748,10 +762,49 @@
             });
         });
 
-        // Withdraw Request Form
+        // ========== WITHDRAW REQUEST FORM - FIXED WITHOUT payment_method_id ==========
         document.getElementById('withdrawRequestForm').addEventListener('submit', function(e) {
             e.preventDefault();
+
+            // Get payment method details
+            const paymentMethodSelect = document.getElementById('withdraw_payment_method_select');
+            const accountNumber = document.getElementById('withdraw_account_number').value.trim();
+            const amount = document.getElementById('withdraw_amount').value;
+
+            // Validation
+            if (!paymentMethodSelect.value) {
+                showAlert('Please select a payment method', 'error');
+                return;
+            }
+
+            if (!accountNumber) {
+                showAlert('Please enter your receiver account number', 'error');
+                return;
+            }
+
+            if (!amount || parseFloat(amount) <= 0) {
+                showAlert('Please enter a valid amount', 'error');
+                return;
+            }
+
+            // Get selected payment method info
+            const selectedOption = paymentMethodSelect.options[paymentMethodSelect.selectedIndex];
+            const methodName = selectedOption.getAttribute('data-method-name');
+            const methodNumber = selectedOption.getAttribute('data-method-number');
+
+            // Combine payment method + account number in sender_account field
+            // Format: "Bkash: 01712345678"
+            const senderAccountValue = `${methodName}: ${accountNumber}`;
+            document.getElementById('hidden_sender_account').value = senderAccountValue;
+
             const formData = new FormData(this);
+
+            // Debug: Log FormData contents
+            console.log('=== Withdraw Form Data ===');
+            for (let pair of formData.entries()) {
+                console.log(pair[0] + ': ' + pair[1]);
+            }
+
             const submitBtn = this.querySelector('button[type="submit"]');
             const originalHTML = submitBtn.innerHTML;
 
@@ -769,18 +822,26 @@
                 credentials: 'same-origin',
                 body: formData
             })
-            .then(res => res.ok ? res.json() : res.json().then(err => Promise.reject(err)))
+            .then(res => {
+                console.log('Response Status:', res.status);
+                return res.ok ? res.json() : res.json().then(err => Promise.reject(err));
+            })
             .then(data => {
+                console.log('Response Data:', data);
                 if(data.success) {
                     showAlert(data.message, 'success');
                     bootstrap.Modal.getInstance(document.getElementById('withdrawRequestModal')).hide();
                     this.reset();
+                    document.getElementById('hidden_sender_account').value = '';
                     withdrawReleaseModalOpened = false;
                 } else {
                     showAlert(data.message, 'error');
                 }
             })
-            .catch(err => showAlert(err.message || 'Failed to send withdraw request', 'error'))
+            .catch(err => {
+                console.error('Withdraw Error:', err);
+                showAlert(err.message || 'Failed to send withdraw request', 'error');
+            })
             .finally(() => {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalHTML;
@@ -788,7 +849,7 @@
             });
         });
 
-        // Withdraw Release Button
+        // ========== WITHDRAW RELEASE BUTTON ==========
         document.getElementById('releaseWithdrawBtn').addEventListener('click', function() {
             if(!withdrawId) {
                 showAlert('Invalid withdraw ID', 'error');
@@ -836,7 +897,7 @@
             });
         });
 
-        // Modal close handlers
+        // ========== MODAL CLOSE HANDLERS ==========
         document.getElementById('depositConfirmModal').addEventListener('hidden.bs.modal', function () {
             if (depositId) {
                 depositConfirmModalOpened = false;
@@ -849,6 +910,13 @@
             if (withdrawId) {
                 withdrawReleaseModalOpened = false;
             }
+        });
+
+        document.getElementById('withdrawRequestModal').addEventListener('hidden.bs.modal', function () {
+            document.getElementById('withdrawRequestForm').reset();
+            document.getElementById('hidden_sender_account').value = '';
+            document.getElementById('withdraw_payment_method_select').selectedIndex = 0;
+            document.getElementById('withdraw_account_number').value = '';
         });
     });
 })();

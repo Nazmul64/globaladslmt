@@ -58,6 +58,9 @@ public function dollarsign()
     return $this->belongsTo(TakaandDollarsigend::class, 'dollarsigends_id');
 }
 
-
+public function deposits()
+{
+    return $this->hasMany(AgentDeposite::class, 'agent_id', 'user_id');
+}
 
 }

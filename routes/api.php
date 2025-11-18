@@ -11,14 +11,17 @@ use App\Http\Controllers\Api\ProfilechangeController;
 use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\Depositeinstrctionshow;
 use App\Http\Controllers\Api\HowtoworkController;
+use App\Http\Controllers\Api\P2PpostController;
 use App\Http\Controllers\Api\P2PshowforuserController;
 use App\Http\Controllers\Api\PackagesbuyuserController;
 use App\Http\Controllers\Api\PackagesshowuserController;
 use App\Http\Controllers\Api\PaymenthistoryiController;
 use App\Http\Controllers\Api\UserbalanceshowController;
 use App\Http\Controllers\Api\UserchatController;
+use App\Http\Controllers\Api\UserDepositewidthrawrequestController;
 use App\Http\Controllers\Api\UserforadminChatController;
 use App\Http\Controllers\Api\UsertoagentChatController;
+use App\Http\Controllers\Api\UserWidhrawrequestAgentController;
 use App\Http\Controllers\Api\UserWidthrawController;
 use App\Http\Controllers\Api\WroknoticesController;
 use App\Models\Package;
@@ -49,7 +52,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('deposit/{id}', [DepositeUserController::class, 'getDepositById']);
 
     Route::get('/deposit/balance', [PackagesshowuserController::class, 'getBalance']);
-    Route::get('buysellpost', [P2PshowforuserController::class, 'buysellpost']);
+    Route::get('buysellpost', [P2PpostController::class, 'buysellpost']);
     Route::get('/usertoadminchat/fetch', [UserforadminChatController::class, 'fetchMessages']);
     Route::post('/usertoadminchat/send', [UserforadminChatController::class, 'sendMessage']);
     Route::post('/usertoadminchat/mark-read', [UserforadminChatController::class, 'markAsRead']);
@@ -174,6 +177,43 @@ Route::middleware('auth:sanctum')->group(function () {
   // Wrok Notices show
     Route::get('worknotices', [WroknoticesController::class, 'worknotices']);
   // Wrok Notices show
+
+
+
+
+
+
+
+
+
+
+
+
+Route::get('user/withdraw/status', [UserWidhrawrequestAgentController::class, 'checkWithdrawStatus']);
+
+
+Route::post('user/withdraw/submit/{id}', [UserWidhrawrequestAgentController::class, 'userSubmitWithdraw']);
+
+
+Route::post('agent/withdraw/accept/{id}', [UserWidhrawrequestAgentController::class, 'acceptWithdrawRequest']);
+
+
+
+ Route::get('buysellpost', [P2PpostController::class, 'buysellpost']);
+
+    // Deposit routes
+    Route::post('user/deposit/request', [UserDepositewidthrawrequestController::class, 'userwidhraw_request']);
+    Route::get('user/deposit/status', [UserDepositewidthrawrequestController::class, 'checkDepositStatus']);
+    Route::post('user/deposit/submit/{id}', [UserDepositewidthrawrequestController::class, 'userSubmitDeposit']);
+
+    // Withdraw routes
+    Route::post('user/withdraw/request', [UserDepositewidthrawrequestController::class, 'userwidhraw_request']);
+    Route::get('user/withdraw/status', [UserDepositewidthrawrequestController::class, 'checkWithdrawStatus']);
+    Route::post('user/withdraw/submit/{id}', [UserDepositewidthrawrequestController::class, 'userSubmitWithdraw']);
+
+    // Agent routes
+    Route::post('agent/withdraw/accept/{id}', [UserDepositewidthrawrequestController::class, 'acceptWithdrawRequest']);
+
 });
 
 
