@@ -5,12 +5,18 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\BaseController;
 use App\Models\Deposite;
 use App\Models\Depositelimite;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DepositeUserController extends BaseController
 {
+    /**
+     * Submit new deposit request
+     * Route: POST /api/deposite
+     */
     public function deposite(Request $request)
     {
         $user = Auth::user();
@@ -65,9 +71,11 @@ class DepositeUserController extends BaseController
         return $this->sendResponse($responseData, 'Deposit request submitted successfully and pending for approval.');
     }
 
-// app/Http/Controllers/DepositeUserController.php
-
-public function totaldeposite(Request $request)
+    /**
+     * Get user balance from users table
+     * Route: GET /api/totaldeposite
+     */
+    public function totaldeposite(Request $request)
     {
         try {
             $user = $request->user();
@@ -79,42 +87,126 @@ public function totaldeposite(Request $request)
                 ], 401);
             }
 
-            // Sum APPROVED deposits from 'deposites' table
-            $depositesApproved = DB::table('deposites')
-                ->where('user_id', $user->id)
-                ->where('status', 'approved')
-                ->sum('amount');
-
-            // Sum APPROVED deposits from 'userdepositerequests' table
-            $userDepositRequestsApproved = DB::table('userdepositerequests')
-                ->where('user_id', $user->id)
-                ->where('status', 'approved')
-                ->sum('amount');
-
-            // Total approved = Both tables combined
-            $totalApproved = ($depositesApproved ?? 0) + ($userDepositRequestsApproved ?? 0);
+            // Refresh user data to get latest balance
+            $user->refresh();
+            $userBalance = $user->balance ?? 0;
 
             return response()->json([
                 'success' => true,
-                'data' => $totalApproved,
-                'breakdown' => [
-                    'deposites_approved' => $depositesApproved ?? 0,
-                    'userdepositerequests_approved' => $userDepositRequestsApproved ?? 0,
-                ],
-                'message' => 'Total approved deposit fetched successfully'
+                'data' => $userBalance,
+                'message' => 'Total approved deposit (balance) fetched successfully'
             ], 200);
 
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Error fetching total deposit',
+                'message' => 'Error fetching balance',
                 'error' => $e->getMessage()
             ], 500);
         }
     }
 
     /**
-     * Get all deposits from BOTH tables (approved, pending, rejected)
+     * Get current user balance
+     * Route: GET /api/user/balance
+     */
+    public function getUserBalance(Request $request)
+    {
+        try {
+            $user = $request->user();
+
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthenticated'
+                ], 401);
+            }
+
+            // Refresh user to get latest balance
+            $user->refresh();
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'balance' => $user->balance ?? 0,
+                    'user_id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                ],
+                'message' => 'User balance fetched successfully'
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error fetching balance',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * 🔥 NEW: Recalculate and sync user balance
+     * This will calculate approved deposits from both tables and update users.balance
+     * Route: POST /api/user/sync-balance
+     */
+    public function syncUserBalance(Request $request)
+    {
+        try {
+            $user = $request->user();
+
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthenticated'
+                ], 401);
+            }
+
+            // Calculate approved from deposites table
+            $depositesApproved = DB::table('deposites')
+                ->where('user_id', $user->id)
+                ->where('status', 'approved')
+                ->sum('amount') ?? 0;
+
+            // Calculate approved from userdepositerequests table
+            $userRequestsApproved = DB::table('userdepositerequests')
+                ->where('user_id', $user->id)
+                ->where('status', 'approved')
+                ->sum('amount') ?? 0;
+
+            // Total approved
+            $totalApproved = $depositesApproved + $userRequestsApproved;
+
+            // Update user balance
+            $oldBalance = $user->balance;
+            $user->balance = $totalApproved;
+            $user->save();
+
+            Log::info("Balance Sync: User {$user->id} - Old: {$oldBalance}, New: {$totalApproved}");
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'old_balance' => $oldBalance,
+                    'new_balance' => $totalApproved,
+                    'deposites_approved' => $depositesApproved,
+                    'requests_approved' => $userRequestsApproved,
+                ],
+                'message' => 'Balance synchronized successfully'
+            ], 200);
+
+        } catch (\Exception $e) {
+            Log::error("Balance Sync Error: " . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error syncing balance',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Get all deposits from BOTH tables with summary
      * Route: GET /api/userDeposits
      */
     public function userDeposits(Request $request)
@@ -151,8 +243,8 @@ public function totaldeposite(Request $request)
                 ->select([
                     'id',
                     'amount',
-                    DB::raw("transaction_id as transaction_id"),
-                    DB::raw("sender_account as sender_account"),
+                    DB::raw("COALESCE(transaction_id, 'N/A') as transaction_id"),
+                    DB::raw("COALESCE(sender_account, 'N/A') as sender_account"),
                     'status',
                     DB::raw("NULL as photo"),
                     'created_at',
@@ -161,7 +253,7 @@ public function totaldeposite(Request $request)
                 ])
                 ->get();
 
-            // Merge both collections
+            // Merge both collections and sort by created_at desc
             $allDeposits = $deposites->merge($userDepositRequests)
                 ->sortByDesc('created_at')
                 ->values()
@@ -198,10 +290,26 @@ public function totaldeposite(Request $request)
                 ->where('status', 'rejected')
                 ->sum('amount');
 
-            // Total from both tables
+            // Calculate totals from both tables
             $totalApproved = ($depositesApproved ?? 0) + ($userRequestsApproved ?? 0);
             $totalPending = ($depositesPending ?? 0) + ($userRequestsPending ?? 0);
             $totalRejected = ($depositesRejected ?? 0) + ($userRequestsRejected ?? 0);
+
+            // Get current balance from users table (refresh first)
+            $user->refresh();
+            $currentBalance = $user->balance ?? 0;
+
+            // 🔥 Auto-sync if balance doesn't match
+            if ($currentBalance != $totalApproved) {
+                Log::warning("Balance Mismatch Detected: User {$user->id} - DB: {$currentBalance}, Calculated: {$totalApproved}");
+
+                // Auto-fix the balance
+                $user->balance = $totalApproved;
+                $user->save();
+                $currentBalance = $totalApproved;
+
+                Log::info("Balance Auto-Fixed: User {$user->id} updated to {$totalApproved}");
+            }
 
             return response()->json([
                 'success' => true,
@@ -211,6 +319,19 @@ public function totaldeposite(Request $request)
                     'total_pending' => $totalPending,
                     'total_rejected' => $totalRejected,
                     'total_deposits' => count($allDeposits),
+                    'current_balance' => $currentBalance,
+                ],
+                'breakdown' => [
+                    'deposites_table' => [
+                        'approved' => $depositesApproved ?? 0,
+                        'pending' => $depositesPending ?? 0,
+                        'rejected' => $depositesRejected ?? 0,
+                    ],
+                    'userdepositerequests_table' => [
+                        'approved' => $userRequestsApproved ?? 0,
+                        'pending' => $userRequestsPending ?? 0,
+                        'rejected' => $userRequestsRejected ?? 0,
+                    ],
                 ],
                 'message' => 'User deposits fetched successfully'
             ], 200);
@@ -231,7 +352,6 @@ public function totaldeposite(Request $request)
     public function userDepositsByStatus(Request $request, $status)
     {
         try {
-            // Validate status
             $validStatuses = ['pending', 'approved', 'rejected'];
             if (!in_array($status, $validStatuses)) {
                 return response()->json([
@@ -249,7 +369,6 @@ public function totaldeposite(Request $request)
                 ], 401);
             }
 
-            // Get from 'deposites' table
             $deposites = DB::table('deposites')
                 ->where('user_id', $user->id)
                 ->where('status', $status)
@@ -261,27 +380,27 @@ public function totaldeposite(Request $request)
                     'status',
                     'photo',
                     'created_at',
+                    'updated_at',
                     DB::raw("'deposites' as source")
                 ])
                 ->get();
 
-            // Get from 'userdepositerequests' table
             $userRequests = DB::table('userdepositerequests')
                 ->where('user_id', $user->id)
                 ->where('status', $status)
                 ->select([
                     'id',
                     'amount',
-                    'transaction_id',
-                    'sender_account',
+                    DB::raw("COALESCE(transaction_id, 'N/A') as transaction_id"),
+                    DB::raw("COALESCE(sender_account, 'N/A') as sender_account"),
                     'status',
                     DB::raw("NULL as photo"),
                     'created_at',
+                    'updated_at',
                     DB::raw("'userdepositerequests' as source")
                 ])
                 ->get();
 
-            // Merge both
             $allDeposits = $deposites->merge($userRequests)
                 ->sortByDesc('created_at')
                 ->values();
@@ -291,8 +410,11 @@ public function totaldeposite(Request $request)
             return response()->json([
                 'success' => true,
                 'data' => $allDeposits,
-                'total_amount' => $total ?? 0,
-                'count' => $allDeposits->count(),
+                'summary' => [
+                    'total_amount' => $total ?? 0,
+                    'count' => $allDeposits->count(),
+                    'status' => $status,
+                ],
                 'message' => ucfirst($status) . ' deposits fetched successfully'
             ], 200);
 
@@ -321,7 +443,6 @@ public function totaldeposite(Request $request)
                 ], 401);
             }
 
-            // Try to find in 'deposites' table first
             $deposit = DB::table('deposites')
                 ->where('id', $id)
                 ->where('user_id', $user->id)
@@ -329,7 +450,6 @@ public function totaldeposite(Request $request)
 
             $source = 'deposites';
 
-            // If not found, try 'userdepositerequests' table
             if (!$deposit) {
                 $deposit = DB::table('userdepositerequests')
                     ->where('id', $id)
@@ -356,6 +476,70 @@ public function totaldeposite(Request $request)
             return response()->json([
                 'success' => false,
                 'message' => 'Error fetching deposit details',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Get deposit statistics
+     * Route: GET /api/deposit/statistics
+     */
+    public function getDepositStatistics(Request $request)
+    {
+        try {
+            $user = $request->user();
+
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthenticated'
+                ], 401);
+            }
+
+            $stats = [
+                'user_balance' => $user->balance ?? 0,
+                'deposites_table' => [
+                    'total_count' => DB::table('deposites')->where('user_id', $user->id)->count(),
+                    'approved_count' => DB::table('deposites')->where('user_id', $user->id)->where('status', 'approved')->count(),
+                    'pending_count' => DB::table('deposites')->where('user_id', $user->id)->where('status', 'pending')->count(),
+                    'rejected_count' => DB::table('deposites')->where('user_id', $user->id)->where('status', 'rejected')->count(),
+                    'approved_sum' => DB::table('deposites')->where('user_id', $user->id)->where('status', 'approved')->sum('amount') ?? 0,
+                    'pending_sum' => DB::table('deposites')->where('user_id', $user->id)->where('status', 'pending')->sum('amount') ?? 0,
+                    'rejected_sum' => DB::table('deposites')->where('user_id', $user->id)->where('status', 'rejected')->sum('amount') ?? 0,
+                ],
+                'userdepositerequests_table' => [
+                    'total_count' => DB::table('userdepositerequests')->where('user_id', $user->id)->count(),
+                    'approved_count' => DB::table('userdepositerequests')->where('user_id', $user->id)->where('status', 'approved')->count(),
+                    'pending_count' => DB::table('userdepositerequests')->where('user_id', $user->id)->where('status', 'pending')->count(),
+                    'rejected_count' => DB::table('userdepositerequests')->where('user_id', $user->id)->where('status', 'rejected')->count(),
+                    'approved_sum' => DB::table('userdepositerequests')->where('user_id', $user->id)->where('status', 'approved')->sum('amount') ?? 0,
+                    'pending_sum' => DB::table('userdepositerequests')->where('user_id', $user->id)->where('status', 'pending')->sum('amount') ?? 0,
+                    'rejected_sum' => DB::table('userdepositerequests')->where('user_id', $user->id)->where('status', 'rejected')->sum('amount') ?? 0,
+                ],
+            ];
+
+            $combinedStats = [
+                'total_deposits_count' => $stats['deposites_table']['total_count'] + $stats['userdepositerequests_table']['total_count'],
+                'total_approved_amount' => $stats['deposites_table']['approved_sum'] + $stats['userdepositerequests_table']['approved_sum'],
+                'total_pending_amount' => $stats['deposites_table']['pending_sum'] + $stats['userdepositerequests_table']['pending_sum'],
+                'total_rejected_amount' => $stats['deposites_table']['rejected_sum'] + $stats['userdepositerequests_table']['rejected_sum'],
+            ];
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'user_balance' => $stats['user_balance'],
+                    'combined_statistics' => $combinedStats,
+                    'detailed_breakdown' => $stats,
+                ],
+                'message' => 'Deposit statistics fetched successfully'
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error fetching statistics',
                 'error' => $e->getMessage()
             ], 500);
         }

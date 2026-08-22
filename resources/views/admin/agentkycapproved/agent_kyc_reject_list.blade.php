@@ -18,6 +18,9 @@
                         <thead class="table-danger">
                             <tr>
                                 <th>#</th>
+                                <th>Email</th>
+                                <th>Name</th>
+                                <th>Mobile</th>
                                 <th>Document Type</th>
                                 <th>Front Photo</th>
                                 <th>Back Photo</th>
@@ -29,8 +32,10 @@
                             @foreach($rejectedKycs as $index => $kyc)
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
+                                    <td>{{ ($kyc->kycagent->email ?? 'N/A') }}</td>
+                                    <td>{{ ($kyc->kycagent->name ?? 'N/A') }}</td>
+                                    <td>{{ ($kyc->kycagent->mobile ?? "") }}</td>
                                     <td>{{ ucfirst($kyc->document_type ?? 'N/A') }}</td>
-
                                     <td>
                                         @if($kyc->document_first_part_photo)
                                             <img src="{{ asset('uploads/agent_kyc/'.$kyc->document_first_part_photo) }}"

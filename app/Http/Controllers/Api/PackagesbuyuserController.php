@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Deposite;
 use App\Models\Package;
 use App\Models\Packagebuy;
 use App\Models\Reffercommissionsetup;
@@ -53,6 +52,8 @@ class PackagesbuyuserController extends Controller
                     'amount' => (float)$package->amount,
                     'daily_income' => (float)$package->daily_income,
                     'daily_limit' => (int)$package->daily_limit,
+                    'validity' => (int)($package->package->validity ?? 0),
+                    'photo' => $package->package->photo,
                     'status' => $package->status,
                     'created_at' => $package->created_at?->toIso8601String(),
                     'updated_at' => $package->updated_at?->toIso8601String(),
@@ -62,7 +63,7 @@ class PackagesbuyuserController extends Controller
         } catch (Throwable $e) {
             Log::error('Get Current Package Error', [
                 'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
             ]);
 
             return response()->json([
@@ -87,28 +88,19 @@ class PackagesbuyuserController extends Controller
                 ], 401);
             }
 
-            $totalDeposit = Deposite::where('user_id', $user->id)
-                ->where('status', 'approved')
-                ->sum('amount') ?? 0;
-
-            $totalUsed = Packagebuy::where('user_id', $user->id)
-                ->where('status', 'approved')
-                ->sum('amount') ?? 0;
-
-            $available = $totalDeposit - $totalUsed;
+            $balance = (float)($user->balance ?? 0);
 
             return response()->json([
                 'success' => true,
                 'data' => [
-                    'total_deposit' => (float)$totalDeposit,
-                    'total_used' => (float)$totalUsed,
-                    'available' => (float)$available
+                    'balance' => $balance
                 ]
             ]);
 
         } catch (Throwable $e) {
             Log::error('Get User Balance Error', [
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
             ]);
 
             return response()->json([
@@ -120,12 +112,7 @@ class PackagesbuyuserController extends Controller
 
     /**
      * Buy or Update Package
-     *
-     * ✅ FIXED ISSUES:
-     * - Proper balance calculation for updates (previous amount + available)
-     * - Commission only on FIRST purchase, NOT on updates
-     * - Better transaction handling
-     * - Comprehensive logging
+     * ✅ Fixed: Properly calculates difference for updates
      */
     public function packagebuy(Request $request, $package_id)
     {
@@ -134,220 +121,233 @@ class PackagesbuyuserController extends Controller
         Log::info('🛒 Package Buy/Update Request Started', [
             'user_id' => $user?->id,
             'package_id' => $package_id,
-            'token_present' => $request->hasHeader('Authorization')
+            'current_balance' => $user?->balance,
         ]);
 
-        // ================================
-        // 1. Authentication Check
-        // ================================
         if (!$user) {
-            Log::warning('❌ Unauthenticated request');
             return response()->json([
                 'success' => false,
-                'message' => 'User not authenticated. Please login again.'
+                'message' => 'User not authenticated.'
             ], 401);
         }
 
-        // ================================
-        // 2. Package Validation
-        // ================================
+        // ======================================
+        //  ✅ VALIDATE PACKAGE
+        // ======================================
         $package = Package::find($package_id);
 
-        if (!$package) {
-            Log::warning('❌ Package not found', ['package_id' => $package_id]);
+        if (!$package || !$package->price || $package->price <= 0) {
+            Log::warning('Invalid package requested', [
+                'user_id' => $user->id,
+                'package_id' => $package_id,
+            ]);
+
             return response()->json([
                 'success' => false,
-                'message' => 'Package not found!'
+                'message' => 'Invalid package!'
             ], 404);
         }
 
-        if (!$package->price || $package->price <= 0) {
-            Log::warning('❌ Invalid package price', [
-                'package_id' => $package_id,
-                'price' => $package->price
-            ]);
-            return response()->json([
-                'success' => false,
-                'message' => 'Invalid package price!'
-            ], 400);
-        }
-
-        // ================================
-        // 3. Check Existing Package
-        // ================================
-        $existingPurchase = Packagebuy::where('user_id', $user->id)
+        // ======================================
+        //  ✅ CHECK EXISTING PACKAGE
+        // ======================================
+        $existing = Packagebuy::where('user_id', $user->id)
             ->where('status', 'approved')
             ->first();
 
-        $isUpdate = $existingPurchase !== null;
+        $isUpdate = $existing !== null;
         $isFirstPurchase = !$isUpdate;
 
-        Log::info('📦 Package Status', [
-            'is_update' => $isUpdate,
-            'is_first_purchase' => $isFirstPurchase,
-            'existing_package_id' => $existingPurchase?->package_id,
-            'existing_amount' => $existingPurchase?->amount
-        ]);
+        // প্রতিরোধ: একই প্যাকেজ আবার কিনতে চাচ্ছে কিনা
+        if ($isUpdate && $existing->package_id == $package_id) {
+            Log::info('User already has this package', [
+                'user_id' => $user->id,
+                'package_id' => $package_id,
+            ]);
 
-        // Don't allow "updating" to the same package
-        if ($isUpdate && $existingPurchase->package_id == $package_id) {
-            Log::info('⚠️ User already has this package');
             return response()->json([
                 'success' => false,
                 'message' => 'You already have this package!'
             ], 400);
         }
 
-        // ================================
-        // 4. Balance Calculation
-        // ================================
-        $totalApprovedDeposit = Deposite::where('user_id', $user->id)
-            ->where('status', 'approved')
-            ->sum('amount') ?? 0;
-
-        $totalUsed = Packagebuy::where('user_id', $user->id)
-            ->where('status', 'approved')
-            ->sum('amount') ?? 0;
-
-        // ✅ CRITICAL FIX: For updates, we need to add back the previous package amount
-        // because it will be replaced, not added
-        $availableBalance = $totalApprovedDeposit - $totalUsed;
+        // ======================================
+        //  ✅ CALCULATE REQUIRED AMOUNT
+        // ======================================
+        $requiredAmount = 0;
 
         if ($isUpdate) {
-            // Add back the previous package amount since we're replacing it
-            $availableBalance += $existingPurchase->amount;
+            // আপডেটের ক্ষেত্রে: শুধু পার্থক্য (difference) দিতে হবে
+            $requiredAmount = $package->price - $existing->amount;
+
+            Log::info('🔄 Package Update - Calculating difference', [
+                'user_id' => $user->id,
+                'old_package_id' => $existing->package_id,
+                'old_package_amount' => $existing->amount,
+                'new_package_id' => $package->id,
+                'new_package_amount' => $package->price,
+                'difference_to_pay' => $requiredAmount,
+            ]);
+        } else {
+            // নতুন কেনার ক্ষেত্রে: পুরো দাম দিতে হবে
+            $requiredAmount = $package->price;
+
+            Log::info('🆕 New Package Purchase - Full payment', [
+                'user_id' => $user->id,
+                'package_id' => $package->id,
+                'full_price' => $requiredAmount,
+            ]);
         }
 
-        $requiredAmount = $package->price;
+        // ======================================
+        //  ✅ BALANCE CHECK
+        // ======================================
+        $availableBalance = (float)($user->balance ?? 0);
 
-        Log::info('💰 Balance Calculation', [
+        Log::info('💰 Balance Verification', [
             'user_id' => $user->id,
-            'total_deposit' => $totalApprovedDeposit,
-            'total_used' => $totalUsed,
-            'previous_package_amount' => $existingPurchase?->amount ?? 0,
-            'available_after_adjustment' => $availableBalance,
-            'required' => $requiredAmount,
-            'sufficient' => $availableBalance >= $requiredAmount
+            'available_balance' => $availableBalance,
+            'required_amount' => $requiredAmount,
+            'is_sufficient' => $availableBalance >= $requiredAmount,
         ]);
 
-        // ================================
-        // 5. Balance Check
-        // ================================
         if ($availableBalance < $requiredAmount) {
-            Log::warning('❌ Insufficient balance', [
+            Log::warning('Insufficient balance', [
+                'user_id' => $user->id,
                 'available' => $availableBalance,
                 'required' => $requiredAmount,
-                'shortfall' => $requiredAmount - $availableBalance
+                'shortage' => $requiredAmount - $availableBalance,
             ]);
+
+            $message = $isUpdate
+                ? "Insufficient balance. Available: $" . number_format($availableBalance, 2) . ", Additional needed: $" . number_format($requiredAmount, 2)
+                : "Insufficient balance. Available: $" . number_format($availableBalance, 2) . ", Required: $" . number_format($requiredAmount, 2);
 
             return response()->json([
                 'success' => false,
-                'message' => 'Insufficient balance. Available: ৳' . number_format($availableBalance, 2) .
-                           ', Required: ৳' . number_format($requiredAmount, 2) .
-                           ', Shortfall: ৳' . number_format($requiredAmount - $availableBalance, 2)
+                'message' => $message
             ], 400);
         }
 
-        // ================================
-        // 6. Process Transaction
-        // ================================
+        // ======================================
+        //  ✅ PROCESS TRANSACTION
+        // ======================================
         try {
             DB::beginTransaction();
 
+            $balanceBefore = $user->balance;
+
+            // ✅ Deduct required amount from balance
+            $user->balance -= $requiredAmount;
+            $user->save();
+
+            Log::info('💵 Balance deducted', [
+                'user_id' => $user->id,
+                'balance_before' => $balanceBefore,
+                'amount_deducted' => $requiredAmount,
+                'balance_after' => $user->balance,
+            ]);
+
+            // ✅ Create or Update package record
             if ($isUpdate) {
-                // UPDATE existing package
-                Log::info('🔄 Updating existing package', [
-                    'old_package_id' => $existingPurchase->package_id,
+                Log::info('🔄 Updating package record', [
+                    'package_buy_id' => $existing->id,
+                    'old_package_id' => $existing->package_id,
                     'new_package_id' => $package->id,
-                    'old_amount' => $existingPurchase->amount,
-                    'new_amount' => $package->price
                 ]);
 
-                $existingPurchase->update([
-                    'package_id'   => $package->id,
-                    'amount'       => $package->price,
+                $existing->update([
+                    'package_id' => $package->id,
+                    'amount' => $package->price,
                     'daily_income' => $package->daily_income,
-                    'daily_limit'  => $package->daily_limit,
-                    'status'       => 'approved',
-                    'updated_at'   => now(),
+                    'daily_limit' => $package->daily_limit,
+                    'status' => 'approved',
                 ]);
 
-                $actionType = 'updated';
+                $action = "updated";
+                $packageBuyRecord = $existing;
 
             } else {
-                // CREATE new package purchase
-                Log::info('✨ Creating new package purchase');
-
-                Packagebuy::create([
-                    'user_id'      => $user->id,
-                    'package_id'   => $package->id,
-                    'amount'       => $package->price,
-                    'daily_income' => $package->daily_income,
-                    'daily_limit'  => $package->daily_limit,
-                    'status'       => 'approved',
-                    'created_at'   => now(),
-                    'updated_at'   => now(),
+                Log::info('🆕 Creating new package record', [
+                    'package_id' => $package->id,
+                    'amount' => $package->price,
                 ]);
 
-                $actionType = 'purchased';
+                $packageBuyRecord = Packagebuy::create([
+                    'user_id' => $user->id,
+                    'package_id' => $package->id,
+                    'amount' => $package->price,
+                    'daily_income' => $package->daily_income,
+                    'daily_limit' => $package->daily_limit,
+                    'status' => 'approved',
+                ]);
+
+                $action = "purchased";
             }
 
-            // ✅ CRITICAL FIX: Give referral commission ONLY on FIRST purchase
+            // ======================================
+            //  ✅ REFERRAL COMMISSION (শুধুমাত্র প্রথম ক্রয়ে)
+            // ======================================
             if ($isFirstPurchase) {
-                Log::info('🎁 Processing referral commission (First Purchase)');
+                Log::info('🎁 Processing referral commission for first purchase', [
+                    'user_id' => $user->id,
+                    'package_price' => $package->price,
+                ]);
+
                 $this->giveReferralCommission($user, $package->price);
             } else {
-                Log::info('ℹ️ Skipping referral commission (Update/Upgrade)');
+                Log::info('ℹ️ Referral commission skipped (not first purchase)', [
+                    'user_id' => $user->id,
+                ]);
             }
 
             DB::commit();
 
-            Log::info('✅ Package Transaction Success', [
+            Log::info('✅ Package ' . $action . ' successfully', [
                 'user_id' => $user->id,
                 'package_id' => $package->id,
-                'amount' => $package->price,
-                'action' => $actionType,
-                'commission_given' => $isFirstPurchase
+                'package_name' => $package->package_name,
+                'amount_paid' => $requiredAmount,
+                'final_balance' => $user->balance,
+                'action' => $action,
             ]);
 
             return response()->json([
                 'success' => true,
-                'message' => 'Package ' . $actionType . ' successfully!',
+                'message' => "Package {$action} successfully!",
                 'data' => [
-                    'action' => $actionType,
+                    'package_id' => $package->id,
                     'package_name' => $package->package_name,
-                    'amount_paid' => (float)$package->price,
+                    'package_price' => (float)$package->price,
+                    'amount_paid' => (float)$requiredAmount,
+                    'new_balance' => (float)$user->balance,
                     'daily_income' => (float)$package->daily_income,
                     'daily_limit' => (int)$package->daily_limit,
-                    'total_return' => (float)($package->daily_income * $package->daily_limit),
-                    'profit' => (float)(($package->daily_income * $package->daily_limit) - $package->price),
-                    'is_first_purchase' => $isFirstPurchase,
-                    'commission_given' => $isFirstPurchase,
                 ]
-            ], 200);
+            ]);
 
         } catch (Throwable $e) {
             DB::rollBack();
 
-            Log::error('❌ Package Transaction Failed', [
+            Log::error('❌ Package Buy/Update Transaction Failed', [
                 'user_id' => $user->id,
                 'package_id' => $package_id,
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+                'error_message' => $e->getMessage(),
+                'error_file' => $e->getFile(),
+                'error_line' => $e->getLine(),
+                'trace' => $e->getTraceAsString(),
             ]);
 
             return response()->json([
                 'success' => false,
-                'message' => 'Transaction failed: ' . $e->getMessage()
+                'message' => 'Transaction failed. Please try again.'
             ], 500);
         }
     }
 
     /**
-     * Give Referral Commission on First Purchase Only
-     *
-     * ✅ This should ONLY be called for first-time purchases
-     * ✅ NOT for package updates/upgrades
+     * Give Referral Commission to Uplines
+     * ✅ Multi-level referral commission distribution
      */
     private function giveReferralCommission($user, $packagePrice)
     {
@@ -355,88 +355,116 @@ class PackagesbuyuserController extends Controller
             $referrer = $user->referrer;
 
             if (!$referrer) {
-                Log::info('ℹ️ No referrer found', ['user_id' => $user->id]);
+                Log::info('ℹ️ No referrer found', [
+                    'user_id' => $user->id,
+                ]);
                 return;
             }
 
-            $commissionLevels = Reffercommissionsetup::orderBy('reffer_level', 'asc')->get();
+            $levels = Reffercommissionsetup::orderBy('reffer_level', 'asc')->get();
 
-            if ($commissionLevels->isEmpty()) {
-                Log::warning('⚠️ No commission levels configured');
+            if ($levels->isEmpty()) {
+                Log::warning('⚠️ No referral commission levels configured in database');
                 return;
             }
 
-            $currentReferrer = $referrer;
+            Log::info('🎁 Starting referral commission distribution', [
+                'from_user_id' => $user->id,
+                'package_price' => $packagePrice,
+                'total_levels_configured' => $levels->count(),
+            ]);
+
+            $current = $referrer;
             $level = 1;
+            $totalCommissionGiven = 0;
 
-            foreach ($commissionLevels as $commission) {
-                if (!$currentReferrer) {
-                    Log::info('ℹ️ No more referrers at level ' . $level);
+            foreach ($levels as $commission) {
+                if (!$current) {
+                    Log::info('ℹ️ No more upline referrers available', [
+                        'stopped_at_level' => $level,
+                    ]);
                     break;
                 }
 
-                $commissionAmount = ($commission->commission_percentage / 100) * $packagePrice;
+                $amount = ($commission->commission_percentage / 100) * $packagePrice;
 
-                // Update referrer's balance and refer_income
-                $currentReferrer->balance += $commissionAmount;
-                $currentReferrer->refer_income += $commissionAmount;
-                $currentReferrer->save();
+                // আপলাইনের ব্যালেন্স এবং রেফার আয় বৃদ্ধি
+                $current->balance += $amount;
+                $current->refer_income += $amount;
+                $current->save();
 
-                Log::info('🎁 Referral Commission Given', [
-                    'referrer_id' => $currentReferrer->id,
-                    'referrer_name' => $currentReferrer->name ?? 'N/A',
+                $totalCommissionGiven += $amount;
+
+                Log::info('💸 Referral commission given', [
+                    'from_user_id' => $user->id,
+                    'to_user_id' => $current->id,
+                    'to_user_name' => $current->name ?? 'N/A',
                     'level' => $level,
                     'commission_percentage' => $commission->commission_percentage,
                     'package_price' => $packagePrice,
-                    'commission_amount' => $commissionAmount,
-                    'new_balance' => $currentReferrer->balance,
-                    'new_refer_income' => $currentReferrer->refer_income
+                    'commission_amount' => $amount,
+                    'new_balance' => $current->balance,
+                    'total_refer_income' => $current->refer_income,
                 ]);
 
-                // Move to next level referrer
-                $currentReferrer = $currentReferrer->referrer;
+                // পরবর্তী লেভেলে যাওয়া
+                $current = $current->referrer;
                 $level++;
             }
 
-            Log::info('✅ Referral Commission Distribution Complete', [
-                'levels_processed' => $level - 1,
-                'package_price' => $packagePrice
+            Log::info('✅ Referral commission distribution completed', [
+                'from_user_id' => $user->id,
+                'total_levels_processed' => $level - 1,
+                'total_commission_distributed' => $totalCommissionGiven,
             ]);
 
         } catch (Throwable $e) {
-            Log::error('❌ Referral Commission Error', [
+            Log::error('❌ Referral Commission Distribution Error', [
                 'user_id' => $user->id,
                 'package_price' => $packagePrice,
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+                'error_message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
             ]);
 
-            // Don't throw - commission failure shouldn't stop the purchase
-            // But log it for investigation
+            // রেফারেল কমিশনে সমস্যা হলেও মূল ট্রানজেকশন ফেইল হবে না
         }
     }
 
     /**
      * Get All Available Packages
+     * ✅ Sorted by price (highest first)
      */
     public function getPackages(Request $request)
     {
         try {
             $packages = Package::where('status', 'active')
-                ->orderBy('price', 'asc')
+                ->orderBy('price', 'desc')
                 ->get()
-                ->map(function ($package) {
+                ->map(function ($p) {
+                    $totalReturn = $p->daily_income * $p->daily_limit;
+                    $profit = $totalReturn - $p->price;
+                    $profitPercentage = ($p->price > 0)
+                        ? (($profit / $p->price) * 100)
+                        : 0;
+
                     return [
-                        'id' => $package->id,
-                        'package_name' => $package->package_name,
-                        'price' => (float)$package->price,
-                        'daily_income' => (float)$package->daily_income,
-                        'daily_limit' => (int)$package->daily_limit,
-                        'total_return' => (float)($package->daily_income * $package->daily_limit),
-                        'profit' => (float)(($package->daily_income * $package->daily_limit) - $package->price),
-                        'profit_percentage' => (float)((($package->daily_income * $package->daily_limit) - $package->price) / $package->price * 100),
+                        'id' => $p->id,
+                        'package_name' => $p->package_name,
+                        'price' => (float)$p->price,
+                        'daily_income' => (float)$p->daily_income,
+                        'daily_limit' => (int)$p->daily_limit,
+                        'validity' => (int)($p->validity ?? 0),
+                        'photo' => $p->photo,
+                        'total_return' => (float)$totalReturn,
+                        'profit' => (float)$profit,
+                        'profit_percentage' => round($profitPercentage, 2),
+                        'status' => $p->status,
                     ];
                 });
+
+            Log::info('📦 Packages fetched successfully', [
+                'total_packages' => $packages->count(),
+            ]);
 
             return response()->json([
                 'success' => true,
@@ -445,7 +473,8 @@ class PackagesbuyuserController extends Controller
 
         } catch (Throwable $e) {
             Log::error('Get Packages Error', [
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
             ]);
 
             return response()->json([

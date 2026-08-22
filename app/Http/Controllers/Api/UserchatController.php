@@ -16,9 +16,25 @@ use Exception;
 class UserchatController extends Controller
 {
     /**
-     * Get Friend List for Chat (Only Regular Users - Role: user)
+     * Resolve user profile photo URL safely.
+     */
+    private function resolvePhoto($photo): string
+    {
+        if (!$photo || $photo === '') {
+            return asset('uploads/avator.jpg');
+        }
+
+        $photoStr = trim((string)$photo);
+        if (str_starts_with($photoStr, 'http://') || str_starts_with($photoStr, 'https://')) {
+            return $photoStr;
+        }
+
+        return asset('uploads/profile/' . ltrim($photoStr, '/'));
+    }
+
+    /**
+     * Get Friend List for Chat
      * Returns all accepted friends for the authenticated user
-     * Filters out admin users from the list
      */
     public function frontend_chat_list()
     {
@@ -33,60 +49,36 @@ class UserchatController extends Controller
                 ], 401);
             }
 
-            // Check if current user has 'user' role
-            if ($currentUser->role !== 'user') {
-                Log::warning("Non-user role attempting to access chat: User ID $userId with role: {$currentUser->role}");
+            Log::info("Fetching chat list for user: $userId");
 
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Chat is only available for regular users.'
-                ], 403);
-            }
-
-            Log::info("Fetching chat list for user: $userId (role: {$currentUser->role})");
-
-            // Get all accepted friend requests where both users have 'user' role
+            // Fetch accepted friends
             $friends = ChatRequest::where(function ($q) use ($userId) {
-                $q->where('sender_id', $userId)
-                  ->orWhere('receiver_id', $userId);
-            })
-            ->where('status', 'accepted')
-            ->with(['sender' => function ($query) {
-                $query->where('role', 'user'); // Only get users with 'user' role
-            }, 'receiver' => function ($query) {
-                $query->where('role', 'user'); // Only get users with 'user' role
-            }])
-            ->get();
+                    $q->where('sender_id', $userId)
+                      ->orWhere('receiver_id', $userId);
+                })
+                ->where('status', 'accepted')
+                ->with(['sender', 'receiver'])
+                ->get();
 
-            // Map to contact list and filter out non-user roles
+            // Build contact list
             $contacts = $friends->map(function ($item) use ($userId) {
-                // Get the friend (not the current user)
-                $user = $item->sender_id == $userId ? $item->receiver : $item->sender;
+                $friend = $item->sender_id == $userId ? $item->receiver : $item->sender;
 
-                // Check if user exists
-                if (!$user) {
-                    Log::warning("User not found in chat request: " . $item->id);
-                    return null;
-                }
-
-                // Double check role (extra safety)
-                if ($user->role !== 'user') {
-                    Log::info("Filtering out non-user from chat list: User ID {$user->id} with role: {$user->role}");
+                if (!$friend) {
                     return null;
                 }
 
                 return [
-                    'id' => $user->id,
-                    'name' => $user->name ?? 'Unknown User',
-                    'email' => $user->email ?? '',
-                    'image' => $user->image
-                        ? asset('uploads/profile/' . $user->image)
-                        : null,
-                    'role' => $user->role, // Include role for debugging
+                    'id' => $friend->id,
+                    'name' => $friend->name ?? 'Unknown User',
+                    'email' => $friend->email ?? '',
+                    'photo' => $this->resolvePhoto($friend->photo),
+                    'image' => $this->resolvePhoto($friend->photo),
+                    'role' => $friend->role ?? 'user',
                 ];
-            })->filter()->values(); // Remove null values
+            })->filter()->values();
 
-            Log::info("Found " . $contacts->count() . " user-role contacts for user: $userId");
+            Log::info("Found " . $contacts->count() . " contacts for user: $userId");
 
             return response()->json([
                 'success' => true,
@@ -96,7 +88,6 @@ class UserchatController extends Controller
 
         } catch (Exception $e) {
             Log::error("Error in frontend_chat_list: " . $e->getMessage());
-            Log::error("Stack trace: " . $e->getTraceAsString());
 
             return response()->json([
                 'success' => false,
@@ -109,7 +100,6 @@ class UserchatController extends Controller
     /**
      * Send Message (text or image)
      * Allows sending text messages and/or images to friends
-     * Only works between users with 'user' role
      */
     public function frontend_chat_submit(Request $request)
     {
@@ -117,7 +107,7 @@ class UserchatController extends Controller
             // Validate input
             $validator = Validator::make($request->all(), [
                 'receiver_id' => 'required|integer|exists:users,id',
-                'message' => 'required_without:image|string|max:5000',
+                'message' => 'required_without:image|nullable|string|max:5000',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120', // 5MB
             ], [
                 'receiver_id.required' => 'Receiver ID is required',
@@ -138,24 +128,13 @@ class UserchatController extends Controller
             }
 
             $senderId = Auth::id();
-            $sender = Auth::user();
             $receiverId = (int) $request->receiver_id;
 
-            if (!$senderId || !$sender) {
+            if (!$senderId) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Unauthorized. Please login.'
                 ], 401);
-            }
-
-            // Check if sender has 'user' role
-            if ($sender->role !== 'user') {
-                Log::warning("Non-user role attempting to send message: User ID $senderId with role: {$sender->role}");
-
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Only regular users can send messages.'
-                ], 403);
             }
 
             // Prevent sending message to yourself
@@ -166,26 +145,14 @@ class UserchatController extends Controller
                 ], 400);
             }
 
-            // Check if receiver exists and has 'user' role
+            // Check if receiver exists
             $receiver = User::find($receiverId);
-
             if (!$receiver) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Receiver not found'
                 ], 404);
             }
-
-            if ($receiver->role !== 'user') {
-                Log::warning("Attempt to send message to non-user: Receiver ID $receiverId with role: {$receiver->role}");
-
-                return response()->json([
-                    'success' => false,
-                    'message' => 'You can only send messages to regular users.'
-                ], 403);
-            }
-
-            Log::info("User $senderId (role: user) sending message to user $receiverId (role: user)");
 
             // Check if they are friends
             $areFriends = ChatRequest::where(function ($q) use ($senderId, $receiverId) {
@@ -222,20 +189,17 @@ class UserchatController extends Controller
                 try {
                     $image = $request->file('image');
 
-                    // Validate image
                     if (!$image->isValid()) {
                         throw new Exception('Invalid image file');
                     }
 
                     $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
 
-                    // Create directory if not exists
                     $uploadPath = public_path('uploads/chat');
                     if (!file_exists($uploadPath)) {
                         mkdir($uploadPath, 0777, true);
                     }
 
-                    // Move image to upload directory
                     $image->move($uploadPath, $imageName);
                     $chatMessage->image = $imageName;
 
@@ -266,13 +230,12 @@ class UserchatController extends Controller
                         ? asset('uploads/chat/' . $chatMessage->image)
                         : null,
                     'is_sent' => true,
-                    'created_at' => $chatMessage->created_at->format('h:i A'),
+                    'created_at' => ($chatMessage->created_at ? $chatMessage->created_at->format('h:i A') : ''),
                 ]
             ], 201);
 
         } catch (Exception $e) {
             Log::error("Error in frontend_chat_submit: " . $e->getMessage());
-            Log::error("Stack trace: " . $e->getTraceAsString());
 
             return response()->json([
                 'success' => false,
@@ -285,7 +248,6 @@ class UserchatController extends Controller
     /**
      * Get Chat Messages Between Two Users
      * Returns all messages between authenticated user and specified user
-     * Only works if both users have 'user' role
      */
     public function frontend_chat_messages(Request $request)
     {
@@ -307,24 +269,13 @@ class UserchatController extends Controller
             }
 
             $authId = Auth::id();
-            $authUser = Auth::user();
             $userId = (int) $request->user_id;
 
-            if (!$authId || !$authUser) {
+            if (!$authId) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Unauthorized. Please login.'
                 ], 401);
-            }
-
-            // Check if authenticated user has 'user' role
-            if ($authUser->role !== 'user') {
-                Log::warning("Non-user role attempting to access messages: User ID $authId with role: {$authUser->role}");
-
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Chat is only available for regular users.'
-                ], 403);
             }
 
             // Prevent getting messages with yourself
@@ -335,26 +286,14 @@ class UserchatController extends Controller
                 ], 400);
             }
 
-            // Check if the other user exists and has 'user' role
+            // Check if the other user exists
             $otherUser = User::find($userId);
-
             if (!$otherUser) {
                 return response()->json([
                     'success' => false,
                     'message' => 'User not found'
                 ], 404);
             }
-
-            if ($otherUser->role !== 'user') {
-                Log::warning("Attempt to get messages with non-user: User ID $userId with role: {$otherUser->role}");
-
-                return response()->json([
-                    'success' => false,
-                    'message' => 'You can only chat with regular users.'
-                ], 403);
-            }
-
-            Log::info("Fetching messages between user $authId and user $userId (both have 'user' role)");
 
             // Check if they are friends
             $areFriends = ChatRequest::where(function ($q) use ($authId, $userId) {
@@ -413,12 +352,12 @@ class UserchatController extends Controller
                         : null,
                     'is_sent' => $msg->sender_id == $authId,
                     'is_read' => (bool) $msg->is_read,
-                    'created_at' => $msg->created_at->format('h:i A'),
-                    'date' => $msg->created_at->format('M d, Y'),
+                    'created_at' => ($msg->created_at ? $msg->created_at->format('h:i A') : ''),
+                    'date' => ($msg->created_at ? $msg->created_at->format('M d, Y') : ''),
                 ];
             });
 
-            Log::info("Found " . $messages->count() . " messages");
+            Log::info("Found " . $messages->count() . " messages between $authId and $userId");
 
             return response()->json([
                 'success' => true,
@@ -428,7 +367,6 @@ class UserchatController extends Controller
 
         } catch (Exception $e) {
             Log::error("Error in frontend_chat_messages: " . $e->getMessage());
-            Log::error("Stack trace: " . $e->getTraceAsString());
 
             return response()->json([
                 'success' => false,
@@ -441,42 +379,26 @@ class UserchatController extends Controller
     /**
      * Get Unread Message Counts
      * Returns count of unread messages grouped by sender
-     * Only counts messages from users with 'user' role
      */
     public function getUnreadCounts()
     {
         try {
             $userId = Auth::id();
-            $currentUser = Auth::user();
 
-            if (!$userId || !$currentUser) {
+            if (!$userId) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Unauthorized. Please login.'
                 ], 401);
             }
 
-            // Check if current user has 'user' role
-            if ($currentUser->role !== 'user') {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Chat is only available for regular users.',
-                    'data' => []
-                ], 403);
-            }
-
             // Get unread message count grouped by sender
-            // Only count messages from users with 'user' role
-            $counts = ChatMessage::select('chat_messages.sender_id', DB::raw('COUNT(*) as unread_count'))
-                ->join('users', 'chat_messages.sender_id', '=', 'users.id')
-                ->where('chat_messages.receiver_id', $userId)
-                ->where('chat_messages.is_read', false)
-                ->where('users.role', 'user') // Only count messages from regular users
-                ->groupBy('chat_messages.sender_id')
+            $counts = ChatMessage::select('sender_id', DB::raw('COUNT(*) as unread_count'))
+                ->where('receiver_id', $userId)
+                ->where('is_read', false)
+                ->groupBy('sender_id')
                 ->get()
                 ->pluck('unread_count', 'sender_id');
-
-            Log::info("Unread counts for user $userId (from user-role only): " . json_encode($counts));
 
             return response()->json([
                 'success' => true,
@@ -491,14 +413,13 @@ class UserchatController extends Controller
                 'success' => false,
                 'message' => 'Failed to fetch unread counts',
                 'data' => []
-            ], 200); // Return empty counts instead of error
+            ], 200);
         }
     }
 
     /**
      * Delete Message
      * Allows user to delete their own sent messages
-     * Only works for users with 'user' role
      */
     public function deleteMessage(Request $request)
     {
@@ -515,21 +436,12 @@ class UserchatController extends Controller
             }
 
             $userId = Auth::id();
-            $currentUser = Auth::user();
 
-            if (!$userId || !$currentUser) {
+            if (!$userId) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Unauthorized. Please login.'
                 ], 401);
-            }
-
-            // Check if current user has 'user' role
-            if ($currentUser->role !== 'user') {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Only regular users can delete messages.'
-                ], 403);
             }
 
             $message = ChatMessage::find($request->message_id);
@@ -553,7 +465,7 @@ class UserchatController extends Controller
             if ($message->image) {
                 $imagePath = public_path('uploads/chat/' . $message->image);
                 if (file_exists($imagePath)) {
-                    unlink($imagePath);
+                    @unlink($imagePath);
                     Log::info("Deleted image: " . $message->image);
                 }
             }
@@ -578,8 +490,6 @@ class UserchatController extends Controller
 
     /**
      * Mark Message as Read
-     * Marks a specific message as read by the receiver
-     * Only works for users with 'user' role
      */
     public function markAsRead(Request $request)
     {
@@ -596,21 +506,12 @@ class UserchatController extends Controller
             }
 
             $userId = Auth::id();
-            $currentUser = Auth::user();
 
-            if (!$userId || !$currentUser) {
+            if (!$userId) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Unauthorized. Please login.'
                 ], 401);
-            }
-
-            // Check if current user has 'user' role
-            if ($currentUser->role !== 'user') {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Only regular users can mark messages as read.'
-                ], 403);
             }
 
             $message = ChatMessage::find($request->message_id);
@@ -652,99 +553,97 @@ class UserchatController extends Controller
 
     /**
      * Get Last Message with Each Friend
-     * Returns chat list with last message preview and unread count
-     * Only includes users with 'user' role
      */
     public function getLastMessages()
     {
         try {
             $userId = Auth::id();
-            $currentUser = Auth::user();
 
-            if (!$userId || !$currentUser) {
+            if (!$userId) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Unauthorized. Please login.'
                 ], 401);
             }
 
-            // Check if current user has 'user' role
-            if ($currentUser->role !== 'user') {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Chat is only available for regular users.'
-                ], 403);
-            }
-
-            // Get all friends with 'user' role
+            // Get all friends
             $friends = ChatRequest::where(function ($q) use ($userId) {
                 $q->where('sender_id', $userId)
                   ->orWhere('receiver_id', $userId);
             })
             ->where('status', 'accepted')
-            ->with(['sender' => function ($query) {
-                $query->where('role', 'user');
-            }, 'receiver' => function ($query) {
-                $query->where('role', 'user');
-            }])
+            ->with(['sender', 'receiver'])
             ->get();
 
-            $chatList = $friends->map(function ($item) use ($userId) {
+            // Collect all friend IDs
+            $friendIds = $friends->map(function ($item) use ($userId) {
+                $friend = $item->sender_id == $userId ? $item->receiver : $item->sender;
+                return $friend ? $friend->id : null;
+            })->filter()->unique()->toArray();
+
+            // Fetch unread counts in bulk
+            $unreadCounts = collect();
+            if (!empty($friendIds)) {
+                $unreadCounts = ChatMessage::where('receiver_id', $userId)
+                    ->whereIn('sender_id', $friendIds)
+                    ->where('is_read', false)
+                    ->select('sender_id', DB::raw('COUNT(*) as unread_count'))
+                    ->groupBy('sender_id')
+                    ->pluck('unread_count', 'sender_id');
+            }
+
+            // Fetch last messages in bulk
+            $lastMessages = collect();
+            if (!empty($friendIds)) {
+                $latestMessageIds = ChatMessage::where(function ($q) use ($userId) {
+                        $q->where('sender_id', $userId)
+                          ->orWhere('receiver_id', $userId);
+                    })
+                    ->where(function ($q) use ($friendIds) {
+                        $q->whereIn('sender_id', $friendIds)
+                          ->orWhereIn('receiver_id', $friendIds);
+                    })
+                    ->select(DB::raw('MAX(id) as max_id'))
+                    ->groupBy(DB::raw('CASE WHEN sender_id = ' . $userId . ' THEN receiver_id ELSE sender_id END'))
+                    ->pluck('max_id');
+
+                $lastMessages = ChatMessage::whereIn('id', $latestMessageIds)
+                    ->get()
+                    ->keyBy(function ($msg) use ($userId) {
+                        return $msg->sender_id == $userId ? $msg->receiver_id : $msg->sender_id;
+                    });
+            }
+
+            $chatList = $friends->map(function ($item) use ($userId, $unreadCounts, $lastMessages) {
                 $friend = $item->sender_id == $userId ? $item->receiver : $item->sender;
 
                 if (!$friend) {
                     return null;
                 }
 
-                // Double check role
-                if ($friend->role !== 'user') {
-                    Log::info("Filtering out non-user from last messages: User ID {$friend->id} with role: {$friend->role}");
-                    return null;
-                }
-
-                // Get last message
-                $lastMessage = ChatMessage::where(function ($q) use ($userId, $friend) {
-                    $q->where(function ($sub) use ($userId, $friend) {
-                        $sub->where('sender_id', $userId)
-                           ->where('receiver_id', $friend->id);
-                    })
-                    ->orWhere(function ($sub) use ($userId, $friend) {
-                        $sub->where('sender_id', $friend->id)
-                           ->where('receiver_id', $userId);
-                    });
-                })
-                ->latest()
-                ->first();
-
-                // Get unread count
-                $unreadCount = ChatMessage::where('sender_id', $friend->id)
-                    ->where('receiver_id', $userId)
-                    ->where('is_read', false)
-                    ->count();
+                $lastMessage = $lastMessages->get($friend->id);
+                $unreadCount = $unreadCounts->get($friend->id, 0);
 
                 return [
                     'id' => $friend->id,
                     'name' => $friend->name ?? 'Unknown User',
                     'email' => $friend->email ?? '',
-                    'image' => $friend->image
-                        ? asset('uploads/profile/' . $friend->image)
-                        : null,
-                    'role' => $friend->role,
+                    'image' => $this->resolvePhoto($friend->photo),
+                    'photo' => $this->resolvePhoto($friend->photo),
+                    'role' => $friend->role ?? 'user',
                     'last_message' => $lastMessage ? [
                         'text' => $lastMessage->message ?? ($lastMessage->image ? '📷 Photo' : ''),
-                        'time' => $lastMessage->created_at->format('h:i A'),
+                        'time' => ($lastMessage->created_at ? $lastMessage->created_at->format('h:i A') : ''),
                         'is_sent' => $lastMessage->sender_id == $userId,
                     ] : null,
                     'unread_count' => $unreadCount,
                 ];
-            })->filter()->values(); // Remove null values
+            })->filter()->values();
 
             // Sort by last message time (most recent first)
             $chatList = $chatList->sortByDesc(function ($item) {
                 return $item['last_message']['time'] ?? '';
             })->values();
-
-            Log::info("Chat list with last messages for user $userId (user-role only): " . $chatList->count() . " chats");
 
             return response()->json([
                 'success' => true,

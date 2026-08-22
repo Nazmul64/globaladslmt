@@ -20,6 +20,9 @@
                         <thead class="table-success">
                             <tr>
                                 <th>#</th>
+                                <th>Email</th>
+                                <th>Name</th>
+                                <th>Mobile</th>
                                 <th>Document Type</th>
                                 <th>Front Photo</th>
                                 <th>Back Photo</th>
@@ -31,6 +34,9 @@
                             @foreach($approvedKycs as $index => $kyc)
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
+                                    <td>{{ ($kyc->kycagent->email ?? 'N/A') }}</td>
+                                    <td>{{ ($kyc->kycagent->name ?? 'N/A') }}</td>
+                                    <td>{{ ($kyc->kycagent->mobile ?? "") }}</td>
                                     <td>{{ ucfirst($kyc->document_type ?? 'N/A') }}</td>
 
                                     <td>

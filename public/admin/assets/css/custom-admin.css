@@ -1,0 +1,244 @@
+/* ==========================================================================
+   Antigravity Professional Admin Panel Design System Overrides
+   ========================================================================== */
+
+/* Import Modern Typography (Plus Jakarta Sans & Inter) */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --admin-font-primary: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --admin-card-radius: 16px;
+  --admin-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --admin-sidebar-width: 275px;
+  --admin-primary: #487fff;
+  --admin-primary-light: #6e9bff;
+  --admin-primary-glow: rgba(72, 127, 255, 0.15);
+  --admin-accent-gradient: linear-gradient(135deg, #487fff 0%, #305fdf 100%);
+  --admin-card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
+  --admin-card-hover-shadow: 0 12px 28px -4px rgba(72, 127, 255, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
+}
+
+body {
+  font-family: var(--admin-font-primary) !important;
+  background-color: #f6f8fd !important;
+  color: #1e293b;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --------------------------------------------------------------------------
+   1. Executive Sidebar Styling
+   -------------------------------------------------------------------------- */
+.sidebar {
+  background: #ffffff !important;
+  border-right: 1px solid #e2e8f0 !important;
+  box-shadow: 4px 0 24px 0 rgba(15, 23, 42, 0.03) !important;
+  transition: var(--admin-transition);
+}
+
+.sidebar-logo {
+  padding: 20px 24px !important;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-menu-area {
+  padding: 16px 12px !important;
+  height: calc(100vh - 80px);
+  overflow-y: auto;
+}
+
+/* Custom Scrollbar for Sidebar */
+.sidebar-menu-area::-webkit-scrollbar {
+  width: 5px;
+}
+.sidebar-menu-area::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sidebar-menu-area::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+.sidebar-menu-area::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Sidebar Menu Item Base */
+.sidebar-menu li a {
+  border-radius: 10px !important;
+  padding: 10px 14px !important;
+  font-weight: 600 !important;
+  font-size: 0.88rem !important;
+  color: #475569 !important;
+  display: flex !important;
+  align-items: center !important;
+  transition: var(--admin-transition) !important;
+  margin-bottom: 3px;
+  position: relative;
+}
+
+.sidebar-menu li a:hover {
+  color: var(--admin-primary) !important;
+  background: rgba(72, 127, 255, 0.08) !important;
+  transform: translateX(3px);
+}
+
+/* Active Menu Item */
+.sidebar-menu li.open > a,
+.sidebar-menu li.dropdown-open > a,
+.sidebar-menu li a.active-page {
+  color: var(--admin-primary) !important;
+  background: rgba(72, 127, 255, 0.12) !important;
+  font-weight: 700 !important;
+}
+
+/* Agent System Executive Highlight Badge */
+.sidebar-menu .agent-system-badge {
+  background: linear-gradient(135deg, #487fff 0%, #1e40af 100%);
+  color: #ffffff;
+  padding: 3px 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 20px;
+  margin-left: auto;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 6px rgba(72, 127, 255, 0.3);
+}
+
+/* Sidebar Submenu */
+.sidebar-submenu {
+  padding-left: 16px !important;
+  margin-top: 4px;
+  margin-bottom: 8px;
+  border-left: 2px dashed rgba(72, 127, 255, 0.25);
+  margin-left: 20px;
+}
+
+.sidebar-submenu li a {
+  font-size: 0.83rem !important;
+  font-weight: 500 !important;
+  padding: 8px 12px !important;
+  color: #64748b !important;
+  border-radius: 8px !important;
+}
+
+.sidebar-submenu li a:hover {
+  color: var(--admin-primary) !important;
+  background: rgba(72, 127, 255, 0.07) !important;
+}
+
+.sidebar-submenu li a.active-page {
+  color: var(--admin-primary) !important;
+  background: rgba(72, 127, 255, 0.15) !important;
+  font-weight: 700 !important;
+}
+
+/* --------------------------------------------------------------------------
+   2. Header Navigation Styling
+   -------------------------------------------------------------------------- */
+.navbar-header {
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  padding: 14px 24px !important;
+  box-shadow: 0 2px 12px 0 rgba(15, 23, 42, 0.02) !important;
+}
+
+/* --------------------------------------------------------------------------
+   3. Modern Dashboard Cards & Stat Overview
+   -------------------------------------------------------------------------- */
+.dashboard-main-body {
+  padding: 24px !important;
+}
+
+.card {
+  border-radius: var(--admin-card-radius) !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: var(--admin-card-shadow) !important;
+  transition: var(--admin-transition) !important;
+  background: #ffffff !important;
+}
+
+.card:hover {
+  box-shadow: var(--admin-card-hover-shadow) !important;
+}
+
+/* Stat Widgets Enhancements */
+.bg-gradient-start-1 {
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%) !important;
+  border-color: #c7d2fe !important;
+}
+
+.bg-gradient-start-2 {
+  background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%) !important;
+  border-color: #e9d5ff !important;
+}
+
+.bg-gradient-start-3 {
+  background: linear-gradient(135deg, #ecfeff 0%, #cffafe 100%) !important;
+  border-color: #a5f3fc !important;
+}
+
+.bg-gradient-start-4 {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%) !important;
+  border-color: #bbf7d0 !important;
+}
+
+.w-50-px.h-50-px.rounded-circle {
+  box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.12) !important;
+  transition: var(--admin-transition);
+}
+
+.card:hover .w-50-px.h-50-px.rounded-circle {
+  transform: scale(1.08);
+}
+
+/* --------------------------------------------------------------------------
+   4. Table Styling
+   -------------------------------------------------------------------------- */
+.bordered-table {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+}
+
+.bordered-table thead th {
+  background-color: #f8fafc !important;
+  color: #475569 !important;
+  font-weight: 700 !important;
+  font-size: 0.8rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  border-bottom: 2px solid #e2e8f0 !important;
+  padding: 14px 16px !important;
+}
+
+.bordered-table tbody td {
+  padding: 14px 16px !important;
+  vertical-align: middle !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  color: #334155 !important;
+  font-size: 0.9rem !important;
+}
+
+.bordered-table tbody tr {
+  transition: var(--admin-transition);
+}
+
+.bordered-table tbody tr:hover {
+  background-color: #f8fafc !important;
+}
+
+/* Form Select in Table */
+.form-select {
+  border-radius: 8px !important;
+  border: 1px solid #cbd5e1 !important;
+  font-size: 0.85rem !important;
+  font-weight: 500 !important;
+  transition: var(--admin-transition) !important;
+}
+
+.form-select:focus {
+  border-color: var(--admin-primary) !important;
+  box-shadow: 0 0 0 3px var(--admin-primary-glow) !important;
+}

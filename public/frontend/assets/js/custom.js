@@ -69,15 +69,18 @@
         const dotsContainer = document.getElementById('sliderDots');
 
         // Create dots
-        for (let i = 0; i < totalSlides; i++) {
-            const dot = document.createElement('div');
-            dot.className = 'dot';
-            if (i === 0) dot.classList.add('active');
-            dot.onclick = () => goToSlide(i);
-            dotsContainer.appendChild(dot);
+        if (dotsContainer && totalSlides > 0) {
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'dot';
+                if (i === 0) dot.classList.add('active');
+                dot.onclick = () => goToSlide(i);
+                dotsContainer.appendChild(dot);
+            }
         }
 
         function updateSlider() {
+            if (!sliderTrack) return;
             sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
             
             // Update dots
@@ -87,6 +90,7 @@
         }
 
         function moveSlide(direction) {
+            if (totalSlides === 0) return;
             currentSlide += direction;
             if (currentSlide < 0) currentSlide = totalSlides - 1;
             if (currentSlide >= totalSlides) currentSlide = 0;
@@ -94,14 +98,17 @@
         }
 
         function goToSlide(index) {
+            if (totalSlides === 0) return;
             currentSlide = index;
             updateSlider();
         }
 
-        // Auto slide every 4 seconds
-        setInterval(() => {
-            moveSlide(1);
-        }, 4000);
+        // Auto slide every 4 seconds if slider elements exist
+        if (sliderTrack && totalSlides > 0) {
+            setInterval(() => {
+                moveSlide(1);
+            }, 4000);
+        }
 
 // ads javascript
   // Track task completion

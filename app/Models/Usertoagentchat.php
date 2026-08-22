@@ -28,6 +28,7 @@ class Usertoagentchat extends Model
         'message',
         'image',
         'is_read',
+        'message_type',
     ];
 
     /**

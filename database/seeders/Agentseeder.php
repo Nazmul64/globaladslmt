@@ -19,6 +19,8 @@ class Agentseeder extends Seeder
             'email' =>'agent@gmail.com',
             'password' =>Hash::make('agent@gmail.com'),
             'role'=>'agent',
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
     }
 }

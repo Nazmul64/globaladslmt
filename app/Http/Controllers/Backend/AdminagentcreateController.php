@@ -39,6 +39,7 @@ class AdminagentcreateController extends Controller
             'email' => 'required|email|unique:users,email',
             'country' => 'required|string',
             'password' => 'required|string|min:6|confirmed',
+            'mobile' => 'required|string|max:20',
         ]);
 
         User::create([
@@ -47,6 +48,7 @@ class AdminagentcreateController extends Controller
             'country' => $request->country,
             'role' => 'agent',
             'status' => 'approved',
+            'mobile' => $request->mobile,
             'password' =>Hash::make($request->password),
         ]);
 
@@ -80,12 +82,14 @@ class AdminagentcreateController extends Controller
             'email' => 'required|email|unique:users,email,' . $id,
             'country' => 'required|string|max:100',
             'password' => 'nullable|string|min:6|confirmed',
+            'mobile' => 'required|string|max:20',
         ]);
 
         $agent = User::findOrFail($id);
         $agent->name = $request->name;
         $agent->email = $request->email;
         $agent->country = $request->country;
+        $agent->mobile = $request->mobile;
 
         if($request->filled('password')){
             $agent->password = Hash::make($request->password);

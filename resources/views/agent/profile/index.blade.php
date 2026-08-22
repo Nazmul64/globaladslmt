@@ -36,6 +36,11 @@
                         <input type="email" id="email" name="email" class="form-control"
                                value="{{ $user->email ?? '' }}">
                     </div>
+                     <div class="mb-3 text-start">
+                        <label for="mobile" class="form-label">Mobile</label>
+                        <input type="text" id="mobile" name="mobile" class="form-control"
+                               value="{{ $user->mobile ?? '' }}">
+                    </div>
 
                     <button type="submit" class="btn btn-primary w-100">Update Profile</button>
                 </form>

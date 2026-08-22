@@ -34,11 +34,15 @@ class PaymentmethodController extends Controller
         $request->validate([
             'method_name' => 'required|string|max:255',
             'method_number' => 'nullable|string|max:255',
+            'number_type' => 'nullable|string|max:255',
+            'usd_rate' => 'nullable|string|max:255',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'status' => 'required|in:active,inactive',
         ]);
 
-        $data = $request->only(['method_name', 'method_number', 'status']);
+        $data = $request->only(['method_name', 'method_number', 'number_type', 'usd_rate', 'status']);
+        $data['number_type'] = $request->number_type ?? 'Account Number';
+        $data['is_exchange_rate_active'] = $request->boolean('is_exchange_rate_active') || in_array($request->is_exchange_rate_active, [1, '1', 'on', 'active', true], true);
 
         if ($request->hasFile('photo')) {
             $file = $request->file('photo');
@@ -69,11 +73,15 @@ class PaymentmethodController extends Controller
         $request->validate([
             'method_name' => 'required|string|max:255',
             'method_number' => 'required|string|max:255',
+            'number_type' => 'nullable|string|max:255',
+            'usd_rate' => 'nullable|string|max:255',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'status' => 'required|in:active,inactive',
         ]);
 
-        $data = $request->only(['method_name', 'method_number', 'status']);
+        $data = $request->only(['method_name', 'method_number', 'number_type', 'usd_rate', 'status']);
+        $data['number_type'] = $request->number_type ?? 'Account Number';
+        $data['is_exchange_rate_active'] = $request->boolean('is_exchange_rate_active') || in_array($request->is_exchange_rate_active, [1, '1', 'on', 'active', true], true);
 
         if ($request->hasFile('photo')) {
             // Delete old photo if exists

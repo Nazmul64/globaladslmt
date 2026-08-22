@@ -61,6 +61,14 @@
                     <input type="email" name="email" class="form-control h-56-px bg-neutral-50 radius-12 ps-5" placeholder="Enter Your Email" value="{{ old('email') }}">
                     @error('email') <span class="text-danger small">{{ $message }}</span> @enderror
                 </div>
+                 <!-- Email -->
+                <div class="position-relative mb-3">
+                    <span class="position-absolute top-50 translate-middle-y ms-3 text-secondary">
+                        <i class="bi bi-envelope"></i>
+                    </span>
+                    <input type="text" name="mobile" class="form-control h-56-px bg-neutral-50 radius-12 ps-5" placeholder="Enter Your Mobile Number" value="{{ old('mobile') }}">
+                     @error('mobile') <span class="text-danger small">{{ $message }}</span> @enderror
+                </div>
 
                 <!-- Country -->
                 <div class="position-relative mb-3">

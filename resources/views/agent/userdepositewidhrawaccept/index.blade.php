@@ -22,7 +22,9 @@
             <thead class="table-primary">
                 <tr>
                     <th>ID</th>
-                    <th>User Name</th>
+                    <th>Email</th>
+                    <th>Phone<th>
+                    <th>Name</th>
                     <th>Amount ($)</th>
                     <th>Photo</th>
                     <th>Status</th>
@@ -33,6 +35,8 @@
                 @forelse($requests as $req)
                 <tr>
                     <td>{{ $req->user->id ?? 'N/A' }}</td>
+                    <td class="fw-semibold">{{ $req->user->email ?? 'N/A' }}</td>
+                    <td class="fw-semibold">{{ $req->user->mobile ?? 'N/A'   }}</td>
                     <td class="fw-semibold">{{ $req->user->name ?? 'N/A' }}</td>
                     <td>${{ number_format($req->amount, 2) }}</td>
                     <td>

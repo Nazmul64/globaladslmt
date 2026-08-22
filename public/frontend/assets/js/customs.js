@@ -416,9 +416,9 @@ const Tabs = {
 
 const Profile = {
   init() {
-    this.setupPasswordToggle();
-    this.setupPhotoPreview();
-    this.setupFormSubmit();
+    if (typeof this.setupPasswordToggle === 'function') this.setupPasswordToggle();
+    if (typeof this.setupPhotoPreview === 'function') this.setupPhotoPreview();
+    if (typeof this.setupFormSubmit === 'function') this.setupFormSubmit();
   },
 
   setupPasswordToggle() {

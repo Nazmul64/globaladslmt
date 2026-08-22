@@ -10,7 +10,7 @@ class AgentkyapprovedcController extends Controller
 {
      public function agentkyclist()
     {
-        $kycs =Agentkyc::all();
+        $kycs =Agentkyc::with('kycagent')->get();
         return view('admin.agentkycapproved.index', compact('kycs'));
     }
 
@@ -38,12 +38,12 @@ class AgentkyapprovedcController extends Controller
         return redirect()->back()->with('error', 'KYC rejected successfully.');
     }
     public function agentapprovedkeylist() {
-    $approvedKycs = Agentkyc::where('status', 'approved')->latest()->get();
+    $approvedKycs = Agentkyc::with('kycagent')->where('status', 'approved')->latest()->get();
     return view('admin.agentkycapproved.agent_kyc_approve_list', compact('approvedKycs'));
 }
 
 public function agentrejectapprovedkeylist() {
-    $rejectedKycs = Agentkyc::where('status', 'rejected')->latest()->get();
+    $rejectedKycs = Agentkyc::with('kycagent')->where('status', 'rejected')->latest()->get();
     return view('admin.agentkycapproved.agent_kyc_reject_list', compact('rejectedKycs'));
 }
 }

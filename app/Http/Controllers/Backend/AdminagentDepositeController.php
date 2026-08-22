@@ -14,7 +14,10 @@ class AdminagentDepositeController extends Controller
      */
     public function admin_agemt_deposite_pending()
     {
-        $agent_deposite = AgentDeposite::where('status', 'pending')->latest()->get();
+          $agent_deposite = AgentDeposite::with('agentname','paymentMethodname')
+                        ->where('status', 'pending')
+                        ->latest()
+                        ->get();
         return view('admin.agentdeposite.index', compact('agent_deposite'));
     }
 
@@ -43,7 +46,7 @@ class AdminagentDepositeController extends Controller
     }
 public function admin_agemt_deposite_approved_list()
 {
-    $approved = AgentDeposite::where('status', 'approved')
+    $approved = AgentDeposite::with('agentname','paymentMethodname')->where('status', 'approved')
                               ->latest()
                               ->get();
 
@@ -54,11 +57,11 @@ public function admin_agemt_deposite_approved_list()
 
 public function admin_agemt_deposite_reject_list()
 {
-    $rejected = AgentDeposite::where('status', 'rejected')
+    $rejected = AgentDeposite::with('agentname','paymentMethodname')->where('status', 'rejected')
                               ->latest()
                               ->get();
 
-    return view('admin.depositeaproved.rejected_list', compact('rejected'));
+    return view('admin.depositeaproved.reject_list', compact('rejected'));
 }
 
 }

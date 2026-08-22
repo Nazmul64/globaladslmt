@@ -62,5 +62,16 @@ public function deposits()
 {
     return $this->hasMany(AgentDeposite::class, 'agent_id', 'user_id');
 }
+public function paymentMethods()
+{
+    return $this->hasMany(Agentpaymentmethod::class, 'agent_id');
+}
+
+
+
+public function agentPaymentMethods()
+{
+    return $this->hasMany(Agentpaymentmethod::class, 'agent_id', 'agent_id');
+}
 
 }

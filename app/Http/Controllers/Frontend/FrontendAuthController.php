@@ -58,14 +58,24 @@ class FrontendAuthController extends Controller
     public function user_submit(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'email' => 'required|string',
             'password' => 'required|string|min:6',
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $loginInput = trim($request->email);
 
-        if (!$user || !Hash::check($request->password, $user->password) || $user->role !== 'user') {
+        $user = User::whereRaw('LOWER(email) = ?', [strtolower($loginInput)])
+                    ->orWhere('mobile', $loginInput)
+                    ->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
             return back()->with('error', 'Invalid credentials!');
+        }
+
+        // Ensure user role is default
+        if (empty($user->role)) {
+            $user->role = 'user';
+            $user->save();
         }
 
         Auth::login($user);

@@ -25,12 +25,14 @@ public function agent_profile_update(Request $request)
     $request->validate([
         'name' => 'required|string|max:255',
         'email' => 'required|email|unique:users,email,' . $user->id,
-        'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // max 2MB
+        'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif', // max 2MB
+        'mobile' => 'nullable|string|max:15',
     ]);
 
     // Update name and email
     $user->name = $request->name;
     $user->email = $request->email;
+    $user->mobile = $request->mobile;
 
     // Handle photo upload
     if ($request->hasFile('photo')) {

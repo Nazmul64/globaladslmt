@@ -10,70 +10,99 @@ use Illuminate\Support\Facades\Hash;
 
 class AgentauthController extends Controller
 {
-    public function agent_login(){
-         return view('agent.login.login');
+    /* =========================
+        LOGIN & REGISTER PAGES
+    ========================== */
+
+    public function agent_login()
+    {
+        return view('agent.login.login');
     }
-    public function agent_register(){
-         return view('agent.login.register');
+
+    public function agent_register()
+    {
+        return view('agent.login.register');
     }
-public function agent_register_submit(Request $request)
-{
-    // Validate input
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users,email',
-        'password' => 'required|string|min:6|confirmed',
-        'country' => 'required|string|max:100',
-    ]);
 
-    // Create agent
-    $agent = User::create([
-        'name' => $request->name,
-        'country' => $request->country,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-        'role' => 'agent',
-        'status' => 'pending',
-    ]);
+    /* =========================
+        AGENT REGISTER SUBMIT
+    ========================== */
 
-    // Redirect to login with success toastr alert
-    return redirect()->back()->with('success', 'Registration successful! Please wait for admin approval.');
-}
+    public function agent_register_submit(Request $request)
+    {
+        $request->validate([
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6|confirmed',
+            'mobile'   => 'required|string|max:20',
+            'country'  => 'required|string|max:100',
+        ]);
 
+        User::create([
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'mobile'   => $request->mobile,
+            'country'  => $request->country,
+            'password' => Hash::make($request->password),
+            'role'     => 'agent',
+            'status'   => 'pending', // 🔴 admin approval needed
+        ]);
 
+        return redirect()->back()
+            ->with('success', 'Registration successful! Please wait for admin approval.');
+    }
 
-public function agent_submit(Request $request)
-{
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required|string|min:6',
-    ]);
+    /* =========================
+        AGENT LOGIN SUBMIT
+    ========================== */
 
-    // Check if user exists
-    $user = User::where('email', $request->email)->first();
+    public function agent_submit(Request $request)
+    {
+        $request->validate([
+            'email'    => 'required|email',
+            'password' => 'required|string|min:6',
+        ]);
 
-    if ($user) {
-        // User exists, check password and role
+        $user = User::where('email', $request->email)->first();
+
+        // ❌ user not found
+        if (!$user) {
+            return redirect()->back()->with('error', 'Account not found!');
+        }
+
+        // ❌ password mismatch
         if (!Hash::check($request->password, $user->password)) {
             return redirect()->back()->with('error', 'Invalid password!');
         }
 
+        // ❌ not an agent
         if ($user->role !== 'agent') {
             return redirect()->back()->with('error', 'User is not an Agent!');
         }
 
-        // Login existing admin
+        // 🔥 MAIN RULE: ADMIN APPROVAL CHECK
+        if ($user->status !== 'approved') {
+            return redirect()->back()->with('error', 'Please wait for admin approval!');
+        }
+
+        // ✅ approved agent login
         Auth::login($user);
-        return redirect()->route('agent.dashboard')->with('success', 'Agent logged in successfully!');
+
+        return redirect()->route('agent.dashboard')
+            ->with('success', 'Agent logged in successfully!');
     }
 
-}
+    /* =========================
+        AGENT LOGOUT
+    ========================== */
 
-public function agent_logout()
-{
-    Auth::logout();
-    request()->session()->invalidate();
-    request()->session()->regenerateToken();
-    return redirect()->route('agent.login')->with('success', 'Agent logged out successfully!');
-}
+    public function agent_logout()
+    {
+        Auth::logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+
+        return redirect()->route('agent.login')
+            ->with('success', 'Agent logged out successfully!');
+    }
 }

@@ -9,17 +9,23 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Adminmiddelware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
+        // Allow if Admin or impersonating
+        if (Auth::check() && (
+            Auth::user()->role === 'is_admin' ||
+            session()->has('impersonate_admin_id')
+        )) {
+            return $next($request);
+        }
 
-       if(!Auth::check() || Auth::user()->role !=='is_admin'){
-           return redirect()->route('admin.login');
-       }
-        return $next($request);
+        // Not admin → logout
+        if (Auth::check()) {
+            Auth::logout();
+        }
+
+        return redirect()
+            ->route('admin.login')
+            ->withErrors(['error' => 'Unauthorized access.']);
     }
 }

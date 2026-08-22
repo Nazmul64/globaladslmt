@@ -16,7 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('sender_id');
             $table->unsignedBigInteger('receiver_id');
             $table->text('message')->nullable();
-            $table->string('image')->nullable();
+            $table->text('image')->nullable();
+            $table->enum('message_type', ['text', 'image'])->default('text');
             $table->boolean('is_read')->default(false);
             $table->timestamps();
             $table->index(['sender_id', 'receiver_id']);

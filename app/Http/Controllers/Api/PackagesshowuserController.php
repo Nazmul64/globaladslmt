@@ -33,6 +33,7 @@ class PackagesshowuserController extends Controller
                 return [
                     'id' => $package->id,
                     'package_name' => $package->package_name,
+                    'validity' => $package->validity,
                     'price' => (float) $package->price,
                     'daily_income' => (float) $package->daily_income,
                     'daily_limit' => (int) $package->daily_limit,

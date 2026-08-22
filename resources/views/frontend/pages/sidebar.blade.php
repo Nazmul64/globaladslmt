@@ -16,19 +16,28 @@
             <div class="sidebar-title">Global money Ltd</div>
         </div>
         <div class="sidebar-menu">
-            <a href="profile.html" class="sidebar-item">
+            <a href="#" class="sidebar-item">
                 <i class="fas fa-user"></i>
                 <span class="sidebar-item-text">Profile</span>
             </a>
-            <a href="widraw.html" class="sidebar-item">
+             <a href="{{ route('privacy.terms') }}" class="sidebar-item">
+                <i class="fas fa-user"></i>
+                <span class="sidebar-item-text">Privacy Policy</span>
+            </a>
+              <a href="{{ route('child.safety.policy') }}" class="sidebar-item">
+                <i class="fas fa-user"></i>
+                <span class="sidebar-item-text">Child Safety Policy</span>
+            </a>
+
+            <a href="#" class="sidebar-item">
                 <i class="fas fa-wallet"></i>
                 <span class="sidebar-item-text">Widraw</span>
             </a>
-            <a href="paymenthistory.html" class="sidebar-item" >
+            <a href="{{route('posts.index')}}" class="sidebar-item" >
                 <i class="fas fa-dollar-sign"></i>
-                <span class="sidebar-item-text">Payment History</span>
+                <span class="sidebar-item-text">Post Create</span>
             </a>
-            <a href="support.html" class="sidebar-item">
+            <a href="#" class="sidebar-item">
                 <i class="fas fa-bullhorn"></i>
                 <span class="sidebar-item-text">Support</span>
             </a>

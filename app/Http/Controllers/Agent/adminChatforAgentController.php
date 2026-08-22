@@ -11,10 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AdminChatForAgentController extends Controller
 {
-    /**
-     * 🏠 এজেন্ট চ্যাট পেজ
-     */
-    public function index()
+  public function index()
     {
         // ধরে নিচ্ছি একটিমাত্র এডমিন আছে
         $admin = User::where('role', 'is_admin')->first();
@@ -47,9 +44,16 @@ class AdminChatForAgentController extends Controller
         $chat->message = $request->message ?? '';
         $chat->is_read = false;
 
+        // ✅ FIX: Image সঠিক path এ save হবে
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('uploads/chat', 'public');
-            $chat->image = 'storage/' . $path;
+            $image = $request->file('image');
+            $filename = time() . '_' . $image->getClientOriginalName();
+
+            // uploads/chat folder এ save করবে
+            $image->move(public_path('uploads/chat'), $filename);
+
+            // Database এ শুধু relative path save হবে
+            $chat->image = 'uploads/chat/' . $filename;
         }
 
         $chat->save();
@@ -77,7 +81,7 @@ class AdminChatForAgentController extends Controller
     }
 
     /**
-     * ✅ মেসেজ পড়া
+     * ✅ মেসেজ পড়া
      */
     public function markRead()
     {

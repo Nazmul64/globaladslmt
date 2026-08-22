@@ -20,6 +20,7 @@
                     <thead class="table-success">
                         <tr>
                             <th>#</th>
+                            <th>Name</th>
                             <th>Amount</th>
                             <th>Sender Account</th>
                             <th>Transaction ID</th>
@@ -32,7 +33,8 @@
                         @foreach($agent_deposite as $key => $deposit)
                             <tr>
                                 <td>{{ $key + 1 }}</td>
-                                <td>{{ number_format($deposit->amount, 2) }} ৳</td>
+                                <td>{{ $deposit->agentname->name }}</td>
+                                <td>{{ number_format($deposit->amount, 2) }} $</td>
                                 <td>{{ $deposit->sender_account }}</td>
                                 <td>{{ $deposit->transaction_id }}</td>
                                 <td>

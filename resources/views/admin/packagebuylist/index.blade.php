@@ -14,6 +14,8 @@
             <tr>
                 <th>ID</th>
                 <th>User</th>
+                <th>Gmail</th>
+                <th>Mobile</th>
                 <th>Package</th>
                 <th>Amount</th>
                 <th>Status</th>
@@ -25,8 +27,10 @@
             <tr>
                 <td>{{ $buy->id }}</td>
                 <td>{{ $buy->user->name ?? 'N/A' }}</td>
+                <td>{{ $buy->user->email ?? 'N/A' }}</td>
+                <td>{{ $buy->user->mobile ?? $buy->user->phone ?? 'N/A' }}</td>
                 <td>{{ $buy->package->package_name ?? 'N/A' }}</td>
-                <td>{{ round($buy->amount) }} BDT</td>
+                <td>{{ round($buy->amount) }} $</td>
                 <td>{{ ucfirst($buy->status) }}</td>
                 <td>{{ $buy->created_at->format('d M Y, h:i A') }}</td>
             </tr>

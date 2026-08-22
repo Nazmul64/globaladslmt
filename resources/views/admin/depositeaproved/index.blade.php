@@ -14,6 +14,9 @@
         <thead class="table-light">
             <tr>
                 <th>#</th>
+                <th>Phone Number</th>
+                <th>Name</th>
+                <th>Email</th>
                 <th>Amount</th>
                 <th>Transaction ID</th>
                 <th>Sender Account</th>
@@ -26,7 +29,10 @@
             @foreach($deposite_list as $deposit)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $deposit->amount }}৳</td>
+                <td>{{ $deposit->user->mobile ?? '' }}</td>
+                <td>{{ $deposit->user->name ?? '' }}</td>
+                <td>{{ $deposit->user->email ?? '' }}</td>
+                <td>{{ round($deposit->amount) }}$</td>
                 <td>{{ $deposit->transaction_id }}</td>
                 <td>{{ $deposit->sender_account }}</td>
                 <td>

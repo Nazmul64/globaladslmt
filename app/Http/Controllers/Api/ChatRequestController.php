@@ -9,704 +9,684 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use Exception;
+use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class ChatRequestController extends Controller
 {
-    /**
-     * ========================================
-     * A. SEARCH USERS
-     * ========================================
-     * Search users by name or email with friend status
-     * GET: /api/user-search?q=search_query
-     */
+    /* =========================================================
+     | A. SEARCH USERS
+     | Endpoint: GET /api/user-search?q={query}
+     |=========================================================*/
     public function search(Request $request)
     {
         try {
-            $query = $request->query('q');
+            $search = trim($request->query('q', ''));
 
-            // Return empty array if no query provided
-            if (!$query || trim($query) === '') {
+            if ($search === '') {
                 return $this->successResponse([], 'No search query provided');
             }
 
-            $currentUserId = Auth::id();
-            $searchTerm = trim($query);
+            $authId = Auth::id();
 
-            // Search users excluding current user
-            $users = User::where('id', '!=', $currentUserId)
-                ->where(function($q) use ($searchTerm) {
-                    $q->where('name', 'LIKE', "%{$searchTerm}%")
-                      ->orWhere('email', 'LIKE', "%{$searchTerm}%");
+            $users = User::where('id', '!=', $authId)
+                ->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                      ->orWhere('email', 'like', "%{$search}%");
                 })
                 ->select('id', 'name', 'email', 'photo')
                 ->limit(20)
                 ->get();
 
-            // Map users with their friend status
-            $usersWithStatus = $users->map(function ($user) use ($currentUserId) {
-                return $this->getUserWithFriendStatus($user, $currentUserId);
+            if ($users->isEmpty()) {
+                return $this->successResponse([], 'No users found');
+            }
+
+            $result = $users->map(function ($user) use ($authId) {
+                return $this->formatUserWithStatus($user, $authId);
             });
 
-            Log::info('User search completed', [
-                'query' => $searchTerm,
-                'results_count' => $usersWithStatus->count(),
-                'user_id' => $currentUserId
-            ]);
-
             return $this->successResponse(
-                $usersWithStatus,
-                $usersWithStatus->count() . ' users found'
+                $result,
+                $result->count() . ' user(s) found'
             );
 
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             Log::error('User search error', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
-
-            return $this->errorResponse(
-                'Error searching users: ' . $e->getMessage(),
-                500
-            );
+            return $this->errorResponse('Search failed', 500);
         }
     }
 
-    /**
-     * ========================================
-     * B. SEND FRIEND REQUEST
-     * ========================================
-     * Send a friend request to another user
-     * POST: /api/user/friend/request
-     * Body: { "receiver_id": 123 }
-     */
+    /* =========================================================
+     | B. SEND FRIEND REQUEST
+     | Endpoint: POST /api/user/friend/request
+     | Body: { "receiver_id": 123 }
+     |=========================================================*/
     public function sendFriendRequest(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'receiver_id' => 'required|integer|exists:users,id'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->errorResponse(
+                'Validation failed',
+                422,
+                $validator->errors()
+            );
+        }
+
         try {
-            // Validate input
-            $validator = Validator::make($request->all(), [
-                'receiver_id' => 'required|integer|exists:users,id'
-            ]);
+            $senderId   = Auth::id();
+            $receiverId = (int) $request->receiver_id;
 
-            if ($validator->fails()) {
+            // Check self-request
+            if ($senderId === $receiverId) {
                 return $this->errorResponse(
-                    'Validation failed',
-                    422,
-                    $validator->errors()
-                );
-            }
-
-            $senderId = Auth::id();
-            $receiverId = $request->receiver_id;
-
-            Log::info('Friend request attempt', [
-                'sender_id' => $senderId,
-                'receiver_id' => $receiverId
-            ]);
-
-            // Validation 1: Cannot send request to yourself
-            if ($senderId == $receiverId) {
-                return $this->errorResponse(
-                    'You cannot send a friend request to yourself.',
+                    'You cannot send a friend request to yourself',
                     400
                 );
             }
 
-            // Validation 2: Check if I already sent a request to them
-            $myRequestToThem = ChatRequest::where('sender_id', $senderId)
-                ->where('receiver_id', $receiverId)
-                ->first();
+            // Check if request already exists (both directions)
+            $exists = ChatRequest::where(function ($q) use ($senderId, $receiverId) {
+                $q->where(function ($sq) use ($senderId, $receiverId) {
+                    $sq->where('sender_id', $senderId)
+                       ->where('receiver_id', $receiverId);
+                })->orWhere(function ($sq) use ($senderId, $receiverId) {
+                    $sq->where('sender_id', $receiverId)
+                       ->where('receiver_id', $senderId);
+                });
+            })->first();
 
-            if ($myRequestToThem) {
-                if ($myRequestToThem->status === 'pending') {
-                    Log::warning('Duplicate friend request attempt', [
-                        'sender_id' => $senderId,
-                        'receiver_id' => $receiverId
-                    ]);
-
-                    return $this->errorResponse(
-                        'You already sent a friend request to this user.',
-                        409
-                    );
+            if ($exists) {
+                if ($exists->status === 'accepted') {
+                    return $this->errorResponse('You are already friends', 409);
                 }
-
-                if ($myRequestToThem->status === 'accepted') {
-                    Log::warning('Friend request to existing friend', [
-                        'sender_id' => $senderId,
-                        'receiver_id' => $receiverId
-                    ]);
-
-                    return $this->errorResponse(
-                        'You are already friends with this user.',
-                        409
-                    );
+                if ($exists->status === 'pending') {
+                    $message = $exists->sender_id === $senderId
+                        ? 'Friend request already sent'
+                        : 'This user has already sent you a friend request';
+                    return $this->errorResponse($message, 409);
+                }
+                if ($exists->status === 'rejected') {
+                    // Allow re-sending after rejection
+                    $exists->delete();
                 }
             }
 
-            // Validation 3: Check if they already sent a request to me
-            $theirRequestToMe = ChatRequest::where('sender_id', $receiverId)
-                ->where('receiver_id', $senderId)
-                ->first();
-
-            if ($theirRequestToMe) {
-                if ($theirRequestToMe->status === 'pending') {
-                    Log::warning('Reverse friend request exists', [
-                        'sender_id' => $receiverId,
-                        'receiver_id' => $senderId
-                    ]);
-
-                    return $this->errorResponse(
-                        'This user already sent you a friend request. Please check your Friend Requests page to accept it.',
-                        409
-                    );
-                }
-
-                if ($theirRequestToMe->status === 'accepted') {
-                    Log::warning('Already friends (reverse check)', [
-                        'sender_id' => $receiverId,
-                        'receiver_id' => $senderId
-                    ]);
-
-                    return $this->errorResponse(
-                        'You are already friends with this user.',
-                        409
-                    );
-                }
-            }
-
-            // All validations passed - Create new friend request
+            // Create new friend request
             $friendRequest = ChatRequest::create([
-                'sender_id' => $senderId,
+                'sender_id'   => $senderId,
                 'receiver_id' => $receiverId,
-                'status' => 'pending',
+                'status'      => 'pending',
             ]);
 
-            Log::info('Friend request sent successfully', [
-                'id' => $friendRequest->id,
-                'sender_id' => $senderId,
-                'receiver_id' => $receiverId
-            ]);
-
-            return $this->successResponse([
-                'id' => $friendRequest->id,
-                'sender_id' => $friendRequest->sender_id,
-                'receiver_id' => $friendRequest->receiver_id,
-                'status' => $friendRequest->status,
-                'created_at' => $friendRequest->created_at,
-            ], 'Friend request sent successfully.');
-
-        } catch (Exception $e) {
-            Log::error('Friend request error', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-
-            return $this->errorResponse(
-                'Error sending friend request: ' . $e->getMessage(),
-                500
-            );
-        }
-    }
-
-    /**
-     * ========================================
-     * C. CANCEL FRIEND REQUEST
-     * ========================================
-     * Cancel a pending friend request that I sent
-     * POST: /api/cancel/friend/request
-     * Body: { "receiver_id": 123 }
-     */
-    public function cancelFriendRequest(Request $request)
-    {
-        try {
-            // Validate input
-            $validator = Validator::make($request->all(), [
-                'receiver_id' => 'required|integer|exists:users,id'
-            ]);
-
-            if ($validator->fails()) {
-                return $this->errorResponse(
-                    'Validation failed',
-                    422,
-                    $validator->errors()
-                );
-            }
-
-            $senderId = Auth::id();
-            $receiverId = $request->receiver_id;
-
-            // Find and delete the pending request that I sent
-            $deleted = ChatRequest::where('sender_id', $senderId)
-                ->where('receiver_id', $receiverId)
-                ->where('status', 'pending')
-                ->delete();
-
-            if ($deleted) {
-                Log::info('Friend request cancelled successfully', [
-                    'sender_id' => $senderId,
-                    'receiver_id' => $receiverId
-                ]);
-
-                return $this->successResponse(
-                    null,
-                    'Friend request cancelled successfully.'
-                );
-            }
-
-            Log::warning('Cancel request failed - No pending request found', [
-                'sender_id' => $senderId,
-                'receiver_id' => $receiverId
-            ]);
-
-            return $this->errorResponse(
-                'No pending friend request found to cancel.',
-                404
-            );
-
-        } catch (Exception $e) {
-            Log::error('Cancel friend request error', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-
-            return $this->errorResponse(
-                'Error cancelling friend request: ' . $e->getMessage(),
-                500
-            );
-        }
-    }
-
-    /**
-     * ========================================
-     * D. GET RECEIVED FRIEND REQUESTS
-     * ========================================
-     * Get all pending friend requests sent to me
-     * GET: /api/user/friend/request/accept/view
-     */
-    public function sendFriendRequestaccept()
-    {
-        try {
-            $userId = Auth::id();
-
-            // Fetch pending requests sent to me
-            $requests = ChatRequest::where('receiver_id', $userId)
-                ->where('status', 'pending')
-                ->with('sender:id,name,email,photo')
-                ->orderBy('created_at', 'desc')
-                ->get();
-
-            // Format the response
-            $formattedRequests = $requests->map(function ($request) {
-                return [
-                    'id' => $request->id,
-                    'sender_id' => $request->sender_id,
-                    'status' => $request->status,
-                    'created_at' => $request->created_at,
-                    'sender' => [
-                        'id' => $request->sender->id,
-                        'name' => $request->sender->name,
-                        'email' => $request->sender->email,
-                        'photo' => $request->sender->photo
-                            ? url($request->sender->photo)
-                            : null,
-                    ]
-                ];
-            });
-
-            Log::info('Fetched pending friend requests', [
-                'user_id' => $userId,
-                'count' => $formattedRequests->count()
-            ]);
-
-            return $this->successResponse(
-                $formattedRequests,
-                'Pending friend requests retrieved successfully.'
-            );
-
-        } catch (Exception $e) {
-            Log::error('Fetch friend requests error', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-
-            return $this->errorResponse(
-                'Error fetching friend requests: ' . $e->getMessage(),
-                500
-            );
-        }
-    }
-
-    /**
-     * ========================================
-     * E. ACCEPT FRIEND REQUEST
-     * ========================================
-     * Accept a pending friend request
-     * POST: /api/user/friend/request/accept
-     * Body: { "sender_id": 123 }
-     */
-    public function acceptRequest(Request $request)
-    {
-        try {
-            // Validate input
-            $validator = Validator::make($request->all(), [
-                'sender_id' => 'required|integer|exists:users,id'
-            ]);
-
-            if ($validator->fails()) {
-                return $this->errorResponse(
-                    'Validation failed',
-                    422,
-                    $validator->errors()
-                );
-            }
-
-            $receiverId = Auth::id();
-            $senderId = $request->sender_id;
-
-            // Find the pending friend request
-            $friendRequest = ChatRequest::where('sender_id', $senderId)
-                ->where('receiver_id', $receiverId)
-                ->where('status', 'pending')
-                ->first();
-
-            if (!$friendRequest) {
-                Log::warning('Accept request failed - Request not found', [
-                    'sender_id' => $senderId,
-                    'receiver_id' => $receiverId
-                ]);
-
-                return $this->errorResponse(
-                    'Friend request not found or already processed.',
-                    404
-                );
-            }
-
-            // Update status to accepted
-            $friendRequest->update(['status' => 'accepted']);
-
-            Log::info('Friend request accepted successfully', [
+            Log::info('Friend request sent', [
                 'request_id' => $friendRequest->id,
                 'sender_id' => $senderId,
                 'receiver_id' => $receiverId
             ]);
 
-            return $this->successResponse([
-                'id' => $friendRequest->id,
-                'sender_id' => $friendRequest->sender_id,
-                'receiver_id' => $friendRequest->receiver_id,
-                'status' => $friendRequest->status,
-                'updated_at' => $friendRequest->updated_at,
-            ], 'Friend request accepted successfully.');
-
-        } catch (Exception $e) {
-            Log::error('Accept friend request error', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-
-            return $this->errorResponse(
-                'Error accepting friend request: ' . $e->getMessage(),
-                500
+            return $this->successResponse(
+                [
+                    'id' => $friendRequest->id,
+                    'sender_id' => $friendRequest->sender_id,
+                    'receiver_id' => $friendRequest->receiver_id,
+                    'status' => $friendRequest->status,
+                    'created_at' => $friendRequest->created_at->toIso8601String(),
+                ],
+                'Friend request sent successfully'
             );
+
+        } catch (Throwable $e) {
+            Log::error('Send friend request error', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'receiver_id' => $request->receiver_id ?? null
+            ]);
+            return $this->errorResponse('Failed to send friend request', 500);
         }
     }
 
-    /**
-     * ========================================
-     * F. REJECT FRIEND REQUEST
-     * ========================================
-     * Reject/delete a pending friend request
-     * POST: /api/user/friend/request/reject
-     * Body: { "sender_id": 123 }
-     */
-    public function rejectRequest(Request $request)
+    /* =========================================================
+     | C. CANCEL FRIEND REQUEST
+     | Endpoint: POST /api/cancel/friend/request
+     | Body: { "receiver_id": 123 }
+     |=========================================================*/
+    public function cancelFriendRequest(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'receiver_id' => 'required|integer|exists:users,id'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->errorResponse(
+                'Validation failed',
+                422,
+                $validator->errors()
+            );
+        }
+
+        try {
+            $senderId = Auth::id();
+            $receiverId = (int) $request->receiver_id;
+
+            $deleted = ChatRequest::where([
+                'sender_id'   => $senderId,
+                'receiver_id' => $receiverId,
+                'status'      => 'pending'
+            ])->delete();
+
+            if ($deleted) {
+                Log::info('Friend request cancelled', [
+                    'sender_id' => $senderId,
+                    'receiver_id' => $receiverId
+                ]);
+                return $this->successResponse(null, 'Friend request cancelled');
+            } else {
+                return $this->errorResponse('No pending request found', 404);
+            }
+
+        } catch (Throwable $e) {
+            Log::error('Cancel friend request error', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return $this->errorResponse('Failed to cancel request', 500);
+        }
+    }
+
+    /* =========================================================
+     | D. RECEIVED FRIEND REQUESTS (VIEW)
+     | Endpoint: GET /api/user/friend/request/accept/view
+     |=========================================================*/
+    public function receivedRequests()
     {
         try {
-            // Validate input
-            $validator = Validator::make($request->all(), [
-                'sender_id' => 'required|integer|exists:users,id'
+            $authId = Auth::id();
+
+            $requests = ChatRequest::where('receiver_id', $authId)
+                ->where('status', 'pending')
+                ->with('sender:id,name,email,photo')
+                ->latest()
+                ->get();
+
+            if ($requests->isEmpty()) {
+                return $this->successResponse([], 'No pending friend requests');
+            }
+
+            $formattedRequests = $requests->map(function ($r) {
+                // Check if sender still exists
+                if (!$r->sender) {
+                    return null;
+                }
+
+                return [
+                    'id' => $r->id,
+                    'sender' => [
+                        'id'    => $r->sender->id,
+                        'name'  => $r->sender->name,
+                        'email' => $r->sender->email,
+                        'photo' => $this->resolvePhoto($r->sender->photo),
+                    ],
+                    'status' => $r->status,
+                    'created_at' => $r->created_at->toIso8601String(),
+                ];
+            })->filter()->values(); // Remove null entries and reindex
+
+            Log::info('Received requests loaded', [
+                'user_id' => $authId,
+                'count' => $formattedRequests->count()
             ]);
 
-            if ($validator->fails()) {
+            return $this->successResponse(
+                $formattedRequests,
+                $formattedRequests->count() . ' pending request(s)'
+            );
+
+        } catch (Throwable $e) {
+            Log::error('Received requests error', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'user_id' => Auth::id()
+            ]);
+            return $this->errorResponse('Failed to load friend requests', 500);
+        }
+    }
+
+    /* =========================================================
+     | E. ACCEPT FRIEND REQUEST
+     | Endpoint: POST /api/user/friend/request/accept
+     | Body: { "sender_id": 123 }
+     |=========================================================*/
+    public function acceptRequest(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'sender_id' => 'required|integer|exists:users,id'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->errorResponse(
+                'Validation failed',
+                422,
+                $validator->errors()
+            );
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $senderId = (int) $request->sender_id;
+            $receiverId = Auth::id();
+
+            $friendRequest = ChatRequest::where([
+                'sender_id'   => $senderId,
+                'receiver_id' => $receiverId,
+                'status'      => 'pending'
+            ])->lockForUpdate()->first();
+
+            if (!$friendRequest) {
+                DB::rollBack();
                 return $this->errorResponse(
-                    'Validation failed',
-                    422,
-                    $validator->errors()
+                    'Friend request not found or already processed',
+                    404
                 );
             }
 
-            $receiverId = Auth::id();
-            $senderId = $request->sender_id;
+            // Update status
+            $friendRequest->update(['status' => 'accepted']);
 
-            // Find and delete the pending friend request
-            $deleted = ChatRequest::where('sender_id', $senderId)
-                ->where('receiver_id', $receiverId)
-                ->where('status', 'pending')
-                ->delete();
+            // Get sender info
+            $sender = User::select('id', 'name', 'email', 'photo')
+                ->find($senderId);
+
+            if (!$sender) {
+                DB::rollBack();
+                return $this->errorResponse('Sender user not found', 404);
+            }
+
+            DB::commit();
+
+            Log::info('Friend request accepted', [
+                'request_id' => $friendRequest->id,
+                'sender_id' => $senderId,
+                'receiver_id' => $receiverId
+            ]);
+
+            return $this->successResponse(
+                [
+                    'request_id' => $friendRequest->id,
+                    'friend' => [
+                        'id' => $sender->id,
+                        'name' => $sender->name,
+                        'email' => $sender->email,
+                        'photo' => $this->resolvePhoto($sender->photo),
+                    ],
+                    'status' => 'accepted',
+                ],
+                'Friend request accepted successfully'
+            );
+
+        } catch (Throwable $e) {
+            DB::rollBack();
+
+            Log::error('Accept request error', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'sender_id' => $request->sender_id ?? null
+            ]);
+            return $this->errorResponse('Failed to accept friend request', 500);
+        }
+    }
+
+    /* =========================================================
+     | F. REJECT FRIEND REQUEST
+     | Endpoint: POST /api/user/friend/request/reject
+     | Body: { "sender_id": 123 }
+     |=========================================================*/
+    public function rejectRequest(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'sender_id' => 'required|integer|exists:users,id'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->errorResponse(
+                'Validation failed',
+                422,
+                $validator->errors()
+            );
+        }
+
+        try {
+            $senderId = (int) $request->sender_id;
+            $receiverId = Auth::id();
+
+            // Option 1: Delete (recommended for cleaner database)
+            $deleted = ChatRequest::where([
+                'sender_id'   => $senderId,
+                'receiver_id' => $receiverId,
+                'status'      => 'pending'
+            ])->delete();
+
+            // Option 2: Mark as rejected (if you want to keep history)
+            // $updated = ChatRequest::where([
+            //     'sender_id'   => $senderId,
+            //     'receiver_id' => $receiverId,
+            //     'status'      => 'pending'
+            // ])->update(['status' => 'rejected']);
 
             if ($deleted) {
-                Log::info('Friend request rejected successfully', [
+                Log::info('Friend request rejected', [
                     'sender_id' => $senderId,
                     'receiver_id' => $receiverId
                 ]);
 
                 return $this->successResponse(
                     null,
-                    'Friend request rejected successfully.'
+                    'Friend request rejected successfully'
+                );
+            } else {
+                return $this->errorResponse(
+                    'Friend request not found',
+                    404
                 );
             }
 
-            Log::warning('Reject request failed - Request not found', [
-                'sender_id' => $senderId,
-                'receiver_id' => $receiverId
-            ]);
-
-            return $this->errorResponse(
-                'Friend request not found or already processed.',
-                404
-            );
-
-        } catch (Exception $e) {
-            Log::error('Reject friend request error', [
+        } catch (Throwable $e) {
+            Log::error('Reject request error', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
-
-            return $this->errorResponse(
-                'Error rejecting friend request: ' . $e->getMessage(),
-                500
-            );
+            return $this->errorResponse('Failed to reject friend request', 500);
         }
     }
 
-    /**
-     * ========================================
-     * G. GET FRIENDS LIST
-     * ========================================
-     * Get all accepted friends
-     * GET: /api/friends
-     */
+    /* =========================================================
+     | G. FRIENDS LIST
+     | Endpoint: GET /api/friends
+     |=========================================================*/
     public function friends()
     {
         try {
-            $userId = Auth::id();
+            $authId = Auth::id();
 
-            // Get all accepted friend requests where user is either sender or receiver
-            $friendRequests = ChatRequest::where(function ($q) use ($userId) {
-                    $q->where('sender_id', $userId)
-                      ->orWhere('receiver_id', $userId);
+            $friendRequests = ChatRequest::where('status', 'accepted')
+                ->where(function ($q) use ($authId) {
+                    $q->where('sender_id', $authId)
+                      ->orWhere('receiver_id', $authId);
                 })
-                ->where('status', 'accepted')
-                ->with([
-                    'sender:id,name,email,photo',
-                    'receiver:id,name,email,photo'
-                ])
+                ->with(['sender:id,name,email,photo', 'receiver:id,name,email,photo'])
                 ->orderBy('updated_at', 'desc')
                 ->get();
 
-            // Extract the friend user (not the current user)
-            $friendsList = $friendRequests->map(function ($request) use ($userId) {
-                $friend = $request->sender_id == $userId
-                    ? $request->receiver
-                    : $request->sender;
+            if ($friendRequests->isEmpty()) {
+                return $this->successResponse([], 'No friends yet');
+            }
+
+            $friends = $friendRequests->map(function ($r) use ($authId) {
+                $friend = $r->sender_id === $authId ? $r->receiver : $r->sender;
+
+                // Check if friend still exists
+                if (!$friend) {
+                    return null;
+                }
 
                 return [
-                    'id' => $friend->id,
-                    'name' => $friend->name,
+                    'id'    => $friend->id,
+                    'name'  => $friend->name,
                     'email' => $friend->email,
-                    'photo' => $friend->photo ? url($friend->photo) : null,
-                    'friendship_date' => $request->updated_at,
-                    'friendship_since' => $request->updated_at->diffForHumans(),
+                    'photo' => $this->resolvePhoto($friend->photo),
+                    'friendship_since' => $r->updated_at->toIso8601String(),
                 ];
-            });
+            })->filter()->values(); // Remove null and reindex
 
-            Log::info('Fetched friends list', [
-                'user_id' => $userId,
-                'friends_count' => $friendsList->count()
+            Log::info('Friends list loaded', [
+                'user_id' => $authId,
+                'count' => $friends->count()
             ]);
 
             return $this->successResponse(
-                $friendsList,
-                'Friends list retrieved successfully.'
+                $friends,
+                $friends->count() . ' friend(s) found'
             );
 
-        } catch (Exception $e) {
-            Log::error('Fetch friends error', [
+        } catch (Throwable $e) {
+            Log::error('Friends list error', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
-
-            return $this->errorResponse(
-                'Error fetching friends list: ' . $e->getMessage(),
-                500
-            );
+            return $this->errorResponse('Failed to load friends list', 500);
         }
     }
 
-    /**
-     * ========================================
-     * H. GET FRIENDS COUNT
-     * ========================================
-     * Get total number of friends
-     * GET: /api/friends/count
-     */
+    /* =========================================================
+     | H. FRIENDS COUNT
+     | Endpoint: GET /api/friends/count
+     |=========================================================*/
     public function friendsCount()
     {
         try {
-            $userId = Auth::id();
+            $authId = Auth::id();
 
-            $count = ChatRequest::where(function ($q) use ($userId) {
-                    $q->where('sender_id', $userId)
-                      ->orWhere('receiver_id', $userId);
+            $count = ChatRequest::where('status', 'accepted')
+                ->where(function ($q) use ($authId) {
+                    $q->where('sender_id', $authId)
+                      ->orWhere('receiver_id', $authId);
                 })
-                ->where('status', 'accepted')
                 ->count();
 
-            return $this->successResponse([
-                'count' => $count
-            ], 'Friends count retrieved successfully.');
-
-        } catch (Exception $e) {
-            Log::error('Fetch friends count error', [
-                'error' => $e->getMessage()
-            ]);
-
-            return $this->errorResponse(
-                'Error fetching friends count: ' . $e->getMessage(),
-                500
+            return $this->successResponse(
+                ['count' => $count],
+                'Friend count retrieved'
             );
+
+        } catch (Throwable $e) {
+            Log::error('Friend count error', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return $this->errorResponse('Failed to get friend count', 500);
         }
     }
 
-    /**
-     * ========================================
-     * I. UNFRIEND / REMOVE FRIEND
-     * ========================================
-     * Remove a friend (delete accepted friend request)
-     * POST: /api/unfriend
-     * Body: { "friend_id": 123 }
-     */
+    /* =========================================================
+     | I. UNFRIEND
+     | Endpoint: POST /api/unfriend
+     | Body: { "friend_id": 123 }
+     |=========================================================*/
     public function unfriend(Request $request)
     {
-        try {
-            // Validate input
-            $validator = Validator::make($request->all(), [
-                'friend_id' => 'required|integer|exists:users,id'
-            ]);
+        $validator = Validator::make($request->all(), [
+            'friend_id' => 'required|integer|exists:users,id'
+        ]);
 
-            if ($validator->fails()) {
-                return $this->errorResponse(
-                    'Validation failed',
-                    422,
-                    $validator->errors()
-                );
+        if ($validator->fails()) {
+            return $this->errorResponse(
+                'Validation failed',
+                422,
+                $validator->errors()
+            );
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $authId = Auth::id();
+            $friendId = (int) $request->friend_id;
+
+            if ($authId === $friendId) {
+                return $this->errorResponse('Invalid friend ID', 400);
             }
 
-            $userId = Auth::id();
-            $friendId = $request->friend_id;
-
-            // Find and delete the accepted friendship (bidirectional check)
-            $deleted = ChatRequest::where(function ($q) use ($userId, $friendId) {
-                    $q->where(function ($query) use ($userId, $friendId) {
-                        $query->where('sender_id', $userId)
-                              ->where('receiver_id', $friendId);
-                    })
-                    ->orWhere(function ($query) use ($userId, $friendId) {
-                        $query->where('sender_id', $friendId)
-                              ->where('receiver_id', $userId);
+            $deleted = ChatRequest::where('status', 'accepted')
+                ->where(function ($q) use ($authId, $friendId) {
+                    $q->where(function ($sq) use ($authId, $friendId) {
+                        $sq->where('sender_id', $authId)
+                           ->where('receiver_id', $friendId);
+                    })->orWhere(function ($sq) use ($authId, $friendId) {
+                        $sq->where('sender_id', $friendId)
+                           ->where('receiver_id', $authId);
                     });
                 })
-                ->where('status', 'accepted')
                 ->delete();
 
             if ($deleted) {
-                Log::info('Friend removed successfully', [
-                    'user_id' => $userId,
+                DB::commit();
+
+                Log::info('Friend removed', [
+                    'user_id' => $authId,
                     'friend_id' => $friendId
                 ]);
 
-                return $this->successResponse(
-                    null,
-                    'Friend removed successfully.'
-                );
+                return $this->successResponse(null, 'Friend removed successfully');
+            } else {
+                DB::rollBack();
+                return $this->errorResponse('Friend not found', 404);
             }
 
-            return $this->errorResponse(
-                'Friendship not found.',
-                404
-            );
+        } catch (Throwable $e) {
+            DB::rollBack();
 
-        } catch (Exception $e) {
             Log::error('Unfriend error', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
-
-            return $this->errorResponse(
-                'Error removing friend: ' . $e->getMessage(),
-                500
-            );
+            return $this->errorResponse('Failed to remove friend', 500);
         }
     }
 
-    // ========================================
-    // HELPER METHODS
-    // ========================================
+    /* =========================================================
+     | J. SENT FRIEND REQUESTS (VIEW OWN SENT REQUESTS)
+     | Endpoint: GET /api/user/friend/request/sent
+     |=========================================================*/
+    public function sentRequests()
+    {
+        try {
+            $authId = Auth::id();
+
+            $requests = ChatRequest::where('sender_id', $authId)
+                ->where('status', 'pending')
+                ->with('receiver:id,name,email,photo')
+                ->latest()
+                ->get();
+
+            if ($requests->isEmpty()) {
+                return $this->successResponse([], 'No sent friend requests');
+            }
+
+            $formattedRequests = $requests->map(function ($r) {
+                if (!$r->receiver) {
+                    return null;
+                }
+
+                return [
+                    'id' => $r->id,
+                    'receiver' => [
+                        'id'    => $r->receiver->id,
+                        'name'  => $r->receiver->name,
+                        'email' => $r->receiver->email,
+                        'photo' => $this->resolvePhoto($r->receiver->photo),
+                    ],
+                    'status' => $r->status,
+                    'created_at' => $r->created_at->toIso8601String(),
+                ];
+            })->filter()->values();
+
+            return $this->successResponse(
+                $formattedRequests,
+                $formattedRequests->count() . ' sent request(s)'
+            );
+
+        } catch (Throwable $e) {
+            Log::error('Sent requests error', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return $this->errorResponse('Failed to load sent requests', 500);
+        }
+    }
+
+    /* =========================================================
+     | HELPER METHODS
+     |=========================================================*/
 
     /**
-     * Get user with friend status
+     * Resolve photo URL with better fallback handling
      */
-    private function getUserWithFriendStatus($user, $currentUserId)
+    private function resolvePhoto(?string $photo): string
     {
-        // Check bidirectional friend requests
-        $myRequestToThem = ChatRequest::where('sender_id', $currentUserId)
-            ->where('receiver_id', $user->id)
-            ->first();
+        if (!$photo || $photo === '') {
+            return asset('uploads/avator.jpg');
+        }
 
-        $theirRequestToMe = ChatRequest::where('sender_id', $user->id)
-            ->where('receiver_id', $currentUserId)
-            ->first();
+        // If already full URL, return as is
+        if (str_starts_with($photo, 'http://') || str_starts_with($photo, 'https://')) {
+            return $photo;
+        }
+
+        // If absolute path, extract filename
+        if (str_starts_with($photo, '/')) {
+            $photo = basename($photo);
+        }
+
+        // Clean filename
+        $photo = ltrim($photo, '/');
+
+        // Return full asset URL
+        return asset('uploads/profile/' . $photo);
+    }
+
+    /**
+     * Format user with friend request status
+     */
+    private function formatUserWithStatus(User $user, int $authId): array
+    {
+        $request = ChatRequest::where(function ($q) use ($authId, $user) {
+            $q->where(function ($sq) use ($authId, $user) {
+                $sq->where('sender_id', $authId)
+                   ->where('receiver_id', $user->id);
+            })->orWhere(function ($sq) use ($authId, $user) {
+                $sq->where('sender_id', $user->id)
+                   ->where('receiver_id', $authId);
+            });
+        })->first();
 
         $friendStatus = 'none';
         $requestSentByMe = false;
+        $canSendRequest = true;
 
-        // Priority 1: Check if already friends (accepted in either direction)
-        if ($myRequestToThem && $myRequestToThem->status === 'accepted') {
-            $friendStatus = 'friend';
-            $requestSentByMe = false;
-        } elseif ($theirRequestToMe && $theirRequestToMe->status === 'accepted') {
-            $friendStatus = 'friend';
-            $requestSentByMe = false;
-        }
-        // Priority 2: Check if I have a pending request to them
-        elseif ($myRequestToThem && $myRequestToThem->status === 'pending') {
-            $friendStatus = 'pending';
-            $requestSentByMe = true;
-        }
-        // Priority 3: Check if they have a pending request to me
-        elseif ($theirRequestToMe && $theirRequestToMe->status === 'pending') {
-            $friendStatus = 'pending';
-            $requestSentByMe = false;
+        if ($request) {
+            $friendStatus = $request->status;
+            $requestSentByMe = $request->sender_id === $authId;
+
+            // Can only send request if no active request exists
+            $canSendRequest = $request->status === 'rejected';
         }
 
         return [
             'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
-            'photo' => $user->photo ? url($user->photo) : null,
+            'photo' => $this->resolvePhoto($user->photo),
             'friend_status' => $friendStatus,
             'request_sent_by_me' => $requestSentByMe,
+            'can_send_request' => $canSendRequest,
         ];
     }
 
     /**
      * Success response helper
      */
-    private function successResponse($data, $message = 'Success', $code = 200)
+    private function successResponse($data, string $message = 'Success', int $code = 200)
     {
         return response()->json([
             'success' => true,
-            'data' => $data,
+            'data'    => $data,
             'message' => $message
         ], $code);
     }
@@ -714,14 +694,14 @@ class ChatRequestController extends Controller
     /**
      * Error response helper
      */
-    private function errorResponse($message, $code = 400, $errors = null)
+    private function errorResponse(string $message, int $code = 400, $errors = null)
     {
         $response = [
             'success' => false,
-            'message' => $message
+            'message' => $message,
         ];
 
-        if ($errors) {
+        if ($errors !== null) {
             $response['errors'] = $errors;
         }
 

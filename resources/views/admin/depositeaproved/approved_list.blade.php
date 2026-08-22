@@ -14,6 +14,9 @@
         <thead class="table-light">
             <tr>
                 <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Mobile</th>
                 <th>Amount</th>
                 <th>Transaction ID</th>
                 <th>Sender Account</th>
@@ -23,17 +26,21 @@
             </tr>
         </thead>
         <tbody>
+
             @foreach($approved as $deposit)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $deposit->amount }}৳</td>
+                <td>{{ $deposit->user->name ?? 'N/A' }}</td>
+                <td>{{ $deposit->user->email ?? 'N/A' }}</td>
+                <td>{{ $deposit->user->mobile ?? $deposit->user->phone ?? 'N/A' }}</td>
+                <td>{{ round($deposit->amount) }}$</td>
                 <td>{{ $deposit->transaction_id }}</td>
                 <td>{{ $deposit->sender_account }}</td>
                 <td>
                     @if($deposit->photo)
-                        <img src="{{ asset('uploads/deposits/' . $deposit->photo) }}" alt="Deposit Photo" width="50" height="50" style="object-fit: cover;">
+                        <img src="{{ str_contains($deposit->photo, '/') ? asset($deposit->photo) : asset('uploads/deposits/' . $deposit->photo) }}" alt="Deposit Photo" width="50" height="50" style="object-fit: cover; border-radius: 5px;">
                     @else
-                        <span class="text-muted">No Image</span>
+                        <span class="text-muted">N/A</span>
                     @endif
                 </td>
                 <td>

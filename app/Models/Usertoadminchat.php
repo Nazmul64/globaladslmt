@@ -13,6 +13,7 @@ class Usertoadminchat extends Model
         'image',
         'is_read',
         'new_image',
+        'message_type',
 
     ];
      public function sender()

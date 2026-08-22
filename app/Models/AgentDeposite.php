@@ -14,6 +14,7 @@ class AgentDeposite extends Model
         'status',
         'new_photo',
         'photo',
+        'payment_method_id',
     ];
 
     public function user() {
@@ -27,5 +28,18 @@ class AgentDeposite extends Model
     {
         return $this->belongsTo(User::class, 'agent_id');
     }
+
+public function agentname()
+    {
+        return $this->belongsTo(User::class, 'agent_id');
+    }
+
+    // Relation to payment method
+    public function paymentMethodname()
+    {
+        return $this->belongsTo(Paymentmethod::class, 'payment_method_id');
+    }
+
+
 
 }

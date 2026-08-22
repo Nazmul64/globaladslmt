@@ -38,9 +38,18 @@
                 <span class="value" id="completed-today">{{ $packageBuy->tasks_completed_today ?? 0 }}</span>
             </div>
         </div>
+        @elseif(isset($isExpired) && $isExpired)
+        <div class="alert alert-danger mb-3 p-3 text-center shadow-sm" style="border-radius: 12px;">
+            <i class="fas fa-clock fa-2x mb-2 text-danger"></i><br>
+            <strong class="d-block mb-1" style="font-size: 1.1rem;">আপনার মেম্বারশিপ এর মেয়াদ শেষ হয়ে গেছে!</strong>
+            <span class="text-muted small d-block mb-2">আর্নিং চালু রাখতে অনুগ্রহ করে আবার একটি মেম্বারশিপ প্যাকেজ ক্রয় করুন।</span>
+            <span class="badge bg-danger">Membership Expired</span>
+        </div>
         @else
-        <div class="alert alert-warning mb-3">
-            <i class="fas fa-exclamation-triangle"></i> You have not purchased any package yet.
+        <div class="alert alert-warning mb-3 text-center shadow-sm" style="border-radius: 12px;">
+            <i class="fas fa-exclamation-triangle fa-2x mb-2 text-warning"></i><br>
+            <strong class="d-block mb-1">আপনার কোনো সক্রিয় মেম্বারশিপ প্যাকেজ কেনা নেই</strong>
+            <span class="text-muted small">আর্নিং শুরু করতে অনুগ্রহ করে মেম্বারশিপ প্যাকেজ ক্রয় করুন।</span>
         </div>
         @endif
 

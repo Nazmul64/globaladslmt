@@ -17,7 +17,10 @@
             <tr>
                 <th>#</th>
                 <th>Method Name</th>
-                <th>Method Number</th>
+                <th>Number / Address</th>
+                <th>Label Type</th>
+                <th>USD Rate</th>
+                <th>Exchange Rate Status</th>
                 <th>Photo</th>
                 <th>Status</th>
                 <th>Actions</th>
@@ -28,7 +31,16 @@
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $method->method_name }}</td>
-                <td>{{ $method->method_number }}</td>
+                <td style="word-break: break-all;">{{ $method->method_number }}</td>
+                <td><span class="badge bg-info text-dark">{{ $method->number_type ?? 'Account Number' }}</span></td>
+                <td>{{ $method->usd_rate ?? 'N/A' }}</td>
+                <td>
+                    @if($method->is_exchange_rate_active)
+                        <span class="badge bg-primary">Enabled (On)</span>
+                    @else
+                        <span class="badge bg-secondary">Disabled (Off)</span>
+                    @endif
+                </td>
                 <td>
                     @if($method->photo)
                         <img src="{{ asset('uploads/paymentmethod/'.$method->photo) }}" alt="Photo" width="50">

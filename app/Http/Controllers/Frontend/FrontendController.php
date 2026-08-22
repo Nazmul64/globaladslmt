@@ -9,6 +9,7 @@ use App\Models\Depositelimite;
 use App\Models\Package;
 use App\Models\Packagebuy;
 use App\Models\Paymentmethod;
+use App\Models\Privacy;
 use App\Models\Stepguide;
 use App\Models\Support;
 use App\Models\User;
@@ -149,10 +150,26 @@ public function frontend_ads()
     // Get ads configuration (first row or default empty object)
     $ads = Ad::first() ?? new Ad();
 
-    // Get user's package
-    $packageBuy = Packagebuy::where('user_id', Auth::id())->latest()->first();
+    // Get user's active package
+    $packageBuy = Packagebuy::with('package')->where('user_id', Auth::id())->where('status', 'approved')->latest()->first();
+    $isExpired = false;
 
-    return view('frontend.frontendpages.ads', compact('ads', 'packageBuy'));
+    if ($packageBuy && $packageBuy->package && !empty($packageBuy->package->validity)) {
+        preg_match('/\d+/', (string)$packageBuy->package->validity, $matches);
+        $days = isset($matches[0]) ? (int)$matches[0] : 0;
+        if ($days > 0) {
+            $purchaseDate = \Carbon\Carbon::parse($packageBuy->updated_at ?? $packageBuy->created_at);
+            if ($purchaseDate->addDays($days)->isPast()) {
+                $isExpired = true;
+            }
+        }
+    }
+
+    if ($isExpired) {
+        $packageBuy = null;
+    }
+
+    return view('frontend.frontendpages.ads', compact('ads', 'packageBuy', 'isExpired'));
 }
 
 public function frontend_agent_list()
@@ -177,4 +194,24 @@ public function frontend_widthraw()
     ]);
 }
 
+
+public function privacys()
+{
+    $privacy_policy =Privacy::first();
+    return view('frontend.privacy.index', compact('privacy_policy'));
+
 }
+
+    public function childSafetyPolicy()
+    {
+        $privacy_policy = \App\Models\Childsafety::first();
+        return view('frontend.childsafety.index', compact('privacy_policy'));
+    }
+
+    public function appApproval()
+    {
+        $approval = \App\Models\Googleadsapproval::first();
+        return view('frontend.frontendpages.app_approval', compact('approval'));
+    }
+}
+

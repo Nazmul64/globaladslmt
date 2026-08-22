@@ -8749,4 +8749,54 @@ html::-webkit-scrollbar {
             }
         }
 
+/* ============================================
+   CREATE POST - Complete Stylesheet
+   ============================================ */
+    /* সব CSS একই রেখেছি, শুধু ভিডিও সংক্রান্ত অংশ রিমুভ করা হয়েছে */
+    .post-trigger-container, .posts-list { max-width: 600px; margin: 20px auto; }
+    .post-create-box { background:#fff; border-radius:12px; box-shadow:0 2px 4px rgba(0,0,0,0.1); padding:15px; }
+    .post-trigger-user { display:flex; align-items:flex-start; gap:12px; }
+    .post-trigger-avatar { width:40px; height:40px; border-radius:50%; object-fit:cover; flex-shrink:0; }
+    .post-create-textarea { flex:1; padding:12px 16px; border:1px solid #e4e6eb; background:#f0f2f5; border-radius:12px; outline:none; resize:none; font-family:inherit; font-size:15px; transition:all .2s; }
+    .post-create-textarea:focus { background:#fff; border-color:#1877f2; box-shadow:0 0 0 2px rgba(24,119,242,.1); }
+    .post-create-options { margin-top:15px; padding-top:15px; border-top:1px solid #e4e6eb; }
+    #imagePreview img { max-width:100%; border-radius:8px; margin-top:10px; }
 
+    .post-card { background:#fff; border-radius:12px; box-shadow:0 2px 4px rgba(0,0,0,0.1); overflow:hidden; }
+    .post-header { padding:15px; display:flex; justify-content:space-between; align-items:center; }
+    .post-user-info { display:flex; gap:10px; align-items:center; }
+    .post-user-avatar { width:40px; height:40px; border-radius:50%; object-fit:cover; }
+    .post-user-name { margin:0; font-weight:600; font-size:15px; }
+    .post-time { color:#65676b; font-size:13px; }
+    .post-menu-btn { width:36px; height:36px; border-radius:50%; background:transparent; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#65676b; }
+    .post-menu-btn:hover { background:#f0f2f5; }
+    .post-content { padding:0 15px 15px; white-space:pre-wrap; word-wrap:break-word; font-size:15px; line-height:1.5; }
+    .post-image img { width:100%; height:auto; display:block; border-radius:8px; }
+    .post-edit-form { padding:15px; background:#f7f8fa; border-top:1px solid #e4e6eb; }
+    .post-stats { padding:10px 15px; display:flex; gap:20px; color:#65676b; font-size:14px; border-top:1px solid #e4e6eb; }
+    .post-actions-bar { padding:8px 15px; display:flex; gap:10px; border-top:1px solid #e4e6eb; }
+    .action-btn { flex:1; padding:8px; background:transparent; border:none; border-radius:6px; cursor:pointer; font-weight:500; color:#65676b; display:flex; align-items:center; justify-content:center; gap:5px; transition:all .2s; }
+    .action-btn:hover { background:#f0f2f5; }
+    .action-btn.active { color:#1877f2; }
+    .action-btn.loading { pointer-events:none; opacity:.6; }
+    .action-btn .spinner { display:inline-block; width:12px; height:12px; border:2px solid #f3f3f3; border-top:2px solid #1877f2; border-radius:50%; animation:spin .6s linear infinite; margin-left:5px; }
+    @keyframes spin { 0%{transform:rotate(0)} 100%{transform:rotate(360deg)} }
+
+    .comments-section { padding:15px; background:#f7f8fa; border-top:1px solid #e4e6eb; }
+    .comment-form { display:flex; gap:10px; margin-bottom:15px; }
+    .comment-input { flex:1; padding:10px 15px; border:1px solid #ccd0d5; border-radius:20px; outline:none; font-size:14px; }
+    .comment-input:focus { border-color:#1877f2; }
+    .comment-submit-btn { width:38px; height:38px; border-radius:50%; background:#1877f2; color:#fff; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+    .comment-submit-btn:hover:not(:disabled) { background:#166fe5; transform:scale(1.05); }
+    .comment-item { display:flex; gap:10px; margin-bottom:12px; animation:slideIn .3s ease-out; }
+    @keyframes slideIn { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:translateY(0)} }
+    .comment-avatar { width:32px; height:32px; border-radius:50%; object-fit:cover; }
+    .comment-content { flex:1; background:#fff; padding:10px 12px; border-radius:12px; box-shadow:0 1px 2px rgba(0,0,0,.05); }
+    .comment-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; }
+    .delete-comment-btn { background:transparent; border:none; color:#65676b; cursor:pointer; padding:0; width:20px; height:20px; display:flex; align-items:center; justify-content:center; border-radius:50%; }
+    .delete-comment-btn:hover { background:#f0f2f5; color:#e4294f; }
+
+    @media (max-width: 768px) {
+        .post-trigger-container, .posts-list { margin:20px 5px; }
+        .action-btn span { display:none; }
+    }

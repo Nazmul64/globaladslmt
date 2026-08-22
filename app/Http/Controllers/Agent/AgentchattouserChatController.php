@@ -10,12 +10,11 @@ use Illuminate\Support\Facades\Auth;
 
 class AgentchattouserChatController extends Controller
 {
-    // Agent panel: সব ইউজার দেখাও (যাতে যেকোনো user-এর সাথে chat করতে পারে)
+    // Show chat page
     public function index()
     {
         $agentId = Auth::id();
 
-        // সব user যাদের role 'user' (agent নিজে বাদে)
         $users = User::where('role', 'user')
                     ->where('id', '!=', $agentId)
                     ->orderBy('name', 'asc')
@@ -37,16 +36,21 @@ class AgentchattouserChatController extends Controller
         $chat->sender_id = Auth::id();
         $chat->receiver_id = $request->receiver_id;
         $chat->message = $request->message;
+        $chat->is_read = false;
 
         if ($request->hasFile('image')) {
-            $imageName = time() . '.' . $request->image->extension();
+            $imageName = time() . '_' . uniqid() . '.' . $request->image->extension();
             $request->image->move(public_path('uploads/chat'), $imageName);
             $chat->image = 'uploads/chat/' . $imageName;
         }
 
         $chat->save();
 
-        return response()->json(['success' => true, 'message' => 'Message sent successfully']);
+        return response()->json([
+            'success' => true,
+            'message' => 'Message sent successfully',
+            'data' => $chat
+        ]);
     }
 
     // Load chat messages
@@ -64,11 +68,6 @@ class AgentchattouserChatController extends Controller
             ->orderBy('created_at', 'asc')
             ->get();
 
-        // Mark messages as read
-        Usertoagentchat::where('receiver_id', $agentId)
-            ->where('sender_id', $receiverId)
-            ->update(['is_read' => true]);
-
         return response()->json($messages);
     }
 
@@ -84,5 +83,51 @@ class AgentchattouserChatController extends Controller
                     ->pluck('count', 'sender_id');
 
         return response()->json($counts);
+    }
+
+    // Mark messages as read (NEW METHOD)
+    public function markAsRead(Request $request)
+    {
+        $request->validate([
+            'sender_id' => 'required|exists:users,id'
+        ]);
+
+        $agentId = Auth::id();
+
+        Usertoagentchat::where('receiver_id', $agentId)
+            ->where('sender_id', $request->sender_id)
+            ->where('is_read', false)
+            ->update(['is_read' => true]);
+
+        return response()->json(['success' => true]);
+    }
+
+    // Check for new messages (NEW METHOD)
+    public function checkNewMessages()
+    {
+        $agentId = Auth::id();
+
+        // Get latest unread message from each sender
+        $newMessages = Usertoagentchat::where('receiver_id', $agentId)
+                              ->where('is_read', false)
+                              ->with('sender:id,name,photo')
+                              ->orderBy('created_at', 'desc')
+                              ->get()
+                              ->unique('sender_id')
+                              ->map(function($message) {
+                                  return [
+                                      'id' => $message->id,
+                                      'sender_id' => $message->sender_id,
+                                      'sender_name' => $message->sender->name,
+                                      'sender_photo' => $message->sender->photo
+                                          ? asset('uploads/profile/' . $message->sender->photo)
+                                          : 'https://i.pravatar.cc/150?img=' . rand(1,70),
+                                      'message' => $message->message,
+                                      'created_at' => $message->created_at
+                                  ];
+                              })
+                              ->values();
+
+        return response()->json($newMessages);
     }
 }

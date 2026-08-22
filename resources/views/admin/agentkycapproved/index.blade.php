@@ -13,6 +13,9 @@
             <thead class="table-dark">
                 <tr>
                     <th>#</th>
+                    <th>Mobile</th>
+                    <th>Name</th>
+                    <th>Email</th>
                     <th>Document Type</th>
                     <th>First Photo</th>
                     <th>Second Photo</th>
@@ -25,9 +28,12 @@
                 @forelse($kycs as $index => $kyc)
                 <tr>
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ ucfirst($kyc->document_type) }}</td>
-                    <td><img src="{{ asset('uploads/agent_kyc/'.$kyc->document_first_part_photo) }}" width="60" height="60" class="rounded-circle border"></td>
-                    <td><img src="{{ asset('uploads/agent_kyc/'.$kyc->document_secound_part_photo) }}" width="60" height="60" class="rounded-circle border"></td>
+                    <td>{{ ($kyc->kycagent->mobile ?? "") }}</td>
+                    <td>{{ ($kyc->kycagent->name ?? "") }}</td>
+                    <td>{{ ($kyc->kycagent->email ?? "") }}</td>
+                    <td>{{ ucfirst($kyc->document_type ?? "") }}</td>
+                    <td><img src="{{ asset('uploads/agent_kyc/'.$kyc->document_first_part_photo ?? "") }}" width="60" height="60" class="rounded-circle border"></td>
+                    <td><img src="{{ asset('uploads/agent_kyc/'.$kyc->document_secound_part_photo ?? "") }}" width="60" height="60" class="rounded-circle border"></td>
                     <td>
                         @if($kyc->status == 'pending')
                             <span class="badge bg-warning text-dark">Pending</span>

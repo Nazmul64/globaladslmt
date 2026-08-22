@@ -9,14 +9,46 @@ use App\Models\Adminchatforagent;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
+use Illuminate\Support\Str;
+
 class ChateforagentandadminController extends Controller
 {
-   // Show agent list to admin
+    // Show agent list to admin
     public function agent_for_chat_admin()
     {
-        $agents = User::where('role', 'agent')->select('id','name','email')->get();
+        $adminId = Auth::id();
+
+        $agents = User::where('role', 'agent')
+            ->where('status', 'approved') // ✅ ONLY APPROVED AGENTS
+            ->select('id', 'name', 'email', 'photo')
+            ->get()
+            ->map(function ($agent) use ($adminId) {
+                $latestMsg = Adminchatforagent::where(function ($q) use ($agent, $adminId) {
+                        $q->where('sender_id', $agent->id)->where('receiver_id', $adminId);
+                    })
+                    ->orWhere(function ($q) use ($agent, $adminId) {
+                        $q->where('sender_id', $adminId)->where('receiver_id', $agent->id);
+                    })
+                    ->latest()
+                    ->first();
+
+                $unreadCount = Adminchatforagent::where('sender_id', $agent->id)
+                    ->where('receiver_id', $adminId)
+                    ->where('is_read', 0)
+                    ->count();
+
+                $agent->latest_message_time = $latestMsg ? $latestMsg->created_at->timestamp : 0;
+                $agent->latest_message_id = $latestMsg ? $latestMsg->id : 0;
+                $agent->last_message_text = $latestMsg ? ($latestMsg->message ? Str::limit($latestMsg->message, 30) : ($latestMsg->image ? '📷 Image' : '')) : '';
+                $agent->unread_count = $unreadCount;
+                return $agent;
+            })
+            ->sortByDesc('latest_message_time')
+            ->values();
+
         return view('admin.agentchateforadmin.index', compact('agents'));
     }
+
 
     // Fetch messages between admin and selected agent
     public function fetchMessages($user_id)
@@ -58,9 +90,12 @@ class ChateforagentandadminController extends Controller
             $data['image'] = 'uploads/chat/' . $imageName;
         }
 
-        Adminchatforagent::create($data);
+        $chat = Adminchatforagent::create($data);
 
-        return response()->json(['success' => true]);
+        return response()->json([
+            'success' => true,
+            'chat' => $chat
+        ]);
     }
 
     // Mark messages as read
@@ -82,6 +117,39 @@ class ChateforagentandadminController extends Controller
                     ->where('is_read', 0)
                     ->count();
         return response()->json($count);
+    }
+
+    // Get all unread counts and latest activity timestamps
+    public function allUnreadCount()
+    {
+        $adminId = Auth::id();
+
+        $unreadCounts = Adminchatforagent::where('receiver_id', $adminId)
+            ->where('is_read', 0)
+            ->groupBy('sender_id')
+            ->selectRaw('sender_id, COUNT(*) as count')
+            ->pluck('count', 'sender_id');
+
+        $latestMessages = Adminchatforagent::where('receiver_id', $adminId)
+            ->orWhere('sender_id', $adminId)
+            ->latest()
+            ->get()
+            ->groupBy(function($msg) use ($adminId) {
+                return $msg->sender_id == $adminId ? $msg->receiver_id : $msg->sender_id;
+            })
+            ->map(function($group) {
+                $latest = $group->first();
+                return [
+                    'last_time' => $latest->created_at->timestamp,
+                    'last_message' => $latest->message ? Str::limit($latest->message, 30) : ($latest->image ? '📷 Image' : ''),
+                    'last_id' => $latest->id,
+                ];
+            });
+
+        return response()->json([
+            'unread' => $unreadCounts,
+            'latest' => $latestMessages,
+        ]);
     }
 
 }

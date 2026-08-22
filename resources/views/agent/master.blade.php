@@ -5,7 +5,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Agent</title>
-  <link rel="icon" type="{{asset('admin')}}/image/png" href="assets/images/favicon.png" sizes="16x16">
+
+@php
+    use App\Models\Settinglogo;
+    $photo = Settinglogo::first();
+@endphp
+
+<link rel="icon" type="image/png"
+      href="{{ $photo ? asset('uploads/logo/'.$photo->photo) : asset('default-favicon.png') }}"
+      sizes="16x16">
+
   <!-- remix icon font css  -->
   <link rel="stylesheet" href="{{asset('admin')}}/assets/css/remixicon.css">
   <!-- BootStrap css -->

@@ -1,5 +1,29 @@
 @extends('frontend.master')
 
+@section('head')
+<style>
+.method-number-display {
+    word-break: break-all;
+    overflow-wrap: anywhere;
+    white-space: normal;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.4;
+    padding: 8px 12px;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    margin: 8px 0;
+}
+.usd-rate-text {
+    font-size: 0.85rem;
+    color: #4a5568;
+    margin-top: 4px;
+    font-weight: 500;
+}
+</style>
+@endsection
+
 @section('content')
 <div class="form-section">
 
@@ -7,7 +31,7 @@
     <div class="payment-methods-horizontal mb-4">
         @foreach($payment_methods as $method)
         <div class="payment-method-card"
-             onclick="selectPaymentMethodFromCard('{{ strtolower($method->method_name ?? '') }}', {{ $method->id }})"
+             onclick="selectPaymentMethodFromCard('{{ strtolower($method->method_name ?? '') }}', {{ $method->id }}, '{{ addslashes($method->number_type ?? 'Account Number') }}', '{{ addslashes($method->usd_rate ?? '') }}')"
              id="card-{{ strtolower($method->method_name ?? '') }}">
 
             <div class="method-header">
@@ -16,17 +40,19 @@
                          alt="{{ $method->method_name }}" class="method-logo">
                 @endif
                 <h6 class="method-title">{{ $method->method_name }}</h6>
+                @if($method->usd_rate)
+                    <span class="badge bg-light text-dark border">{{ $method->usd_rate }}</span>
+                @endif
             </div>
 
             @if($method->method_number)
-                <input type="text"
-                       value="{{ $method->method_number }}"
-                       readonly
-                       class="method-number-input"
-                       onclick="event.stopPropagation()">
+                <div class="method-number-display" onclick="event.stopPropagation()">
+                    <span class="text-muted small d-block mb-1">{{ $method->number_type ?? 'Account Number' }}:</span>
+                    {{ $method->method_number }}
+                </div>
 
                 <button type="button"
-                        class="copy-button"
+                        class="copy-button btn btn-sm btn-outline-primary"
                         onclick="event.stopPropagation(); copyNumber('{{ $method->method_number }}', this)">
                         Copy
                 </button>
@@ -47,11 +73,12 @@
             <div class="form-content show" id="form-content">
 
                 <label class="form-label">Amount</label>
-                <input type="number" name="amount" class="form-input" placeholder="Enter payment amount">
+                <input type="number" name="amount" class="form-input" placeholder="Enter deposit amount">
+                <div id="usdRateDisplay" class="usd-rate-text mb-3"></div>
                 @error('amount') <span class="text-danger">{{ $message }}</span> @enderror
 
-                <label class="form-label">Sender Account No.</label>
-                <input type="text" name="sender_account" class="form-input" placeholder="Enter sender account number">
+                <label class="form-label" id="senderAccountLabel">Your Account Number / Wallet Address</label>
+                <input type="text" name="sender_account" class="form-input" placeholder="Enter your account number / address">
                 @error('sender_account') <span class="text-danger">{{ $message }}</span> @enderror
 
                 <label class="form-label">Transaction ID</label>
@@ -72,25 +99,43 @@
 
 <!-- JS -->
 <script>
-function selectPaymentMethodFromCard(name, id) {
+function selectPaymentMethodFromCard(name, id, numberType, usdRate) {
     document.getElementById('selectedMethod').value = id;
 
     document.querySelectorAll('.payment-method-card').forEach(card => {
         card.classList.remove('active');
     });
 
-    document.getElementById('card-' + name).classList.add('active');
+    const targetCard = document.getElementById('card-' + name);
+    if (targetCard) targetCard.classList.add('active');
+
+    // Update label dynamically
+    const labelEl = document.getElementById('senderAccountLabel');
+    if (labelEl && numberType) {
+        labelEl.innerText = 'Your ' + numberType;
+    }
+
+    // Update USD Rate display below Amount field
+    const usdRateEl = document.getElementById('usdRateDisplay');
+    if (usdRateEl) {
+        if (usdRate && usdRate.trim() !== '') {
+            usdRateEl.innerHTML = '<i class="fas fa-info-circle text-primary me-1"></i> USD Rate: <strong>' + usdRate + '</strong>';
+        } else {
+            usdRateEl.innerHTML = '';
+        }
+    }
 }
 
 // Copy Method Number
 function copyNumber(number, btn) {
     navigator.clipboard.writeText(number)
         .then(() => {
-            btn.innerText = "Copied";
+            const originalText = btn.innerText;
+            btn.innerText = "Copied!";
             btn.classList.add('copied');
 
             setTimeout(() => {
-                btn.innerText = "Copy";
+                btn.innerText = originalText;
                 btn.classList.remove('copied');
             }, 1500);
         })

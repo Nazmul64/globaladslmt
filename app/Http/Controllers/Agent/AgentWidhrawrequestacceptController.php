@@ -9,58 +9,56 @@ use Illuminate\Support\Facades\Auth;
 class AgentWidhrawrequestacceptController extends Controller
 {
     /**
-     * Display paginated withdraw requests for logged-in agent
-     * Custom order: pending > agent_confirmed > completed > rejected
+     * Show withdraw requests for logged-in agent
      */
     public function agentwidhrawRequests()
     {
         $requests = UserWidhrawrequest::with('user')
             ->where('agent_id', Auth::id())
-            ->whereIn('status', ['pending', 'agent_confirmed', 'completed', 'rejected'])
             ->orderByRaw("FIELD(status, 'pending', 'agent_confirmed', 'completed', 'rejected')")
             ->latest()
-            ->paginate(5); // 10 requests per page
+            ->paginate(5);
 
         return view('agent.userwidhrawrequestaccept.index', compact('requests'));
     }
 
     /**
-     * Accept a withdraw request (pending -> agent_confirmed)
+     * Accept withdraw request
      */
     public function acceptagentwidhrawRequest($id)
     {
-        $request = UserWidhrawrequest::findOrFail($id);
-
-        if ($request->agent_id !== Auth::id()) {
-            return back()->with('error', 'Unauthorized request.');
-        }
+        $request = UserWidhrawrequest::where('id', $id)
+            ->where('agent_id', Auth::id())
+            ->firstOrFail();
 
         if ($request->status !== 'pending') {
-            return back()->with('error', 'This request cannot be accepted again.');
+            return back()->with('error', 'এই রিকোয়েস্ট আর একসেপ্ট করা যাবে না।');
         }
 
-        $request->update(['status' => 'agent_confirmed']);
+        $request->update([
+            'status' => 'agent_confirmed'
+        ]);
 
-        return back()->with('success', 'Withdraw request accepted. Waiting for user release.');
+        return back()->with('success', 'রিকোয়েস্ট একসেপ্ট হয়েছে। এখন ইউজার রিলিজ দিবে।');
     }
 
     /**
-     * Reject a withdraw request
+     * Reject withdraw request
      */
     public function agentRejected($id)
     {
-        $request = UserWidhrawrequest::findOrFail($id);
-
-        if ($request->agent_id !== Auth::id()) {
-            return back()->with('error', 'Unauthorized action.');
-        }
+        $request = UserWidhrawrequest::where('id', $id)
+            ->where('agent_id', Auth::id())
+            ->firstOrFail();
 
         if (in_array($request->status, ['completed', 'rejected'])) {
-            return back()->with('info', 'This request cannot be changed.');
+            return back()->with('info', 'এই রিকোয়েস্ট আর পরিবর্তন করা যাবে না।');
         }
 
-        $request->update(['status' => 'rejected']);
+        $request->update([
+            'status' => 'rejected'
+        ]);
 
-        return back()->with('success', 'Withdraw request rejected successfully.');
+        return back()->with('success', 'রিকোয়েস্ট রিজেক্ট করা হয়েছে।');
     }
 }

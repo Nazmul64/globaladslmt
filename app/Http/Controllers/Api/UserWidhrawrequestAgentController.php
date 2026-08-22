@@ -311,4 +311,127 @@ class UserWidhrawrequestAgentController extends Controller
     {
         return response()->json(['success' => false, 'message' => $message], $code);
     }
+
+
+
+public function withdrawcancled(Request $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $withdrawId = $request->input('withdraw_id');
+
+            if (!$withdrawId) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Withdraw ID is required'
+                ], 422);
+            }
+
+            // Find withdraw request
+            $withdraw = UserWidhrawrequest::lockForUpdate()
+                ->where('id', $withdrawId)
+                ->where('user_id', Auth::id())
+                ->first();
+
+            if (!$withdraw) {
+                DB::rollBack();
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Withdraw request not found'
+                ], 404);
+            }
+
+            // Check if status is 'pending' - only then can cancel
+            if ($withdraw->status !== 'pending') {
+                DB::rollBack();
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Cannot cancel - withdraw already ' . $withdraw->status
+                ], 400);
+            }
+
+            // Update status to cancelled
+            $withdraw->status = 'cancelled';
+            $withdraw->save();
+
+            DB::commit();
+
+            Log::info('Withdraw Cancelled', [
+                'withdraw_id' => $withdrawId,
+                'user_id' => Auth::id()
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Withdraw request cancelled successfully'
+            ], 200);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            Log::error('Cancel Withdraw Error', [
+                'error' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'user_id' => Auth::id()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to cancel withdraw: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+     public function withdrawStatus(Request $request)
+    {
+        try {
+            $user = Auth::user();
+
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User not authenticated',
+                    'status' => null
+                ], 401);
+            }
+
+            // ✅ Find latest pending or agent_confirmed withdraw
+            $withdraw = UserWidhrawrequest::where('user_id', $user->id)
+                ->whereIn('status', ['pending', 'agent_confirmed'])
+                ->latest()
+                ->first();
+
+            if (!$withdraw) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'No pending withdraw found',
+                    'status' => null,
+                    'withdraw_id' => null
+                ], 200);
+            }
+
+            // ✅ Return withdraw status
+            return response()->json([
+                'success' => true,
+                'message' => 'Withdraw status retrieved',
+                'status' => $withdraw->status, // 'pending' or 'agent_confirmed'
+                'withdraw_id' => $withdraw->id,
+                'amount' => $withdraw->amount,
+                'agent_id' => $withdraw->agent_id,
+                'sender_account' => $withdraw->sender_account,
+                'created_at' => $withdraw->created_at->format('Y-m-d H:i:s'),
+                'can_cancel' => $withdraw->status === 'pending' // ✅ Only pending can be cancelled
+            ], 200);
+
+        } catch (\Exception $e) {
+            Log::error('Withdraw Status Error: ' . $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to check withdraw status',
+                'status' => null,
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

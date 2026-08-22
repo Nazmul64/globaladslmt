@@ -36,10 +36,12 @@ class PackageController extends Controller
             'price' => 'required|numeric',
             'daily_income' => 'required|numeric',
             'daily_limit' => 'required|integer',
+            'ad_brack' => 'required',
+            'validity' => 'required|string|max:255',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $data = $request->only(['package_name', 'price', 'daily_income', 'daily_limit']);
+        $data = $request->only(['package_name', 'price', 'daily_income', 'daily_limit','ad_brack','validity']);
 
         if ($request->hasFile('photo')) {
             $file = $request->file('photo');
@@ -71,10 +73,12 @@ class PackageController extends Controller
             'price' => 'required|numeric',
             'daily_income' => 'required|numeric',
             'daily_limit' => 'required|integer',
+            'validity' => 'required|string|max:255',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'ad_brack' => 'required',
         ]);
 
-        $data = $request->only(['package_name', 'price', 'daily_income', 'daily_limit']);
+        $data = $request->only(['package_name', 'price', 'daily_income', 'daily_limit','ad_brack','validity']);
 
         if ($request->hasFile('photo')) {
             // Delete old photo

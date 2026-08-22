@@ -52,6 +52,10 @@ class UsertoadminchatController extends Controller
         $adminId = 1; // ধরো Admin ID = 1
         $userId = Auth::id();
 
+        if (!$userId) {
+            return response()->json([]);
+        }
+
         $messages = Usertoadminchat::where(function ($query) use ($adminId, $userId) {
             $query->where('sender_id', $userId)->where('receiver_id', $adminId);
         })->orWhere(function ($query) use ($adminId, $userId) {

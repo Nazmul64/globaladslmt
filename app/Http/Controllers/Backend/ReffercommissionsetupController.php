@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\RefferCommissionSetup;
+use App\Models\Reffercommissionsetup;
 use Illuminate\Http\Request;
 
 class RefferCommissionSetupController extends Controller
 {
     public function index()
     {
-        $setups = RefferCommissionSetup::latest()->get();
+        $setups =Reffercommissionsetup::latest()->get();
         return view('admin.reffercommission.index', compact('setups'));
     }
 
@@ -26,18 +26,18 @@ class RefferCommissionSetupController extends Controller
             'commission_percentage' => 'required|numeric|min:0',
         ]);
 
-        RefferCommissionSetup::create($request->all());
+        Reffercommissionsetup::create($request->all());
 
         return redirect()->route('reffercommission.index')
                          ->with('success', 'Referral commission added successfully.');
     }
 
-    public function edit(RefferCommissionSetup $reffercommission)
+    public function edit(Reffercommissionsetup $reffercommission)
     {
         return view('admin.reffercommission.edit', compact('reffercommission'));
     }
 
-    public function update(Request $request, RefferCommissionSetup $reffercommission)
+    public function update(Request $request, Reffercommissionsetup $reffercommission)
     {
         $request->validate([
             'reffer_level' => 'required|string|max:255',

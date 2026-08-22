@@ -14,6 +14,7 @@
         <thead>
             <tr>
                 <th>#</th>
+                <th>mobile</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Country</th>
@@ -24,6 +25,7 @@
             @foreach($agents as $agent)
             <tr>
                 <td>{{ $loop->iteration }}</td>
+                <td>{{ $agent->mobile }}</td>
                 <td>{{ $agent->name }}</td>
                 <td>{{ $agent->email }}</td>
                 <td>{{ $agent->country }}</td>

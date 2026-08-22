@@ -30,6 +30,14 @@
                     <label class="form-label">Daily Limit</label>
                     <input type="number" name="daily_limit" class="form-control" value="{{ old('daily_limit') }}" required>
                 </div>
+                  <div class="mb-3">
+                    <label class="form-label">validity</label>
+                    <input type="text" name="validity" class="form-control" value="{{ old('validity') }}" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">ad_brack</label>
+                    <input type="number" name="ad_brack" class="form-control" value="{{ old('ad_brack') }}" required>
+                </div>
 
                 <div class="mb-3">
                     <label class="form-label">Package Photo</label>

@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\BaseController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\JsonResponse;
+
 
 class ProfileChangeController extends BaseController
 {
@@ -17,6 +20,92 @@ class ProfileChangeController extends BaseController
      *
      * @return \Illuminate\Http\JsonResponse
      */
+
+ public function chatProfileUser(Request $request): JsonResponse
+    {
+        try {
+            /* ------------------------------------------------
+             | 1️⃣ Validate Request
+             ------------------------------------------------ */
+            $validated = $request->validate([
+                'user_id' => ['required', 'integer', 'exists:users,id'],
+            ]);
+
+            /* ------------------------------------------------
+             | 2️⃣ Fetch User
+             ------------------------------------------------ */
+            $user = User::select(
+                    'id',
+                    'name',
+                    'photo',
+                    'role',
+                    'created_at'
+                )
+                ->where('id', $validated['user_id'])
+                ->first();
+
+            if (!$user) {
+                return $this->sendError('User not found', [], 404);
+            }
+
+            /* ------------------------------------------------
+             | 3️⃣ Profile Photo Handling (Safe)
+             ------------------------------------------------ */
+            $defaultAvatar = asset('uploads/avator.jpg');
+            $photoUrl = $defaultAvatar;
+
+            if (!empty($user->photo)) {
+                $photoPath = public_path('uploads/profile/' . $user->photo);
+
+                if (file_exists($photoPath)) {
+                    $photoUrl = asset('uploads/profile/' . $user->photo);
+                }
+            }
+
+            /* ------------------------------------------------
+             | 4️⃣ Prepare Response Data
+             ------------------------------------------------ */
+            $profileData = [
+                'id'         => $user->id,
+                'name'       => $user->name,
+                'photo'      => $photoUrl,
+                'photo_name' => $user->photo,
+                'role'       => $user->role ?? 'user',
+                'created_at' => $user->created_at->toDateTimeString(),
+            ];
+
+            /* ------------------------------------------------
+             | 5️⃣ Success Response
+             ------------------------------------------------ */
+            return $this->sendResponse(
+                $profileData,
+                'User profile retrieved successfully'
+            );
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+
+            return $this->sendError(
+                'Validation failed',
+                $e->errors(),
+                422
+            );
+
+        } catch (\Throwable $e) {
+
+            Log::error('ChatProfileUser Error', [
+                'message' => $e->getMessage(),
+                'line'    => $e->getLine(),
+                'file'    => $e->getFile(),
+            ]);
+
+            return $this->sendError(
+                'Server error',
+                ['error' => 'Unable to fetch user profile'],
+                500
+            );
+        }
+    }
+
     public function getProfile()
     {
         try {
@@ -30,7 +119,7 @@ class ProfileChangeController extends BaseController
                 'id'         => $user->id,
                 'name'       => $user->name,
                 'email'      => $user->email,
-                'photo'      => $user->photo ? url('uploads/profile/' . $user->photo) : null,
+                'photo'      => $user->photo ? asset('uploads/profile/' . $user->photo) : null,
                 'photo_name' => $user->photo,
                 'role'       => $user->role ?? 'user',
                 'created_at' => $user->created_at,
@@ -49,6 +138,7 @@ class ProfileChangeController extends BaseController
 
     /**
      * Update user profile (name, email, photo)
+     * Supports partial updates - only provided fields will be updated
      *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -71,36 +161,64 @@ class ProfileChangeController extends BaseController
                 'has_photo' => $request->hasFile('photo')
             ]);
 
+            // Build validation rules dynamically
+            $rules = [];
+            $messages = [];
+
+            // Only validate name if provided
+            if ($request->has('name') && $request->name !== null) {
+                $rules['name'] = 'required|string|min:2|max:255';
+                $messages['name.required'] = 'Name cannot be empty if provided.';
+                $messages['name.min'] = 'Name must be at least 2 characters.';
+                $messages['name.max'] = 'Name cannot exceed 255 characters.';
+            }
+
+            // Only validate email if provided
+            if ($request->has('email') && $request->email !== null) {
+                $rules['email'] = 'required|email|unique:users,email,' . $user->id;
+                $messages['email.required'] = 'Email cannot be empty if provided.';
+                $messages['email.email'] = 'Please enter a valid email address.';
+                $messages['email.unique'] = 'This email is already taken by another user.';
+            }
+
+            // Always validate photo if file is uploaded
+            if ($request->hasFile('photo')) {
+                $rules['photo'] = 'image|mimes:jpeg,png,jpg,gif,webp|max:5120'; // 5MB max
+                $messages['photo.image'] = 'File must be an image.';
+                $messages['photo.mimes'] = 'Image must be jpeg, png, jpg, gif or webp format.';
+                $messages['photo.max'] = 'Image size cannot exceed 5MB.';
+            }
+
             // Validate request
-            $validator = Validator::make($request->all(), [
-                'name'  => 'required|string|min:2|max:255',
-                'email' => 'required|email|max:255|unique:users,email,' . $user->id,
-                'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120', // 5MB max
-            ], [
-                'name.required'     => 'Name is required.',
-                'name.min'          => 'Name must be at least 2 characters.',
-                'name.max'          => 'Name cannot exceed 255 characters.',
-                'email.required'    => 'Email is required.',
-                'email.email'       => 'Please enter a valid email address.',
-                'email.unique'      => 'This email is already taken by another user.',
-                'photo.image'       => 'File must be an image.',
-                'photo.mimes'       => 'Image must be jpeg, png, jpg, gif or webp format.',
-                'photo.max'         => 'Image size cannot exceed 5MB.',
-            ]);
+            $validator = Validator::make($request->all(), $rules, $messages);
 
             // Check validation errors
             if ($validator->fails()) {
                 return $this->sendError('Validation Error', $validator->errors(), 422);
             }
 
-            // Store old values for rollback if needed
-            $oldName = $user->name;
-            $oldEmail = $user->email;
-            $oldPhoto = $user->photo;
+            // Track if any changes were made
+            $changesMade = false;
 
-            // Update name and email
-            $user->name = trim($request->name);
-            $user->email = strtolower(trim($request->email));
+            // Update name if provided and different from current
+            if ($request->has('name') && $request->name !== null) {
+                $newName = trim($request->name);
+                if ($newName !== $user->name) {
+                    $user->name = $newName;
+                    $changesMade = true;
+                    Log::info('Name updated', ['old' => $user->name, 'new' => $newName]);
+                }
+            }
+
+            // Update email if provided and different from current
+            if ($request->has('email') && $request->email !== null) {
+                $newEmail = strtolower(trim($request->email));
+                if ($newEmail !== $user->email) {
+                    $user->email = $newEmail;
+                    $changesMade = true;
+                    Log::info('Email updated', ['old' => $user->email, 'new' => $newEmail]);
+                }
+            }
 
             // Handle photo upload
             if ($request->hasFile('photo')) {
@@ -108,32 +226,49 @@ class ProfileChangeController extends BaseController
 
                 if ($uploadedPhoto['success']) {
                     $user->photo = $uploadedPhoto['filename'];
+                    $changesMade = true;
+                    Log::info('Photo updated', ['filename' => $uploadedPhoto['filename']]);
                 } else {
                     Log::error('Photo upload failed', ['error' => $uploadedPhoto['error']]);
                     return $this->sendError('Photo upload failed.', ['error' => $uploadedPhoto['error']], 500);
                 }
             }
 
-            // Save user
-            if ($user->save()) {
-                // Prepare response data
+            // Save user if changes were made
+            if ($changesMade) {
+                if ($user->save()) {
+                    // Prepare response data
+                    $responseData = [
+                        'id'         => $user->id,
+                        'name'       => $user->name,
+                        'email'      => $user->email,
+                        'photo'      => $user->photo ? asset('uploads/profile/' . $user->photo) : null,
+                        'photo_name' => $user->photo,
+                        'role'       => $user->role ?? 'user',
+                        'updated_at' => $user->updated_at,
+                    ];
+
+                    Log::info('Profile updated successfully', ['user_id' => $user->id]);
+
+                    return $this->sendResponse($responseData, 'Profile updated successfully.');
+                } else {
+                    Log::error('Failed to save user profile', ['user_id' => $user->id]);
+                    return $this->sendError('Failed to update profile.', [], 500);
+                }
+            } else {
+                // No changes detected
                 $responseData = [
                     'id'         => $user->id,
                     'name'       => $user->name,
                     'email'      => $user->email,
-                    'photo'      => $user->photo ? url('uploads/profile/' . $user->photo) : null,
+                    'photo'      => $user->photo ? asset('uploads/profile/' . $user->photo) : null,
                     'photo_name' => $user->photo,
                     'role'       => $user->role ?? 'user',
                     'updated_at' => $user->updated_at,
                 ];
 
-                Log::info('Profile updated successfully', ['user_id' => $user->id]);
-
-                return $this->sendResponse($responseData, 'Profile updated successfully.');
-            } else {
-                // Rollback on failure
-                Log::error('Failed to save user profile', ['user_id' => $user->id]);
-                return $this->sendError('Failed to update profile.', [], 500);
+                Log::info('No changes detected in profile update', ['user_id' => $user->id]);
+                return $this->sendResponse($responseData, 'No changes were made to the profile.');
             }
 
         } catch (\Exception $e) {
@@ -167,11 +302,15 @@ class ProfileChangeController extends BaseController
             }
 
             // Generate unique filename
-            $extension = $file->getClientOriginalExtension();
-            $filename = time() . '_' . uniqid() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
-            // Sanitize filename
+            $extension = strtolower($file->getClientOriginalExtension());
+
+            // Create clean filename without original name to avoid double extensions
+            $timestamp = time();
+            $uniqueId = uniqid();
+            $filename = "profile_{$timestamp}_{$uniqueId}.{$extension}";
+
+            // Additional sanitization (should already be clean but just in case)
             $filename = preg_replace('/[^A-Za-z0-9_\-\.]/', '', $filename);
-            $filename = substr($filename, 0, 100) . '.' . $extension;
 
             // Move file to upload directory
             if ($file->move($uploadPath, $filename)) {

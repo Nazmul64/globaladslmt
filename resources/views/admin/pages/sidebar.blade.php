@@ -3,11 +3,23 @@
     <iconify-icon icon="radix-icons:cross-2"></iconify-icon>
   </button>
   <div>
-    <a href="index.html" class="sidebar-logo">
-      <img src="assets/images/logo.png" alt="site logo" class="light-logo">
-      <img src="assets/images/logo-light.png" alt="site logo" class="dark-logo">
-      <img src="assets/images/logo-icon.png" alt="site logo" class="logo-icon">
-    </a>
+
+@php
+    use App\Models\Settinglogo;
+    $photo = Settinglogo::first();
+@endphp
+
+<a href="{{ route('admin.dashboard') }}" class="sidebar-logo">
+    <img src="{{ $photo ? asset('uploads/logo/'.$photo->photo) : asset('admin/images/default-logo.png') }}"
+         alt="site logo" class="light-logo">
+
+    <img src="{{ $photo ? asset('uploads/logo/'.$photo->photo) : asset('admin/images/default-logo.png') }}"
+         alt="site logo" class="dark-logo">
+
+    <img src="{{ $photo ? asset('uploads/logo/'.$photo->photo) : asset('admin/images/default-logo.png') }}"
+         alt="site logo" class="logo-icon">
+</a>
+
   </div>
   <div class="sidebar-menu-area">
     <ul class="sidebar-menu" id="sidebar-menu">
@@ -35,7 +47,106 @@
             </li>
         </ul>
     </li>
+<li class="dropdown">
+    <a href="javascript:void(0)">
+        <i class="bi bi-currency-dollar menu-icon"></i>
+        <span>Deposit Edit</span>
+    </a>
+    <ul class="sidebar-submenu">
+        <li>
+            <a href="{{ route('admin.depositeblanceadd') }}">
+                <i class="bi bi-currency-dollar circle-icon"></i>
+                Deposit Edit
+            </a>
+        </li>
+    </ul>
+</li>
+ <li class="dropdown">
+        <a href="javascript:void(0)">
+            <iconify-icon icon="mdi:bank-transfer-out" class="menu-icon"></iconify-icon>
+            <span>privacy policies</span>
+        </a>
+
+        <ul class="sidebar-submenu">
+            <li>
+                <a href="{{ route('privacy.index') }}">
+                    <iconify-icon
+                        icon="mdi:cash-minus"
+                        class="circle-icon text-danger-600">
+                    </iconify-icon>
+                    privacy policies
+                </a>
+            </li>
+        </ul>
+</li>
+
+ <li class="dropdown">
+        <a href="javascript:void(0)">
+            <iconify-icon icon="mdi:bank-transfer-out" class="menu-icon"></iconify-icon>
+            <span>Child Safety Standards</span>
+        </a>
+
+        <ul class="sidebar-submenu">
+            <li>
+                <a href="{{ route('Childsafety.index') }}">
+                    <iconify-icon
+                        icon="mdi:cash-minus"
+                        class="circle-icon text-danger-600">
+                    </iconify-icon>
+                    Child Safety Standards
+                </a>
+            </li>
+        </ul>
+</li>
+
+
+
+
+
+
+
+
+
+
    <li class="dropdown">
+        <a href="javascript:void(0)">
+            <i class="bi bi-people-fill menu-icon"></i>
+            <span>  User Social Posts</span>
+        </a>
+        <ul class="sidebar-submenu">
+            <!-- Dollar Signed -->
+            <li>
+                <a href="{{ route('admin.usersocialposts') }}">
+                    <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                    User Social Posts
+                </a>
+            </li>
+
+        </ul>
+    </li>
+
+
+
+
+
+
+       <li class="dropdown">
+        <a href="javascript:void(0)">
+            <i class="bi bi-people-fill menu-icon"></i>
+            <span>Manual Deposit</span>
+        </a>
+        <ul class="sidebar-submenu">
+            <!-- Dollar Signed -->
+            <li>
+                <a href="{{ route('admin.balance.index') }}">
+                    <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                    Manual Deposit
+                </a>
+            </li>
+
+        </ul>
+    </li>
+    <li class="dropdown">
         <a href="javascript:void(0)">
             <i class="bi bi-people-fill menu-icon"></i>
             <span>Taka & Dollar Signed</span>
@@ -55,36 +166,131 @@
         <li class="dropdown">
             <a href="javascript:void(0)">
                 <i class="bi bi-people-fill menu-icon"></i>
-                <span>Agents</span>
+                <span>Agent System</span>
+                <span class="agent-system-badge">MODULE</span>
             </a>
             <ul class="sidebar-submenu">
-                <!-- Pending Agents -->
-                 <li>
+                <!-- Agents Management -->
+                <li>
                     <a href="{{ route('agentcreate.create') }}">
                         <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
-                         Agents  Create
+                        Agents Create
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('admin.agent.pending') }}">
-                        <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                        <i class="ri-circle-fill circle-icon text-warning w-auto"></i>
                         Pending Agents
                     </a>
                 </li>
-
-                <!-- Approved Agents -->
                 <li>
                     <a href="{{ route('agentapprovedlist') }}">
                         <i class="ri-circle-fill circle-icon text-success w-auto"></i>
                         Approved Agents
                     </a>
                 </li>
-
-                <!-- Rejected Agents -->
                 <li>
                     <a href="{{ route('admin.agent.rejectlist') }}">
                         <i class="ri-circle-fill circle-icon text-danger w-auto"></i>
                         Rejected Agents
+                    </a>
+                </li>
+
+                <!-- Agent Posts -->
+                <li>
+                    <a href="{{ route('agent.agentposts') }}">
+                        <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                        Agent Posts
+                    </a>
+                </li>
+
+                <!-- Agent Deposit Edit -->
+                <li>
+                    <a href="{{ route('admin.agent.balance.index') }}">
+                        <i class="bi bi-currency-dollar circle-icon"></i>
+                        Agent Deposit Edit
+                    </a>
+                </li>
+
+                <!-- Agent Deposit Pending & Lists -->
+                <li>
+                    <a href="{{ route('admin.agent.deposite.pending') }}">
+                        <i class="fa-solid fa-list me-2"></i>
+                        Agent Deposit Pending
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.agent.deposite.approved.list') }}">
+                        <i class="ri-circle-fill circle-icon text-success w-auto"></i>
+                        Agent Deposit Approved Lists
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.agent.deposite.reject.list') }}">
+                        <i class="ri-circle-fill circle-icon text-danger w-auto"></i>
+                        Agent Deposit Rejected Lists
+                    </a>
+                </li>
+
+                <!-- Agent KYC List -->
+                <li>
+                    <a href="{{ route('agent.kyc.list') }}">
+                        <i class="fa-solid fa-hourglass-half me-2 text-warning"></i>
+                        Pending / All Agent KYC List
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('agent.approved.kyc.list') }}">
+                        <i class="fa-solid fa-circle-check me-2 text-success"></i>
+                        Approved Agent KYC List
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('agent.kyc.reject.list') }}">
+                        <i class="fa-solid fa-circle-xmark me-2 text-danger"></i>
+                        Rejected Agent KYC List
+                    </a>
+                </li>
+
+                <!-- Agent Withdraw Commission -->
+                <li>
+                    <a href="{{ route('agentwidthrawcommission.index') }}">
+                        <iconify-icon icon="mdi:cash-minus" class="circle-icon text-danger-600"></iconify-icon>
+                        Agent Withdraw Commission
+                    </a>
+                </li>
+
+                <!-- Agent Withdraw -->
+                <li>
+                    <a href="{{ route('widthraw.list') }}">
+                        <iconify-icon icon="mdi:cash-minus" class="circle-icon text-danger-600"></iconify-icon>
+                        Agent Withdraw Requests
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('agent.widthraw.approved.list') }}">
+                        <iconify-icon icon="mdi:check-circle-outline" class="circle-icon text-success-600"></iconify-icon>
+                        Agent Withdraw Approved
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('agent.widthraw.reject.list') }}">
+                        <iconify-icon icon="mdi:close-circle-outline" class="circle-icon text-danger-600"></iconify-icon>
+                        Agent Withdraw Rejected
+                    </a>
+                </li>
+
+                <!-- Dollar Lock System -->
+                <li>
+                    <a href="{{ route('locksystem.index') }}">
+                        <i class="bi bi-cash-coin me-2"></i>
+                        Global Dollar Lock Setting
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('locksystem.manage-agents') }}">
+                        <i class="bi bi-person-lock me-2"></i>
+                        Manage Individual Agent Locks
                     </a>
                 </li>
             </ul>
@@ -127,6 +333,25 @@
             </li>
         </ul>
     </li>
+        <li class="dropdown">
+        <a href="javascript:void(0)">
+            <!-- Payment icon -->
+            <i class="ri-wallet-line text-xl me-14 d-flex w-auto"></i>
+            <span>logosetting</span>
+        </a>
+        <ul class="sidebar-submenu">
+            <li>
+                <a href="{{ route('logosetting.index') }}">
+                    <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                    logosetting
+                </a>
+            </li>
+
+        </ul>
+    </li>
+
+
+
     <li class="dropdown">
         <a href="javascript:void(0)">
             <!-- Notice icon -->
@@ -140,13 +365,18 @@
                    Package Buy Notice
                 </a>
             </li>
-              <li>
+            <li>
                 <a href="{{ route('worknotice.index') }}">
                     <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
                     WorkNotice Setup
                 </a>
             </li>
-
+            <li>
+                <a href="{{ route('agentnotices.index') }}">
+                    <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
+                    Agent Notices
+                </a>
+            </li>
         </ul>
     </li>
     <li class="dropdown">
@@ -262,53 +492,8 @@
             </li>
         </ul>
     </li>
-    <li class="dropdown">
-        <a href="javascript:void(0)">
-            <i class="fa-solid fa-id-card-clip fa-xl me-2"></i>
-            <span>Agent KYC List</span>
-        </a>
-        <ul class="sidebar-submenu">
 
-            <!-- Pending/All KYC List -->
-            <li>
-                <a href="{{ route('kyc.list') }}">
-                    <i class="fa-solid fa-hourglass-half fa-lg me-2 text-warning"></i>
-                    Pending / All KYC List
-                </a>
-            </li>
 
-            <!-- Approved KYC List -->
-            <li>
-                <a href="{{ route('agent.approved.kyc.list') }}">
-                    <i class="fa-solid fa-circle-check fa-lg me-2 text-success"></i>
-                    Approved Agent KYC List
-                </a>
-            </li>
-
-            <!-- Rejected KYC List -->
-            <li>
-                <a href="{{ route('agent.kyc.reject.list') }}">
-                    <i class="fa-solid fa-circle-xmark fa-lg me-2 text-danger"></i>
-                    Rejected Agent KYC List
-                </a>
-            </li>
-
-        </ul>
-    </li>
-    <li class="dropdown">
-        <a href="javascript:void(0)">
-            <i class="fa-solid fa-box fa-xl me-2"></i>
-            <span>Ads Setup</span>
-        </a>
-        <ul class="sidebar-submenu">
-            <li>
-                <a href="{{ route('ads.index') }}">
-                    <i class="fa-solid fa-box fa-lg me-2"></i>
-                    Ads SetupList
-                </a>
-            </li>
-        </ul>
-    </li>
     <li class="dropdown">
         <a href="javascript:void(0)">
             <i class="fa-solid fa-coins fa-xl me-2"></i>
@@ -329,32 +514,7 @@
             </li>
         </ul>
     </li>
-    <li class="dropdown">
-        <a href="javascript:void(0)">
-            <i class="fa-solid fa-coins fa-xl me-2"></i>
-            <span>Agent Deposite Pending</span>
-        </a>
-        <ul class="sidebar-submenu">
-            <li>
-                <a href="{{ route('admin.agent.deposite.pending') }}">
-                    <i class="fa-solid fa-list fa-lg me-2"></i>
-                    Agent Deposite Pending
-                </a>
-            </li>
-            <li>
-            <a href="{{route('admin.agent.deposite.approved.list')}}">
-                <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
-                Approved  Lists
-            </a>
-            </li>
-            <li>
-            <a href="{{route('admin.agent.deposite.reject.list')}}">
-                <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i>
-                Rejected Lists
-            </a>
-            </li>
-        </ul>
-    </li>
+
 
     <li class="dropdown">
         <a href="javascript:void(0)">
@@ -411,6 +571,176 @@
           </li>
         </ul>
       </li>
+      <li class="dropdown">
+        <a href="javascript:void(0)">
+          <iconify-icon icon="icon-park-outline:setting-two" class="menu-icon"></iconify-icon>
+          <span>App Setting</span>
+        </a>
+        <ul class="sidebar-submenu">
+          <li>
+            <a href="{{route('appsetting.index')}}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> App Setting (StarApp & AdMob)</a>
+          </li>
+          <li>
+            <a href="{{route('admin.homecards.index')}}"><i class="ri-circle-fill circle-icon text-success-600 w-auto"></i> Home Cards & Colors</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="javascript:void(0)">
+          <iconify-icon icon="ri-mail-settings-line" class="menu-icon"></iconify-icon>
+          <span>Mail Configuration</span>
+        </a>
+        <ul class="sidebar-submenu">
+          <li>
+            <a href="{{route('mailsetting.index')}}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Mail Configuration</a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="javascript:void(0)">
+          <iconify-icon icon="ri-google-line" class="menu-icon"></iconify-icon>
+          <span>Google Ads Approval</span>
+        </a>
+        <ul class="sidebar-submenu">
+          <li>
+            <a href="{{route('googleadsapproval.index')}}"><i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Google Ads Approval</a>
+          </li>
+        </ul>
+      </li>
+    <li class="dropdown">
+        <a href="javascript:void(0)">
+            <iconify-icon icon="mdi:theme-light-dark" class="menu-icon"></iconify-icon>
+            <span>Themechange</span>
+        </a>
+        <ul class="sidebar-submenu">
+            <li>
+            <a href="{{route('themechange.index')}}">
+                <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Themechange
+            </a>
+            </li>
+        </ul>
+    </li>
+   <li class="dropdown">
+        <a href="javascript:void(0)">
+            <iconify-icon icon="mdi:theme-light-dark" class="menu-icon"></iconify-icon>
+            <span>Deposit Instructions</span>
+        </a>
+        <ul class="sidebar-submenu">
+            <li>
+                <a href="{{ route('depositeinstructions.index') }}">
+                    <!-- Add deposit icon here -->
+                    <iconify-icon icon="mdi:bank-transfer" class="circle-icon text-primary-600"></iconify-icon>
+                    Deposit Instructions
+                </a>
+            </li>
+        </ul>
+    </li>
+
+    <li class="dropdown">
+        <a href="javascript:void(0)">
+            <iconify-icon icon="mdi:theme-light-dark" class="menu-icon"></iconify-icon>
+            <span>Widthraw Instructions</span>
+        </a>
+        <ul class="sidebar-submenu">
+            <li>
+                <a href="{{ route('widthrawInstruction.index') }}">
+                    <!-- Add deposit icon here -->
+                    <iconify-icon icon="mdi:bank-transfer" class="circle-icon text-primary-600"></iconify-icon>
+                    Widthraw Instructions
+                </a>
+            </li>
+        </ul>
+    </li>
+
+
+
+<!-- Notification System Dropdown Menu -->
+<li class="sidebar-dropdown">
+    <a href="#" class="dropdown-toggle">
+        <iconify-icon icon="mdi:bell-badge" class="menu-icon"></iconify-icon>
+        <span>Notification System</span>
+    </a>
+
+    <ul class="sidebar-submenu">
+        <li>
+            <a href="{{ route('firebase.index') }}"
+               class="{{ request()->routeIs('notification.firebase.*') ? 'active-page' : '' }}">
+                Firebase Apps
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ route('send') }}"
+               class="{{ request()->routeIs('notification.send.*') ? 'active-page' : '' }}">
+                Send Notification
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ route('history') }}"
+               class="{{ request()->routeIs('notification.history') ? 'active-page' : '' }}">
+                Notification History
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ route('users.index') }}"
+               class="{{ request()->routeIs('notification.users.*') ? 'active-page' : '' }}">
+                App Users
+            </a>
+        </li>
+    </ul>
+</li>
+
+    <li class="dropdown">
+        <a href="javascript:void(0)">
+            <i class="fa-solid fa-server fa-xl me-2 text-warning"></i>
+            <span>Server Mode Setting</span>
+        </a>
+        <ul class="sidebar-submenu">
+            <li>
+                <a href="{{ route('admin.server.setting') }}">
+                    <i class="fa-solid fa-network-wired fa-lg me-2 text-primary"></i>
+                    Local / Live Server Switch
+                </a>
+            </li>
+        </ul>
+    </li>
+
+
+<script>
+$(document).ready(function () {
+
+    $('.dropdown-toggle').on('click', function (e) {
+        e.preventDefault();
+
+        let parent = $(this).closest('.sidebar-dropdown');
+        let submenu = parent.find('.sidebar-submenu');
+
+        // Close others
+        $('.sidebar-dropdown').not(parent).removeClass('active')
+            .find('.sidebar-submenu').slideUp(300);
+
+        // Toggle current
+        parent.toggleClass('active');
+        submenu.slideToggle(300);
+    });
+
+    // Auto open if active page exists
+    $('.sidebar-submenu .active-page').each(function () {
+        $(this).closest('.sidebar-submenu').show();
+        $(this).closest('.sidebar-dropdown').addClass('active');
+    });
+
+});
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+
+
+
     </ul>
   </div>
 </aside>

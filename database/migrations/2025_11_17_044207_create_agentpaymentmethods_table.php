@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('method_name')->nullable();
             $table->string('method_number')->nullable();
             $table->string('photo')->nullable();
+            $table->unsignedBigInteger('agent_id')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });

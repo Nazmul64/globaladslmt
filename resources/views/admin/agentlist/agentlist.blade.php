@@ -14,8 +14,9 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>Name</th>
                 <th>Email</th>
+                <th>Mobile</th>
+                <th>Name</th>
                 <th>Country</th>
                 <th>Status</th>
                 <th>Actions</th>
@@ -25,8 +26,9 @@
             @foreach($agents as $agent)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $agent->name }}</td>
                 <td>{{ $agent->email }}</td>
+                <td>{{ $agent->mobile }}</td>
+                <td>{{ $agent->name }}</td>
                 <td>{{ $agent->country }}</td>
                 <td>{{ ucfirst($agent->status) }}</td>
                 <td>

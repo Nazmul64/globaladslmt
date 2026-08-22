@@ -36,6 +36,7 @@
   <link rel="stylesheet" href="{{asset('admin')}}/assets/css/lib/audioplayer.css">
   <!-- main css -->
   <link rel="stylesheet" href="{{asset('admin')}}/assets/css/style.css">
+  <link rel="stylesheet" href="{{asset('admin')}}/assets/css/custom-admin.css">
   <!-- Favicon -->
 
 

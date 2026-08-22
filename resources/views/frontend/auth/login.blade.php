@@ -214,6 +214,28 @@
             .card { padding: 30px 20px 25px; }
             .avatar { width: 80px; height: 80px; }
         }
+
+        .approval-btn {
+            width: 100%;
+            padding: 16px;
+            background: transparent;
+            color: #ff6b4a;
+            border: 2px solid #ff6b4a;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .approval-btn:hover {
+            background: rgba(255, 107, 74, 0.05);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -246,7 +268,7 @@
 
                 <!-- Forgot Password -->
                 <div class="forgot-password">
-                    <a href="#" id="forgotPasswordLink">Forgot password?</a>
+                    <a href="{{route('user.password.request')}}" id="forgotPasswordLink">Forgot password?</a>
                 </div>
 
                 <!-- Login Button -->
@@ -257,6 +279,8 @@
 
                 <!-- Sign Up Button -->
                 <a href="{{ route('user.register') }}" class="signup-btn">Sign Up</a>
+
+
             </form>
         </div>
     </div>

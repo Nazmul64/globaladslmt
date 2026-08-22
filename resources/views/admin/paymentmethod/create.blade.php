@@ -15,15 +15,47 @@
             @enderror
         </div>
         <div class="mb-3">
-            <label for="method_number" class="form-label">Method Number</label>
+            <label for="method_number" class="form-label">Method Number / Address</label>
             <input type="text" name="method_number" class="form-control" value="{{ old('method_number') }}">
             @error('method_number')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
+        </div>
 
         <div class="mb-3">
-            <label for="photo" class="form-label">Photo (optional)</label>
-            <input type="file" name="photo" class="form-control">
+            <label for="number_type" class="form-label">Field Label (Account Number / Wallet Address)</label>
+            <select name="number_type" class="form-select">
+                <option value="Account Number" {{ old('number_type') == 'Account Number' ? 'selected' : '' }}>Account Number</option>
+                <option value="Wallet Address" {{ old('number_type') == 'Wallet Address' ? 'selected' : '' }}>Wallet Address</option>
+            </select>
+            @error('number_type')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="usd_rate" class="form-label">USD Rate (Optional, e.g., 128BDT=1$)</label>
+            <input type="text" name="usd_rate" class="form-control" value="{{ old('usd_rate') }}" placeholder="Leave blank if not set (e.g., 128BDT=1$)">
+            @error('usd_rate')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="is_exchange_rate_active" class="form-label">Exchange Rate Status (Show/Calculate in App)</label>
+            <select name="is_exchange_rate_active" class="form-select">
+                <option value="0" {{ old('is_exchange_rate_active') == '0' ? 'selected' : '' }}>Disabled / বন্ধ (Off)</option>
+                <option value="1" {{ old('is_exchange_rate_active') == '1' ? 'selected' : '' }}>Enabled / সক্রিয় (On)</option>
+            </select>
+            <small class="text-muted">যদি সক্রিয় (On) থাকে তাহলে অ্যাপসে এক্সচেঞ্জ রেট শো করবে এবং অ্যামাউন্ট ক্যালকুলেশন কাজ করবে।</small>
+            @error('is_exchange_rate_active')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="photo" class="form-label">Payment Method Logo / Image</label>
+            <input type="file" name="photo" class="form-control" accept="image/*">
             @error('photo')
                 <span class="text-danger">{{ $message }}</span>
             @enderror

@@ -15,10 +15,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/custom.css') }}">
 
-    <!-- ✅ START.IO SDK (Load First) -->
-    <script src="https://s.start.io/js/sdk/v1/start.min.js" async></script>
-    <script src="https://cdn.start.io/adunit.js"></script>
-    <script type="text/javascript" src="https://cdn.start.io/sdk/v1/start.min.js"></script>
+    <!-- ✅ START.IO SDK -->
 </head>
 
 <body>
@@ -33,11 +30,13 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // ✅ Start.io banner initialization
-            startio.display('startio-banner', {
-                appId: '{{ $start_io->code ?? "default_app_id" }}',
-                placementId: '{{ $start_io->code ?? "default_placement_id" }}'
-            });
+            // ✅ Start.io banner initialization check
+            if (typeof startio !== 'undefined' && typeof startio.display === 'function') {
+                startio.display('startio-banner', {
+                    appId: '{{ $start_io->code ?? "default_app_id" }}',
+                    placementId: '{{ $start_io->code ?? "default_placement_id" }}'
+                });
+            }
         });
     </script>
 

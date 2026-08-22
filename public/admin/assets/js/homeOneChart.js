@@ -106,8 +106,10 @@
     }
   };
 
-    var chart = new ApexCharts(document.querySelector("#chart"), options);
-    chart.render();
+    if (document.querySelector("#chart")) {
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+    }
   // =========================== Sales Statistic Line Chart End ===============================
 
   // ================================ Total Subscriber bar chart Start ================================ 
@@ -191,8 +193,10 @@
       },
   };
 
-  var chart = new ApexCharts(document.querySelector("#barChart"), options);
-  chart.render();
+  if (document.querySelector("#barChart")) {
+    var chart = new ApexCharts(document.querySelector("#barChart"), options);
+    chart.render();
+  }
   // ================================ Total Subscriber bar chart End ================================ 
 
     // ================================ Users Overview Donut chart Start ================================ 
@@ -241,8 +245,10 @@
       }],
     };
 
-    var chart = new ApexCharts(document.querySelector("#userOverviewDonutChart"), options);
-    chart.render();
+    if (document.querySelector("#userOverviewDonutChart")) {
+      var chart = new ApexCharts(document.querySelector("#userOverviewDonutChart"), options);
+      chart.render();
+    }
   // ================================ Users Overview Donut chart End ================================ 
 
   // ================================ Revenue Report Chart Start ================================ 
@@ -298,11 +304,14 @@
       },
     };
 
-    var chart = new ApexCharts(document.querySelector("#paymentStatusChart"), options);
-    chart.render();
+    if (document.querySelector("#paymentStatusChart")) {
+      var chart = new ApexCharts(document.querySelector("#paymentStatusChart"), options);
+      chart.render();
+    }
   // ================================ Revenue Report Chart End ================================ 
   
   // ================================ J Vector Map Start ================================ 
+  if ($('#world-map').length) {
   $('#world-map').vectorMap(
     {
       map: 'world_mill_en',
@@ -372,4 +381,5 @@
       enableZoom: false,
       hoverColor: '#fff',
     }); 
+  }
   // ================================ J Vector Map End ================================ 

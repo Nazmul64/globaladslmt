@@ -2,6 +2,27 @@
     <div class="header-content">
         <i class="fas fa-bars menu-icon" onclick="toggleSidebar()"></i>
         <div class="app-title">Global Money Ltd</div>
+        <div class="header-controls">
+
+                @if(session('impersonate_admin_id'))
+                    {{-- Admin → Agent impersonating --}}
+                    <a href="{{ route('admin.stopImpersonate') }}"
+                    class="text-black"
+                    style="background:#F5CE0D; padding:14px; color:white; border-radius:50px;">
+                        Back to Admin
+                    </a>
+                @else
+                    {{-- Normal Admin --}}
+                    <a href="{{ route('frontend.index') }}"
+                    class="text-black"
+                    style="background:#F5CE0D; padding:14px; color:white; border-radius:50px;"
+                    target="_blank">
+                        Home
+                    </a>
+                @endif
+
+            </div>
+
 
         <!-- Search Bar -->
         <div class="search-bar">

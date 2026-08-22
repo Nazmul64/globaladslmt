@@ -2,6 +2,7 @@
 
   <div class="navbar-header">
   <div class="row align-items-center justify-content-between">
+
     <div class="col-auto">
       <div class="d-flex flex-wrap align-items-center gap-4">
         <button type="button" class="sidebar-toggle">
@@ -11,9 +12,27 @@
         <button type="button" class="sidebar-mobile-toggle">
           <iconify-icon icon="heroicons:bars-3-solid" class="icon"></iconify-icon>
         </button>
+             <div class="header-controls">
 
+            @if(session()->has('impersonate_admin_id'))
+                <a href="{{ route('admin.stopImpersonate') }}"
+                class="text-black"
+                style="background:#F5CE0D; padding:14px; color:white; border-radius:50px;">
+                Back to Admin
+                </a>
+            @else
+                <a href="{{ route('admin.dashboard') }}"
+                class="text-black"
+                style="background:#F5CE0D; padding:14px; color:white; border-radius:50px;"
+                target="_blank">
+                Home
+                </a>
+            @endif
+
+        </div>
       </div>
     </div>
+
     <div class="col-auto">
       <div class="d-flex flex-wrap align-items-center gap-3">
         <button type="button" data-theme-toggle

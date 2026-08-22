@@ -11,7 +11,7 @@ class AdminkeyapprovedController extends Controller
 {
      public function kyclist()
     {
-        $kycs = Kyc::all();
+        $kycs = Kyc::with('kycagent')->get();
         return view('admin.key.approved_list', compact('kycs'));
     }
 

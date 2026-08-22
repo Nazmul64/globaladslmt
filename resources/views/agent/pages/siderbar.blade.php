@@ -3,11 +3,24 @@
     <iconify-icon icon="radix-icons:cross-2"></iconify-icon>
   </button>
   <div>
-    <a href="index.html" class="sidebar-logo">
-      <img src="assets/images/logo.png" alt="site logo" class="light-logo">
-      <img src="assets/images/logo-light.png" alt="site logo" class="dark-logo">
-      <img src="assets/images/logo-icon.png" alt="site logo" class="logo-icon">
-    </a>
+
+@php
+    use App\Models\Settinglogo;
+    $photo = Settinglogo::first();
+@endphp
+
+<a href="{{ route('agent.dashboard') }}" class="sidebar-logo">
+    <img src="{{ $photo ? asset('uploads/logo/'.$photo->photo) : asset('admin/images/default-logo.png') }}"
+         alt="site logo" class="light-logo">
+
+    <img src="{{ $photo ? asset('uploads/logo/'.$photo->photo) : asset('admin/images/default-logo.png') }}"
+         alt="site logo" class="dark-logo">
+
+    <img src="{{ $photo ? asset('uploads/logo/'.$photo->photo) : asset('admin/images/default-logo.png') }}"
+         alt="site logo" class="logo-icon">
+</a>
+
+
   </div>
   <div class="sidebar-menu-area">
     <ul class="sidebar-menu" id="sidebar-menu">
@@ -30,6 +43,50 @@
 
         </ul>
       </li>
+
+
+
+
+    <li class="dropdown">
+        <a href="javascript:void(0)">
+            <iconify-icon
+                icon="mdi:bank-transfer-out"
+                class="menu-icon">
+            </iconify-icon>
+            <span>Withdraw</span>
+        </a>
+
+        <ul class="sidebar-submenu">
+            <li>
+                <a href="{{ route('agentwidhraw') }}">
+                    <iconify-icon
+                        icon="mdi:cash-minus"
+                        class="circle-icon text-danger-600">
+                    </iconify-icon>
+                    Withdraw
+                </a>
+            </li>
+        </ul>
+    </li>
+
+
+<li class="dropdown">
+    <a href="javascript:void(0)">
+        <iconify-icon icon="mdi:bank-transfer-out" class="menu-icon"></iconify-icon>
+        <span>Withdraw Status</span>
+    </a>
+    <ul class="sidebar-submenu">
+        <li>
+            <a href="{{ route('agent.withdraw.pending') }}">
+                <iconify-icon icon="mdi:cash-minus" class="circle-icon text-danger-600"></iconify-icon>
+                Withdraw Requests
+            </a>
+        </li>
+    </ul>
+</li>
+
+
+
       <li class="dropdown">
         <a href="javascript:void(0)">
           <iconify-icon icon="icon-park-outline:setting-two" class="menu-icon"></iconify-icon>
@@ -62,6 +119,15 @@
             <span>Deposite</span>
         </a>
         <ul class="sidebar-submenu">
+
+
+             <!-- 🏦 pending -->
+            <li>
+                <a href="{{ route('agent.deposite.pending.list') }}">
+                    <iconify-icon icon="mdi:cash-plus" class="menu-icon text-success"></iconify-icon>
+                    Deposite pending
+                </a>
+            </li>
             <!-- 🏦 Deposit -->
             <li>
                 <a href="{{ route('agent.deposite') }}">

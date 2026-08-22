@@ -31,4 +31,11 @@ class UserWidhrawrequest extends Model
     {
         return $this->belongsTo(User::class, 'agent_id');
     }
+
+
+
+public function category()
+{
+    return $this->belongsTo(Category::class);
+}
 }

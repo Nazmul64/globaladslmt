@@ -16,8 +16,10 @@ return new class extends Migration
         $table->string('package_name');
         $table->string('price');
         $table->string('photo');
-        $table->string('daily_income');
-        $table->string('daily_limit');
+        $table->decimal('daily_income', 10, 2);    // 0.10, 1.25
+        $table->decimal('daily_limit', 10, 2);
+        $table->string('validity')->default('30 Days');
+        $table->string('ad_brack');
         $table->timestamps();
     });
 }

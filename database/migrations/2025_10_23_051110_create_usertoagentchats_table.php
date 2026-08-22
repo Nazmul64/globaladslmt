@@ -12,11 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('usertoagentchats', function (Blueprint $table) {
-             $table->id();
+            $table->id();
             $table->unsignedBigInteger('sender_id');
             $table->unsignedBigInteger('receiver_id');
             $table->text('message')->nullable();
-            $table->string('image')->nullable();
+            $table->text('image')->nullable();
+            // ✅ CRITICAL FIX: Add message_type column
+            $table->enum('message_type', ['text', 'image'])->default('text');
             $table->boolean('is_read')->default(false);
             $table->timestamps();
 
@@ -35,6 +37,7 @@ return new class extends Migration
             $table->index(['sender_id', 'receiver_id']);
             $table->index(['receiver_id', 'is_read']);
             $table->index('created_at');
+            $table->index('message_type'); // ✅ Index for filtering by type
         });
     }
 

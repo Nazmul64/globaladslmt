@@ -21,6 +21,11 @@
             <input type="email" name="email" class="form-control" value="{{ old('email', $agent->email) }}">
             @error('email') <span class="text-danger">{{ $message }}</span> @enderror
         </div>
+         <div class="mb-3">
+            <label class="form-label">Mobile</label>
+            <input type="text" name="mobile" class="form-control" value="{{ old('mobile', $agent->mobile) }}">
+            @error('mobile') <span class="text-danger">{{ $message }}</span> @enderror
+        </div>
 
         <!-- Country -->
         <div class="mb-3">

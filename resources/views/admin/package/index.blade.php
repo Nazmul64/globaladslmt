@@ -24,6 +24,7 @@
                         <th>Price</th>
                         <th>Daily Income</th>
                         <th>Daily Limit</th>
+                        <th>Validity</th>
                         <th>Photo</th>
                         <th>Actions</th>
                     </tr>
@@ -36,6 +37,7 @@
                             <td>${{ $package->price }}</td>
                             <td>${{ $package->daily_income }}</td>
                             <td>{{ $package->daily_limit }}</td>
+                            <td>{{ $package->validity }}</td>
                             <td>
                                 @if($package->photo)
                                     <img src="{{ asset('uploads/package/'.$package->photo) }}" alt="Package Image" width="50">

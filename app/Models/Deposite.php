@@ -14,9 +14,10 @@ class Deposite extends Model
         'status',
         'new_photo',
         'photo',
+        'agent_id',
+        'post_id',
+        'payment_method_id', // ✅ এটা add করা হয়েছে
     ];
-
-
     public function user() {
         return $this->belongsTo(User::class);
     }
@@ -24,6 +25,9 @@ class Deposite extends Model
     public function paymentMethod() {
         return $this->belongsTo(PaymentMethod::class);
     }
+
+
+
 
 
 }

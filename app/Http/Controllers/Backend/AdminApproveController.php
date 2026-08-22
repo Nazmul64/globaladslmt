@@ -11,7 +11,7 @@ class AdminApproveController extends Controller
     // Show all pending agents
     public function pendingAgents()
     {
-        $agents = User::where('role','agent')->where('status','pending')->get();
+        $agents = User::with('kycagent')->where('role','agent')->where('status','pending')->get();
         return view('admin.agentlist.agentlist', compact('agents'));
     }
 
@@ -37,7 +37,7 @@ class AdminApproveController extends Controller
     public function agentapprovedlist()
     {
         // Fetch agents with status 'approved'
-        $agents = User::where('role', 'agent')->where('status', 'approved')->get();
+        $agents = User::with('kycagent')->where('role', 'agent')->where('status', 'approved')->get();
 
         return view('admin.agentlist.approved_list', compact('agents'));
     }

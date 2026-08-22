@@ -13,9 +13,8 @@ class PaymentmethodController extends Controller
    public function paymentmethod()
 {
     try {
-        // Get Payment Methods
-        $paymentMethods = Paymentmethod::select('method_name', 'method_number', 'photo')
-            ->get()
+        // Get Active Payment Methods
+        $paymentMethods = Paymentmethod::all()
             ->map(function ($method) {
 
                 $photoPath = null;
@@ -34,10 +33,30 @@ class PaymentmethodController extends Controller
                         : 'https://via.placeholder.com/120x60/FF6B6B/FFFFFF?text=' . urlencode($method->method_name);
                 }
 
+                // Parse numeric USD rate if present e.g. "128", "120BDT=1$", "120"
+                $rawUsdRate = $method->usd_rate;
+                $numericRate = null;
+                if (!empty($rawUsdRate)) {
+                    preg_match('/([\d\.]+)/', $rawUsdRate, $matches);
+                    if (!empty($matches[1])) {
+                        $numericRate = (float)$matches[1];
+                    }
+                }
+
+                $isExchangeRateActive = (bool) ($method->is_exchange_rate_active ?? false);
+
                 return [
-                    'method_name'   => $method->method_name,
-                    'method_number' => $method->method_number,
-                    'photo'         => $photoPath,
+                    'id'                      => $method->id,
+                    'method_name'             => $method->method_name,
+                    'method_number'           => $method->method_number,
+                    'number_type'             => $method->number_type ?? 'Account Number',
+                    'field_label'             => $method->number_type ?? 'Account Number',
+                    'label_type'              => $method->number_type ?? 'Account Number',
+                    'usd_rate'                => $isExchangeRateActive ? $method->usd_rate : null,
+                    'usd_rate_bdt'            => $isExchangeRateActive ? $numericRate : null,
+                    'is_exchange_rate_active' => $isExchangeRateActive,
+                    'photo'                   => $photoPath,
+                    'status'                  => $method->status ?? 'active',
                 ];
             });
 

@@ -127,6 +127,17 @@ document.addEventListener("DOMContentLoaded", function() {
             </div>
             <div class="menu-label">Total Deposite</div>
         </div>
+   <div class="menu-card">
+        <div class="menu-icon-circle">
+            <a href="{{ route('posts.index') }}">
+                <i class="fas fa-edit" style="color:white;"></i>
+            </a>
+        </div>
+        <div class="menu-label">Create Post</div>
+    </div>
+
+
+
 
     </div>
     <button class="usertoadminchat-floating-btn" id="usertoadminchatButton">
@@ -266,34 +277,57 @@ document.addEventListener("DOMContentLoaded", function() {
     const chatWindow = document.getElementById("usertoadminchatWindow");
 
     const receiverId = 1; // Admin ID
+    const currentUserId = {{ auth()->id() ?? 0 }};
     let chatOpen = false;
     let unreadCount = 0;
+    let lastSeenMsgId = 0;
+    let initialLoadComplete = false;
+
+    const customerAudio = new Audio("https://cdn.freesound.org/previews/316/316847_4939433-lq.mp3");
 
     // Load messages
     async function loadMessages(markRead = false) {
         try {
-            const res = await fetch("{{ route('usertoadminchat.fetch') }}");
+            const res = await fetch("{{ route('usertoadminchat.fetch') }}", {
+                headers: {
+                    "Accept": "application/json"
+                }
+            });
+            if (!res.ok) return;
+            const contentType = res.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) return;
+
             const data = await res.json();
+            if (!Array.isArray(data)) return;
 
             messagesContainer.innerHTML = "";
             unreadCount = 0;
+            let hasNewAdminMsg = false;
 
             data.forEach(msg => {
                 const div = document.createElement("div");
                 div.classList.add(
                     "usertoadminchat-message",
-                    msg.sender_id === {{ auth()->id() }} ? "usertoadminchat-user" : "usertoadminchat-admin"
+                    msg.sender_id === currentUserId ? "usertoadminchat-user" : "usertoadminchat-admin"
                 );
+
+                let imageHtml = '';
+                if (msg.image) {
+                    let imgUrl = msg.image.startsWith('http')
+                        ? msg.image
+                        : (msg.image.startsWith('/') ? msg.image : '/' + msg.image);
+                    imageHtml = `<div class="usertoadminchat-message-image mt-1"><img src="${imgUrl}" alt="Attachment" style="max-width: 100%; max-height: 200px; border-radius: 8px; cursor: pointer;" onclick="window.open('${imgUrl}', '_blank')"></div>`;
+                }
 
                 let html = `
                     <div class="usertoadminchat-message-avatar">
-                        ${msg.sender_id === {{ auth()->id() }} ? '<i class="fas fa-user"></i>' : 'A'}
+                        ${msg.sender_id === currentUserId ? '<i class="fas fa-user"></i>' : 'A'}
                     </div>
                     <div class="usertoadminchat-message-content">
-                        ${msg.sender_id !== {{ auth()->id() }} ? '<div class="usertoadminchat-admin-badge">Admin</div>' : ''}
+                        ${msg.sender_id !== currentUserId ? '<div class="usertoadminchat-admin-badge">Admin</div>' : ''}
                         <div class="usertoadminchat-message-bubble">
-                            ${msg.message || ''}
-                            ${msg.image ? `<div class="usertoadminchat-message-image"><img src="/storage/${msg.image}" alt=""></div>` : ''}
+                            ${msg.message ? msg.message : ''}
+                            ${imageHtml}
                         </div>
                         <div class="usertoadminchat-message-time">${new Date(msg.created_at).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</div>
                     </div>
@@ -301,8 +335,21 @@ document.addEventListener("DOMContentLoaded", function() {
                 div.innerHTML = html;
                 messagesContainer.appendChild(div);
 
-                if (!msg.is_read && msg.sender_id !== {{ auth()->id() }}) unreadCount++;
+                if (!msg.is_read && msg.sender_id !== currentUserId) unreadCount++;
+
+                if (msg.sender_id !== currentUserId && msg.id > lastSeenMsgId) {
+                    if (initialLoadComplete) {
+                        hasNewAdminMsg = true;
+                    }
+                }
+                lastSeenMsgId = Math.max(lastSeenMsgId, msg.id);
             });
+
+            initialLoadComplete = true;
+
+            if (hasNewAdminMsg) {
+                customerAudio.play().catch(e => console.log("Audio play blocked by browser policy:", e));
+            }
 
             badge.textContent = unreadCount;
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -313,6 +360,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
+                        "Accept": "application/json",
                         "X-CSRF-TOKEN": "{{ csrf_token() }}"
                     },
                     body: JSON.stringify({ sender_id: receiverId })
