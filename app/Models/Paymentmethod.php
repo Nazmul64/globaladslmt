@@ -14,11 +14,13 @@ class Paymentmethod extends Model
         'number_type',
         'usd_rate',
         'is_exchange_rate_active',
+        'is_account_number_active',
         'new_photo',
     ];
     protected $casts = [
         'method_number' => 'string',
         'is_exchange_rate_active' => 'boolean',
+        'is_account_number_active' => 'boolean',
     ];
 
  public function paymentMethod() {

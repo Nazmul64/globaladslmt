@@ -44,6 +44,7 @@ class PaymentmethodController extends Controller
                 }
 
                 $isExchangeRateActive = (bool) ($method->is_exchange_rate_active ?? false);
+                $isAccountNumberActive = (bool) ($method->is_account_number_active ?? true);
 
                 return [
                     'id'                      => $method->id,
@@ -55,6 +56,7 @@ class PaymentmethodController extends Controller
                     'usd_rate'                => $isExchangeRateActive ? $method->usd_rate : null,
                     'usd_rate_bdt'            => $isExchangeRateActive ? $numericRate : null,
                     'is_exchange_rate_active' => $isExchangeRateActive,
+                    'is_account_number_active'=> $isAccountNumberActive,
                     'photo'                   => $photoPath,
                     'status'                  => $method->status ?? 'active',
                 ];

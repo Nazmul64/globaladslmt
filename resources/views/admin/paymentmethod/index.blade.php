@@ -20,7 +20,8 @@
                 <th>Number / Address</th>
                 <th>Label Type</th>
                 <th>USD Rate</th>
-                <th>Exchange Rate Status</th>
+                <th>Exchange Rate</th>
+                <th>Sender Account Input</th>
                 <th>Photo</th>
                 <th>Status</th>
                 <th>Actions</th>
@@ -39,6 +40,13 @@
                         <span class="badge bg-primary">Enabled (On)</span>
                     @else
                         <span class="badge bg-secondary">Disabled (Off)</span>
+                    @endif
+                </td>
+                <td>
+                    @if($method->is_account_number_active)
+                        <span class="badge bg-success">Enabled (On)</span>
+                    @else
+                        <span class="badge bg-warning text-dark">Hidden (Off)</span>
                     @endif
                 </td>
                 <td>

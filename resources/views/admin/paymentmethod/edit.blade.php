@@ -53,6 +53,18 @@
                 <span class="text-danger">{{ $message }}</span>
             @enderror
         </div>
+
+        <div class="mb-3">
+            <label for="is_account_number_active" class="form-label">Sender Account / Phone Number Field (Customer Input)</label>
+            <select name="is_account_number_active" class="form-select">
+                <option value="1" {{ old('is_account_number_active', $paymentmethod->is_account_number_active ? '1' : '0') == '1' ? 'selected' : '' }}>Enabled / দেখাবে (On - Customer Enters Sender Number)</option>
+                <option value="0" {{ old('is_account_number_active', $paymentmethod->is_account_number_active ? '1' : '0') == '0' ? 'selected' : '' }}>Disabled / বন্ধ (Off - For Binance/Crypto/Wallet, Hides Sender Number)</option>
+            </select>
+            <small class="text-muted">যদি বন্ধ (Off) থাকে, তাহলে কাস্টমার অ্যাপে একাউন্ট নাম্বার ইনপুট ফিল্ডটি দেখাবে না; শুধুমাত্র ট্রানজেকশন আইডি ও স্ক্রিনশট দিতে হবে।</small>
+            @error('is_account_number_active')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+        </div>
         <div class="mb-3">
             <label for="photo" class="form-label">Payment Method Logo / Image</label>
             <input type="file" name="photo" class="form-control" accept="image/*">

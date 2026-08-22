@@ -43,6 +43,9 @@ class PaymentmethodController extends Controller
         $data = $request->only(['method_name', 'method_number', 'number_type', 'usd_rate', 'status']);
         $data['number_type'] = $request->number_type ?? 'Account Number';
         $data['is_exchange_rate_active'] = $request->boolean('is_exchange_rate_active') || in_array($request->is_exchange_rate_active, [1, '1', 'on', 'active', true], true);
+        $data['is_account_number_active'] = $request->has('is_account_number_active')
+            ? ($request->boolean('is_account_number_active') || in_array($request->is_account_number_active, [1, '1', 'on', 'active', true], true))
+            : true;
 
         if ($request->hasFile('photo')) {
             $file = $request->file('photo');
@@ -82,6 +85,9 @@ class PaymentmethodController extends Controller
         $data = $request->only(['method_name', 'method_number', 'number_type', 'usd_rate', 'status']);
         $data['number_type'] = $request->number_type ?? 'Account Number';
         $data['is_exchange_rate_active'] = $request->boolean('is_exchange_rate_active') || in_array($request->is_exchange_rate_active, [1, '1', 'on', 'active', true], true);
+        $data['is_account_number_active'] = $request->has('is_account_number_active')
+            ? ($request->boolean('is_account_number_active') || in_array($request->is_account_number_active, [1, '1', 'on', 'active', true], true))
+            : false;
 
         if ($request->hasFile('photo')) {
             // Delete old photo if exists
