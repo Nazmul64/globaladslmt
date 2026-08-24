@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\SettingLogo;
+use App\Models\Settinglogo;
 use Illuminate\Support\Facades\Log;
 
 class SettinglogoController extends Controller
@@ -16,7 +16,7 @@ class SettinglogoController extends Controller
     {
         try {
             // Fetch the first logo from database
-            $logo = SettingLogo::first();
+            $logo = Settinglogo::first();
 
             // If no logo found
             if (!$logo) {

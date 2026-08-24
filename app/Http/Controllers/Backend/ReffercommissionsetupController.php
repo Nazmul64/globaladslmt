@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Reffercommissionsetup;
 use Illuminate\Http\Request;
 
-class RefferCommissionSetupController extends Controller
+class ReffercommissionsetupController extends Controller
 {
     public function index()
     {
@@ -50,10 +50,14 @@ class RefferCommissionSetupController extends Controller
                          ->with('success', 'Referral commission updated successfully.');
     }
 
-    public function destroy(RefferCommissionSetup $reffercommission)
+    public function destroy($id)
     {
-        $reffercommission->delete();
+        $setup = Reffercommissionsetup::findOrFail($id);
+        $setup->delete();
+
         return redirect()->route('reffercommission.index')
-                         ->with('success', 'Referral commission deleted successfully.');
+                         ->with('success', 'Commission Setup deleted successfully.');
     }
 }
+
+class_alias(ReffercommissionsetupController::class, 'App\Http\Controllers\Backend\RefferCommissionSetupController');

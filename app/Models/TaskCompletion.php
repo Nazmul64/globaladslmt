@@ -32,7 +32,7 @@ class TaskCompletion extends Model
 
     public function packageBuy()
     {
-        return $this->belongsTo(PackageBuy::class);
+        return $this->belongsTo(Packagebuy::class);
     }
 
     /**

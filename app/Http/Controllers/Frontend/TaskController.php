@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ad;
-use App\Models\PackageBuy;
+use App\Models\Packagebuy;
 use App\Models\AdSetting;
 use App\Models\TaskCompletion;
 use App\Models\User;

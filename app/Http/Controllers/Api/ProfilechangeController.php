@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\JsonResponse;
 
 
-class ProfileChangeController extends BaseController
+class ProfilechangeController extends BaseController
 {
     /**
      * Get authenticated user profile
@@ -368,3 +368,5 @@ class ProfileChangeController extends BaseController
         }
     }
 }
+
+class_alias(ProfilechangeController::class, 'App\Http\Controllers\Api\ProfileChangeController');

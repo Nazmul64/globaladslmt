@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Deposite;
 use App\Models\User;
-use App\Models\Waleta_setup;
 use Illuminate\Http\Request;
 
 class AdmindepositeEditController extends Controller

@@ -25,9 +25,11 @@ return new class extends Migration
 
             // Global switch
             $table->boolean('admob_status')->default(true);
+            $table->string('admob_timer_status')->default('yes')->nullable();
 
             // Basic App Settings
             $table->integer('star_io_id')->nullable();
+            $table->string('stario_timer_status')->default('yes')->nullable();
             $table->integer('invalid_click_limit')->nullable();
             $table->decimal('invalid_deduct', 10, 2)->nullable();
             $table->decimal('view_before_click_view_target', 10, 2)->nullable();

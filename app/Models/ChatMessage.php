@@ -26,3 +26,5 @@ class ChatMessage extends Model
         return $this->belongsTo(User::class, 'receiver_id');
     }
 }
+
+class_alias(ChatMessage::class, 'App\Models\Chatmessage');

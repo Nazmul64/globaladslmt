@@ -66,6 +66,13 @@ class AppsettingController extends Controller
             'app_link' => 'nullable|url|max:500',
         ]);
 
+        if (empty($validated['button_timer_seconds'])) {
+            $validated['button_timer_seconds'] = 30;
+        }
+        if (empty($validated['ad_timer_seconds'])) {
+            $validated['ad_timer_seconds'] = 15;
+        }
+
         Appsetting::create($validated);
 
         return redirect()

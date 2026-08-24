@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Whychooseu;
-use App\Models\WhyChooseUs;
 use Illuminate\Http\Request;
 
 class WhychooseusControllerController extends Controller

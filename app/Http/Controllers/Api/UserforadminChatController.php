@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Usertoadminchat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,20 @@ use Illuminate\Support\Str;
 
 class UserforadminChatController extends Controller
 {
+    /**
+     * Get Admin User ID dynamically
+     */
+    protected function getAdminId()
+    {
+        $admin = User::where('role', 'is_admin')
+            ->orWhere('role', 'admin')
+            ->orWhere('email', 'admin@gmail.com')
+            ->orWhere('name', 'like', '%Admin%')
+            ->first();
+
+        return $admin ? $admin->id : 3;
+    }
+
     /**
      * Send Message (Text / Image)
      */
@@ -24,7 +39,7 @@ class UserforadminChatController extends Controller
             ]);
 
             $userId  = Auth::id();
-            $adminId = 1; // fixed admin id
+            $adminId = $this->getAdminId();
 
             if (!$userId) {
                 return response()->json([
@@ -114,7 +129,7 @@ class UserforadminChatController extends Controller
     {
         try {
             $userId  = Auth::id();
-            $adminId = 1;
+            $adminId = $this->getAdminId();
 
             if (!$userId) {
                 return response()->json([
@@ -140,7 +155,7 @@ class UserforadminChatController extends Controller
             $data = $messages->getCollection()
                 ->reverse()
                 ->values()
-                ->map(function ($msg) {
+                ->map(function ($msg) use ($adminId) {
                     $imageUrl = null;
                     if ($msg->image) {
                         $cleanImage = ltrim($msg->image, '/');
@@ -156,7 +171,7 @@ class UserforadminChatController extends Controller
                     return [
                         'id'           => $msg->id,
                         'sender_id'    => $msg->sender_id,
-                        'sender_type'  => $msg->sender_id == 1 ? 'admin' : 'user',
+                        'sender_type'  => $msg->sender_id == $adminId ? 'admin' : 'user',
                         'receiver_id'  => $msg->receiver_id,
                         'message'      => $msg->message ?? '',
                         'message_type' => $msg->message_type ?? ($imageUrl ? 'image' : 'text'),
@@ -206,7 +221,7 @@ class UserforadminChatController extends Controller
     {
         try {
             $userId  = Auth::id();
-            $adminId = 1;
+            $adminId = $this->getAdminId();
 
             if ($userId) {
                 Usertoadminchat::where('sender_id', $adminId)

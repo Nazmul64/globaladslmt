@@ -8,3 +8,5 @@ class Settinglogo extends Model
 {
      protected $fillable = ['photo','new_photo'];
 }
+
+class_alias(Settinglogo::class, 'App\Models\SettingLogo');

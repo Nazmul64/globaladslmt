@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Settinglogo;
 
-class SettingLogoController extends Controller
+class SettinglogoController extends Controller
 {
     // ðŸ”¹ Show logo (normally only 1 row)
     public function index()
@@ -44,11 +44,11 @@ class SettingLogoController extends Controller
     // ðŸ”¹ Edit logo
     public function edit($id)
     {
-        $logo = SettingLogo::findOrFail($id);
+        $logo = Settinglogo::findOrFail($id);
         return view('admin.logosetting.edit', compact('logo'));
     }
 
-    // ðŸ”¹ Update logo
+    // 🔹 Update logo
     public function update(Request $request, $id)
     {
         $logo = Settinglogo::findOrFail($id);
@@ -72,7 +72,7 @@ class SettingLogoController extends Controller
             ->with('success', 'Logo updated successfully');
     }
 
-    // ðŸ”¹ Delete logo
+    // 🔹 Delete logo
     public function destroy($id)
     {
         $logo = Settinglogo::findOrFail($id);
@@ -87,3 +87,5 @@ class SettingLogoController extends Controller
             ->with('success', 'Logo deleted successfully');
     }
 }
+
+class_alias(SettinglogoController::class, 'App\Http\Controllers\Backend\SettingLogoController');

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AdminChatForAgentController extends Controller
 {
-  public function index()
+    public function index()
     {
         // ধরে নিচ্ছি একটিমাত্র এডমিন আছে
         $admin = User::where('role', 'is_admin')->first();
