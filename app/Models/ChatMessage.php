@@ -27,4 +27,3 @@ class ChatMessage extends Model
     }
 }
 
-class_alias(ChatMessage::class, 'App\Models\Chatmessage');

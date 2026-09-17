@@ -116,14 +116,21 @@ class ProfilechangeController extends BaseController
             }
 
             $profileData = [
-                'id'         => $user->id,
-                'name'       => $user->name,
-                'email'      => $user->email,
-                'photo'      => $user->photo ? asset('uploads/profile/' . $user->photo) : null,
-                'photo_name' => $user->photo,
-                'role'       => $user->role ?? 'user',
-                'created_at' => $user->created_at,
-                'updated_at' => $user->updated_at,
+                'id'                  => $user->id,
+                'name'                => $user->name,
+                'email'               => $user->email,
+                'mobile'              => $user->mobile ?? '',
+                'ref_code'            => $user->ref_code ?? '',
+                'referral_code'       => $user->ref_code ?? '',
+                'referral_link'       => url('/register?ref=' . ($user->ref_code ?? '')),
+                'is_blocked'          => (bool) ($user->is_blocked ?? false),
+                'is_withdraw_blocked' => (bool) ($user->is_blocked ?? false),
+                'photo'               => $user->photo ? asset('uploads/profile/' . $user->photo) : null,
+                'photo_name'          => $user->photo,
+                'role'                => $user->role ?? 'user',
+                'balance'             => (float) ($user->balance ?? 0),
+                'created_at'          => $user->created_at,
+                'updated_at'          => $user->updated_at,
             ];
 
             return $this->sendResponse($profileData, 'Profile retrieved successfully.');
@@ -369,4 +376,4 @@ class ProfilechangeController extends BaseController
     }
 }
 
-class_alias(ProfilechangeController::class, 'App\Http\Controllers\Api\ProfileChangeController');
+

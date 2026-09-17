@@ -88,4 +88,3 @@ class SettinglogoController extends Controller
     }
 }
 
-class_alias(SettinglogoController::class, 'App\Http\Controllers\Backend\SettingLogoController');

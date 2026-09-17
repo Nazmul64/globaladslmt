@@ -50,6 +50,12 @@ class UserWidhrawrequestAgentController extends Controller
                 return $this->error("User not found.", 404);
             }
 
+            // Withdrawal block check (Direct & P2P USDT Sell Order)
+            if ($request->type === 'withdraw' && ($user->is_blocked ?? false)) {
+                DB::rollBack();
+                return $this->error("Your withdrawal is currently blocked by administration. You cannot place USDT sell orders.", 403);
+            }
+
             // Withdraw: Check User Balance
             if ($request->type === 'withdraw' && $user->balance < $request->amount) {
                 DB::rollBack();

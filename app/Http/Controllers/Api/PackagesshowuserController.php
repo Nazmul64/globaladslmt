@@ -28,8 +28,19 @@ class PackagesshowuserController extends Controller
     {
         try {
             $packages = Package::orderBy('price', 'asc')->get();
+            $user = Auth::guard('sanctum')->user() ?? Auth::user();
+            $activePackage = null;
+            if ($user) {
+                $activePackage = Packagebuy::where('user_id', $user->id)
+                    ->where('status', 'approved')
+                    ->first();
+            }
 
-            $formatted = $packages->map(function ($package) {
+            $formatted = $packages->map(function ($package) use ($activePackage) {
+                $photoUrl = $package->photo
+                    ? (filter_var($package->photo, FILTER_VALIDATE_URL) ? $package->photo : url('uploads/package/' . $package->photo))
+                    : null;
+
                 return [
                     'id' => $package->id,
                     'package_name' => $package->package_name,
@@ -37,14 +48,16 @@ class PackagesshowuserController extends Controller
                     'price' => (float) $package->price,
                     'daily_income' => (float) $package->daily_income,
                     'daily_limit' => (int) $package->daily_limit,
-                    'photo' => $package->photo
-                        ? url('uploads/package/' . $package->photo)
-                        : null,
+                    'photo' => $photoUrl,
+                    'photo_url' => $photoUrl,
+                    'is_current_active' => $activePackage ? ($activePackage->package_id == $package->id) : false,
                 ];
             });
 
             return response()->json([
                 'success' => true,
+                'has_active_package' => $activePackage !== null,
+                'active_package_id' => $activePackage?->package_id,
                 'data' => $formatted
             ], 200);
 

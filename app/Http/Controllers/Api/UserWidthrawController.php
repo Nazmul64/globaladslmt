@@ -38,7 +38,10 @@ class UserWidthrawController extends BaseController
                     'id' => $user->id,
                     'name' => $user->name,
                     'balance' => (float) $user->balance,
+                    'is_blocked' => (bool) $user->is_blocked,
+                    'is_withdraw_blocked' => (bool) $user->is_blocked,
                 ],
+                'is_withdraw_blocked' => (bool) $user->is_blocked,
                 'total_user_balance' => (float) $totalUserBalance,
                 'payment_methods' => $paymentMethods,
                 'withdraw_limit' => [
@@ -63,6 +66,10 @@ class UserWidthrawController extends BaseController
         try {
             $user = Auth::user();
             if (!$user) return $this->sendError('Unauthenticated user.', [], 401);
+
+            if ($user->is_blocked) {
+                return $this->sendError('Your withdrawal has been blocked by administration. Please contact support.', [], 403);
+            }
 
             $validator = Validator::make($request->all(), [
                 'payment_method_id' => 'required|exists:paymentmethods,id',

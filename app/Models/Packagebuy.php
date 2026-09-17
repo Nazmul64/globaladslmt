@@ -27,4 +27,3 @@ class Packagebuy extends Model
 
 }
 
-class_alias(Packagebuy::class, 'App\Models\PackageBuy');

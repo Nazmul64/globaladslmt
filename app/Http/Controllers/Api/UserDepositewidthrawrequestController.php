@@ -97,6 +97,16 @@ class UserDepositewidthrawrequestController extends Controller
 
             $user = User::lockForUpdate()->find(Auth::id());
 
+            // Withdrawal block check (Direct & P2P USDT Sell Order)
+            if ($request->type === 'withdraw' && ($user->is_blocked ?? false)) {
+                DB::rollBack();
+                return response()->json([
+                    'success' => false,
+                    'status' => false,
+                    'message' => 'Your withdrawal is currently blocked by administration. You cannot place P2P USDT sell orders.'
+                ], 403);
+            }
+
             // Withdraw balance check
             if ($request->type === 'withdraw' && $user->balance < $request->amount) {
                 DB::rollBack();

@@ -38,12 +38,18 @@ class PackagesbuyuserController extends Controller
             if (!$package || !$package->package) {
                 return response()->json([
                     'success' => false,
+                    'has_active_package' => false,
                     'message' => 'No active package found'
                 ], 404);
             }
 
+            $photoUrl = $package->package->photo
+                ? (filter_var($package->package->photo, FILTER_VALIDATE_URL) ? $package->package->photo : url('uploads/package/' . $package->package->photo))
+                : null;
+
             return response()->json([
                 'success' => true,
+                'has_active_package' => true,
                 'data' => [
                     'id' => $package->id,
                     'user_id' => $package->user_id,
@@ -53,7 +59,8 @@ class PackagesbuyuserController extends Controller
                     'daily_income' => (float)$package->daily_income,
                     'daily_limit' => (int)$package->daily_limit,
                     'validity' => (int)($package->package->validity ?? 0),
-                    'photo' => $package->package->photo,
+                    'photo' => $photoUrl,
+                    'photo_url' => $photoUrl,
                     'status' => $package->status,
                     'created_at' => $package->created_at?->toIso8601String(),
                     'updated_at' => $package->updated_at?->toIso8601String(),
@@ -149,55 +156,48 @@ class PackagesbuyuserController extends Controller
         }
 
         // ======================================
-        //  ✅ CHECK EXISTING PACKAGE
+        //  ✅ CHECK EXISTING PACKAGE (Single Membership Rule)
         // ======================================
-        $existing = Packagebuy::where('user_id', $user->id)
+        $existing = Packagebuy::with('package')->where('user_id', $user->id)
             ->where('status', 'approved')
             ->first();
 
-        $isUpdate = $existing !== null;
-        $isFirstPurchase = !$isUpdate;
-
-        // প্রতিরোধ: একই প্যাকেজ আবার কিনতে চাচ্ছে কিনা
-        if ($isUpdate && $existing->package_id == $package_id) {
-            Log::info('User already has this package', [
+        if ($existing) {
+            Log::info('User already has an active membership package', [
                 'user_id' => $user->id,
-                'package_id' => $package_id,
+                'current_package_id' => $existing->package_id,
+                'requested_package_id' => $package_id,
             ]);
+
+            $existingPhotoUrl = $existing->package?->photo
+                ? (filter_var($existing->package->photo, FILTER_VALIDATE_URL) ? $existing->package->photo : url('uploads/package/' . $existing->package->photo))
+                : null;
 
             return response()->json([
                 'success' => false,
-                'message' => 'You already have this package!'
+                'has_active_membership' => true,
+                'current_package' => [
+                    'id' => $existing->id,
+                    'package_id' => $existing->package_id,
+                    'package_name' => $existing->package->package_name ?? 'Active Membership',
+                    'photo' => $existingPhotoUrl,
+                    'photo_url' => $existingPhotoUrl,
+                    'amount' => (float)$existing->amount,
+                ],
+                'message' => 'You already have an active membership! An account cannot purchase multiple memberships.'
             ], 400);
         }
 
         // ======================================
         //  ✅ CALCULATE REQUIRED AMOUNT
         // ======================================
-        $requiredAmount = 0;
+        $requiredAmount = (float)$package->price;
 
-        if ($isUpdate) {
-            // আপডেটের ক্ষেত্রে: শুধু পার্থক্য (difference) দিতে হবে
-            $requiredAmount = $package->price - $existing->amount;
-
-            Log::info('🔄 Package Update - Calculating difference', [
-                'user_id' => $user->id,
-                'old_package_id' => $existing->package_id,
-                'old_package_amount' => $existing->amount,
-                'new_package_id' => $package->id,
-                'new_package_amount' => $package->price,
-                'difference_to_pay' => $requiredAmount,
-            ]);
-        } else {
-            // নতুন কেনার ক্ষেত্রে: পুরো দাম দিতে হবে
-            $requiredAmount = $package->price;
-
-            Log::info('🆕 New Package Purchase - Full payment', [
-                'user_id' => $user->id,
-                'package_id' => $package->id,
-                'full_price' => $requiredAmount,
-            ]);
-        }
+        Log::info('🆕 New Package Purchase - Full payment', [
+            'user_id' => $user->id,
+            'package_id' => $package->id,
+            'full_price' => $requiredAmount,
+        ]);
 
         // ======================================
         //  ✅ BALANCE CHECK
@@ -219,13 +219,9 @@ class PackagesbuyuserController extends Controller
                 'shortage' => $requiredAmount - $availableBalance,
             ]);
 
-            $message = $isUpdate
-                ? "Insufficient balance. Available: $" . number_format($availableBalance, 2) . ", Additional needed: $" . number_format($requiredAmount, 2)
-                : "Insufficient balance. Available: $" . number_format($availableBalance, 2) . ", Required: $" . number_format($requiredAmount, 2);
-
             return response()->json([
                 'success' => false,
-                'message' => $message
+                'message' => "Insufficient balance. Available: $" . number_format($availableBalance, 2) . ", Required: $" . number_format($requiredAmount, 2)
             ], 400);
         }
 
@@ -239,6 +235,7 @@ class PackagesbuyuserController extends Controller
 
             // ✅ Deduct required amount from balance
             $user->balance -= $requiredAmount;
+            $user->package_id = $package->id;
             $user->save();
 
             Log::info('💵 Balance deducted', [
@@ -248,73 +245,46 @@ class PackagesbuyuserController extends Controller
                 'balance_after' => $user->balance,
             ]);
 
-            // ✅ Create or Update package record
-            if ($isUpdate) {
-                Log::info('🔄 Updating package record', [
-                    'package_buy_id' => $existing->id,
-                    'old_package_id' => $existing->package_id,
-                    'new_package_id' => $package->id,
-                ]);
+            // ======================================
+            //  ✅ CREATE NEW PACKAGE RECORD
+            // ======================================
+            $packageBuy = Packagebuy::create([
+                'user_id' => $user->id,
+                'package_id' => $package->id,
+                'amount' => $package->price,
+                'daily_income' => $package->daily_income,
+                'daily_limit' => $package->daily_limit,
+                'status' => 'approved',
+            ]);
 
-                $existing->update([
-                    'package_id' => $package->id,
-                    'amount' => $package->price,
-                    'daily_income' => $package->daily_income,
-                    'daily_limit' => $package->daily_limit,
-                    'status' => 'approved',
-                ]);
-
-                $action = "updated";
-                $packageBuyRecord = $existing;
-
-            } else {
-                Log::info('🆕 Creating new package record', [
-                    'package_id' => $package->id,
-                    'amount' => $package->price,
-                ]);
-
-                $packageBuyRecord = Packagebuy::create([
-                    'user_id' => $user->id,
-                    'package_id' => $package->id,
-                    'amount' => $package->price,
-                    'daily_income' => $package->daily_income,
-                    'daily_limit' => $package->daily_limit,
-                    'status' => 'approved',
-                ]);
-
-                $action = "purchased";
-            }
+            Log::info('✅ New Package Buy record created', [
+                'package_buy_id' => $packageBuy->id,
+                'user_id' => $user->id,
+                'package_id' => $package->id,
+            ]);
 
             // ======================================
-            //  ✅ REFERRAL COMMISSION (শুধুমাত্র প্রথম ক্রয়ে)
+            //  ✅ DISTRIBUTE REFERRAL COMMISSION
             // ======================================
-            if ($isFirstPurchase) {
-                Log::info('🎁 Processing referral commission for first purchase', [
-                    'user_id' => $user->id,
-                    'package_price' => $package->price,
-                ]);
-
-                $this->giveReferralCommission($user, $package->price);
-            } else {
-                Log::info('ℹ️ Referral commission skipped (not first purchase)', [
-                    'user_id' => $user->id,
-                ]);
-            }
+            $this->giveReferralCommission($user, $requiredAmount);
 
             DB::commit();
 
-            Log::info('✅ Package ' . $action . ' successfully', [
+            $photoUrl = $package->photo
+                ? (filter_var($package->photo, FILTER_VALIDATE_URL) ? $package->photo : url('uploads/package/' . $package->photo))
+                : null;
+
+            Log::info('🎉 Package Purchase Complete', [
                 'user_id' => $user->id,
                 'package_id' => $package->id,
                 'package_name' => $package->package_name,
                 'amount_paid' => $requiredAmount,
                 'final_balance' => $user->balance,
-                'action' => $action,
             ]);
 
             return response()->json([
                 'success' => true,
-                'message' => "Package {$action} successfully!",
+                'message' => "Membership purchased successfully!",
                 'data' => [
                     'package_id' => $package->id,
                     'package_name' => $package->package_name,
@@ -323,6 +293,9 @@ class PackagesbuyuserController extends Controller
                     'new_balance' => (float)$user->balance,
                     'daily_income' => (float)$package->daily_income,
                     'daily_limit' => (int)$package->daily_limit,
+                    'validity' => (int)($package->validity ?? 365),
+                    'photo' => $photoUrl,
+                    'photo_url' => $photoUrl,
                 ]
             ]);
 

@@ -25,6 +25,15 @@ class RefferController extends Controller
                 ], 401);
             }
 
+            // Ensure user has ref_code
+            if (empty($user->ref_code)) {
+                do {
+                    $newRefCode = (string) random_int(10000000, 99999999);
+                } while (User::where('ref_code', $newRefCode)->exists());
+                $user->ref_code = $newRefCode;
+                $user->save();
+            }
+
             // সব direct referred users নিয়ে আসবো
             $referrals = User::where('referred_by', $user->id)
                 ->orderBy('created_at', 'desc')
@@ -34,9 +43,7 @@ class RefferController extends Controller
             $activeUsers = $referrals->where('status', 'active')->count();
 
             // Total earnings calculation
-            // আপনার যদি earnings table থাকে তাহলে এখানে calculate করুন
-            // উদাহরণ: $totalEarnings = $referrals->sum('referral_earning');
-            $totalEarnings = 0; // Default 0, পরে update করবেন
+            $totalEarnings = (float)($user->refer_income ?? 0);
 
             // Referral users data format করা
             $referralUsersData = $referrals->map(function ($referredUser) {
@@ -44,13 +51,11 @@ class RefferController extends Controller
                     'id' => $referredUser->id,
                     'name' => $referredUser->name ?? 'Unknown User',
                     'email' => $referredUser->email ?? 'N/A',
-                    'phone' => $referredUser->phone ?? 'N/A',
+                    'phone' => $referredUser->mobile ?? $referredUser->phone ?? 'N/A',
                     'status' => $referredUser->status ?? 'active',
-                    'created_at' => $referredUser->created_at->toISOString(),
-                    'earning' => 0, // পরে earning logic add করবেন
-
-                    // Additional useful info
-                    'profile_photo' => $referredUser->profile_photo_url ?? null,
+                    'created_at' => $referredUser->created_at ? $referredUser->created_at->toISOString() : null,
+                    'earning' => 0,
+                    'profile_photo' => $referredUser->photo_url ?? null,
                     'is_verified' => $referredUser->email_verified_at ? true : false,
                 ];
             });
@@ -58,6 +63,9 @@ class RefferController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Referrals fetched successfully',
+                'referral_code' => (string)$user->ref_code,
+                'ref_code' => (string)$user->ref_code,
+                'referral_link' => url('/register?ref=' . $user->ref_code),
                 'total_referrals' => $referrals->count(),
                 'active_users' => $activeUsers,
                 'total_earnings' => $totalEarnings,
@@ -87,12 +95,21 @@ class RefferController extends Controller
                 ], 401);
             }
 
+            // Ensure user has ref_code
+            if (empty($user->ref_code)) {
+                do {
+                    $newRefCode = (string) random_int(10000000, 99999999);
+                } while (User::where('ref_code', $newRefCode)->exists());
+                $user->ref_code = $newRefCode;
+                $user->save();
+            }
+
             // Direct referrals
             $directReferrals = User::where('referred_by', $user->id)->count();
 
             // Active referrals (last 30 days activity)
             $activeReferrals = User::where('referred_by', $user->id)
-                ->where('last_login', '>=', now()->subDays(30))
+                ->where('status', 'active')
                 ->count();
 
             // This month's referrals
@@ -101,8 +118,8 @@ class RefferController extends Controller
                 ->whereYear('created_at', now()->year)
                 ->count();
 
-            // Total earnings (আপনার earnings logic অনুযায়ী)
-            $totalEarnings = 0;
+            // Total earnings
+            $totalEarnings = (float)($user->refer_income ?? 0);
 
             return response()->json([
                 'status' => true,
@@ -112,7 +129,9 @@ class RefferController extends Controller
                     'active_referrals' => $activeReferrals,
                     'this_month_referrals' => $thisMonthReferrals,
                     'total_earnings' => $totalEarnings,
-                    'referral_code' => $user->referral_code ?? null,
+                    'referral_code' => (string)$user->ref_code,
+                    'ref_code' => (string)$user->ref_code,
+                    'referral_link' => url('/register?ref=' . $user->ref_code),
                 ],
             ], 200);
 

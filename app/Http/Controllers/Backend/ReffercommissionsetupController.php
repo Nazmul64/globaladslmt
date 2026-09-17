@@ -60,4 +60,3 @@ class ReffercommissionsetupController extends Controller
     }
 }
 
-class_alias(ReffercommissionsetupController::class, 'App\Http\Controllers\Backend\RefferCommissionSetupController');

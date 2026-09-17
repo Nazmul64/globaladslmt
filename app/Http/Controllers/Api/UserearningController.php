@@ -121,8 +121,25 @@ class UserearningController extends Controller
                 ? (int) ceil($earning->ads_watched_today / $adBrack)
                 : 0;
 
-            // Check if currently in break time
-            $isBreakActive = !empty($earning->last_break_started);
+            // Check if currently in break time and compute elapsed time
+            $isBreakActive = false;
+            $breakRemainingSeconds = 0;
+            if (!empty($earning->last_break_started)) {
+                $breakTotalSeconds = (int)($taskBreakMinutes * 60);
+                $breakStarted = Carbon::parse($earning->last_break_started);
+                $elapsedSeconds = Carbon::now()->diffInSeconds($breakStarted);
+
+                if ($elapsedSeconds >= $breakTotalSeconds) {
+                    // Break timer has already completed while user was away!
+                    $earning->last_break_started = null;
+                    $earning->save();
+                    $isBreakActive = false;
+                    $breakRemainingSeconds = 0;
+                } else {
+                    $isBreakActive = true;
+                    $breakRemainingSeconds = $breakTotalSeconds - $elapsedSeconds;
+                }
+            }
 
             // Daily limit reached ONLY after completing all cycles and last claim
             $dailyLimitReached = ($earning->ads_watched_today >= $dailyLimit) &&
@@ -150,6 +167,7 @@ class UserearningController extends Controller
                 'ad_brack' => $adBrack,
                 'daily_limit' => $dailyLimit,
                 'is_break_active' => $isBreakActive,
+                'break_remaining_seconds' => $breakRemainingSeconds,
                 'show_claim_button' => $showClaimButton,
                 'daily_limit_reached' => $dailyLimitReached,
             ]);
@@ -167,6 +185,8 @@ class UserearningController extends Controller
             $responseData = [
                 // ========== USER INFO ==========
                 'user_name' => $user->name ?? 'Guest',
+                'is_blocked' => (bool) ($user->is_blocked ?? false),
+                'is_withdraw_blocked' => (bool) ($user->is_blocked ?? false),
 
                 // ========== EARNING STATS ==========
                 'ads_watched_today' => (int) $earning->ads_watched_today,
@@ -175,6 +195,9 @@ class UserearningController extends Controller
                 'last_claimed_cycle' => (int) $earning->last_claimed_cycle,
                 'daily_limit' => (int) $dailyLimit,
                 'is_break_active' => (bool) $isBreakActive,
+                'break_remaining_seconds' => (int) $breakRemainingSeconds,
+                'server_time' => Carbon::now()->toIso8601String(),
+                'last_break_started' => $earning->last_break_started ? Carbon::parse($earning->last_break_started)->toIso8601String() : null,
                 'show_claim_button' => (bool) $showClaimButton,
                 'daily_limit_reached' => (bool) $dailyLimitReached,
 
@@ -481,22 +504,30 @@ class UserearningController extends Controller
             $currentCycleNumber = $earning->ads_watched_today > 0
                 ? (int) ceil($earning->ads_watched_today / $adBrack)
                 : 0;
-            $isCycleComplete = ($adsWatchedInCurrentCycle == 0 && $earning->ads_watched_today > 0);
-            $isBreakActive = !empty($earning->last_break_started);
+            // ========== BREAK CHECK WITH ELAPSED TIME ==========
+            $settings = Appsetting::first();
+            $taskBreakMinutes = $settings && $settings->task_break_time_minutes !== null
+                ? (int) round((float) $settings->task_break_time_minutes)
+                : 1;
 
-            Log::info('🎁 CLAIM REWARD REQUEST', [
-                'user_id' => $user->id,
-                'total_ads' => $earning->ads_watched_today,
-                'cycle_position' => $adsWatchedInCurrentCycle,
-                'current_cycle_number' => $currentCycleNumber,
-                'last_claimed_cycle' => $earning->last_claimed_cycle,
-                'is_cycle_complete' => $isCycleComplete,
-                'is_break_active' => $isBreakActive,
-            ]);
+            if (!empty($earning->last_break_started)) {
+                $breakTotalSeconds = (int)($taskBreakMinutes * 60);
+                $breakStarted = Carbon::parse($earning->last_break_started);
+                $elapsedSeconds = Carbon::now()->diffInSeconds($breakStarted);
 
-            // ========== VALIDATIONS ==========
-            if ($isBreakActive) {
-                return response()->json(['status' => false, 'message' => 'Break timer is still running'], 400);
+                if ($elapsedSeconds >= $breakTotalSeconds) {
+                    // Break has elapsed, clear it automatically
+                    $earning->last_break_started = null;
+                    $earning->save();
+                    $isBreakActive = false;
+                } else {
+                    $remaining = $breakTotalSeconds - $elapsedSeconds;
+                    return response()->json([
+                        'status' => false,
+                        'message' => "Break timer is still running. Please wait {$remaining} seconds.",
+                        'break_remaining_seconds' => $remaining
+                    ], 400);
+                }
             }
 
             if (!$isCycleComplete) {
