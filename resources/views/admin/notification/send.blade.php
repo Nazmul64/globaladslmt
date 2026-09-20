@@ -13,7 +13,7 @@
                     </h5>
                     <div>
                         <span class="badge bg-light text-dark me-2">
-                            <i class="fas fa-bell text-warning"></i> OneSignal: {{ $onesignalUsers }} | <i class="fas fa-users text-primary"></i> Total: {{ $totalUsers }}
+                            <i class="fas fa-fire text-warning"></i> Firebase: {{ $fcmUsers ?? 0 }} | <i class="fas fa-bell text-info"></i> OneSignal: {{ $onesignalUsers ?? 0 }} | <i class="fas fa-users text-primary"></i> Total: {{ $totalUsers ?? 0 }}
                         </span>
                         <a href="{{ route('history') }}" class="btn btn-light btn-sm">
                             <i class="fas fa-history me-1"></i>History
@@ -90,14 +90,14 @@
                                 <label for="onesignal_app_id" class="form-label">
                                     OneSignal App ID
                                 </label>
-                                <input type="text" class="form-control font-monospace" id="onesignal_app_id" name="onesignal_app_id" value="{{ old('onesignal_app_id', $oneSignalAppId) }}" placeholder="19355887-8178-4d10-a8a3-3a6cc499968c">
+                                <input type="text" class="form-control font-monospace" id="onesignal_app_id" name="onesignal_app_id" value="{{ old('onesignal_app_id', $oneSignalAppId ?? '') }}" placeholder="19355887-8178-4d10-a8a3-3a6cc499968c">
                                 <small class="text-muted">Default App ID configured in system</small>
                             </div>
                             <div class="col-md-6 mb-2">
                                 <label for="onesignal_api_key" class="form-label">
                                     OneSignal REST API Key (Optional / from .env)
                                 </label>
-                                <input type="password" class="form-control font-monospace" id="onesignal_api_key" name="onesignal_api_key" value="{{ old('onesignal_api_key', $oneSignalApiKey) }}" placeholder="e.g. os_v2_app_... or key">
+                                <input type="password" class="form-control font-monospace" id="onesignal_api_key" name="onesignal_api_key" value="{{ old('onesignal_api_key', $oneSignalApiKey ?? '') }}" placeholder="e.g. os_v2_app_... or key">
                                 <small class="text-muted">OneSignal REST API Key for authorized pushes</small>
                             </div>
                         </div>

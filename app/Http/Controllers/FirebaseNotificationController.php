@@ -216,7 +216,11 @@ class FirebaseNotificationController extends Controller
                     ->with('warning', 'Please add and activate at least one Firebase App first');
             }
 
-            $totalUsers = User::whereNotNull('fcm_token')->count();
+            $totalUsers = User::count();
+            $fcmUsers = User::whereNotNull('fcm_token')->count();
+            $onesignalUsers = User::whereNotNull('onesignal_player_id')->count();
+            $oneSignalAppId = config('services.onesignal.app_id', '19355887-8178-4d10-a8a3-3a6cc499968c');
+            $oneSignalApiKey = config('services.onesignal.rest_api_key', '');
 
             $sentNotifications = Notification::with('firebaseApp')
                 ->latest('sent_at')
@@ -228,7 +232,7 @@ class FirebaseNotificationController extends Controller
                 return back()->with('error', 'Notification page view file is missing');
             }
 
-            return view('admin.notification.send', compact('apps', 'totalUsers', 'sentNotifications'));
+            return view('admin.notification.send', compact('apps', 'totalUsers', 'fcmUsers', 'onesignalUsers', 'sentNotifications', 'oneSignalAppId', 'oneSignalApiKey'));
 
         } catch (\Illuminate\Database\QueryException $e) {
             Log::error('Database Query Error: ' . $e->getMessage());
