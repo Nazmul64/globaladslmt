@@ -6,6 +6,7 @@ use App\Http\Controllers\BaseController;
 use App\Models\ChatRequest;
 use App\Models\User;
 use App\Models\Usertoagentchat;
+use App\Services\PushNotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -196,6 +197,18 @@ class UsertoagentChatController extends BaseController
                 'message_type' => $type,
                 'is_read'      => false,
             ]);
+
+            $sender = Auth::user();
+            $senderName = $sender ? $sender->name : 'User';
+            $msgBody = !empty($chat->message) ? $chat->message : '📷 Photo';
+
+            PushNotificationService::send(
+                $request->agent_id,
+                "নতুন মেসেজ - {$senderName}",
+                $msgBody,
+                "chat_message",
+                ['chat_id' => $chat->id, 'sender_id' => $userId]
+            );
 
             Log::info("💾 Message saved to DB with ID: {$chat->id}");
             Log::info("   Message Type: {$type}");

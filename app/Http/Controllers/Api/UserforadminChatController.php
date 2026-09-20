@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Usertoadminchat;
+use App\Services\PushNotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -86,6 +87,17 @@ class UserforadminChatController extends Controller
                 'message_type' => $messageType,
                 'is_read'      => false,
             ]);
+
+            $user = Auth::user();
+            $userName = $user ? $user->name : 'User';
+            $msgText = !empty($chat->message) ? $chat->message : '📷 Photo';
+            PushNotificationService::send(
+                $adminId,
+                "নতুন সাপোর্ট মেসেজ - {$userName}",
+                $msgText,
+                "admin_message",
+                ['chat_id' => $chat->id, 'sender_id' => $userId]
+            );
 
             $imageUrl = null;
             if ($imagePath) {

@@ -393,6 +393,25 @@ public function paymentMethods()
         ]);
     }
 
+    public function notifications()
+    {
+        return $this->hasMany(UserNotification::class, 'user_id')->latest();
+    }
+
+    public function userNotifications()
+    {
+        return $this->hasMany(UserNotification::class, 'user_id')->latest();
+    }
+
+    public function getFriendsAttribute()
+    {
+        $userId = $this->id;
+        $sentAccepted = ChatRequest::where('sender_id', $userId)->where('status', 'accepted')->pluck('receiver_id');
+        $receivedAccepted = ChatRequest::where('receiver_id', $userId)->where('status', 'accepted')->pluck('sender_id');
+        $friendIds = $sentAccepted->merge($receivedAccepted)->unique();
+        return User::whereIn('id', $friendIds)->get();
+    }
+
     public function getFullNameAttribute(): string
     {
         return $this->name;
@@ -404,4 +423,5 @@ public function paymentMethods()
     }
 
 }
+
 

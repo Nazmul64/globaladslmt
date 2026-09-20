@@ -1345,23 +1345,135 @@ Fetches regular announcements and package-watch specific guides.
   }
   ```
 
-### Fetch Withdrawal Guidelines
-- **Endpoint:** `GET /widthrawinstructionss`
+---
+
+## 12. Unified Notifications (Firebase & User Notifications)
+
+This system provides Firebase Cloud Messaging (FCM) integration with persistent notification history in the `user_notifications` table.
+
+### 1. Update FCM Token
+Register or update the user's Firebase Cloud Messaging token when they log in or the app initializes.
+- **Endpoint:** `POST /update-fcm-token` (or `POST /user/update-fcm-token`)
+- **Headers:** `Authorization: Bearer <sanctum_token>` (or pass `email` in body)
+- **Request Body:**
+  ```json
+  {
+    "fcm_token": "eXamPle_fcm_t0ken_1234567890abcdef...",
+    "device_type": "android"
+  }
+  ```
 - **Response (200 OK):**
   ```json
   {
     "status": true,
-    "message": "Withdraw instructions fetched successfully",
-    "data": [
-      {
-        "id": 1,
-        "instruction_text": "Withdraw limit is between $10 and $500..."
-      }
-    ]
+    "message": "FCM Token Updated"
   }
   ```
 
 ---
+
+### 2. Get Notification History (Paginated)
+Fetch in-app notification history for the authenticated user.
+- **Endpoint:** `GET /notifications` (or `POST /notifications`, `POST /get-notifications`)
+- **Headers:** `Authorization: Bearer <sanctum_token>`
+- **Query Params (Optional):** `?page=1&per_page=20`
+- **Response (200 OK):**
+  ```json
+  {
+    "status": true,
+    "data": {
+      "current_page": 1,
+      "data": [
+        {
+          "id": 1,
+          "user_id": 12,
+          "title": "নতুন ফ্রেন্ড রিকোয়েস্ট",
+          "body": "Rahim আপনাকে ফ্রেন্ড রিকোয়েস্ট পাঠিয়েছে",
+          "type": "friend_request",
+          "payload": {
+            "sender_id": 5,
+            "request_id": 10
+          },
+          "is_read": false,
+          "created_at": "2026-09-20T17:17:50.000000Z",
+          "updated_at": "2026-09-20T17:17:50.000000Z"
+        }
+      ],
+      "first_page_url": "https://domain.com/api/notifications?page=1",
+      "from": 1,
+      "last_page": 1,
+      "last_page_url": "https://domain.com/api/notifications?page=1",
+      "next_page_url": null,
+      "path": "https://domain.com/api/notifications",
+      "per_page": 20,
+      "prev_page_url": null,
+      "to": 1,
+      "total": 1
+    }
+  }
+  ```
+
+---
+
+### 3. Mark Notification as Read
+Mark a single notification as read.
+- **Endpoint:** `POST /notifications/{id}/mark-as-read` (or `POST /mark-notification-read`)
+- **Headers:** `Authorization: Bearer <sanctum_token>`
+- **Response (200 OK):**
+  ```json
+  {
+    "status": true,
+    "message": "Marked as read"
+  }
+  ```
+
+---
+
+### 4. Mark All Notifications as Read
+Mark all notifications for the authenticated user as read.
+- **Endpoint:** `POST /notifications/mark-all-read` (or `POST /mark-all-notifications-read`)
+- **Headers:** `Authorization: Bearer <sanctum_token>`
+- **Response (200 OK):**
+  ```json
+  {
+    "status": true,
+    "message": "All notifications marked as read"
+  }
+  ```
+
+---
+
+### 5. Get Unread Notification Count
+Get total number of unread notifications for badge display.
+- **Endpoint:** `GET /notifications/unread-count` (or `POST /get-notification-count`)
+- **Headers:** `Authorization: Bearer <sanctum_token>`
+- **Response (200 OK):**
+  ```json
+  {
+    "status": true,
+    "unread_count": 3
+  }
+  ```
+
+---
+
+### 6. Automated Push Notification Event Triggers
+
+The backend automatically dispatches Firebase Push Notifications & saves notification history on:
+
+| Event Type | `type` String | Target User | Description |
+| :--- | :--- | :--- | :--- |
+| **Friend Request** | `friend_request` | Receiver | Triggered when a user sends a friend request (`ChatRequestController` / `Agentfrientrequest`) |
+| **Friend Accept** | `friend_accepted` | Sender | Triggered when a receiver accepts the friend request |
+| **New Post** | `new_post` | All Friends | Triggered when a user creates a new post (`PostController@store`) |
+| **User Chat** | `chat_message` | Receiver | Triggered on incoming user-to-user or user-to-agent message (`UserchatController`, `UsertoagentChatController`) |
+| **Admin Support** | `admin_message` | User | Triggered when admin sends a message in support chat (`AdminandchatuserController`) |
+| **P2P Order** | `p2p_order` | Agent / User | Triggered on P2P deposit/withdraw request creation and status updates (`UserDepositewidthrawrequestController`) |
+| **Deposit Success**| `deposit` | User | Triggered when a deposit request is approved / completed |
+| **Withdraw Done** | `withdraw` | User | Triggered when a withdrawal request is processed / completed |
+
+---
+
 
 ## 14. Important Developer Warnings & Notes
 

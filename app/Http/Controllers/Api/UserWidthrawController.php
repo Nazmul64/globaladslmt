@@ -6,6 +6,7 @@ use App\Http\Controllers\BaseController;
 use App\Models\Paymentmethod;
 use App\Models\Widthrawlimit;
 use App\Models\UserWidthraw;
+use App\Services\PushNotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -114,6 +115,14 @@ class UserWidthrawController extends BaseController
                 $user->save();
 
                 DB::commit();
+
+                PushNotificationService::send(
+                    $user->id,
+                    "উইথড্র রিকোয়েস্ট জমা হয়েছে",
+                    "আপনার {$amount} টাকার উইথড্র রিকোয়েস্ট সফলভাবে জমা হয়েছে।",
+                    "withdraw",
+                    ['withdraw_id' => $withdraw->id, 'amount' => $amount]
+                );
 
                 return $this->sendResponse([
                     'withdraw' => [

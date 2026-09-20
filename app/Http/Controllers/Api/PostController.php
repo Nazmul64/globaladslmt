@@ -7,6 +7,7 @@ use App\Models\Creaetpost;
 use App\Models\PostComment;
 use App\Models\PostLike;
 use App\Models\PostShare;
+use App\Services\PushNotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -162,6 +163,24 @@ class PostController extends Controller
             // Create post
             $post = Creaetpost::create($postData);
             $post->load(['user', 'comments.user', 'likes']);
+
+            // Send notification to user's friends
+            try {
+                $user = Auth::user();
+                if ($user && !empty($user->friends)) {
+                    foreach ($user->friends as $friend) {
+                        PushNotificationService::send(
+                            $friend->id,
+                            "নতুন পোস্ট",
+                            "{$user->name} একটি নতুন পোস্ট করেছে",
+                            "new_post",
+                            ['post_id' => $post->id, 'user_id' => $user->id]
+                        );
+                    }
+                }
+            } catch (\Throwable $e) {
+                Log::error('Post notification error: ' . $e->getMessage());
+            }
 
             // Add is_liked
             $post = $this->addIsLikedToPost($post);

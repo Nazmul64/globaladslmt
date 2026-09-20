@@ -6,6 +6,7 @@ use App\Http\Controllers\BaseController;
 use App\Models\Deposite;
 use App\Models\Depositelimite;
 use App\Models\User;
+use App\Services\PushNotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -56,6 +57,14 @@ class DepositeUserController extends BaseController
         }
 
         $deposit->save();
+
+        PushNotificationService::send(
+            $user->id,
+            "ডিপোজিট রিকোয়েস্ট জমা হয়েছে",
+            "আপনার {$deposit->amount} টাকার ডিপোজিট রিকোয়েস্ট সফলভাবে জমা হয়েছে।",
+            "deposit",
+            ['deposit_id' => $deposit->id, 'amount' => $deposit->amount]
+        );
 
         $responseData = [
             'id' => $deposit->id,

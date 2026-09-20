@@ -271,82 +271,34 @@ Route::middleware('auth:sanctum')->get('/chat-profile-user', [ProfilechangeContr
 
 
 
-// ✅ Route 1: Update FCM Token (called from Flutter app on login/startup)
-Route::post('/update-fcm-token', [FirebaseNotificationController::class, 'updateFcmToken']);
+// ====================================================================
+// 🔔 PUSH NOTIFICATION ROUTES (Firebase FCM & User Notifications)
+// ====================================================================
+Route::post('/update-fcm-token', [NotificationController::class, 'updateFcmToken']);
+Route::get('/notifications', [NotificationController::class, 'index']);
+Route::post('/notifications', [NotificationController::class, 'index']);
+Route::post('/get-notifications', [NotificationController::class, 'index']);
+Route::post('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead']);
+Route::post('/mark-notification-read', [NotificationController::class, 'markAsRead']);
+Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead']);
+Route::post('/mark-all-notifications-read', [NotificationController::class, 'markAllAsRead']);
+Route::get('/notifications/unread-count', [NotificationController::class, 'getUnreadCount']);
+Route::post('/get-notification-count', [NotificationController::class, 'getUnreadCount']);
+Route::post('/test-notification', [NotificationController::class, 'testSend']);
+Route::post('/test-firebase-notification', [NotificationController::class, 'testSend']);
 
-// ✅ Route 2: Get Notifications (fetch notification history from app)
-Route::post('/get-notifications', [FirebaseNotificationController::class, 'getNotifications']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/user/update-fcm-token', [NotificationController::class, 'updateFcmToken']);
+    Route::get('/user/notifications', [NotificationController::class, 'index']);
+    Route::post('/user/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead']);
+});
 
-// ✅ Route 3: Test Notification Send (optional - for testing)
-Route::post('/test-notification', [FirebaseNotificationController::class, 'testNotification']);
-
-
-
-
-
-
+// OneSignal backward compatibility routes
 Route::post('/update-onesignal-player-id', [OneSignalNotificationController::class, 'updateOneSignalPlayerId']);
-Route::get('/get-notifications', [OneSignalNotificationController::class, 'getNotifications']);
 Route::post('/send-notification-all', [OneSignalNotificationController::class, 'sendToAllUsers']);
 Route::post('/send-notification-specific', [OneSignalNotificationController::class, 'sendToSpecificUsers']);
 Route::get('/user-stats', [OneSignalNotificationController::class, 'getUserStats']);
 
-
-
-
-
-
-
-// ✅ Update FCM Token (from Flutter app on login)
-Route::post('/update-fcm-token', [NotificationController::class, 'updateFcmToken']);
-
-// ✅ Send Firebase Notification (from admin panel)
-Route::post('/send-firebase-notification', [NotificationController::class, 'sendFirebaseNotification']);
-
-// ✅ Test Firebase Notification
-Route::post('/test-firebase-notification', [NotificationController::class, 'testFirebaseNotification']);
-
-// ====================================================================
-// 🔔 ONESIGNAL NOTIFICATION ROUTES
-// ====================================================================
-
-// ✅ Update OneSignal Player ID (from Flutter app on login)
-Route::post('/update-onesignal-player', [NotificationController::class, 'updateOneSignalPlayer']);
-
-// ✅ Send OneSignal Notification (from admin panel)
-Route::post('/send-onesignal-notification', [NotificationController::class, 'sendOneSignalNotification']);
-
-// ✅ Test OneSignal Notification
-Route::post('/test-onesignal-notification', [NotificationController::class, 'testOneSignalNotification']);
-
-// ====================================================================
-// 📥 COMMON NOTIFICATION ROUTES (Works for both platforms)
-// ====================================================================
-
-// ✅ Get Notifications List
-Route::post('/get-notifications', [NotificationController::class, 'getNotifications']);
-
-// ✅ Mark Single Notification as Read
-Route::post('/mark-notification-read', [NotificationController::class, 'markNotificationRead']);
-
-// ✅ Delete Single Notification
-Route::post('/delete-notification', [NotificationController::class, 'deleteNotification']);
-
-// ✅ Get Unread Notification Count
-Route::post('/get-notification-count', [NotificationController::class, 'getNotificationCount']);
-
-// ✅ Mark All Notifications as Read
-Route::post('/mark-all-notifications-read', [NotificationController::class, 'markAllNotificationsRead']);
-
-// ====================================================================
-// 🚀 BULK NOTIFICATION ROUTES
-// ====================================================================
-
-// ✅ Send to All Users (select platform: firebase, onesignal, or both)
-Route::post('/send-notification-to-all', [NotificationController::class, 'sendNotificationToAll']);
-
-// ✅ Send to Specific User (select platform)
-Route::post('/send-notification-to-user', [NotificationController::class, 'sendNotificationToUser']);
 
    Route::get('/logosetting', [SettinglogoController::class, 'index']);
    Route::get('/mailsetting', [NewSettingsApiController::class, 'getMailSetting']);

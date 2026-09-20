@@ -9,6 +9,7 @@ use App\Models\AgentDeposite;
 use App\Models\User;
 use App\Models\Userdepositerequest;
 use App\Models\UserWidhrawrequest;
+use App\Services\PushNotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -174,6 +175,25 @@ class UserDepositewidthrawrequestController extends Controller
 
             DB::commit();
 
+            // Push Notification to Agent
+            if ($request->type === 'deposit') {
+                PushNotificationService::send(
+                    $request->agent_id,
+                    "নতুন ডিপোজিট রিকোয়েস্ট",
+                    "একজন ইউজার {$request->amount} USDT ডিপোজিট রিকোয়েস্ট পাঠিয়েছে",
+                    "p2p_order",
+                    ['order_id' => $record->id, 'type' => 'deposit', 'amount' => $request->amount]
+                );
+            } else {
+                PushNotificationService::send(
+                    $request->agent_id,
+                    "নতুন উইথড্র রিকোয়েস্ট",
+                    "একজন ইউজার {$request->amount} USDT উইথড্র রিকোয়েস্ট পাঠিয়েছে",
+                    "p2p_order",
+                    ['order_id' => $record->id, 'type' => 'withdraw', 'amount' => $request->amount]
+                );
+            }
+
             Log::info("✅ {$request->type} Request Created", [
                 'request_id' => $record->id,
                 'user_id' => $user->id,
@@ -250,6 +270,15 @@ class UserDepositewidthrawrequestController extends Controller
             $depositRequest->save();
 
             DB::commit();
+
+            // Push Notification to User
+            PushNotificationService::send(
+                $depositRequest->user_id,
+                "ডিপোজিট রিকোয়েস্ট গৃহীত",
+                "এজেন্ট আপনার {$depositRequest->amount} USDT ডিপোজিট রিকোয়েস্ট গ্রহণ করেছে",
+                "p2p_order",
+                ['order_id' => $depositRequest->id, 'status' => 'agent_confirmed', 'amount' => $depositRequest->amount]
+            );
 
             Log::info('✅ Agent Accepted Deposit', [
                 'deposit_id' => $id,
@@ -352,6 +381,15 @@ class UserDepositewidthrawrequestController extends Controller
             $deposit->save();
 
             DB::commit();
+
+            // Push Notification to Agent
+            PushNotificationService::send(
+                $deposit->agent_id,
+                "পেমেন্ট প্রুফ জমা হয়েছে",
+                "ইউজার ডিপোজিটের পেমেন্ট প্রুফ জমা দিয়েছেন",
+                "p2p_order",
+                ['order_id' => $deposit->id, 'status' => 'user_submitted']
+            );
 
             Log::info('✅ Payment Proof Submitted', [
                 'deposit_id' => $id,
@@ -464,6 +502,15 @@ class UserDepositewidthrawrequestController extends Controller
 
             DB::commit();
 
+            // Push Notification to User
+            PushNotificationService::send(
+                $depositRequest->user_id,
+                "ডিপোজিট সফল",
+                "আপনার {$depositRequest->amount} USDT ডিপোজিট সফলভাবে সম্পন্ন হয়েছে",
+                "deposit",
+                ['order_id' => $depositRequest->id, 'amount' => $depositRequest->amount]
+            );
+
             Log::info('✅ Admin Approved Deposit - COMPLETED', [
                 'deposit_id' => $id,
                 'original_amount' => $depositRequest->amount,
@@ -539,6 +586,15 @@ class UserDepositewidthrawrequestController extends Controller
             $withdraw->save();
 
             DB::commit();
+
+            // Push Notification to User
+            PushNotificationService::send(
+                $withdraw->user_id,
+                "উইথড্র রিকোয়েস্ট গৃহীত",
+                "এজেন্ট আপনার {$withdraw->amount} USDT উইথড্র রিকোয়েস্ট গ্রহণ করেছে",
+                "p2p_order",
+                ['order_id' => $withdraw->id, 'status' => 'agent_confirmed', 'amount' => $withdraw->amount]
+            );
 
             Log::info('✅ Agent Accepted Withdraw', [
                 'withdraw_id' => $id
@@ -646,6 +702,15 @@ class UserDepositewidthrawrequestController extends Controller
             $withdraw->save();
 
             DB::commit();
+
+            // Push Notification to User
+            PushNotificationService::send(
+                $withdraw->user_id,
+                "উইথড্র সম্পন্ন",
+                "আপনার {$withdraw->amount} USDT উইথড্র সফলভাবে সম্পন্ন হয়েছে",
+                "withdraw",
+                ['order_id' => $withdraw->id, 'amount' => $withdraw->amount]
+            );
 
             Log::info('✅ Withdraw Completed', [
                 'withdraw_id' => $id,

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Usertoadminchat;
+use App\Services\PushNotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -175,6 +176,15 @@ class AdminandchatuserController extends Controller
             'message_type' => $messageType,
             'is_read' => false,
         ]);
+
+        $msgBody = !empty($chat->message) ? $chat->message : 'অ্যাডমিন থেকে নতুন একটি মেসেজ বা ফাইল এসেছে';
+        PushNotificationService::send(
+            $request->receiver_id,
+            "অ্যাডমিন সাপোর্ট",
+            $msgBody,
+            "admin_message",
+            ['chat_id' => $chat->id, 'sender_id' => $adminId]
+        );
 
         /**
          * ====================================================================

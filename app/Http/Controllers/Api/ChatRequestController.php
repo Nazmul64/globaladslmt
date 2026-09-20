@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\ChatRequest;
 use App\Models\User;
+use App\Services\PushNotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -124,6 +125,16 @@ class ChatRequestController extends Controller
                 'receiver_id' => $receiverId,
                 'status'      => 'pending',
             ]);
+
+            $sender = Auth::user();
+            $senderName = $sender ? $sender->name : 'Someone';
+            PushNotificationService::send(
+                $receiverId,
+                "নতুন ফ্রেন্ড রিকোয়েস্ট",
+                "{$senderName} আপনাকে ফ্রেন্ড রিকোয়েস্ট পাঠিয়েছে",
+                "friend_request",
+                ['sender_id' => $senderId, 'request_id' => $friendRequest->id]
+            );
 
             Log::info('Friend request sent', [
                 'request_id' => $friendRequest->id,
@@ -310,6 +321,16 @@ class ChatRequestController extends Controller
             }
 
             DB::commit();
+
+            $receiver = Auth::user();
+            $receiverName = $receiver ? $receiver->name : 'Someone';
+            PushNotificationService::send(
+                $senderId,
+                "রিকোয়েস্ট গ্রহণ করা হয়েছে",
+                "{$receiverName} আপনার ফ্রেন্ড রিকোয়েস্ট এক্সেপ্ট করেছে",
+                "friend_accepted",
+                ['friend_id' => $receiverId, 'request_id' => $friendRequest->id]
+            );
 
             Log::info('Friend request accepted', [
                 'request_id' => $friendRequest->id,

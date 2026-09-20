@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ChatMessage;
 use App\Models\ChatRequest;
 use App\Models\User;
+use App\Services\PushNotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -219,6 +220,19 @@ class UserchatController extends Controller
             $chatMessage->save();
 
             Log::info("Message saved with ID: " . $chatMessage->id);
+
+            // Send Push Notification to Receiver
+            $sender = Auth::user();
+            $senderName = $sender ? $sender->name : 'Friend';
+            $msgBody = !empty($chatMessage->message) ? $chatMessage->message : '📷 Photo';
+
+            PushNotificationService::send(
+                $receiverId,
+                "নতুন মেসেজ - {$senderName}",
+                $msgBody,
+                "chat_message",
+                ['chat_id' => $chatMessage->id, 'sender_id' => $senderId]
+            );
 
             return response()->json([
                 'success' => true,
