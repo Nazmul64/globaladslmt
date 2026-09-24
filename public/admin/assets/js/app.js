@@ -2,17 +2,22 @@
   "use strict";
 
   // sidebar submenu collapsible js
-  $(".sidebar-menu .dropdown").on("click", function () {
-    var item = $(this);
-    item.siblings(".dropdown").children(".sidebar-submenu").slideUp();
+  $(".sidebar-menu .dropdown > a").on("click", function (e) {
+    var $this = $(this);
+    var item = $this.parent(".dropdown");
+    var isOpen = item.hasClass("open") || item.hasClass("dropdown-open");
 
-    item.siblings(".dropdown").removeClass("dropdown-open");
+    // Close other sibling dropdowns
+    item.siblings(".dropdown").children(".sidebar-submenu").slideUp(200);
+    item.siblings(".dropdown").removeClass("dropdown-open open");
 
-    item.siblings(".dropdown").removeClass("open");
-
-    item.children(".sidebar-submenu").slideToggle();
-
-    item.toggleClass("dropdown-open");
+    if (isOpen) {
+      item.children(".sidebar-submenu").slideUp(200);
+      item.removeClass("dropdown-open open");
+    } else {
+      item.children(".sidebar-submenu").slideDown(200);
+      item.addClass("dropdown-open open");
+    }
   });
 
   $(".sidebar-toggle").on("click", function () {
@@ -31,23 +36,69 @@
     $("body").removeClass("overlay-active");
   });
 
-  //to keep the current page active
+  // Keep current page active and auto-expand parent dropdown + preserve scroll position
   $(function () {
-    for (
-      var nk = window.location,
-        o = $("ul#sidebar-menu a")
-          .filter(function () {
-            return this.href == nk;
-          })
-          .addClass("active-page") // anchor
-          .parent()
-          .addClass("active-page");
-      ;
+    var currentUrl = window.location.href.split('#')[0].split('?')[0].replace(/\/+$/, '');
+    var currentPath = window.location.pathname.replace(/\/+$/, '');
+    var bestMatch = null;
+    var longestMatchLen = 0;
 
-    ) {
-      // li
-      if (!o.is("li")) break;
-      o = o.parent().addClass("show").parent().addClass("open");
+    $("ul#sidebar-menu a").each(function () {
+      var href = this.href.split('#')[0].split('?')[0].replace(/\/+$/, '');
+      if (!href || href === '' || href.endsWith('javascript:void(0)')) return;
+
+      var linkPath = this.pathname ? this.pathname.replace(/\/+$/, '') : '';
+
+      // Exact match
+      if (href === currentUrl) {
+        bestMatch = $(this);
+        longestMatchLen = 9999;
+        return false; // Break loop on exact match
+      }
+
+      // Prefix match for create, edit, show subpages
+      if (linkPath && linkPath !== '' && linkPath !== '/' && currentPath.indexOf(linkPath) === 0) {
+        if (linkPath.length > longestMatchLen) {
+          longestMatchLen = linkPath.length;
+          bestMatch = $(this);
+        }
+      }
+    });
+
+    if (bestMatch && bestMatch.length) {
+      bestMatch.addClass("active-page");
+      bestMatch.closest("li").addClass("active-page");
+
+      var parentDropdown = bestMatch.closest(".dropdown");
+      if (parentDropdown.length) {
+        parentDropdown.addClass("open dropdown-open");
+        parentDropdown.children(".sidebar-submenu").show();
+      }
+
+      // Auto scroll active menu item into view
+      setTimeout(function () {
+        var activeTarget = bestMatch[0];
+        if (activeTarget && typeof activeTarget.scrollIntoView === 'function') {
+          activeTarget.scrollIntoView({ block: "center", behavior: "smooth" });
+        }
+      }, 150);
+    } else {
+      // Restore previous scroll position if no specific element matched
+      var savedScroll = sessionStorage.getItem("admin_sidebar_scroll");
+      if (savedScroll) {
+        var menuArea = document.querySelector(".sidebar-menu-area") || document.querySelector(".sidebar");
+        if (menuArea) {
+          menuArea.scrollTop = parseInt(savedScroll, 10);
+        }
+      }
+    }
+
+    // Save scroll position on scroll
+    var menuAreaEl = document.querySelector(".sidebar-menu-area") || document.querySelector(".sidebar");
+    if (menuAreaEl) {
+      menuAreaEl.addEventListener("scroll", function () {
+        sessionStorage.setItem("admin_sidebar_scroll", menuAreaEl.scrollTop);
+      }, { passive: true });
     }
   });
 

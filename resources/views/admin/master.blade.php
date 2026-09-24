@@ -211,10 +211,74 @@
                     previewBox.classList.remove('d-none');
                 };
                 reader.readAsDataURL(file);
-            }
         }
     });
 })();
+</script>
+
+<!-- Universal Sidebar Active Route & Scroll Position Persistence -->
+<script>
+$(document).ready(function () {
+    var currentUrl = window.location.href.split('#')[0].split('?')[0].replace(/\/+$/, '');
+    var currentPath = window.location.pathname.replace(/\/+$/, '');
+    var bestMatch = null;
+    var longestMatchLen = 0;
+
+    $("ul#sidebar-menu a").each(function () {
+        var href = this.href ? this.href.split('#')[0].split('?')[0].replace(/\/+$/, '') : '';
+        if (!href || href === '' || href.endsWith('javascript:void(0)')) return;
+
+        var linkPath = this.pathname ? this.pathname.replace(/\/+$/, '') : '';
+
+        // Exact match
+        if (href === currentUrl) {
+            bestMatch = $(this);
+            longestMatchLen = 9999;
+            return false;
+        }
+
+        // Subroute match (e.g. /notice/create matches /notice)
+        if (linkPath && linkPath !== '' && linkPath !== '/' && currentPath.indexOf(linkPath) === 0) {
+            if (linkPath.length > longestMatchLen) {
+                longestMatchLen = linkPath.length;
+                bestMatch = $(this);
+            }
+        }
+    });
+
+    if (bestMatch && bestMatch.length) {
+        bestMatch.addClass("active-page");
+        bestMatch.closest("li").addClass("active-page");
+
+        var parentDropdown = bestMatch.closest(".dropdown");
+        if (parentDropdown.length) {
+            parentDropdown.addClass("open dropdown-open");
+            parentDropdown.children(".sidebar-submenu").css('display', 'block').show();
+        }
+
+        setTimeout(function () {
+            var activeTarget = bestMatch[0];
+            if (activeTarget && typeof activeTarget.scrollIntoView === 'function') {
+                activeTarget.scrollIntoView({ block: "center", behavior: "smooth" });
+            }
+        }, 100);
+    } else {
+        var savedScroll = sessionStorage.getItem("admin_sidebar_scroll");
+        if (savedScroll) {
+            var menuArea = document.querySelector(".sidebar-menu-area") || document.querySelector(".sidebar");
+            if (menuArea) {
+                menuArea.scrollTop = parseInt(savedScroll, 10);
+            }
+        }
+    }
+
+    var menuAreaEl = document.querySelector(".sidebar-menu-area") || document.querySelector(".sidebar");
+    if (menuAreaEl) {
+        menuAreaEl.addEventListener("scroll", function () {
+            sessionStorage.setItem("admin_sidebar_scroll", menuAreaEl.scrollTop);
+        }, { passive: true });
+    }
+});
 </script>
 
 </body>
