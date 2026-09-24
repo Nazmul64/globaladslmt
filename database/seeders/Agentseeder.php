@@ -14,13 +14,14 @@ class Agentseeder extends Seeder
      */
     public function run(): void
     {
-         DB::table('users')->insert([
-            'name' =>'Agent',
-            'email' =>'agent@gmail.com',
-            'password' =>Hash::make('agent@gmail.com'),
-            'role'=>'agent',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        DB::table('users')->updateOrInsert(
+            ['email' => 'agent@gmail.com'],
+            [
+                'name' => 'Agent',
+                'password' => Hash::make('agent@gmail.com'),
+                'role' => 'agent',
+                'updated_at' => now(),
+            ]
+        );
     }
 }

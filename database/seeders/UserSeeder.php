@@ -14,13 +14,14 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-         DB::table('users')->insert([
-            'name' =>'testuser',
-            'email' =>'user@gmail.com',
-            'password' =>Hash::make('user@gmail.com'),
-            'role'=>'user',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        DB::table('users')->updateOrInsert(
+            ['email' => 'user@gmail.com'],
+            [
+                'name' => 'testuser',
+                'password' => Hash::make('user@gmail.com'),
+                'role' => 'user',
+                'updated_at' => now(),
+            ]
+        );
     }
 }
