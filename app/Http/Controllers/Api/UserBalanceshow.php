@@ -31,20 +31,33 @@ class UserBalanceshow extends Controller
                 'balance' => $user->balance ?? 0
             ]);
 
+            $isVerified = (bool) $user->is_verified;
+
             // ✅ Return complete user data
             return response()->json([
                 'success' => true,
+                'status' => true,
                 'message' => 'User data retrieved successfully',
                 'data' => [
                     'user' => [
                         'id' => $user->id,
                         'name' => $user->name,
                         'email' => $user->email,
+                        'mobile' => $user->mobile,
+                        'is_verified' => $isVerified,
+                        'kyc_approved' => $isVerified,
+                        'kyc_status' => $isVerified ? 'verified' : 'unverified',
+                        'verification_status' => $isVerified ? 'verified' : 'unverified',
                     ],
-                    'balance' => $user->balance ?? 0,
+                    'balance' => (float) ($user->balance ?? 0),
+                    'user_balance' => (float) ($user->balance ?? 0),
                     'ref_code' => $user->ref_code ?? '---',
-                    'kyc_approved' => $user->kyc_approved ?? false,
-                    'profile_photo' => $this->resolveProfilePhoto($user->photo),
+                    'referral_code' => $user->ref_code ?? '---',
+                    'is_verified' => $isVerified,
+                    'kyc_approved' => $isVerified,
+                    'kyc_status' => $isVerified ? 'verified' : 'unverified',
+                    'verification_status' => $isVerified ? 'verified' : 'unverified',
+                    'profile_photo' => $this->resolveProfilePhoto($user->photo ?? $user->new_photo ?? $user->profile_photo),
                 ]
             ], 200);
 

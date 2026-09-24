@@ -41,6 +41,13 @@ class Creaetpost extends Model
         'updated_at' => 'datetime',
     ];
 
+    protected $appends = [
+        'image_url',
+        'download_url',
+        'formatted_date',
+        'time_ago',
+    ];
+
     /**
      * Default values
      */
@@ -123,6 +130,14 @@ class Creaetpost extends Model
     public function getImageUrlAttribute()
     {
         return $this->image ? asset($this->image) : null;
+    }
+
+    /**
+     * Get image download URL
+     */
+    public function getDownloadUrlAttribute()
+    {
+        return $this->image ? url('/api/posts/' . $this->id . '/download') : null;
     }
 
     /**

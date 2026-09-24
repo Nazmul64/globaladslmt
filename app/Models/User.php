@@ -67,6 +67,9 @@ protected $casts = [
 
 protected $appends = [
     'is_verified',
+    'kyc_approved',
+    'kyc_status',
+    'verification_status',
     'photo_url',
 ];
 
@@ -83,6 +86,21 @@ public function getIsVerifiedAttribute(): bool
     return \App\Models\Agentkyc::where('user_id', $this->id)
         ->whereRaw('LOWER(status) = ?', ['approved'])
         ->exists();
+}
+
+public function getKycApprovedAttribute(): bool
+{
+    return (bool) $this->is_verified;
+}
+
+public function getKycStatusAttribute(): string
+{
+    return $this->is_verified ? 'verified' : 'unverified';
+}
+
+public function getVerificationStatusAttribute(): string
+{
+    return $this->is_verified ? 'verified' : 'unverified';
 }
 
 public function getPhotoUrlAttribute(): ?string

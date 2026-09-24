@@ -21,29 +21,34 @@ class UserbalanceshowController extends BaseController
         // Fetch user KYC record
         $kyc = Kyc::where('user_id', $user->id)->first();
 
-        // Check KYC approval status
-        $kyc_approved = Kyc::where('user_id', $user->id)
-                            ->where('status', 'approved')
-                            ->exists();
+        $is_verified = (bool) $user->is_verified;
 
         // Fetch balance and referral code from users table
-        $user_balance = $user->balance ?? 0;
+        $user_balance = (float) ($user->balance ?? 0);
         $ref_code     = $user->ref_code ?? '';
 
         // ✅ Profile photo URL - Direct from asset() helper
-        if (!empty($user->photo) && file_exists(public_path('uploads/profile/' . $user->photo))) {
-            $profile_photo_url = asset('uploads/profile/' . $user->photo);
+        $photo = $user->photo ?? $user->new_photo ?? $user->profile_photo ?? null;
+        if (!empty($photo) && file_exists(public_path('uploads/profile/' . $photo))) {
+            $profile_photo_url = asset('uploads/profile/' . $photo);
+        } elseif (!empty($photo) && (str_starts_with($photo, 'http://') || str_starts_with($photo, 'https://'))) {
+            $profile_photo_url = $photo;
         } else {
-            $profile_photo_url = '';
+            $profile_photo_url = asset('uploads/avator.jpg');
         }
 
         $data = [
-            'user'            => $user,
-            'balance'         => $user_balance,
-            'kyc'             => $kyc,
-            'kyc_approved'    => $kyc_approved,
-            'ref_code'        => $ref_code,
-            'profile_photo'   => $profile_photo_url,
+            'user'                => $user,
+            'balance'             => $user_balance,
+            'user_balance'        => $user_balance,
+            'kyc'                 => $kyc,
+            'kyc_approved'        => $is_verified,
+            'is_verified'         => $is_verified,
+            'kyc_status'          => $is_verified ? 'verified' : 'unverified',
+            'verification_status' => $is_verified ? 'verified' : 'unverified',
+            'ref_code'            => $ref_code,
+            'referral_code'       => $ref_code,
+            'profile_photo'       => $profile_photo_url,
         ];
 
         return $this->sendResponse($data, 'User data fetched successfully.');

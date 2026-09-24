@@ -20,6 +20,10 @@ class AdminBlockuserController extends Controller
         $user->is_blocked = $request->action === 'block';
         $user->save();
 
+        if ($request->action === 'unblock') {
+            \Illuminate\Support\Facades\Cache::forget('user_invalid_clicks_' . $user->id);
+        }
+
         return redirect()->back()->with('success', "User has been {$request->action}ed successfully.");
     }
 

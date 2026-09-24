@@ -795,4 +795,46 @@ class PostController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Download post image
+     * GET /api/posts/{id}/download
+     */
+    public function downloadImage($id)
+    {
+        try {
+            $post = Creaetpost::findOrFail($id);
+
+            if (empty($post->image)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No image attached to this post'
+                ], 404);
+            }
+
+            $imagePath = public_path($post->image);
+            if (!file_exists($imagePath)) {
+                $imagePath = public_path('uploads/posts/' . basename($post->image));
+            }
+            if (!file_exists($imagePath)) {
+                $imagePath = storage_path('app/public/' . $post->image);
+            }
+
+            if (file_exists($imagePath)) {
+                $filename = 'post_image_' . $post->id . '.' . pathinfo($imagePath, PATHINFO_EXTENSION);
+                return response()->download($imagePath, $filename);
+            }
+
+            // Fallback to direct redirect if URL
+            return redirect($post->image_url ?? asset($post->image));
+
+        } catch (\Exception $e) {
+            Log::error('Failed to download post image: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to download image',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

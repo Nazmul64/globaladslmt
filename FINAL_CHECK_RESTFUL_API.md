@@ -1,73 +1,147 @@
 # GlobalAds LMT - Final Check RESTful API Documentation
 
-This document contains the complete and verified RESTful API endpoints for the GlobalAds platform, including updated App Settings, VPN & Location Controls, Daily Task & Reward Claim synchronization, Ad Network Timer configurations, Push Notification with Dynamic App Logo, and KYC verification status.
+This document contains complete, verified documentation for all core features, RESTful endpoints, and backend logic in the GlobalAds platform.
 
 ---
 
-## 1. App Configuration & Control Settings
+## 1. KYC & User Verification System (ID Verified / Text)
 
-### 1.1 Get Global App Settings
-- **Endpoint:** `GET /api/app-setting`
-- **Authentication:** Optional (Public)
-- **Description:** Returns all global settings including AdMob IDs, Star.io IDs, timer statuses, VPN modes, allowed countries, and maintenance mode.
+### 1.1 Overview
+When a user submits KYC and the Admin clicks **Approve**, all user profiles and verification endpoints immediately reflect:
+- `is_verified`: `true` (Boolean)
+- `kyc_approved`: `true` (Boolean)
+- `kyc_status`: `"verified"` (String)
+- `verification_status`: `"verified"` (String)
 
-#### Response Example:
+If not yet approved, it returns `is_verified: false`, `kyc_status: "unverified"` or `"pending"`.
+
+### 1.2 Endpoints
+
+#### `GET /api/profile`
+- **Headers:** `Authorization: Bearer {token}`
+- **Response:**
+```json
+{
+  "status": true,
+  "message": "Profile fetched successfully",
+  "data": {
+    "id": 10,
+    "name": "Alex",
+    "mobile": "01700000000",
+    "email": "user@example.com",
+    "ref_code": "83920194",
+    "referral_link": "https://globaladslmt.com/register?ref=83920194",
+    "is_blocked": false,
+    "is_verified": true,
+    "kyc_status": "verified",
+    "verification_status": "verified",
+    "profile_photo": "https://globaladslmt.com/uploads/profile/profile_10.jpg",
+    "total_coins": 25.50,
+    "balance": 25.50,
+    "tasks_done": 40
+  }
+}
+```
+
+#### `GET /api/userbalanceshow` and `GET /api/userbalanceshows`
+- **Headers:** `Authorization: Bearer {token}`
+- **Response:**
 ```json
 {
   "success": true,
   "status": true,
   "data": {
-    "star_io_id": "209922521",
-    "startapp_app_id": "209922521",
-    "admob_app_id": "ca-app-pub-3940256099942544~3347511713",
-    "admob_banner_id": "ca-app-pub-3940256099942544/6300978111",
-    "admob_interstitial_id": "ca-app-pub-3940256099942544/1033173712",
-    "admob_rewarded_interstitial_id": "ca-app-pub-3940256099942544/5354046379",
-    "admob_rewarded_id": "ca-app-pub-3940256099942544/5224354917",
-    "admob_native_id": "ca-app-pub-3940256099942544/2247696110",
-    "admob_app_open_id": "ca-app-pub-3940256099942544/9257395921",
-    "admob_status": true,
-    "stario_timer_status": "yes",
-    "admob_timer_status": "no",
-    "task_break_time_minutes": 2,
-    "button_timer_seconds": 30,
-    "ad_timer_seconds": 15,
-    "invalid_click_limit": 5,
-    "invalid_deduct": 1.0,
-    "view_before_click_view_target": 10,
-    "vpn_modes": "not_allowed",
-    "vpn_required_in_task_only": "yes",
-    "allowed_country": "us,uk,au,bangladesh,india,pakistan,canada,australia",
-    "registration_status": "open",
-    "same_device_login": "yes",
-    "maintenance_mode": "no",
-    "app_version": "1.0.0",
-    "app_link": "https://play.google.com/store/apps/details?id=com.globaladslmt.app"
+    "user": {
+      "id": 10,
+      "name": "Alex",
+      "email": "user@example.com",
+      "is_verified": true,
+      "kyc_approved": true,
+      "kyc_status": "verified",
+      "verification_status": "verified"
+    },
+    "balance": 25.50,
+    "user_balance": 25.50,
+    "kyc_approved": true,
+    "is_verified": true,
+    "kyc_status": "verified",
+    "verification_status": "verified",
+    "ref_code": "83920194",
+    "profile_photo": "https://globaladslmt.com/uploads/profile/profile_10.jpg"
   }
 }
 ```
 
-### 1.2 Get Latest Ads Configuration (For Flutter/Android)
-- **Endpoint:** `GET /api/ads/latest`
-- **Authentication:** Optional (Public)
+---
+
+## 2. Invalid Click Protection & Account Auto-Block
+
+### 2.1 Overview & Logic
+- **Invalid Click Limit (`invalid_click_limit`)**: Set in Admin Panel (e.g., `5`).
+- **Invalid Deduct (`invalid_deduct`)**: Amount deducted from user balance per invalid click (e.g., `1.00`).
+- **Auto-Block**: When a user reaches the invalid click limit (e.g., 5 invalid clicks):
+  1. The user's account is immediately set to `is_blocked = true`.
+  2. The user is blocked from viewing ads, claiming rewards, and accessing app functions.
+  3. A 403 error is returned instructing the user to contact Admin Support.
+- **Admin Unblock**: When Admin unblocks the user from Admin Panel, the invalid click counter is automatically reset.
+
+### 2.2 Endpoint: Track Invalid Click
+- **Endpoint:** `POST /api/track-invalid-click`
+- **Headers:** `Authorization: Bearer {token}`
+
+#### Response (Warning - Before Limit Reached):
+```json
+{
+  "status": true,
+  "is_blocked": false,
+  "invalid_clicks": 2,
+  "limit": 5,
+  "deducted": 1.0,
+  "balance": 24.50,
+  "message": "ইনভ্যালিড ক্লিক সনাক্ত হয়েছে (2/5)। সতর্ক থাকুন, লিমিট পার হলে একাউন্ট ব্লক হবে।"
+}
+```
+
+#### Response (Limit Reached - Auto Blocked):
+```json
+{
+  "status": false,
+  "is_blocked": true,
+  "invalid_clicks": 5,
+  "limit": 5,
+  "deducted": 1.0,
+  "balance": 21.50,
+  "message": "আপনার একাউন্টে সর্বোচ্চ ইনভ্যালিড ক্লিক হওয়ায় একাউন্ট ব্লক করা হয়েছে। অনুগ্রহ করে এডমিনের সাথে সাপোর্টে যোগাযোগ করুন।"
+}
+```
 
 ---
 
-## 2. Daily Tasks & Earnings Engine
+## 3. Daily Tasks, Sequential Ad Tracking & Claim Reward
 
-### 2.1 Get User Earning & Task State
-- **Endpoint:** `GET /api/user-earning`
-- **Authentication:** Bearer Token (`auth:sanctum`)
-- **Description:** Returns the user's active package, current ad progress, cycle count, break time remaining, and claim readiness.
+### 3.1 Overview of Timer Rules & Ad Networks
+- **`ad_timer_seconds` (e.g., 15s)**: Duration the user watches each ad.
+- **`button_timer_seconds` (e.g., 30s)**: Cooldown countdown on the ad button.
+- **`task_break_time_minutes` (e.g., 2 min)**: Break period after completing an ad cycle (e.g. 10 ads).
+- **Google Ads vs Start.io Timer Rules**:
+  - **`stario_timer_status: "yes"`**: Start.io ads use the configured timers & break time.
+  - **`admob_timer_status: "no"`**: Google AdMob ads do NOT enforce break time timer. Break time is skipped so users can claim or proceed without unwanted delay.
 
-#### Response Example:
+### 3.2 Sequential Ad Counting (No Skipping)
+- Ad tracking is debounced and rate-limited.
+- Each call to `POST /api/track-ad-view` increments the count strictly 1-by-1 (e.g., 1 -> 2 -> 3 -> 4 -> 5).
+- When the target ad count is reached, the Claim button appears.
+
+### 3.3 Endpoints
+
+#### `GET /api/user-earning`
+- **Headers:** `Authorization: Bearer {token}`
+- **Response:**
 ```json
 {
   "status": true,
   "data": {
-    "user_name": "John Doe",
-    "is_blocked": false,
-    "is_withdraw_blocked": false,
+    "user_name": "Alex",
     "ads_watched_today": 10,
     "ads_watched_in_current_cycle": 0,
     "current_cycle_number": 1,
@@ -82,7 +156,7 @@ This document contains the complete and verified RESTful API endpoints for the G
     "total_cycles": 10,
     "today_earning": "0.00",
     "total_earning": "0.00",
-    "user_balance": "0.00",
+    "user_balance": "25.00",
     "stario_timer_status": "yes",
     "admob_timer_status": "no",
     "task_break_time_minutes": 2,
@@ -93,20 +167,13 @@ This document contains the complete and verified RESTful API endpoints for the G
     "package_price": "25.00",
     "ad_brack": 10,
     "daily_income": "0.42"
-  },
-  "message": "Data loaded successfully"
+  }
 }
 ```
 
-### 2.2 Track Ad View (Sequential & Debounced)
-- **Endpoint:** `POST /api/track-ad-view`
-- **Authentication:** Bearer Token (`auth:sanctum`)
-- **Behavior:** 
-  - Prevents skipped ads by strictly incrementing ad view count 1-by-1.
-  - Rate-limited/debounced to eliminate accidental multi-incrementing.
-  - Automatically respects `admob_timer_status`: If AdMob timer is disabled (`no`), break time is skipped so users can proceed seamlessly.
-
-#### Response Example:
+#### `POST /api/track-ad-view`
+- **Headers:** `Authorization: Bearer {token}`
+- **Response:**
 ```json
 {
   "status": true,
@@ -121,19 +188,9 @@ This document contains the complete and verified RESTful API endpoints for the G
 }
 ```
 
-### 2.3 Break Complete (Timer Expired)
-- **Endpoint:** `POST /api/break-complete`
-- **Authentication:** Bearer Token (`auth:sanctum`)
-
-### 2.4 Claim Reward (Balance Synchronization)
-- **Endpoint:** `POST /api/claim-reward`
-- **Authentication:** Bearer Token (`auth:sanctum`)
-- **Behavior:**
-  - Validates completion of target ads for the cycle.
-  - Credit is added to user `balance` and daily `today_earning`.
-  - Marks the cycle as claimed in DB (`last_claimed_cycle = current_cycle_number`).
-
-#### Response Example:
+#### `POST /api/claim-reward`
+- **Headers:** `Authorization: Bearer {token}`
+- **Response:**
 ```json
 {
   "status": true,
@@ -142,8 +199,8 @@ This document contains the complete and verified RESTful API endpoints for the G
   "data": {
     "earned": "0.02",
     "reward_amount": 0.02,
-    "user_balance": "0.02",
-    "balance": 0.02,
+    "user_balance": "25.02",
+    "balance": 25.02,
     "ads_watched_today": 10,
     "ads_watched_in_current_cycle": 0,
     "current_cycle_number": 1,
@@ -161,73 +218,32 @@ This document contains the complete and verified RESTful API endpoints for the G
 
 ---
 
-## 3. KYC Verification Status
+## 4. App Controls & Security Settings
 
-### 3.1 Get Profile with Verification Status
-- **Endpoint:** `GET /api/profile`
-- **Authentication:** Bearer Token (`auth:sanctum`)
-
-#### Response Example:
-```json
-{
-  "status": true,
-  "message": "Profile fetched successfully",
-  "data": {
-    "id": 12,
-    "name": "Alex Smith",
-    "mobile": "+8801700000000",
-    "email": "alex@example.com",
-    "phone": "+8801700000000",
-    "ref_code": "48291048",
-    "referral_code": "48291048",
-    "referral_link": "https://globaladslmt.com/register?ref=48291048",
-    "is_blocked": false,
-    "is_withdraw_blocked": false,
-    "is_verified": true,
-    "kyc_status": "verified",
-    "verification_status": "verified",
-    "profile_photo": "https://globaladslmt.com/uploads/profile/profile_12.jpg",
-    "total_coins": 150.5,
-    "balance": 150.5,
-    "tasks_done": 25
-  }
-}
-```
-
-### 3.2 Check User Verification Status
-- **Endpoint:** `GET /api/user/{user_id}/verify-status`
-- **Authentication:** Optional (Public)
-
-#### Response:
-```json
-{
-  "status": true,
-  "verified": true,
-  "is_verified": true,
-  "kyc_status": "verified",
-  "message": "User is verified"
-}
-```
+### 4.1 Global Settings (`GET /api/app-setting`)
+- **`vpn_modes`**: `"not_allowed"`, `"allowed"`, `"required"`.
+- **`vpn_required_in_task_only`**: `"yes"` or `"no"`.
+- **`allowed_country`**: Comma-separated country codes/names (`"us,uk,au,bangladesh,india,pakistan,canada,australia"`).
+- **`same_device_login`**: `"yes"` or `"no"`. Enforces single device login matching the registered `device_id`.
+- **`registration_status`**: `"open"` or `"closed"`. If `"closed"`, `POST /api/register` returns 403 Forbidden.
+- **`maintenance_mode`**: `"yes"` or `"no"`. If `"yes"`, returns 503 Service Unavailable.
 
 ---
 
-## 4. Push Notifications & App Logo
+## 5. Push Notifications & App Logo
 
-### 4.1 Push Notification Integration
-- When sending push notifications via OneSignal or Firebase FCM:
-  - The App Logo configured in Admin (`Settinglogo`) is automatically included in `large_icon`, `app_logo`, `icon_url`, and custom payload data.
-  - Ensures Android & iOS show the official app logo on notifications instead of default blank squares.
+- When sending notifications from Admin via OneSignal or Firebase FCM:
+  - The App Logo from `Settinglogo` is automatically attached to `large_icon`, `app_logo`, and payload data.
+  - Ensures Android / iOS notifications display the platform icon instead of default white placeholder boxes.
 
-### 4.2 Fetch App Logo
-- **Endpoint:** `GET /api/logo`
-- **Response:**
-```json
-{
-  "status": true,
-  "data": {
-    "id": 1,
-    "photo": "https://globaladslmt.com/uploads/logo/logo_main.png"
-  },
-  "message": "Logo fetched successfully"
-}
-```
+---
+
+## 6. Community Posts & Image Download
+
+### 6.1 Post Image Download
+- **Endpoint:** `GET /api/posts/{id}/download`
+- **Authentication:** Public / Token
+- **Description:** Allows users to download attached post images directly.
+- **`Creaetpost` Object Attributes:**
+  - `image_url`: Full URL to view image.
+  - `download_url`: Endpoint URL to trigger direct image download.

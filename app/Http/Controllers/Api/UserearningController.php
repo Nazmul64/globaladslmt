@@ -411,7 +411,7 @@ class UserearningController extends Controller
 
     /**
      * TRACK INVALID CLICK
-     * ✅ Logs invalid clicks for monitoring
+     * ✅ Deducts balance, tracks invalid clicks count, and auto-blocks user if limit reached
      */
     public function trackInvalidClick()
     {
@@ -422,14 +422,63 @@ class UserearningController extends Controller
                 return response()->json(['status' => false, 'message' => 'Unauthorized'], 401);
             }
 
+            $settings = \App\Models\Appsetting::first();
+            $limit = (int) ($settings->invalid_click_limit ?? 5);
+            if ($limit <= 0) $limit = 5;
+            $deduct = (float) ($settings->invalid_deduct ?? 0);
+
+            // Fetch current user invalid clicks
+            $cacheKey = 'user_invalid_clicks_' . $user->id;
+            $currentClicks = (int) \Illuminate\Support\Facades\Cache::get($cacheKey, 0) + 1;
+            \Illuminate\Support\Facades\Cache::put($cacheKey, $currentClicks, now()->addDays(30));
+
+            // Deduct balance if configured
+            if ($deduct > 0) {
+                $user->balance = max(0, round((float)$user->balance - $deduct, 2));
+            }
+
+            $isBlocked = false;
+            if ($currentClicks >= $limit) {
+                $user->is_blocked = true;
+                $isBlocked = true;
+                Log::warning('🚨 USER AUTO-BLOCKED DUE TO INVALID CLICKS', [
+                    'user_id' => $user->id,
+                    'invalid_clicks' => $currentClicks,
+                    'limit' => $limit,
+                ]);
+            }
+
+            $user->save();
+
             Log::warning('⚠️ INVALID CLICK DETECTED', [
                 'user_id' => $user->id,
+                'invalid_clicks' => $currentClicks,
+                'limit' => $limit,
+                'deducted' => $deduct,
+                'is_blocked' => $isBlocked,
                 'timestamp' => now(),
             ]);
 
+            if ($isBlocked) {
+                return response()->json([
+                    'status' => false,
+                    'is_blocked' => true,
+                    'invalid_clicks' => $currentClicks,
+                    'limit' => $limit,
+                    'deducted' => $deduct,
+                    'balance' => (float) $user->balance,
+                    'message' => 'আপনার একাউন্টে সর্বোচ্চ ইনভ্যালিড ক্লিক হওয়ায় একাউন্ট ব্লক করা হয়েছে। অনুগ্রহ করে এডমিনের সাথে সাপোর্টে যোগাযোগ করুন।'
+                ], 403);
+            }
+
             return response()->json([
                 'status' => true,
-                'message' => 'Invalid click tracked'
+                'is_blocked' => false,
+                'invalid_clicks' => $currentClicks,
+                'limit' => $limit,
+                'deducted' => $deduct,
+                'balance' => (float) $user->balance,
+                'message' => "ইনভ্যালিড ক্লিক সনাক্ত হয়েছে ({$currentClicks}/{$limit})। সতর্ক থাকুন, লিমিট পার হলে একাউন্ট ব্লক হবে।"
             ], 200);
 
         } catch (\Exception $e) {

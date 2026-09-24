@@ -213,6 +213,7 @@ Route::middleware('auth:sanctum')->get('/posts', [PostController::class, 'index'
 Route::middleware('auth:sanctum')->post('/posts', [PostController::class, 'store']);
 Route::middleware('auth:sanctum')->get('/posts/my-posts', [PostController::class, 'myPosts']);
 Route::middleware('auth:sanctum')->get('/posts/search', [PostController::class, 'search']);
+Route::get('/posts/{id}/download', [PostController::class, 'downloadImage']);
 Route::middleware('auth:sanctum')->get('/posts/{id}', [PostController::class, 'show']);
 // Route::middleware('auth:sanctum')->post('/posts/{id}', [PostController::class, 'update']); // ✅ শুধু এটা রাখুন
 Route::middleware('auth:sanctum')->match(['POST', 'PUT'], '/posts/{id}', [PostController::class, 'update']);
