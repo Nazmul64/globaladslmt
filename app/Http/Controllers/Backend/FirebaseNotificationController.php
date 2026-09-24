@@ -284,6 +284,7 @@ class FirebaseNotificationController extends Controller
                     'app_id' => $appId,
                     'headings' => ['en' => $title],
                     'contents' => ['en' => $body],
+                    'small_icon' => 'ic_stat_onesignal_default',
                     'data' => [
                         'action_url' => $actionUrl,
                         'type' => 'admin_notification',

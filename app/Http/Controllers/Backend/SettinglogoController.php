@@ -4,84 +4,160 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 use App\Models\Settinglogo;
+use App\Models\Logosetting;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 class SettinglogoController extends Controller
 {
-    // ðŸ”¹ Show logo (normally only 1 row)
+    // 🔹 Show logo (normally only 1 row)
     public function index()
     {
-        $logo = Settinglogo::first(); // âœ… Model call
+        $logo = Settinglogo::first() ?? Logosetting::first();
         return view('admin.logosetting.index', compact('logo'));
     }
 
-    // ðŸ”¹ Show create form
+    // 🔹 Show create form
     public function create()
     {
-        return view('admin.logosetting.create');
+        $logo = Settinglogo::first() ?? Logosetting::first();
+        return view('admin.logosetting.create', compact('logo'));
     }
 
-    // ðŸ”¹ Store logo
+    // 🔹 Store logo
     public function store(Request $request)
     {
         $request->validate([
-            'photo' => 'required|image|mimes:png,jpg,jpeg,svg|max:2048',
+            'photo' => 'required|image|mimes:png,jpg,jpeg,svg,webp|max:5120',
+        ], [
+            'photo.required' => 'Please select an image file to upload.',
+            'photo.image' => 'Uploaded file must be a valid image.',
+            'photo.mimes' => 'Supported formats are PNG, JPG, JPEG, SVG, WEBP.',
+            'photo.max' => 'Image size cannot exceed 5MB.',
         ]);
 
-        $image = $request->file('photo');
-        $imageName = time() . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('uploads/logo'), $imageName);
+        try {
+            $path = public_path('uploads/logo');
+            if (!File::exists($path)) {
+                File::makeDirectory($path, 0755, true);
+            }
 
-        Settinglogo::create([   // âœ… FIXED (not S::create)
-            'photo' => $imageName,
-        ]);
+            $image = $request->file('photo');
+            $imageName = 'logo_' . time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move($path, $imageName);
 
-        return redirect()->route('logosetting.index')
-            ->with('success', 'Logo added successfully');
+            // Update or create in Settinglogo
+            $logo = Settinglogo::first();
+            if ($logo) {
+                if ($logo->photo && File::exists($path . '/' . $logo->photo)) {
+                    @File::delete($path . '/' . $logo->photo);
+                }
+                $logo->photo = $imageName;
+                $logo->save();
+            } else {
+                Settinglogo::create(['photo' => $imageName]);
+            }
+
+            // Also keep Logosetting in sync
+            if (\Illuminate\Support\Facades\Schema::hasTable('logosettings')) {
+                $ls = Logosetting::first();
+                if ($ls) {
+                    $ls->photo = $imageName;
+                    $ls->save();
+                } else {
+                    Logosetting::create(['photo' => $imageName]);
+                }
+            }
+
+            return redirect()->route('logosetting.index')
+                ->with('success', 'Platform logo uploaded and saved successfully!');
+
+        } catch (\Exception $e) {
+            Log::error('Logo Upload Error: ' . $e->getMessage());
+            return back()->withInput()->with('error', 'Failed to upload logo: ' . $e->getMessage());
+        }
     }
 
-    // ðŸ”¹ Edit logo
+    // 🔹 Edit logo
     public function edit($id)
     {
-        $logo = Settinglogo::findOrFail($id);
+        $logo = Settinglogo::find($id) ?? Logosetting::find($id) ?? Settinglogo::first();
         return view('admin.logosetting.edit', compact('logo'));
     }
 
     // 🔹 Update logo
     public function update(Request $request, $id)
     {
-        $logo = Settinglogo::findOrFail($id);
+        $request->validate([
+            'photo' => 'required|image|mimes:png,jpg,jpeg,svg,webp|max:5120',
+        ], [
+            'photo.required' => 'Please select an image file to upload.',
+            'photo.image' => 'Uploaded file must be a valid image.',
+            'photo.mimes' => 'Supported formats are PNG, JPG, JPEG, SVG, WEBP.',
+            'photo.max' => 'Image size cannot exceed 5MB.',
+        ]);
 
-        if ($request->hasFile('photo')) {
-
-            if ($logo->photo && file_exists(public_path('uploads/logo/' . $logo->photo))) {
-                unlink(public_path('uploads/logo/' . $logo->photo));
+        try {
+            $logo = Settinglogo::find($id) ?? Settinglogo::first();
+            $path = public_path('uploads/logo');
+            if (!File::exists($path)) {
+                File::makeDirectory($path, 0755, true);
             }
 
-            $image = $request->file('photo');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/logo'), $imageName);
+            if ($request->hasFile('photo')) {
+                if ($logo && $logo->photo && File::exists($path . '/' . $logo->photo)) {
+                    @File::delete($path . '/' . $logo->photo);
+                }
 
-            $logo->photo = $imageName;
+                $image = $request->file('photo');
+                $imageName = 'logo_' . time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $image->move($path, $imageName);
+
+                if ($logo) {
+                    $logo->photo = $imageName;
+                    $logo->save();
+                } else {
+                    Settinglogo::create(['photo' => $imageName]);
+                }
+
+                // Sync Logosetting
+                if (\Illuminate\Support\Facades\Schema::hasTable('logosettings')) {
+                    $ls = Logosetting::first();
+                    if ($ls) {
+                        $ls->photo = $imageName;
+                        $ls->save();
+                    } else {
+                        Logosetting::create(['photo' => $imageName]);
+                    }
+                }
+            }
+
+            return redirect()->route('logosetting.index')
+                ->with('success', 'Platform logo updated successfully!');
+
+        } catch (\Exception $e) {
+            Log::error('Logo Update Error: ' . $e->getMessage());
+            return back()->withInput()->with('error', 'Failed to update logo: ' . $e->getMessage());
         }
-
-        $logo->save();
-
-        return redirect()->route('logosetting.index')
-            ->with('success', 'Logo updated successfully');
     }
 
     // 🔹 Delete logo
     public function destroy($id)
     {
-        $logo = Settinglogo::findOrFail($id);
+        $logo = Settinglogo::find($id);
 
-        if ($logo->photo && file_exists(public_path('uploads/logo/' . $logo->photo))) {
-            unlink(public_path('uploads/logo/' . $logo->photo));
+        if ($logo) {
+            $path = public_path('uploads/logo/' . $logo->photo);
+            if ($logo->photo && File::exists($path)) {
+                @File::delete($path);
+            }
+            $logo->delete();
         }
 
-        $logo->delete();
+        if (\Illuminate\Support\Facades\Schema::hasTable('logosettings')) {
+            Logosetting::truncate();
+        }
 
         return redirect()->route('logosetting.index')
             ->with('success', 'Logo deleted successfully');

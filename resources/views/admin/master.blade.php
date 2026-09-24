@@ -50,10 +50,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-@if (Session::has('success') || Session::has('error'))
 <script>
     $(document).ready(function() {
-        // Toastr options
         toastr.options = {
             closeButton: true,
             progressBar: true,
@@ -61,18 +59,29 @@
             timeOut: 5000
         };
 
-        // Display error message
         @if (Session::has('error'))
             toastr.error("{{ Session::get('error') }}");
         @endif
 
-        // Display success message
         @if (Session::has('success'))
             toastr.success("{{ Session::get('success') }}");
         @endif
+
+        @if (Session::has('info'))
+            toastr.info("{{ Session::get('info') }}");
+        @endif
+
+        @if (Session::has('warning'))
+            toastr.warning("{{ Session::get('warning') }}");
+        @endif
+
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                toastr.error("{{ $error }}");
+            @endforeach
+        @endif
     });
 </script>
-@endif
 
 
 

@@ -6,18 +6,20 @@
 
 @php
     use App\Models\Settinglogo;
-    $photo = Settinglogo::first();
+    use App\Models\Logosetting;
+    $logoRecord = Settinglogo::first() ?? Logosetting::first();
+    $logoPath = ($logoRecord && $logoRecord->photo && file_exists(public_path('uploads/logo/'.$logoRecord->photo)))
+        ? asset('uploads/logo/'.$logoRecord->photo)
+        : (file_exists(public_path('admin/assets/images/logo.png')) ? asset('admin/assets/images/logo.png') : asset('logo.png'));
+    $logoIconPath = ($logoRecord && $logoRecord->photo && file_exists(public_path('uploads/logo/'.$logoRecord->photo)))
+        ? asset('uploads/logo/'.$logoRecord->photo)
+        : (file_exists(public_path('admin/assets/images/logo-icon.png')) ? asset('admin/assets/images/logo-icon.png') : asset('logo.png'));
 @endphp
 
 <a href="{{ route('admin.dashboard') }}" class="sidebar-logo">
-    <img src="{{ $photo ? asset('uploads/logo/'.$photo->photo) : asset('admin/images/default-logo.png') }}"
-         alt="site logo" class="light-logo">
-
-    <img src="{{ $photo ? asset('uploads/logo/'.$photo->photo) : asset('admin/images/default-logo.png') }}"
-         alt="site logo" class="dark-logo">
-
-    <img src="{{ $photo ? asset('uploads/logo/'.$photo->photo) : asset('admin/images/default-logo.png') }}"
-         alt="site logo" class="logo-icon">
+    <img src="{{ $logoPath }}" alt="Platform Logo" class="light-logo" style="max-height: 42px; object-fit: contain;">
+    <img src="{{ $logoPath }}" alt="Platform Logo" class="dark-logo" style="max-height: 42px; object-fit: contain;">
+    <img src="{{ $logoIconPath }}" alt="Platform Logo" class="logo-icon" style="max-height: 38px; object-fit: contain;">
 </a>
 
   </div>

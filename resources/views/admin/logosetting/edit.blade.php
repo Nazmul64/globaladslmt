@@ -1,19 +1,213 @@
 @extends('admin.master')
 
 @section('content')
-<div class="card p-3">
-    <h5>Edit Logo</h5>
+<div class="container-fluid py-4">
 
-    <form action="{{ route('logosetting.update',$logo->id) }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
+    {{-- Page Header --}}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="mb-1 text-dark fw-bold">
+                <i class="bi bi-pencil-square me-2 text-primary"></i>Update Platform Logo
+            </h4>
+            <p class="text-muted small mb-0">Replace the current platform logo across all apps and headers</p>
+        </div>
+        <a href="{{ route('logosetting.index') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i> Back to Logo View
+        </a>
+    </div>
 
-        <img src="{{ asset('uploads/logo/'.$logo->photo) }}" width="120">
-        <br><br>
+    {{-- Flash & Validation Alerts --}}
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show d-flex align-items-center mb-4 shadow-sm" role="alert">
+            <i class="bi bi-check-circle-fill fs-5 me-2"></i>
+            <div>{{ session('success') }}</div>
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
 
-        <input type="file" name="photo" class="form-control">
-        <br>
-        <button class="btn btn-primary">Update</button>
-    </form>
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center mb-4 shadow-sm" role="alert">
+            <i class="bi bi-exclamation-triangle-fill fs-5 me-2"></i>
+            <div>{{ session('error') }}</div>
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
+    @if($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show mb-4 shadow-sm" role="alert">
+            <div class="fw-bold mb-1"><i class="bi bi-x-circle me-1"></i> Please fix the following errors:</div>
+            <ul class="mb-0 ps-3">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
+    <div class="row g-4">
+        {{-- Edit Form Card --}}
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm rounded-3 h-100">
+                <div class="card-header bg-white border-bottom py-3">
+                    <h6 class="mb-0 fw-bold text-dark">
+                        <i class="bi bi-cloud-arrow-up me-2 text-primary"></i>Upload New Logo File
+                    </h6>
+                </div>
+                <div class="card-body p-4">
+                    <form action="{{ route('logosetting.update', $logo->id ?? 1) }}" method="POST" enctype="multipart/form-data" id="logoEditForm">
+                        @csrf
+                        @method('PUT')
+
+                        {{-- File Input & Drop Area --}}
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold text-dark mb-2">Select Replacement Image</label>
+                            
+                            <div class="border-2 border-dashed rounded-3 p-4 text-center bg-light" id="dropZone" style="border-style: dashed; cursor: pointer;">
+                                <i class="bi bi-arrow-repeat fs-1 text-primary mb-2 d-block"></i>
+                                <span class="fw-bold text-dark d-block">Click here to browse or drag & drop new logo</span>
+                                <small class="text-muted d-block mt-1">Supports: PNG, JPG, JPEG, SVG, WEBP (Max: 5MB)</small>
+                                <input type="file" name="photo" id="logoFileInput" class="d-none" accept="image/png, image/jpeg, image/jpg, image/svg+xml, image/webp" required>
+                            </div>
+                            
+                            <div id="fileSelectedInfo" class="mt-2 text-success small fw-semibold d-none">
+                                <i class="bi bi-check2-circle me-1"></i> Selected: <span id="fileNameDisplay"></span> (<span id="fileSizeDisplay"></span>)
+                            </div>
+                        </div>
+
+                        {{-- Save Button --}}
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg shadow-sm" id="submitBtn">
+                                <i class="bi bi-save me-1"></i> Update & Apply Logo
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {{-- Live Preview Card --}}
+        <div class="col-lg-5">
+            <div class="card border-0 shadow-sm rounded-3 h-100">
+                <div class="card-header bg-white border-bottom py-3">
+                    <h6 class="mb-0 fw-bold text-dark">
+                        <i class="bi bi-eye me-2 text-info"></i>Logo Previews
+                    </h6>
+                </div>
+                <div class="card-body p-4 text-center d-flex flex-column align-items-center justify-content-center">
+                    
+                    {{-- New Preview Container (Shown when file selected) --}}
+                    <div id="newPreviewContainer" class="p-4 rounded-3 border bg-white shadow-sm mb-3 d-none" style="max-width: 260px; width: 100%;">
+                        <span class="badge bg-success mb-2">New Preview</span>
+                        <img id="logoPreviewImage" src="#" alt="New Logo Preview" class="img-fluid rounded" style="max-height: 140px; object-fit: contain;">
+                    </div>
+
+                    {{-- Current Logo Container --}}
+                    @if(isset($logo) && $logo->photo && file_exists(public_path('uploads/logo/'.$logo->photo)))
+                        <div id="currentLogoContainer" class="p-4 rounded-3 border bg-white shadow-sm mb-3" style="max-width: 260px; width: 100%;">
+                            <span class="badge bg-secondary mb-2">Current Active Logo</span>
+                            <img src="{{ asset('uploads/logo/'.$logo->photo) }}" alt="Current Logo" class="img-fluid rounded" style="max-height: 140px; object-fit: contain;">
+                        </div>
+                    @else
+                        <div id="placeholderContainer" class="p-4 rounded-3 border bg-light text-muted" style="max-width: 260px; width: 100%;">
+                            <i class="bi bi-image fs-1 d-block mb-2 text-secondary"></i>
+                            <span class="small">No active logo file found on server.<br>Please select an image on the left.</span>
+                        </div>
+                    @endif
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('logoFileInput');
+    const previewContainer = document.getElementById('newPreviewContainer');
+    const previewImage = document.getElementById('logoPreviewImage');
+    const fileSelectedInfo = document.getElementById('fileSelectedInfo');
+    const fileNameDisplay = document.getElementById('fileNameDisplay');
+    const fileSizeDisplay = document.getElementById('fileSizeDisplay');
+    const logoEditForm = document.getElementById('logoEditForm');
+
+    // Trigger click on file input
+    dropZone.addEventListener('click', () => fileInput.click());
+
+    // Drag & Drop
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('border-primary', 'bg-white');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('border-primary', 'bg-white');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('border-primary', 'bg-white');
+        if (e.dataTransfer.files.length > 0) {
+            fileInput.files = e.dataTransfer.files;
+            handleFilePreview(fileInput.files[0]);
+        }
+    });
+
+    // File Input change
+    fileInput.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            handleFilePreview(this.files[0]);
+        }
+    });
+
+    function handleFilePreview(file) {
+        if (!file.type.startsWith('image/')) {
+            if (typeof toastr !== 'undefined') {
+                toastr.error('Please select a valid image file (PNG, JPG, SVG, WEBP).');
+            } else {
+                alert('Please select a valid image file (PNG, JPG, SVG, WEBP).');
+            }
+            fileInput.value = '';
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+            if (typeof toastr !== 'undefined') {
+                toastr.error('File size exceeds 5MB limit. Please choose a smaller image.');
+            } else {
+                alert('File size exceeds 5MB limit.');
+            }
+            fileInput.value = '';
+            return;
+        }
+
+        fileNameDisplay.textContent = file.name;
+        fileSizeDisplay.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+        fileSelectedInfo.classList.remove('d-none');
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            previewImage.src = e.target.result;
+            previewContainer.classList.remove('d-none');
+            if (typeof toastr !== 'undefined') {
+                toastr.info('New logo preview loaded! Click "Update & Apply Logo" to save.');
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+
+    if (logoEditForm) {
+        logoEditForm.addEventListener('submit', function(e) {
+            if (!fileInput.files || fileInput.files.length === 0) {
+                e.preventDefault();
+                if (typeof toastr !== 'undefined') {
+                    toastr.error('Please select a replacement image before submitting.');
+                }
+            }
+        });
+    }
+});
+</script>
 @endsection

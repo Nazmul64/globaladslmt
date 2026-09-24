@@ -111,7 +111,7 @@ class UserearningController extends Controller
 
             // Determine if timer is enabled for the active ad network
             $isAdmobActive = ($admobStatus && !empty($admobAppId));
-            $admobTimerEnabled = (($settings->admob_timer_status ?? 'yes') === 'yes');
+            $admobTimerEnabled = (($settings->admob_timer_status ?? 'no') === 'yes');
             $starioTimerEnabled = (($settings->stario_timer_status ?? 'yes') === 'yes');
             $isTimerEnabled = $isAdmobActive ? $admobTimerEnabled : $starioTimerEnabled;
 
@@ -339,7 +339,7 @@ class UserearningController extends Controller
 
             $settings = \App\Models\Appsetting::first();
             $isAdmobActive = ($settings && $settings->admob_status && !empty($settings->admob_app_id));
-            $admobTimerEnabled = ($settings && ($settings->admob_timer_status ?? 'yes') === 'yes');
+            $admobTimerEnabled = ($settings && ($settings->admob_timer_status ?? 'no') === 'yes');
             $starioTimerEnabled = ($settings && ($settings->stario_timer_status ?? 'yes') === 'yes');
             $isTimerEnabled = $isAdmobActive ? $admobTimerEnabled : $starioTimerEnabled;
 
@@ -614,7 +614,7 @@ class UserearningController extends Controller
                 : 1;
 
             $isAdmobActive = ($settings && $settings->admob_status && !empty($settings->admob_app_id));
-            $admobTimerEnabled = ($settings && ($settings->admob_timer_status ?? 'yes') === 'yes');
+            $admobTimerEnabled = ($settings && ($settings->admob_timer_status ?? 'no') === 'yes');
             $starioTimerEnabled = ($settings && ($settings->stario_timer_status ?? 'yes') === 'yes');
             $isTimerEnabled = $isAdmobActive ? $admobTimerEnabled : $starioTimerEnabled;
 
