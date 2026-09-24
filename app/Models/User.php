@@ -72,7 +72,17 @@ protected $appends = [
 
 public function getIsVerifiedAttribute(): bool
 {
-    return \App\Models\Kyc::where('user_id', $this->id)->where('status', 'approved')->exists();
+    $kycApproved = \App\Models\Kyc::where('user_id', $this->id)
+        ->whereRaw('LOWER(status) = ?', ['approved'])
+        ->exists();
+
+    if ($kycApproved) {
+        return true;
+    }
+
+    return \App\Models\Agentkyc::where('user_id', $this->id)
+        ->whereRaw('LOWER(status) = ?', ['approved'])
+        ->exists();
 }
 
 public function getPhotoUrlAttribute(): ?string

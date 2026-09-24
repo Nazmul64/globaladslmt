@@ -44,24 +44,16 @@ class AgentVerifitController extends Controller
             }
 
             // Check if user has approved KYC
-            $kycRecord = Agentkyc::where('user_id', $user_id)
-                ->where('status', 'approved')
-                ->first();
-
-            $verified = $kycRecord !== null;
+            $verified = (bool) $user->is_verified;
 
             // Log the result
             Log::info("User {$user_id} verification status: " . ($verified ? 'VERIFIED' : 'NOT VERIFIED'));
 
-            if ($kycRecord) {
-                Log::info("KYC Record found - ID: {$kycRecord->id}, Status: {$kycRecord->status}");
-            } else {
-                Log::info("No approved KYC record found for user {$user_id}");
-            }
-
             return response()->json([
                 'status' => true,
                 'verified' => $verified,
+                'is_verified' => $verified,
+                'kyc_status' => $verified ? 'verified' : 'unverified',
                 'message' => $verified ? 'User is verified' : 'User is not verified',
                 'user_id' => (int) $user_id,
                 'user_name' => $user->name ?? 'Unknown'

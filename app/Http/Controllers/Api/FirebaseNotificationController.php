@@ -37,7 +37,7 @@ class FirebaseNotificationController extends Controller
                 'email' => 'required|email|exists:users,email',
                 'fcm_token' => 'required|string',
                 'device_type' => 'nullable|in:android,ios,web',
-                'firebase_app_id' => 'required|exists:firebase_apps,id'
+                'firebase_app_id' => 'nullable|exists:firebase_apps,id'
             ]);
 
             if ($validator->fails()) {
@@ -67,23 +67,16 @@ class FirebaseNotificationController extends Controller
                 ], 404);
             }
 
-            // ✅ Check if Firebase app is active
-            $firebaseApp = FirebaseApp::find($request->firebase_app_id);
-
-            if (!$firebaseApp || !$firebaseApp->is_active) {
-                Log::error('FCM Token Update - Firebase app not active', [
-                    'firebase_app_id' => $request->firebase_app_id
-                ]);
-
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Firebase app is not active'
-                ], 400);
+            // ✅ Determine Firebase app ID
+            $firebaseAppId = $request->firebase_app_id;
+            if (!$firebaseAppId) {
+                $activeApp = FirebaseApp::where('is_active', true)->first();
+                $firebaseAppId = $activeApp ? $activeApp->id : ($user->firebase_app_id ?? 1);
             }
 
             // ✅ Update user's FCM token
             $user->update([
-                'firebase_app_id' => $request->firebase_app_id,
+                'firebase_app_id' => $firebaseAppId,
                 'fcm_token' => $request->fcm_token,
                 'device_type' => $request->device_type ?? 'android',
                 'fcm_updated_at' => now(),
@@ -93,7 +86,7 @@ class FirebaseNotificationController extends Controller
                 'user_id' => $user->id,
                 'email' => $user->email,
                 'device_type' => $user->device_type,
-                'firebase_app_id' => $request->firebase_app_id
+                'firebase_app_id' => $firebaseAppId,
             ]);
 
             return response()->json([

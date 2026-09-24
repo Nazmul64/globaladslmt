@@ -272,6 +272,14 @@ class FirebaseNotificationController extends Controller
                     ? $request->onesignal_api_key
                     : config('services.onesignal.rest_api_key', '');
 
+                // Fetch App Logo from Settinglogo
+                $settingLogo = \App\Models\Settinglogo::first();
+                $appLogoUrl = ($settingLogo && !empty($settingLogo->photo))
+                    ? (filter_var($settingLogo->photo, FILTER_VALIDATE_URL) ? $settingLogo->photo : url('uploads/logo/' . $settingLogo->photo))
+                    : null;
+
+                $notificationIcon = $imageUrl ?: $appLogoUrl;
+
                 $payload = [
                     'app_id' => $appId,
                     'headings' => ['en' => $title],
@@ -279,13 +287,18 @@ class FirebaseNotificationController extends Controller
                     'data' => [
                         'action_url' => $actionUrl,
                         'type' => 'admin_notification',
+                        'app_logo' => $appLogoUrl,
+                        'icon' => $appLogoUrl,
                     ],
                 ];
 
-                if (!empty($imageUrl)) {
-                    $payload['big_picture'] = $imageUrl;
-                    $payload['large_icon'] = $imageUrl;
-                    $payload['ios_attachments'] = ['id' => $imageUrl];
+                if (!empty($notificationIcon)) {
+                    $payload['large_icon'] = $notificationIcon;
+                    $payload['chrome_web_icon'] = $notificationIcon;
+                    if (!empty($imageUrl)) {
+                        $payload['big_picture'] = $imageUrl;
+                        $payload['ios_attachments'] = ['id' => $imageUrl];
+                    }
                 }
 
                 if ($sendTo === 'all') {

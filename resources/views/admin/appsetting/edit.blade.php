@@ -269,6 +269,7 @@
                                 </label>
                                 <select name="vpn_modes" class="form-select @error('vpn_modes') is-invalid @enderror">
                                     <option value="not_allowed" {{ old('vpn_modes', $appsetting->vpn_modes) == 'not_allowed' ? 'selected' : '' }}>Not Allowed</option>
+                                    <option value="allowed" {{ old('vpn_modes', $appsetting->vpn_modes) == 'allowed' ? 'selected' : '' }}>Allowed</option>
                                     <option value="required" {{ old('vpn_modes', $appsetting->vpn_modes) == 'required' ? 'selected' : '' }}>Required</option>
                                 </select>
                                 @error('vpn_modes')

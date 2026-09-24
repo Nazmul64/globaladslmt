@@ -74,6 +74,7 @@ class NewSettingsApiController extends Controller
 
         return response()->json([
             'success' => true,
+            'status' => true,
             'data' => [
                 'star_io_id' => (string) ($setting->star_io_id ?? ''),
                 'startapp_app_id' => (string) ($setting->star_io_id ?? ''),
@@ -90,16 +91,17 @@ class NewSettingsApiController extends Controller
                 'task_break_time_minutes' => (int) ($setting->task_break_time_minutes ?? 1),
                 'button_timer_seconds' => (int) ($setting->button_timer_seconds ?? 30),
                 'ad_timer_seconds' => (int) ($setting->ad_timer_seconds ?? 15),
-                'invalid_click_limit' => $setting->invalid_click_limit,
-                'invalid_deduct' => $setting->invalid_deduct,
-                'vpn_modes' => $setting->vpn_modes,
-                'vpn_required_in_task_only' => $setting->vpn_required_in_task_only,
-                'allowed_country' => $setting->allowed_country,
-                'registration_status' => $setting->registration_status,
-                'same_device_login' => $setting->same_device_login,
-                'maintenance_mode' => $setting->maintenance_mode,
-                'app_version' => $setting->app_version,
-                'app_link' => $setting->app_link,
+                'invalid_click_limit' => $setting->invalid_click_limit !== null ? (int)$setting->invalid_click_limit : null,
+                'invalid_deduct' => $setting->invalid_deduct !== null ? (float)$setting->invalid_deduct : null,
+                'view_before_click_view_target' => $setting->view_before_click_view_target !== null ? (int)$setting->view_before_click_view_target : null,
+                'vpn_modes' => (string) ($setting->vpn_modes ?? 'not_allowed'),
+                'vpn_required_in_task_only' => (string) ($setting->vpn_required_in_task_only ?? 'yes'),
+                'allowed_country' => (string) ($setting->allowed_country ?? 'us,uk,au,bangladesh,india'),
+                'registration_status' => (string) ($setting->registration_status ?? 'open'),
+                'same_device_login' => (string) ($setting->same_device_login ?? 'yes'),
+                'maintenance_mode' => (string) ($setting->maintenance_mode ?? 'no'),
+                'app_version' => (string) ($setting->app_version ?? '1.0.0'),
+                'app_link' => (string) ($setting->app_link ?? ''),
             ]
         ]);
     }

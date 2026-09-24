@@ -58,25 +58,52 @@ class FirebaseNotificationService
     }
 
     /**
-     * Send notification to all users (Topic based)
+     * Send notification to all users (Multicast + Topic broadcast)
      */
     public function sendToAll(int $firebaseAppId, string $title, string $body, array $data = []): array
     {
         try {
             $messaging = $this->getMessaging($firebaseAppId);
 
-            // Count total users for this app
-            $totalUsers = User::where('firebase_app_id', $firebaseAppId)
-                ->whereNotNull('fcm_token')
-                ->count();
+            // Get all FCM tokens for users matching this firebase_app_id or with null app id
+            $users = User::whereNotNull('fcm_token')
+                ->where('fcm_token', '!=', '')
+                ->where(function ($query) use ($firebaseAppId) {
+                    $query->where('firebase_app_id', $firebaseAppId)
+                          ->orWhereNull('firebase_app_id');
+                })
+                ->get();
+
+            $tokens = $users->pluck('fcm_token')->filter()->unique()->values()->toArray();
+
+            if (empty($tokens)) {
+                Log::warning('Send to all aborted: No users with fcm_token found in database', [
+                    'firebase_app_id' => $firebaseAppId
+                ]);
+
+                return [
+                    'success' => false,
+                    'message' => 'No active user device FCM tokens found in database. Sent: 0',
+                    'total_sent' => 0,
+                    'total_failed' => 0,
+                ];
+            }
+
+            // Get App Logo from Settinglogo
+            $settingLogo = \App\Models\Settinglogo::first();
+            $appLogoUrl = ($settingLogo && !empty($settingLogo->photo))
+                ? (filter_var($settingLogo->photo, FILTER_VALIDATE_URL) ? $settingLogo->photo : url('uploads/logo/' . $settingLogo->photo))
+                : null;
 
             // Build notification
             $notification = FirebaseNotification::create($title, $body);
 
-            // Add image if provided
+            // Add image if provided, or default to app logo
             if (!empty($data['image_url'])) {
                 $notification = $notification->withImageUrl($data['image_url']);
                 unset($data['image_url']); // Remove from data array
+            } elseif (!empty($appLogoUrl)) {
+                $notification = $notification->withImageUrl($appLogoUrl);
             }
 
             // Prepare data for FCM
@@ -85,28 +112,66 @@ class FirebaseNotificationService
                 'sent_at' => now()->toIso8601String(),
             ], $data);
 
+            if (!empty($appLogoUrl)) {
+                $fcmData['app_logo'] = $appLogoUrl;
+                $fcmData['icon'] = $appLogoUrl;
+                $fcmData['large_icon'] = $appLogoUrl;
+            }
+
             // Convert all data values to strings (FCM requirement)
             $fcmData = array_map(fn($value) => (string) $value, $fcmData);
 
-            // Build message
-            $message = CloudMessage::withTarget('topic', 'all_users')
+            // Build message for multicast
+            $message = CloudMessage::new()
                 ->withNotification($notification)
                 ->withData($fcmData);
 
-            // Send notification
-            $messaging->send($message);
+            // Send multicast in batches (max 500 tokens per batch)
+            $chunks = array_chunk($tokens, 500);
+            $totalSuccess = 0;
+            $totalFailure = 0;
 
-            Log::info('Notification sent to all users', [
+            foreach ($chunks as $chunk) {
+                try {
+                    $result = $messaging->sendMulticast($message, $chunk);
+                    $totalSuccess += $result->successes()->count();
+                    $totalFailure += $result->failures()->count();
+
+                    foreach ($result->failures()->getItems() as $failure) {
+                        Log::warning('FCM Send to All Token Failed', [
+                            'token' => $failure->target()->value(),
+                            'error' => $failure->error()->getMessage()
+                        ]);
+                    }
+                } catch (MessagingException $e) {
+                    Log::error('Multicast sendToAll batch error: ' . $e->getMessage());
+                    $totalFailure += count($chunk);
+                }
+            }
+
+            // Also attempt topic broadcast as fallback
+            try {
+                $topicMessage = CloudMessage::withTarget('topic', 'all_users')
+                    ->withNotification($notification)
+                    ->withData($fcmData);
+                $messaging->send($topicMessage);
+            } catch (Throwable $e) {
+                Log::debug('Topic broadcast skipped/failed: ' . $e->getMessage());
+            }
+
+            Log::info('Notification broadcast sent to all users', [
                 'firebase_app_id' => $firebaseAppId,
                 'title' => $title,
-                'total_users' => $totalUsers
+                'total_tokens' => count($tokens),
+                'total_sent' => $totalSuccess,
+                'total_failed' => $totalFailure,
             ]);
 
             return [
-                'success' => true,
-                'message' => 'Notification sent successfully to all users',
-                'total_sent' => $totalUsers,
-                'total_failed' => 0,
+                'success' => $totalSuccess > 0,
+                'message' => "Notification broadcast completed: {$totalSuccess} sent successfully, {$totalFailure} failed.",
+                'total_sent' => $totalSuccess,
+                'total_failed' => $totalFailure,
             ];
         } catch (MessagingException $e) {
             Log::error('Firebase Messaging Error: ' . $e->getMessage());
@@ -149,9 +214,13 @@ class FirebaseNotificationService
             $messaging = $this->getMessaging($firebaseAppId);
 
             // Get FCM tokens
-            $users = User::where('firebase_app_id', $firebaseAppId)
+            $users = User::where(function ($q) use ($firebaseAppId) {
+                    $q->where('firebase_app_id', $firebaseAppId)
+                      ->orWhereNull('firebase_app_id');
+                })
                 ->whereIn('id', $userIds)
                 ->whereNotNull('fcm_token')
+                ->where('fcm_token', '!=', '')
                 ->get();
 
             if ($users->isEmpty()) {
@@ -174,13 +243,21 @@ class FirebaseNotificationService
                 ];
             }
 
+            // Get App Logo from Settinglogo
+            $settingLogo = \App\Models\Settinglogo::first();
+            $appLogoUrl = ($settingLogo && !empty($settingLogo->photo))
+                ? (filter_var($settingLogo->photo, FILTER_VALIDATE_URL) ? $settingLogo->photo : url('uploads/logo/' . $settingLogo->photo))
+                : null;
+
             // Build notification
             $notification = FirebaseNotification::create($title, $body);
 
-            // Add image if provided
+            // Add image if provided, or default to app logo
             if (!empty($data['image_url'])) {
                 $notification = $notification->withImageUrl($data['image_url']);
                 unset($data['image_url']);
+            } elseif (!empty($appLogoUrl)) {
+                $notification = $notification->withImageUrl($appLogoUrl);
             }
 
             // Prepare data for FCM
@@ -188,6 +265,12 @@ class FirebaseNotificationService
                 'type' => 'admin_notification',
                 'sent_at' => now()->toIso8601String(),
             ], $data);
+
+            if (!empty($appLogoUrl)) {
+                $fcmData['app_logo'] = $appLogoUrl;
+                $fcmData['icon'] = $appLogoUrl;
+                $fcmData['large_icon'] = $appLogoUrl;
+            }
 
             // Convert all data values to strings
             $fcmData = array_map(fn($value) => (string) $value, $fcmData);

@@ -115,17 +115,23 @@ class ProfilechangeController extends BaseController
                 return $this->sendError('User not authenticated.', [], 401);
             }
 
+            $isVerified = (bool) $user->is_verified;
+
             $profileData = [
                 'id'                  => $user->id,
                 'name'                => $user->name,
                 'email'               => $user->email,
                 'mobile'              => $user->mobile ?? '',
+                'phone'               => $user->mobile ?? $user->phone ?? '',
                 'ref_code'            => $user->ref_code ?? '',
                 'referral_code'       => $user->ref_code ?? '',
                 'referral_link'       => url('/register?ref=' . ($user->ref_code ?? '')),
                 'is_blocked'          => (bool) ($user->is_blocked ?? false),
                 'is_withdraw_blocked' => (bool) ($user->is_blocked ?? false),
-                'photo'               => $user->photo ? asset('uploads/profile/' . $user->photo) : null,
+                'is_verified'         => (bool) $isVerified,
+                'kyc_status'          => $isVerified ? 'verified' : 'unverified',
+                'verification_status' => $isVerified ? 'verified' : 'unverified',
+                'photo'               => $user->photo_url ?? ($user->photo ? asset('uploads/profile/' . $user->photo) : null),
                 'photo_name'          => $user->photo,
                 'role'                => $user->role ?? 'user',
                 'balance'             => (float) ($user->balance ?? 0),

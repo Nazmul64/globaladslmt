@@ -109,6 +109,12 @@ class UserearningController extends Controller
 
             // ========== CALCULATE EARNING METRICS ==========
 
+            // Determine if timer is enabled for the active ad network
+            $isAdmobActive = ($admobStatus && !empty($admobAppId));
+            $admobTimerEnabled = (($settings->admob_timer_status ?? 'yes') === 'yes');
+            $starioTimerEnabled = (($settings->stario_timer_status ?? 'yes') === 'yes');
+            $isTimerEnabled = $isAdmobActive ? $admobTimerEnabled : $starioTimerEnabled;
+
             // Calculate total cycles and income per cycle
             $totalCycles = (int) max(1, floor($dailyLimit / $adBrack));
             $incomePerBrack = $totalCycles > 0 ? ($dailyIncome / $totalCycles) : $dailyIncome;
@@ -124,7 +130,8 @@ class UserearningController extends Controller
             // Check if currently in break time and compute elapsed time
             $isBreakActive = false;
             $breakRemainingSeconds = 0;
-            if (!empty($earning->last_break_started)) {
+
+            if ($isTimerEnabled && !empty($earning->last_break_started)) {
                 $breakTotalSeconds = (int)($taskBreakMinutes * 60);
                 $breakStarted = Carbon::parse($earning->last_break_started);
                 $elapsedSeconds = Carbon::now()->diffInSeconds($breakStarted);
@@ -139,6 +146,12 @@ class UserearningController extends Controller
                     $isBreakActive = true;
                     $breakRemainingSeconds = $breakTotalSeconds - $elapsedSeconds;
                 }
+            } elseif (!$isTimerEnabled && !empty($earning->last_break_started)) {
+                // If timer disabled, clear any pending break
+                $earning->last_break_started = null;
+                $earning->save();
+                $isBreakActive = false;
+                $breakRemainingSeconds = 0;
             }
 
             // Daily limit reached ONLY after completing all cycles and last claim
@@ -150,7 +163,7 @@ class UserearningController extends Controller
 
             if ($adsWatchedInCurrentCycle == 0 &&
                 $earning->ads_watched_today > 0 &&
-                !$isBreakActive &&
+                (!$isTimerEnabled || !$isBreakActive) &&
                 $currentCycleNumber > $earning->last_claimed_cycle) {
                 $showClaimButton = true;
             }
@@ -278,7 +291,7 @@ class UserearningController extends Controller
 
     /**
      * TRACK AD VIEW
-     * ✅ Increments ad counter and starts break timer when cycle completes
+     * ✅ Increments ad counter sequentially and starts break timer only if timer enabled
      */
     public function trackAdView()
     {
@@ -296,18 +309,46 @@ class UserearningController extends Controller
 
             $earning = $this->getTodayEarning($user, $package);
 
+            $adBrack = (int) $package->ad_brack;
+            if ($adBrack <= 0) $adBrack = 10;
+            $dailyLimit = (int) $package->daily_limit;
+            if ($dailyLimit < $adBrack) $dailyLimit = $adBrack * max(1, $dailyLimit);
+
             // Check daily limit BEFORE incrementing
-            if ($earning->ads_watched_today >= $package->daily_limit) {
+            if ($earning->ads_watched_today >= $dailyLimit) {
                 return response()->json(['status' => false, 'message' => 'Daily limit reached'], 429);
             }
+
+            // Prevent rapid duplicate skipping (debounce within 1.5 seconds)
+            $cacheKey = 'user_ad_track_lock_' . $user->id;
+            if (\Illuminate\Support\Facades\Cache::has($cacheKey)) {
+                $currentAds = (int) $earning->ads_watched_today;
+                return response()->json([
+                    'status' => true,
+                    'data' => [
+                        'ads_watched_today' => $currentAds,
+                        'ads_watched_in_current_cycle' => ($currentAds % $adBrack),
+                        'ad_brack' => $adBrack,
+                        'cycle_completed' => ($currentAds > 0 && ($currentAds % $adBrack) == 0),
+                        'start_break_timer' => false,
+                    ],
+                    'message' => 'Ad view already in progress'
+                ], 200);
+            }
+            \Illuminate\Support\Facades\Cache::put($cacheKey, true, now()->addSeconds(2));
+
+            $settings = \App\Models\Appsetting::first();
+            $isAdmobActive = ($settings && $settings->admob_status && !empty($settings->admob_app_id));
+            $admobTimerEnabled = ($settings && ($settings->admob_timer_status ?? 'yes') === 'yes');
+            $starioTimerEnabled = ($settings && ($settings->stario_timer_status ?? 'yes') === 'yes');
+            $isTimerEnabled = $isAdmobActive ? $admobTimerEnabled : $starioTimerEnabled;
 
             DB::beginTransaction();
 
             try {
-                // Increment ad counter
+                // Increment ad counter strictly by 1
                 $earning->ads_watched_today = $earning->ads_watched_today + 1;
 
-                $adBrack = (int) $package->ad_brack;
                 $adsWatchedInCurrentCycle = $earning->ads_watched_today % $adBrack;
 
                 // Check: Cycle complete?
@@ -315,15 +356,22 @@ class UserearningController extends Controller
                 $startBreakTimer = false;
 
                 if ($cycleCompleted) {
-                    // Start break timer
-                    $earning->last_break_started = now();
-                    $startBreakTimer = true;
+                    if ($isTimerEnabled) {
+                        // Start break timer only if timer is enabled for this network
+                        $earning->last_break_started = now();
+                        $startBreakTimer = true;
+                    } else {
+                        // No break time for Google Ads when timer is disabled
+                        $earning->last_break_started = null;
+                        $startBreakTimer = false;
+                    }
 
-                    Log::info('✅ CYCLE COMPLETED - Starting Break', [
+                    Log::info('✅ CYCLE COMPLETED', [
                         'user_id' => $user->id,
                         'total_ads_watched' => $earning->ads_watched_today,
                         'ad_brack' => $adBrack,
                         'cycle_number' => ceil($earning->ads_watched_today / $adBrack),
+                        'timer_enabled' => $isTimerEnabled,
                     ]);
                 }
 
@@ -479,6 +527,10 @@ class UserearningController extends Controller
             }
 
             $package = $this->getUserPackage($user);
+            if (!$package) {
+                return response()->json(['status' => false, 'message' => 'No active package found'], 404);
+            }
+
             $earning = $this->getTodayEarning($user, $package);
 
             $dailyLimit = (int) $package->daily_limit;
@@ -504,13 +556,20 @@ class UserearningController extends Controller
             $currentCycleNumber = $earning->ads_watched_today > 0
                 ? (int) ceil($earning->ads_watched_today / $adBrack)
                 : 0;
+            $isCycleComplete = ($adsWatchedInCurrentCycle == 0 && $earning->ads_watched_today > 0);
+
             // ========== BREAK CHECK WITH ELAPSED TIME ==========
             $settings = Appsetting::first();
             $taskBreakMinutes = $settings && $settings->task_break_time_minutes !== null
                 ? (int) round((float) $settings->task_break_time_minutes)
                 : 1;
 
-            if (!empty($earning->last_break_started)) {
+            $isAdmobActive = ($settings && $settings->admob_status && !empty($settings->admob_app_id));
+            $admobTimerEnabled = ($settings && ($settings->admob_timer_status ?? 'yes') === 'yes');
+            $starioTimerEnabled = ($settings && ($settings->stario_timer_status ?? 'yes') === 'yes');
+            $isTimerEnabled = $isAdmobActive ? $admobTimerEnabled : $starioTimerEnabled;
+
+            if ($isTimerEnabled && !empty($earning->last_break_started)) {
                 $breakTotalSeconds = (int)($taskBreakMinutes * 60);
                 $breakStarted = Carbon::parse($earning->last_break_started);
                 $elapsedSeconds = Carbon::now()->diffInSeconds($breakStarted);
@@ -519,7 +578,6 @@ class UserearningController extends Controller
                     // Break has elapsed, clear it automatically
                     $earning->last_break_started = null;
                     $earning->save();
-                    $isBreakActive = false;
                 } else {
                     $remaining = $breakTotalSeconds - $elapsedSeconds;
                     return response()->json([
@@ -528,6 +586,8 @@ class UserearningController extends Controller
                         'break_remaining_seconds' => $remaining
                     ], 400);
                 }
+            } else {
+                $earning->last_break_started = null;
             }
 
             if (!$isCycleComplete) {
@@ -563,14 +623,6 @@ class UserearningController extends Controller
                     throw new \Exception('Earning record not found');
                 }
 
-                Log::info('🎁 BEFORE CLAIM', [
-                    'user_id' => $user->id,
-                    'ads_watched' => $earning->ads_watched_today,
-                    'last_claimed_cycle_before' => $earning->last_claimed_cycle,
-                    'current_cycle_number' => $currentCycleNumber,
-                    'today_earning_before' => $earning->today_earning,
-                ]);
-
                 // Calculate and add reward
                 $rewardAmount = round($incomePerBrack, 2);
                 $newBalance = round((float) $user->balance + $rewardAmount, 2);
@@ -584,6 +636,7 @@ class UserearningController extends Controller
                 // Update earnings
                 $earning->today_earning = $newTodayEarning;
                 $earning->total_earning = $newTotalEarning;
+                $earning->last_break_started = null;
 
                 // CRITICAL: Mark this cycle as claimed
                 $earning->last_claimed_cycle = $currentCycleNumber;
@@ -621,9 +674,13 @@ class UserearningController extends Controller
 
                 return response()->json([
                     'status' => true,
-                    'message' => "🎉 ৳" . number_format($rewardAmount, 2) . " Earned!",
+                    'success' => true,
+                    'message' => "🎉 $" . number_format($rewardAmount, 2) . " Earned!",
                     'data' => [
                         'earned' => number_format($rewardAmount, 2, '.', ''),
+                        'reward_amount' => (float) $rewardAmount,
+                        'user_balance' => number_format((float) $user->balance, 2, '.', ''),
+                        'balance' => (float) $user->balance,
                         'ads_watched_today' => (int) $earning->ads_watched_today,
                         'ads_watched_in_current_cycle' => ($earning->ads_watched_today % $adBrack),
                         'current_cycle_number' => (int) $currentCycleNumber,
@@ -632,7 +689,6 @@ class UserearningController extends Controller
                         'daily_limit' => (int) $dailyLimit,
                         'today_earning' => number_format((float) $earning->today_earning, 2, '.', ''),
                         'total_earning' => number_format((float) $earning->total_earning, 2, '.', ''),
-                        'user_balance' => number_format((float) $user->balance, 2, '.', ''),
                         'has_more_ads' => (bool) $hasMoreAds,
                         'daily_limit_reached' => (bool) $dailyLimitReached,
                         'remaining_cycles' => (int) $remainingCycles,

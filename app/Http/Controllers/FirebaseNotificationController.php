@@ -406,8 +406,12 @@ class FirebaseNotificationController extends Controller
     public function getUsersByAppAjax($appId)
     {
         try {
-            $users = User::where('firebase_app_id', $appId)
+            $users = User::where(function($q) use ($appId) {
+                    $q->where('firebase_app_id', $appId)
+                      ->orWhereNull('firebase_app_id');
+                })
                 ->whereNotNull('fcm_token')
+                ->where('fcm_token', '!=', '')
                 ->where('is_blocked', false)
                 ->select('id', 'name', 'email', 'device_type', 'status', 'role')
                 ->get();
@@ -443,7 +447,7 @@ class FirebaseNotificationController extends Controller
             'email' => 'required|email|exists:users,email',
             'fcm_token' => 'required|string',
             'device_type' => 'nullable|in:android,ios,web',
-            'firebase_app_id' => 'required|exists:firebase_apps,id'
+            'firebase_app_id' => 'nullable|exists:firebase_apps,id'
         ]);
 
         if ($validator->fails()) {
@@ -464,8 +468,14 @@ class FirebaseNotificationController extends Controller
                 ], 404);
             }
 
+            $firebaseAppId = $request->firebase_app_id;
+            if (!$firebaseAppId) {
+                $activeApp = FirebaseApp::where('is_active', true)->first();
+                $firebaseAppId = $activeApp ? $activeApp->id : ($user->firebase_app_id ?? 1);
+            }
+
             $user->update([
-                'firebase_app_id' => $request->firebase_app_id,
+                'firebase_app_id' => $firebaseAppId,
                 'fcm_token' => $request->fcm_token,
                 'device_type' => $request->device_type ?? $user->device_type ?? 'android',
                 'fcm_updated_at' => now(),

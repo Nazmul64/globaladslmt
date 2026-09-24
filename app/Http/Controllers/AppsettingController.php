@@ -39,11 +39,11 @@ class AppsettingController extends Controller
             'admob_native_id' => 'nullable|string|max:255',
             'admob_app_open_id' => 'nullable|string|max:255',
             'admob_status' => 'nullable|boolean',
-            'admob_timer_status' => 'nullable|in:yes,no',
+            'admob_timer_status' => 'nullable|in:yes,no,1,0',
 
             // Basic App Settings
             'star_io_id' => 'nullable|string|max:255',
-            'stario_timer_status' => 'nullable|in:yes,no',
+            'stario_timer_status' => 'nullable|in:yes,no,1,0',
             'invalid_click_limit' => 'nullable|numeric|min:0',
             'invalid_deduct' => 'nullable|numeric|min:0',
             'view_before_click_view_target' => 'nullable|numeric|min:0',
@@ -54,14 +54,14 @@ class AppsettingController extends Controller
             'ad_timer_seconds' => 'nullable|numeric|min:0',
 
             // VPN & Country Settings
-            'vpn_modes' => 'nullable|in:not_allowed,required',
-            'vpn_required_in_task_only' => 'nullable|in:yes,no',
-            'allowed_country' => 'nullable|string|max:500',
+            'vpn_modes' => 'nullable|string|in:not_allowed,required,allowed,yes,no',
+            'vpn_required_in_task_only' => 'nullable|in:yes,no,1,0',
+            'allowed_country' => 'nullable|string|max:1000',
 
             // App Control Settings
             'registration_status' => 'nullable|in:open,closed',
-            'same_device_login' => 'nullable|in:yes,no',
-            'maintenance_mode' => 'nullable|in:yes,no',
+            'same_device_login' => 'nullable|in:yes,no,1,0',
+            'maintenance_mode' => 'nullable|in:yes,no,1,0',
             'app_version' => 'nullable|string|max:50',
             'app_link' => 'nullable|url|max:500',
         ]);
@@ -74,6 +74,7 @@ class AppsettingController extends Controller
         }
 
         Appsetting::create($validated);
+        \Illuminate\Support\Facades\Cache::forget('app_settings_global');
 
         return redirect()
             ->route('appsetting.index')
@@ -106,11 +107,11 @@ class AppsettingController extends Controller
             'admob_native_id' => 'nullable|string|max:255',
             'admob_app_open_id' => 'nullable|string|max:255',
             'admob_status' => 'nullable|boolean',
-            'admob_timer_status' => 'nullable|in:yes,no',
+            'admob_timer_status' => 'nullable|in:yes,no,1,0',
 
             // Basic App Settings
             'star_io_id' => 'nullable|string|max:255',
-            'stario_timer_status' => 'nullable|in:yes,no',
+            'stario_timer_status' => 'nullable|in:yes,no,1,0',
             'invalid_click_limit' => 'nullable|numeric|min:0',
             'invalid_deduct' => 'nullable|numeric|min:0',
             'view_before_click_view_target' => 'nullable|numeric|min:0',
@@ -121,14 +122,14 @@ class AppsettingController extends Controller
             'ad_timer_seconds' => 'nullable|numeric|min:0',
 
             // VPN & Country Settings
-            'vpn_modes' => 'nullable|in:not_allowed,required',
-            'vpn_required_in_task_only' => 'nullable|in:yes,no',
-            'allowed_country' => 'nullable|string|max:500',
+            'vpn_modes' => 'nullable|string|in:not_allowed,required,allowed,yes,no',
+            'vpn_required_in_task_only' => 'nullable|in:yes,no,1,0',
+            'allowed_country' => 'nullable|string|max:1000',
 
             // App Control Settings
             'registration_status' => 'nullable|in:open,closed',
-            'same_device_login' => 'nullable|in:yes,no',
-            'maintenance_mode' => 'nullable|in:yes,no',
+            'same_device_login' => 'nullable|in:yes,no,1,0',
+            'maintenance_mode' => 'nullable|in:yes,no,1,0',
             'app_version' => 'nullable|string|max:50',
             'app_link' => 'nullable|url|max:500',
         ]);
@@ -141,6 +142,7 @@ class AppsettingController extends Controller
         }
 
         $appsetting->update($validated);
+        \Illuminate\Support\Facades\Cache::forget('app_settings_global');
 
         return redirect()
             ->route('appsetting.index')
@@ -154,6 +156,7 @@ class AppsettingController extends Controller
     {
         $appsetting = Appsetting::findOrFail($id);
         $appsetting->delete();
+        \Illuminate\Support\Facades\Cache::forget('app_settings_global');
 
         return redirect()
             ->route('appsetting.index')

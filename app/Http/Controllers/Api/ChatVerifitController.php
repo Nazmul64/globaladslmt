@@ -30,13 +30,13 @@ class ChatVerifitController extends Controller
             }
 
             // Check if user has approved KYC
-            $verified = Kyc::where('user_id', $user_id)
-                ->where('status', 'approved')
-                ->exists();
+            $verified = (bool) $user->is_verified;
 
             return response()->json([
                 'status' => true,
                 'verified' => $verified,
+                'is_verified' => $verified,
+                'kyc_status' => $verified ? 'verified' : 'unverified',
                 'message' => $verified ? 'User is verified' : 'User is not verified'
             ], 200);
 

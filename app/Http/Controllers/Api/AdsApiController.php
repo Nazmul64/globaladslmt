@@ -76,6 +76,12 @@ class AdsApiController extends Controller
             'native' => $ad->native ?? '',
             'code' => $ad->code ?? '',
             'approval_text' => $approval->approval_text ?? '',
+            'task_break_time_minutes' => (int) ($appsetting->task_break_time_minutes ?? 1),
+            'button_timer_seconds' => (int) ($appsetting->button_timer_seconds ?? 30),
+            'ad_timer_seconds' => (int) ($appsetting->ad_timer_seconds ?? 15),
+            'vpn_modes' => (string) ($appsetting->vpn_modes ?? 'not_allowed'),
+            'vpn_required_in_task_only' => (string) ($appsetting->vpn_required_in_task_only ?? 'yes'),
+            'allowed_country' => (string) ($appsetting->allowed_country ?? 'us,uk,au,bangladesh,india'),
         ];
 
         return response()->json([
@@ -92,6 +98,8 @@ class AdsApiController extends Controller
             'admob_native_id' => $data['admob_native_id'],
             'admob_app_open_id' => $data['admob_app_open_id'],
             'admob_status' => $data['admob_status'],
+            'stario_timer_status' => $data['stario_timer_status'],
+            'admob_timer_status' => $data['admob_timer_status'],
             'show_mrce_ads' => $data['show_mrce_ads'],
             'show_button_timer_ads' => $data['show_button_timer_ads'],
             'show_banner_ads' => $data['show_banner_ads'],

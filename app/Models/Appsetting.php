@@ -68,14 +68,21 @@ class Appsetting extends Model
      *
      * @var array<string, string>
      */
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
     protected $casts = [
         'enabled' => 'boolean',
-        'registration_status' => 'boolean',
-        'same_device_login' => 'boolean',
-        'maintenance_mode' => 'boolean',
-        'vpn_required_in_task_only' => 'boolean',
+        'registration_status' => 'string',
+        'same_device_login' => 'string',
+        'maintenance_mode' => 'string',
+        'vpn_required_in_task_only' => 'string',
+        'stario_timer_status' => 'string',
+        'admob_timer_status' => 'string',
 
-        // 🔥 CRITICAL FIX: Task Timer Settings - integer cast
+        // 🔥 Task Timer Settings - integer cast
         'task_break_time_minutes' => 'integer',
         'button_timer_seconds' => 'integer',
         'ad_timer_seconds' => 'integer',
@@ -148,7 +155,7 @@ class Appsetting extends Model
      */
     public function isVpnRequired(): bool
     {
-        return $this->vpn_modes === 'required';
+        return in_array(strtolower((string)$this->vpn_modes), ['required', 'yes', 'allowed']);
     }
 
     /**
@@ -156,7 +163,7 @@ class Appsetting extends Model
      */
     public function isRegistrationOpen(): bool
     {
-        return $this->registration_status === 'open';
+        return strtolower((string)$this->registration_status) !== 'closed';
     }
 
     /**
@@ -164,7 +171,7 @@ class Appsetting extends Model
      */
     public function isInMaintenance(): bool
     {
-        return $this->maintenance_mode === 'yes';
+        return in_array(strtolower((string)$this->maintenance_mode), ['yes', '1', 'true']);
     }
 
     /**
@@ -172,7 +179,7 @@ class Appsetting extends Model
      */
     public function allowsSameDeviceLogin(): bool
     {
-        return $this->same_device_login === 'yes';
+        return in_array(strtolower((string)$this->same_device_login), ['yes', '1', 'true']);
     }
 
     /**

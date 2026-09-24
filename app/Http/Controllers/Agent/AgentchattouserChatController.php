@@ -46,6 +46,27 @@ class AgentchattouserChatController extends Controller
 
         $chat->save();
 
+        try {
+            $agent = Auth::user();
+            $agentName = $agent ? $agent->name : 'Agent';
+            $msgBody = !empty($chat->message) ? $chat->message : 'Photo';
+
+            \App\Services\PushNotificationService::send(
+                $chat->receiver_id,
+                'Message from Agent (' . $agentName . ')',
+                $msgBody,
+                'chat_message',
+                [
+                    'chat_id' => (string) $chat->id,
+                    'sender_id' => (string) $chat->sender_id,
+                    'sender_name' => (string) $agentName,
+                    'action_url' => '/agent-chat'
+                ]
+            );
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('Agent chat push notification error: ' . $e->getMessage());
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'Message sent successfully',

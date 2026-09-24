@@ -97,6 +97,27 @@ public function frontend_user_toagent_chat()
 
             DB::commit();
 
+            try {
+                $sender = Auth::user();
+                $senderName = $sender ? $sender->name : 'User';
+                $msgBody = !empty($chat->message) ? $chat->message : 'Photo';
+
+                \App\Services\PushNotificationService::send(
+                    $chat->receiver_id,
+                    'Message from ' . $senderName,
+                    $msgBody,
+                    'chat_message',
+                    [
+                        'chat_id' => (string) $chat->id,
+                        'sender_id' => (string) $chat->sender_id,
+                        'sender_name' => (string) $senderName,
+                        'action_url' => '/agent-chat'
+                    ]
+                );
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::error('Frontend agent chat push notification error: ' . $e->getMessage());
+            }
+
             return response()->json([
                 'success' => true,
                 'message' => 'Message sent successfully',

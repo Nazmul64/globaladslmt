@@ -22,9 +22,10 @@ class NotificationController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'fcm_token'   => 'required|string',
-                'device_type' => 'nullable|string|in:android,ios,web',
-                'email'       => 'nullable|email',
+                'fcm_token'       => 'required|string',
+                'device_type'     => 'nullable|string|in:android,ios,web',
+                'email'           => 'nullable|email',
+                'firebase_app_id' => 'nullable|integer',
             ]);
 
             if ($validator->fails()) {
@@ -47,17 +48,29 @@ class NotificationController extends Controller
                 ], 401);
             }
 
+            // Determine firebase_app_id
+            $firebaseAppId = $request->firebase_app_id;
+            if (!$firebaseAppId) {
+                $activeApp = \App\Models\FirebaseApp::where('is_active', true)->first();
+                $firebaseAppId = $activeApp ? $activeApp->id : ($user->firebase_app_id ?? 1);
+            }
+
             $user->update([
-                'fcm_token'      => $request->fcm_token,
-                'fcm_updated_at' => now(),
-                'device_type'    => $request->device_type ?? $user->device_type ?? 'android',
+                'firebase_app_id' => $firebaseAppId,
+                'fcm_token'       => $request->fcm_token,
+                'fcm_updated_at'  => now(),
+                'device_type'     => $request->device_type ?? $user->device_type ?? 'android',
             ]);
 
-            Log::info("FCM Token updated for user {$user->id}");
+            Log::info("FCM Token updated for user {$user->id} with firebase_app_id {$firebaseAppId}");
 
             return response()->json([
                 'status'  => true,
                 'message' => 'FCM Token Updated',
+                'data'    => [
+                    'user_id'         => $user->id,
+                    'firebase_app_id' => $firebaseAppId,
+                ]
             ], 200);
 
         } catch (Throwable $e) {

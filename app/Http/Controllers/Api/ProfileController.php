@@ -30,15 +30,20 @@ class ProfileController extends Controller
             }
 
             // Fetch KYC status
-            $kyc = Kyc::where('user_id', $user->id)->first();
-            $kyc_status = ($kyc && strtolower(trim($kyc->status)) === 'approved') ? 'verified' : 'unverified';
+            $isVerified = (bool) $user->is_verified;
+            $kyc = Kyc::where('user_id', $user->id)->latest()->first();
+            $agentKyc = \App\Models\Agentkyc::where('user_id', $user->id)->latest()->first();
+
+            $kycRecord = $kyc ?? $agentKyc;
+            $kyc_status = $isVerified ? 'verified' : ($kycRecord ? strtolower(trim($kycRecord->status)) : 'unverified');
 
             // Profile photo full URL
             $profile_photo_url = null;
-            if ($user->profile_photo) {
-                $profile_photo_url = filter_var($user->profile_photo, FILTER_VALIDATE_URL)
-                    ? $user->profile_photo
-                    : url('uploads/profile/' . $user->profile_photo);
+            if ($user->photo || $user->new_photo || $user->profile_photo) {
+                $photo = $user->photo ?? $user->new_photo ?? $user->profile_photo;
+                $profile_photo_url = (filter_var($photo, FILTER_VALIDATE_URL))
+                    ? $photo
+                    : asset('uploads/profile/' . $photo);
             }
 
             return response()->json([
@@ -55,10 +60,13 @@ class ProfileController extends Controller
                     'referral_link'       => url('/register?ref=' . ($user->ref_code ?? '')),
                     'is_blocked'          => (bool) ($user->is_blocked ?? false),
                     'is_withdraw_blocked' => (bool) ($user->is_blocked ?? false),
+                    'is_verified'         => (bool) $isVerified,
                     'kyc_status'          => $kyc_status,
+                    'verification_status' => $isVerified ? 'verified' : 'unverified',
                     'created_at'          => $user->created_at ? $user->created_at->toDateTimeString() : null,
                     'profile_photo'       => $profile_photo_url,
                     'total_coins'         => $user->balance ?? 0,
+                    'balance'             => (float) ($user->balance ?? 0),
                     'tasks_done'          => $user->tasks_done ?? 0,
                 ],
             ], 200);
