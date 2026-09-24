@@ -138,10 +138,84 @@
   <script src="{{asset('admin')}}/assets/js/app.js"></script>
 
 <script src="{{asset('admin')}}/assets/js/homeOneChart.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- DataTables JS -->
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+
+<!-- Universal Image Preview & Validation for All Uploads -->
+<script>
+(function() {
+    const validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp', 'bmp', 'avif', 'jfif'];
+    const maxSizeBytes = 10 * 1024 * 1024; // 10MB
+
+    document.addEventListener('change', function(e) {
+        if (!e.target || e.target.tagName !== 'INPUT' || e.target.type !== 'file') return;
+        const input = e.target;
+        if (!input.files || input.files.length === 0) return;
+
+        const file = input.files[0];
+        const ext = file.name.split('.').pop().toLowerCase();
+        const isImage = file.type.startsWith('image/') || validExtensions.includes(ext);
+
+        // If file input is explicitly for JSON or other non-image formats, skip image logic
+        if (input.accept && input.accept.includes('.json') && !input.accept.includes('image')) return;
+
+        if (isImage) {
+            if (!validExtensions.includes(ext) && !file.type.startsWith('image/')) {
+                if (typeof toastr !== 'undefined') {
+                    toastr.error('Invalid image format! Supported: JPG, PNG, GIF, SVG, WEBP, BMP, AVIF, JFIF.');
+                } else {
+                    alert('Invalid image format! Supported: JPG, PNG, GIF, SVG, WEBP, BMP, AVIF, JFIF.');
+                }
+                input.value = '';
+                return;
+            }
+
+            if (file.size > maxSizeBytes) {
+                if (typeof toastr !== 'undefined') {
+                    toastr.error('File size (' + (file.size / (1024*1024)).toFixed(2) + ' MB) exceeds 10MB limit! Please choose a smaller file.');
+                } else {
+                    alert('File size exceeds 10MB limit!');
+                }
+                input.value = '';
+                return;
+            }
+
+            // Check if page already has custom dedicated preview container
+            const customPreview = document.getElementById('newPreviewContainer') ||
+                                  document.getElementById(input.id + 'Preview') ||
+                                  document.querySelector('[data-preview-for="' + input.id + '"]');
+
+            if (!customPreview) {
+                // Auto attach a clean preview widget below this input
+                let previewBox = input.parentNode.querySelector('.auto-universal-preview');
+                if (!previewBox) {
+                    previewBox = document.createElement('div');
+                    previewBox.className = 'auto-universal-preview mt-2 p-2 border rounded bg-white shadow-sm d-flex align-items-center gap-3';
+                    previewBox.innerHTML = `
+                        <img class="preview-thumb rounded" style="max-height: 80px; max-width: 120px; object-fit: contain; border: 1px solid #dee2e6;" src="" alt="Selected Preview">
+                        <div class="small text-muted flex-grow-1">
+                            <strong class="text-dark d-block preview-filename"></strong>
+                            <span class="preview-filesize badge bg-success text-white"></span>
+                            <span class="badge bg-primary text-white">Live Preview</span>
+                        </div>
+                    `;
+                    input.parentNode.appendChild(previewBox);
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    previewBox.querySelector('.preview-thumb').src = evt.target.result;
+                    previewBox.querySelector('.preview-filename').textContent = file.name;
+                    previewBox.querySelector('.preview-filesize').textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+                    previewBox.classList.remove('d-none');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    });
+})();
+</script>
 
 </body>
 </html>

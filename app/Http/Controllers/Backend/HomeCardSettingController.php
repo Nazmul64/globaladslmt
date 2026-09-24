@@ -49,11 +49,14 @@ class HomeCardSettingController extends Controller
             'title' => 'required|string|max:255',
             'icon_type' => 'required|string|in:code,image',
             'icon' => 'nullable|string|max:500',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,bmp,avif,jfif|max:10240',
             'bg_color' => 'required|string|max:50',
             'icon_color' => 'nullable|string|max:50',
             'text_color' => 'nullable|string|max:50',
             'is_active' => 'nullable|boolean',
+        ], [
+            'image.mimes' => 'Supported image formats are JPG, JPEG, PNG, GIF, SVG, WEBP, BMP, AVIF, JFIF.',
+            'image.max' => 'Image size cannot exceed 10MB.',
         ]);
 
         $card = HomeCardSetting::findOrFail($id);

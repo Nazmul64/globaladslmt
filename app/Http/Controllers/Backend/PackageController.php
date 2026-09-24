@@ -38,15 +38,23 @@ class PackageController extends Controller
             'daily_limit' => 'required|integer',
             'ad_brack' => 'required',
             'validity' => 'required|string|max:255',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,bmp,avif,jfif|max:10240',
+        ], [
+            'photo.mimes' => 'Supported image formats are JPG, JPEG, PNG, GIF, SVG, WEBP, BMP, AVIF, JFIF.',
+            'photo.max' => 'Package photo size cannot exceed 10MB.',
         ]);
 
-        $data = $request->only(['package_name', 'price', 'daily_income', 'daily_limit','ad_brack','validity']);
+        $data = $request->only(['package_name', 'price', 'daily_income', 'daily_limit', 'ad_brack', 'validity']);
 
         if ($request->hasFile('photo')) {
+            $path = public_path('uploads/package');
+            if (!\Illuminate\Support\Facades\File::exists($path)) {
+                \Illuminate\Support\Facades\File::makeDirectory($path, 0755, true);
+            }
+
             $file = $request->file('photo');
-            $filename = Str::slug($request->package_name) . '-' . time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/package'), $filename);
+            $filename = Str::slug($request->package_name) . '-' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move($path, $filename);
             $data['photo'] = $filename;
         }
 
@@ -74,20 +82,28 @@ class PackageController extends Controller
             'daily_income' => 'required|numeric',
             'daily_limit' => 'required|integer',
             'validity' => 'required|string|max:255',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,bmp,avif,jfif|max:10240',
             'ad_brack' => 'required',
+        ], [
+            'photo.mimes' => 'Supported image formats are JPG, JPEG, PNG, GIF, SVG, WEBP, BMP, AVIF, JFIF.',
+            'photo.max' => 'Package photo size cannot exceed 10MB.',
         ]);
 
-        $data = $request->only(['package_name', 'price', 'daily_income', 'daily_limit','ad_brack','validity']);
+        $data = $request->only(['package_name', 'price', 'daily_income', 'daily_limit', 'ad_brack', 'validity']);
 
         if ($request->hasFile('photo')) {
+            $path = public_path('uploads/package');
+            if (!\Illuminate\Support\Facades\File::exists($path)) {
+                \Illuminate\Support\Facades\File::makeDirectory($path, 0755, true);
+            }
+
             // Delete old photo
-            if ($package->photo && file_exists(public_path('uploads/package/' . $package->photo))) {
-                unlink(public_path('uploads/package/' . $package->photo));
+            if ($package->photo && file_exists($path . '/' . $package->photo)) {
+                @unlink($path . '/' . $package->photo);
             }
             $file = $request->file('photo');
-            $filename = Str::slug($request->package_name) . '-' . time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/package'), $filename);
+            $filename = Str::slug($request->package_name) . '-' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move($path, $filename);
             $data['photo'] = $filename;
         }
 
@@ -102,7 +118,7 @@ class PackageController extends Controller
     public function destroy(Package $package)
     {
         if ($package->photo && file_exists(public_path('uploads/package/' . $package->photo))) {
-            unlink(public_path('uploads/package/' . $package->photo));
+            @unlink(public_path('uploads/package/' . $package->photo));
         }
 
         $package->delete();

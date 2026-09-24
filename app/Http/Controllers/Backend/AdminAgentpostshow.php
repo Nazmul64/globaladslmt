@@ -39,7 +39,10 @@ class AdminAgentpostshow extends Controller
             'rate_balance'      => 'required',
             'payment_name'      => 'required|string',
             'status'            => 'required|boolean',
-            'photo'             => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'photo'             => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,bmp,avif,jfif|max:10240',
+        ], [
+            'photo.mimes' => 'Supported formats are JPG, JPEG, PNG, GIF, SVG, WEBP, BMP, AVIF, JFIF.',
+            'photo.max' => 'Photo size cannot exceed 10MB.',
         ]);
 
         if ($request->hasFile('photo')) {

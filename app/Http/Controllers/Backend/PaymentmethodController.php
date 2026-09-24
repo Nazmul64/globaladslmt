@@ -36,8 +36,11 @@ class PaymentmethodController extends Controller
             'method_number' => 'nullable|string|max:255',
             'number_type' => 'nullable|string|max:255',
             'usd_rate' => 'nullable|string|max:255',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,bmp,avif,jfif|max:10240',
             'status' => 'required|in:active,inactive',
+        ], [
+            'photo.mimes' => 'Supported formats are JPG, JPEG, PNG, GIF, SVG, WEBP, BMP, AVIF, JFIF.',
+            'photo.max' => 'Image size cannot exceed 10MB.',
         ]);
 
         $data = $request->only(['method_name', 'method_number', 'number_type', 'usd_rate', 'status']);
@@ -48,9 +51,13 @@ class PaymentmethodController extends Controller
             : true;
 
         if ($request->hasFile('photo')) {
+            $path = public_path('uploads/paymentmethod');
+            if (!File::exists($path)) {
+                File::makeDirectory($path, 0755, true);
+            }
             $file = $request->file('photo');
-            $filename = time().'_'.$file->getClientOriginalName();
-            $file->move(public_path('uploads/paymentmethod'), $filename);
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move($path, $filename);
             $data['photo'] = $filename;
         }
 
@@ -78,8 +85,11 @@ class PaymentmethodController extends Controller
             'method_number' => 'required|string|max:255',
             'number_type' => 'nullable|string|max:255',
             'usd_rate' => 'nullable|string|max:255',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,bmp,avif,jfif|max:10240',
             'status' => 'required|in:active,inactive',
+        ], [
+            'photo.mimes' => 'Supported formats are JPG, JPEG, PNG, GIF, SVG, WEBP, BMP, AVIF, JFIF.',
+            'photo.max' => 'Image size cannot exceed 10MB.',
         ]);
 
         $data = $request->only(['method_name', 'method_number', 'number_type', 'usd_rate', 'status']);
@@ -90,14 +100,17 @@ class PaymentmethodController extends Controller
             : false;
 
         if ($request->hasFile('photo')) {
-            // Delete old photo if exists
-            if ($paymentmethod->photo && File::exists(public_path('uploads/paymentmethod/'.$paymentmethod->photo))) {
-                File::delete(public_path('uploads/paymentmethod/'.$paymentmethod->photo));
+            $path = public_path('uploads/paymentmethod');
+            if (!File::exists($path)) {
+                File::makeDirectory($path, 0755, true);
+            }
+            if ($paymentmethod->photo && File::exists($path . '/' . $paymentmethod->photo)) {
+                @File::delete($path . '/' . $paymentmethod->photo);
             }
 
             $file = $request->file('photo');
-            $filename = time().'_'.$file->getClientOriginalName();
-            $file->move(public_path('uploads/paymentmethod'), $filename);
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move($path, $filename);
             $data['photo'] = $filename;
         }
 

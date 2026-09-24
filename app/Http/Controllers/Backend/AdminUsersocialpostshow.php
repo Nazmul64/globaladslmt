@@ -37,7 +37,10 @@ public function update(Request $request, $id)
         'content'   => 'nullable|string',
         'privacy'   => 'required|in:public,friends,only_me',
         'is_active' => 'required|boolean',
-        'image'     => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        'image'     => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,bmp,avif,jfif|max:10240',
+    ], [
+        'image.mimes' => 'Supported formats are JPG, JPEG, PNG, GIF, SVG, WEBP, BMP, AVIF, JFIF.',
+        'image.max' => 'Image size cannot exceed 10MB.',
     ]);
 
     if ($request->hasFile('image')) {
