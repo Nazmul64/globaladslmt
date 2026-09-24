@@ -130,8 +130,8 @@ class ChatRequestController extends Controller
             $senderName = $sender ? $sender->name : 'Someone';
             PushNotificationService::send(
                 $receiverId,
-                "নতুন ফ্রেন্ড রিকোয়েস্ট",
-                "{$senderName} আপনাকে ফ্রেন্ড রিকোয়েস্ট পাঠিয়েছে",
+                "New Friend Request",
+                "{$senderName} sent you a friend request",
                 "friend_request",
                 ['sender_id' => $senderId, 'request_id' => $friendRequest->id]
             );
@@ -232,17 +232,28 @@ class ChatRequestController extends Controller
 
             $formattedRequests = $requests->map(function ($r) {
                 // Check if sender still exists
-                if (!$r->sender) {
+                $sender = $r->sender;
+                if (!$sender) {
                     return null;
                 }
+
+                $isVerified = (bool) $sender->is_verified;
+                $statusText = $isVerified ? 'verified' : 'unverified';
 
                 return [
                     'id' => $r->id,
                     'sender' => [
-                        'id'    => $r->sender->id,
-                        'name'  => $r->sender->name,
-                        'email' => $r->sender->email,
-                        'photo' => $this->resolvePhoto($r->sender->photo),
+                        'id'                  => $sender->id,
+                        'name'                => $sender->name,
+                        'email'               => $sender->email,
+                        'photo'               => $this->resolvePhoto($sender->photo),
+                        'image'               => $this->resolvePhoto($sender->photo),
+                        'photo_url'           => $this->resolvePhoto($sender->photo),
+                        'is_verified'         => $isVerified,
+                        'kyc_approved'        => $isVerified,
+                        'kyc_status'          => $statusText,
+                        'verification_status' => $statusText,
+                        'status'              => $statusText,
                     ],
                     'status' => $r->status,
                     'created_at' => $r->created_at->toIso8601String(),
@@ -326,8 +337,8 @@ class ChatRequestController extends Controller
             $receiverName = $receiver ? $receiver->name : 'Someone';
             PushNotificationService::send(
                 $senderId,
-                "রিকোয়েস্ট গ্রহণ করা হয়েছে",
-                "{$receiverName} আপনার ফ্রেন্ড রিকোয়েস্ট এক্সেপ্ট করেছে",
+                "Friend Request Accepted",
+                "{$receiverName} accepted your friend request",
                 "friend_accepted",
                 ['friend_id' => $receiverId, 'request_id' => $friendRequest->id]
             );
@@ -338,14 +349,24 @@ class ChatRequestController extends Controller
                 'receiver_id' => $receiverId
             ]);
 
+            $isVerified = (bool) $sender->is_verified;
+            $statusText = $isVerified ? 'verified' : 'unverified';
+
             return $this->successResponse(
                 [
                     'request_id' => $friendRequest->id,
                     'friend' => [
-                        'id' => $sender->id,
-                        'name' => $sender->name,
-                        'email' => $sender->email,
-                        'photo' => $this->resolvePhoto($sender->photo),
+                        'id'                  => $sender->id,
+                        'name'                => $sender->name,
+                        'email'               => $sender->email,
+                        'photo'               => $this->resolvePhoto($sender->photo),
+                        'image'               => $this->resolvePhoto($sender->photo),
+                        'photo_url'           => $this->resolvePhoto($sender->photo),
+                        'is_verified'         => $isVerified,
+                        'kyc_approved'        => $isVerified,
+                        'kyc_status'          => $statusText,
+                        'verification_status' => $statusText,
+                        'status'              => $statusText,
                     ],
                     'status' => 'accepted',
                 ],
@@ -452,17 +473,22 @@ class ChatRequestController extends Controller
             $friends = $friendRequests->map(function ($r) use ($authId) {
                 $friend = $r->sender_id === $authId ? $r->receiver : $r->sender;
 
-                // Check if friend still exists
-                if (!$friend) {
-                    return null;
-                }
+                $isVerified = (bool) $friend->is_verified;
+                $statusText = $isVerified ? 'verified' : 'unverified';
 
                 return [
-                    'id'    => $friend->id,
-                    'name'  => $friend->name,
-                    'email' => $friend->email,
-                    'photo' => $this->resolvePhoto($friend->photo),
-                    'friendship_since' => $r->updated_at->toIso8601String(),
+                    'id'                  => $friend->id,
+                    'name'                => $friend->name,
+                    'email'               => $friend->email,
+                    'photo'               => $this->resolvePhoto($friend->photo),
+                    'image'               => $this->resolvePhoto($friend->photo),
+                    'photo_url'           => $this->resolvePhoto($friend->photo),
+                    'is_verified'         => $isVerified,
+                    'kyc_approved'        => $isVerified,
+                    'kyc_status'          => $statusText,
+                    'verification_status' => $statusText,
+                    'status'              => $statusText,
+                    'friendship_since'    => $r->updated_at->toIso8601String(),
                 ];
             })->filter()->values(); // Remove null and reindex
 
@@ -601,17 +627,28 @@ class ChatRequestController extends Controller
             }
 
             $formattedRequests = $requests->map(function ($r) {
-                if (!$r->receiver) {
+                $receiver = $r->receiver;
+                if (!$receiver) {
                     return null;
                 }
+
+                $isVerified = (bool) $receiver->is_verified;
+                $statusText = $isVerified ? 'verified' : 'unverified';
 
                 return [
                     'id' => $r->id,
                     'receiver' => [
-                        'id'    => $r->receiver->id,
-                        'name'  => $r->receiver->name,
-                        'email' => $r->receiver->email,
-                        'photo' => $this->resolvePhoto($r->receiver->photo),
+                        'id'                  => $receiver->id,
+                        'name'                => $receiver->name,
+                        'email'               => $receiver->email,
+                        'photo'               => $this->resolvePhoto($receiver->photo),
+                        'image'               => $this->resolvePhoto($receiver->photo),
+                        'photo_url'           => $this->resolvePhoto($receiver->photo),
+                        'is_verified'         => $isVerified,
+                        'kyc_approved'        => $isVerified,
+                        'kyc_status'          => $statusText,
+                        'verification_status' => $statusText,
+                        'status'              => $statusText,
                     ],
                     'status' => $r->status,
                     'created_at' => $r->created_at->toIso8601String(),
@@ -689,14 +726,24 @@ class ChatRequestController extends Controller
             $canSendRequest = $request->status === 'rejected';
         }
 
+        $isVerified = (bool) $user->is_verified;
+        $statusText = $isVerified ? 'verified' : 'unverified';
+
         return [
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->email,
-            'photo' => $this->resolvePhoto($user->photo),
-            'friend_status' => $friendStatus,
-            'request_sent_by_me' => $requestSentByMe,
-            'can_send_request' => $canSendRequest,
+            'id'                  => $user->id,
+            'name'                => $user->name,
+            'email'               => $user->email,
+            'photo'               => $this->resolvePhoto($user->photo),
+            'image'               => $this->resolvePhoto($user->photo),
+            'photo_url'           => $this->resolvePhoto($user->photo),
+            'is_verified'         => $isVerified,
+            'kyc_approved'        => $isVerified,
+            'kyc_status'          => $statusText,
+            'verification_status' => $statusText,
+            'status'              => $statusText,
+            'friend_status'       => $friendStatus,
+            'request_sent_by_me'  => $requestSentByMe,
+            'can_send_request'    => $canSendRequest,
         ];
     }
 

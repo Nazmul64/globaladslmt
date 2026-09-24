@@ -93,7 +93,7 @@ class UserforadminChatController extends Controller
             $msgText = !empty($chat->message) ? $chat->message : '📷 Photo';
             PushNotificationService::send(
                 $adminId,
-                "নতুন সাপোর্ট মেসেজ - {$userName}",
+                "New Support Message from {$userName}",
                 $msgText,
                 "admin_message",
                 ['chat_id' => $chat->id, 'sender_id' => $userId]

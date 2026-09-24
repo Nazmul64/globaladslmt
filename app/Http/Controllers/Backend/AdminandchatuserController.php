@@ -177,10 +177,10 @@ class AdminandchatuserController extends Controller
             'is_read' => false,
         ]);
 
-        $msgBody = !empty($chat->message) ? $chat->message : 'অ্যাডমিন থেকে নতুন একটি মেসেজ বা ফাইল এসেছে';
+        $msgBody = !empty($chat->message) ? $chat->message : 'New message received from Customer Support';
         PushNotificationService::send(
             $request->receiver_id,
-            "অ্যাডমিন সাপোর্ট",
+            "Customer Support",
             $msgBody,
             "admin_message",
             ['chat_id' => $chat->id, 'sender_id' => $adminId]

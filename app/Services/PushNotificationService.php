@@ -14,7 +14,7 @@ use Throwable;
 class PushNotificationService
 {
     /**
-     * Send a notification and record it in database
+     * Send a notification and record it in database (100% English & with Platform Logo)
      *
      * @param int|string $userId
      * @param string $title
@@ -27,6 +27,11 @@ class PushNotificationService
     {
         $notificationRecord = null;
 
+        // Ensure title and body are 100% English and Customer Support branding
+        $title = self::sanitizeToEnglish((string) $title);
+        $body = self::sanitizeToEnglish((string) $body);
+        $logoUrl = self::resolveLogoUrl();
+
         try {
             // 1. Save notification record in database
             $notificationRecord = UserNotification::create([
@@ -34,7 +39,7 @@ class PushNotificationService
                 'title'   => (string) $title,
                 'body'    => (string) $body,
                 'type'    => (string) $type,
-                'payload' => $payload,
+                'payload' => array_merge($payload, ['logo_url' => $logoUrl]),
                 'is_read' => false,
             ]);
         } catch (Throwable $e) {
@@ -62,17 +67,27 @@ class PushNotificationService
                     $messageData = array_merge([
                         'type'         => (string) $type,
                         'click_action' => 'FLUTTER_NOTIFICATION_CLICK',
+                        'image'        => (string) $logoUrl,
+                        'icon'         => (string) $logoUrl,
+                        'logo_url'     => (string) $logoUrl,
+                        'large_icon'   => (string) $logoUrl,
                     ], $stringPayload);
 
+                    $notificationBuilder = Notification::create((string)$title, (string)$body);
+                    if ($logoUrl) {
+                        $notificationBuilder = $notificationBuilder->withImageUrl($logoUrl);
+                    }
+
                     $message = CloudMessage::withTarget('token', $user->fcm_token)
-                        ->withNotification(Notification::create((string)$title, (string)$body))
+                        ->withNotification($notificationBuilder)
                         ->withData($messageData);
 
                     $messaging->send($message);
 
                     Log::info("FCM Sent successfully to user {$userId}", [
-                        'type'  => $type,
-                        'title' => $title,
+                        'type'     => $type,
+                        'title'    => $title,
+                        'logo_url' => $logoUrl,
                     ]);
                 }
             }
@@ -84,6 +99,87 @@ class PushNotificationService
         }
 
         return $notificationRecord;
+    }
+
+    /**
+     * Resolve Platform Branding Logo URL dynamically
+     */
+    public static function resolveLogoUrl(): string
+    {
+        try {
+            $settingLogo = \App\Models\Settinglogo::first() ?? \App\Models\Logosetting::first();
+            if ($settingLogo && !empty($settingLogo->photo)) {
+                $photoPath = public_path('uploads/logo/' . $settingLogo->photo);
+                if (file_exists($photoPath)) {
+                    return asset('uploads/logo/' . $settingLogo->photo);
+                }
+            }
+
+            if (file_exists(public_path('admin/assets/images/logo.png'))) {
+                return asset('admin/assets/images/logo.png');
+            }
+
+            if (file_exists(public_path('logo.png'))) {
+                return asset('logo.png');
+            }
+        } catch (Throwable $e) {
+            // fallback
+        }
+
+        return asset('uploads/avator.jpg');
+    }
+
+    /**
+     * Convert any legacy or Bengali notification text to clean 100% English
+     */
+    public static function sanitizeToEnglish(string $text): string
+    {
+        $translations = [
+            'অ্যাডমিন সাপোর্ট' => 'Customer Support',
+            'এডমিন সাপোর্ট'   => 'Customer Support',
+            'অ্যাডমিন'        => 'Customer Support',
+            'এডমিন'          => 'Customer Support',
+            'Admin Support'  => 'Customer Support',
+            'নতুন ফ্রেন্ড রিকোয়েস্ট' => 'New Friend Request',
+            'নতুন ফ্রেন্ড রিকোয়েস্ট' => 'New Friend Request',
+            'আপনাকে ফ্রেন্ড রিকোয়েস্ট পাঠিয়েছে' => 'sent you a friend request',
+            'আপনাকে ফ্রেন্ড রিকোয়েস্ট পাঠিয়েছে' => 'sent you a friend request',
+            'রিকোয়েস্ট গ্রহণ করা হয়েছে' => 'Friend Request Accepted',
+            'রিকোয়েস্ট গ্রহণ করা হয়েছে' => 'Friend Request Accepted',
+            'আপনার ফ্রেন্ড রিকোয়েস্ট এক্সেপ্ট করেছে' => 'accepted your friend request',
+            'আপনার ফ্রেন্ড রিকোয়েস্ট গ্রহণ করেছেন' => 'accepted your friend request',
+            'নতুন মেসেজ' => 'New Message',
+            'নতুন সাপোর্ট মেসেজ' => 'New Support Message',
+            'অ্যাডমিন থেকে নতুন একটি মেসেজ বা ফাইল এসেছে' => 'New message received from Customer Support',
+            'এডমিন থেকে নতুন একটি মেসেজ বা ফাইল এসেছে' => 'New message received from Customer Support',
+            'নতুন ডিপোজিট রিকোয়েস্ট' => 'New Deposit Request',
+            'ডিপোজিট রিকোয়েস্ট গৃহীত' => 'Deposit Request Accepted',
+            'পেমেন্ট প্রুফ জমা হয়েছে' => 'Payment Proof Submitted',
+            'পেমেন্ট প্রুফ জমা হয়েছে' => 'Payment Proof Submitted',
+            'ইউজার ডিপোজিটের পেমেন্ট প্রুফ জমা দিয়েছেন' => 'User submitted deposit payment proof',
+            'ডিপোজিট সফল' => 'Deposit Successful',
+            'ডিপোজিট সফল হয়েছে' => 'Deposit Successful',
+            'আপনার' => 'Your',
+            'ডিপোজিট সফলভাবে সম্পন্ন হয়েছে' => 'deposit has been completed successfully',
+            'নতুন উইথড্র রিকোয়েস্ট' => 'New Withdrawal Request',
+            'উইথড্র রিকোয়েস্ট গৃহীত' => 'Withdrawal Request Accepted',
+            'এজেন্ট আপনার' => 'Agent accepted your',
+            'উইথড্র রিকোয়েস্ট গ্রহণ করেছে' => 'withdrawal request',
+            'ডিপোজিট রিকোয়েস্ট গ্রহণ করেছে' => 'deposit request',
+            'উইথড্র সম্পন্ন' => 'Withdrawal Completed',
+            'উইথড্র সফলভাবে সম্পন্ন হয়েছে' => 'withdrawal completed successfully',
+            'একজন ইউজার' => 'A user submitted',
+            'ডিপোজিট রিকোয়েস্ট পাঠিয়েছে' => 'deposit request',
+            'উইথড্র রিকোয়েস্ট পাঠিয়েছে' => 'withdrawal request',
+        ];
+
+        foreach ($translations as $bn => $en) {
+            if (mb_strpos($text, $bn) !== false) {
+                $text = str_replace($bn, $en, $text);
+            }
+        }
+
+        return trim($text);
     }
 
     /**

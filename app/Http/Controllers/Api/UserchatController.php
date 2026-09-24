@@ -69,13 +69,22 @@ class UserchatController extends Controller
                     return null;
                 }
 
+                $isVerified = (bool) $friend->is_verified;
+                $statusText = $isVerified ? 'verified' : 'unverified';
+
                 return [
-                    'id' => $friend->id,
-                    'name' => $friend->name ?? 'Unknown User',
-                    'email' => $friend->email ?? '',
-                    'photo' => $this->resolvePhoto($friend->photo),
-                    'image' => $this->resolvePhoto($friend->photo),
-                    'role' => $friend->role ?? 'user',
+                    'id'                  => $friend->id,
+                    'name'                => $friend->name ?? 'Unknown User',
+                    'email'               => $friend->email ?? '',
+                    'photo'               => $this->resolvePhoto($friend->photo),
+                    'image'               => $this->resolvePhoto($friend->photo),
+                    'photo_url'           => $this->resolvePhoto($friend->photo),
+                    'role'                => $friend->role ?? 'user',
+                    'is_verified'         => $isVerified,
+                    'kyc_approved'        => $isVerified,
+                    'kyc_status'          => $statusText,
+                    'verification_status' => $statusText,
+                    'status'              => $statusText,
                 ];
             })->filter()->values();
 
@@ -228,7 +237,7 @@ class UserchatController extends Controller
 
             PushNotificationService::send(
                 $receiverId,
-                "নতুন মেসেজ - {$senderName}",
+                "New message from {$senderName}",
                 $msgBody,
                 "chat_message",
                 ['chat_id' => $chatMessage->id, 'sender_id' => $senderId]
@@ -638,19 +647,28 @@ class UserchatController extends Controller
                 $lastMessage = $lastMessages->get($friend->id);
                 $unreadCount = $unreadCounts->get($friend->id, 0);
 
+                $isVerified = (bool) $friend->is_verified;
+                $statusText = $isVerified ? 'verified' : 'unverified';
+
                 return [
-                    'id' => $friend->id,
-                    'name' => $friend->name ?? 'Unknown User',
-                    'email' => $friend->email ?? '',
-                    'image' => $this->resolvePhoto($friend->photo),
-                    'photo' => $this->resolvePhoto($friend->photo),
-                    'role' => $friend->role ?? 'user',
-                    'last_message' => $lastMessage ? [
-                        'text' => $lastMessage->message ?? ($lastMessage->image ? '📷 Photo' : ''),
-                        'time' => ($lastMessage->created_at ? $lastMessage->created_at->format('h:i A') : ''),
+                    'id'                  => $friend->id,
+                    'name'                => $friend->name ?? 'Unknown User',
+                    'email'               => $friend->email ?? '',
+                    'image'               => $this->resolvePhoto($friend->photo),
+                    'photo'               => $this->resolvePhoto($friend->photo),
+                    'photo_url'           => $this->resolvePhoto($friend->photo),
+                    'role'                => $friend->role ?? 'user',
+                    'is_verified'         => $isVerified,
+                    'kyc_approved'        => $isVerified,
+                    'kyc_status'          => $statusText,
+                    'verification_status' => $statusText,
+                    'status'              => $statusText,
+                    'last_message'        => $lastMessage ? [
+                        'text'    => $lastMessage->message ?? ($lastMessage->image ? '📷 Photo' : ''),
+                        'time'    => ($lastMessage->created_at ? $lastMessage->created_at->format('h:i A') : ''),
                         'is_sent' => $lastMessage->sender_id == $userId,
                     ] : null,
-                    'unread_count' => $unreadCount,
+                    'unread_count'        => $unreadCount,
                 ];
             })->filter()->values();
 

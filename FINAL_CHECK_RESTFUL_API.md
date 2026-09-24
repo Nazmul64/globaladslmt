@@ -1,249 +1,337 @@
-# GlobalAds LMT - Final Check RESTful API Documentation
-
-This document contains complete, verified documentation for all core features, RESTful endpoints, and backend logic in the GlobalAds platform.
+# 🚀 RESTful API Specification & Integration Guide
+**Version:** 2.4.0  
+**Base URL:** `http://127.0.0.1:8000/api` (or live production domain `https://ukearn.com/api`)  
+**Authorization Header:** `Bearer <JWT_OR_SANCTUM_TOKEN>`  
+**Accept Header:** `application/json`  
+**Content-Type:** `application/json` (or `multipart/form-data` for file uploads)
 
 ---
 
-## 1. KYC & User Verification System (ID Verified / Text)
+## 📌 1. KYC Verification & Friend Chat Status Update (CRITICAL)
 
-### 1.1 Overview
-When a user submits KYC and the Admin clicks **Approve**, all user profiles and verification endpoints immediately reflect:
-- `is_verified`: `true` (Boolean)
-- `kyc_approved`: `true` (Boolean)
-- `kyc_status`: `"verified"` (String)
-- `verification_status`: `"verified"` (String)
+### Problem Solved:
+Previously, when user KYC was approved in the Admin Panel (`/kyc/kyclist`), the Friend Chat / User list in Flutter app was showing **"Unverified"** with red badge.
+Now, the Backend User Model and all Chat & Friend APIs dynamically inspect:
+1. `users.is_verified == 1`
+2. `kycs` table where `user_id = auth->id` and `LOWER(status) = 'approved'`
+3. `agentkycs` table where `user_id = auth->id` and `LOWER(status) = 'approved'`
 
-If not yet approved, it returns `is_verified: false`, `kyc_status: "unverified"` or `"pending"`.
-
-### 1.2 Endpoints
-
-#### `GET /api/profile`
-- **Headers:** `Authorization: Bearer {token}`
-- **Response:**
+### Standard User Object Attributes Returned Across ALL APIs:
+All user objects in Chat, Friend List, Friend Requests, Search, and Profile endpoints now include:
 ```json
 {
-  "status": true,
-  "message": "Profile fetched successfully",
+  "id": 1,
+  "name": "Nazmul",
+  "phone": "01706640864",
+  "email": "nazmul@gmail.com",
+  "photo_url": "https://ukearn.com/public/uploads/profile/1727157600.png",
+  "is_verified": true,
+  "kyc_approved": true,
+  "kyc_status": "verified",
+  "verification_status": "verified",
+  "status": "verified"
+}
+```
+
+> 📱 **Flutter / Mobile App Developer Note:**
+> Use `user['is_verified'] == true` or `user['kyc_status'] == 'verified'` to render the **Blue Verified Badge** (Verified) instead of Unverified.
+
+---
+
+## 📌 2. 100% English Push Notifications & Dynamic App Logo Standard
+
+### Push Notification Enhancements:
+1. **Zero Bengali Text**: All system notifications, push notifications, friend requests, support messages, deposits, withdrawals, and task notifications are strictly in **English**.
+2. **Customer Support Branding**: Admin support is officially branded as **"Customer Support"**.
+3. **Dynamic Platform Logo**: Notifications now include the active platform logo (UK EARN / uploaded in Admin `logosetting`) in the FCM payload (`image`, `icon`, `logo_url`, `large_icon`, `imageUrl`).
+
+### FCM Push Notification Payload Structure:
+```json
+{
+  "title": "New Friend Request",
+  "body": "Nazmul sent you a friend request",
+  "logo_url": "https://ukearn.com/public/uploads/logo/1727158000.png",
+  "imageUrl": "https://ukearn.com/public/uploads/logo/1727158000.png",
   "data": {
-    "id": 10,
-    "name": "Alex",
-    "mobile": "01700000000",
-    "email": "user@example.com",
-    "ref_code": "83920194",
-    "referral_link": "https://globaladslmt.com/register?ref=83920194",
-    "is_blocked": false,
-    "is_verified": true,
-    "kyc_status": "verified",
-    "verification_status": "verified",
-    "profile_photo": "https://globaladslmt.com/uploads/profile/profile_10.jpg",
-    "total_coins": 25.50,
-    "balance": 25.50,
-    "tasks_done": 40
+    "type": "friend_request",
+    "title": "New Friend Request",
+    "body": "Nazmul sent you a friend request",
+    "image": "https://ukearn.com/public/uploads/logo/1727158000.png",
+    "icon": "https://ukearn.com/public/uploads/logo/1727158000.png",
+    "logo_url": "https://ukearn.com/public/uploads/logo/1727158000.png",
+    "large_icon": "https://ukearn.com/public/uploads/logo/1727158000.png",
+    "click_action": "FLUTTER_NOTIFICATION_CLICK"
   }
 }
 ```
 
-#### `GET /api/userbalanceshow` and `GET /api/userbalanceshows`
-- **Headers:** `Authorization: Bearer {token}`
+### Standard Notification Messages List:
+| Event | Title | Body |
+|---|---|---|
+| **Friend Request Received** | `New Friend Request` | `{Sender Name} sent you a friend request` |
+| **Friend Request Accepted** | `Friend Request Accepted` | `{User Name} accepted your friend request` |
+| **Friend Chat Message** | `New Message` | `New message from {Sender Name}` |
+| **Admin Support Reply** | `Customer Support` | `New message received from Customer Support` |
+| **User Support to Admin** | `Customer Support` | `New Support Message from {User Name}` |
+| **Deposit Submitted** | `Deposit Submitted` | `Your deposit request of ৳{Amount} has been submitted` |
+| **Deposit Approved** | `Deposit Approved` | `Your deposit of ৳{Amount} has been approved` |
+| **Withdrawal Submitted** | `Withdrawal Requested` | `Your withdrawal request of ৳{Amount} has been submitted` |
+| **Withdrawal Approved** | `Withdrawal Approved` | `Your withdrawal of ৳{Amount} has been processed successfully` |
+
+---
+
+## 📌 3. API Endpoints Directory
+
+### 🟢 A. Friend Chat & Messaging APIs
+
+#### 1. Friend Chat User List (Contacts & Recent Chats)
+- **Endpoint:** `GET /api/chat/frontend/list`
+- **Headers:** `Authorization: Bearer <token>`
 - **Response:**
 ```json
 {
-  "success": true,
   "status": true,
-  "data": {
-    "user": {
-      "id": 10,
-      "name": "Alex",
-      "email": "user@example.com",
+  "data": [
+    {
+      "id": 2,
+      "name": "Nazmul",
+      "phone": "01706640864",
+      "email": "nazmul@gmail.com",
+      "photo_url": "https://ukearn.com/public/uploads/profile/avatar.png",
       "is_verified": true,
       "kyc_approved": true,
       "kyc_status": "verified",
-      "verification_status": "verified"
+      "verification_status": "verified",
+      "status": "verified",
+      "last_message": "Hi, how are you?",
+      "last_message_time": "12:12 PM",
+      "unread_count": 0
+    }
+  ]
+}
+```
+
+#### 2. Get Messages Between Two Users
+- **Endpoint:** `GET /api/chat/frontend/messages/{receiver_id}`
+- **Headers:** `Authorization: Bearer <token>`
+- **Response:**
+```json
+{
+  "status": true,
+  "data": [
+    {
+      "id": 105,
+      "sender_id": 1,
+      "receiver_id": 2,
+      "message": "Hello!",
+      "image_url": null,
+      "created_at": "2026-09-24T06:12:00.000000Z",
+      "is_me": true
+    }
+  ]
+}
+```
+
+#### 3. Send Message to Friend
+- **Endpoint:** `POST /api/chat/frontend/send`
+- **Headers:** `Authorization: Bearer <token>`
+- **Body (JSON or Form-Data):**
+```json
+{
+  "receiver_id": 2,
+  "message": "Hello there!",
+  "image": "<optional image file>"
+}
+```
+- **Response:**
+```json
+{
+  "status": true,
+  "message": "Message sent successfully",
+  "data": {
+    "id": 106,
+    "sender_id": 1,
+    "receiver_id": 2,
+    "message": "Hello there!",
+    "image_url": null,
+    "created_at": "2026-09-24T06:15:00.000000Z"
+  }
+}
+```
+
+---
+
+### 🟢 B. Friend Request System APIs
+
+#### 1. Search Users / Add Friends
+- **Endpoint:** `GET /api/friends/search?query=01706640864`
+- **Headers:** `Authorization: Bearer <token>`
+- **Response:**
+```json
+{
+  "status": true,
+  "data": [
+    {
+      "id": 2,
+      "name": "Nazmul",
+      "phone": "01706640864",
+      "email": "nazmul@gmail.com",
+      "photo_url": "https://ukearn.com/public/uploads/profile/avatar.png",
+      "is_verified": true,
+      "kyc_approved": true,
+      "kyc_status": "verified",
+      "verification_status": "verified",
+      "status": "verified",
+      "friendship_status": "not_friends"
+    }
+  ]
+}
+```
+
+#### 2. Send Friend Request
+- **Endpoint:** `POST /api/friend-request/send`
+- **Headers:** `Authorization: Bearer <token>`
+- **Body:**
+```json
+{
+  "receiver_id": 2
+}
+```
+- **Response:**
+```json
+{
+  "status": true,
+  "message": "Friend request sent successfully"
+}
+```
+
+#### 3. Accept Friend Request
+- **Endpoint:** `POST /api/friend-request/accept`
+- **Headers:** `Authorization: Bearer <token>`
+- **Body:**
+```json
+{
+  "request_id": 15
+}
+```
+- **Response:**
+```json
+{
+  "status": true,
+  "message": "Friend request accepted successfully"
+}
+```
+
+#### 4. Get My Friends List
+- **Endpoint:** `GET /api/friends`
+- **Headers:** `Authorization: Bearer <token>`
+- **Response:**
+```json
+{
+  "status": true,
+  "data": [
+    {
+      "id": 2,
+      "name": "Nazmul",
+      "phone": "01706640864",
+      "email": "nazmul@gmail.com",
+      "photo_url": "https://ukearn.com/public/uploads/profile/avatar.png",
+      "is_verified": true,
+      "kyc_approved": true,
+      "kyc_status": "verified",
+      "verification_status": "verified",
+      "status": "verified"
+    }
+  ]
+}
+```
+
+---
+
+### 🟢 C. Customer Support Chat APIs (Admin <-> User)
+
+#### 1. Get Support Chat Messages (User side)
+- **Endpoint:** `GET /api/chat/admin/messages`
+- **Headers:** `Authorization: Bearer <token>`
+- **Response:**
+```json
+{
+  "status": true,
+  "data": [
+    {
+      "id": 1,
+      "sender_type": "user",
+      "message": "Need help with deposit",
+      "created_at": "2026-09-24T05:00:00.000000Z"
     },
-    "balance": 25.50,
-    "user_balance": 25.50,
-    "kyc_approved": true,
+    {
+      "id": 2,
+      "sender_type": "admin",
+      "message": "Hello! How may Customer Support assist you today?",
+      "created_at": "2026-09-24T05:01:00.000000Z"
+    }
+  ]
+}
+```
+
+#### 2. Send Message to Customer Support
+- **Endpoint:** `POST /api/chat/admin/send`
+- **Headers:** `Authorization: Bearer <token>`
+- **Body:**
+```json
+{
+  "message": "I have completed KYC verification.",
+  "image": "<optional image file>"
+}
+```
+- **Response:**
+```json
+{
+  "status": true,
+  "message": "Message sent to Customer Support"
+}
+```
+
+---
+
+### 🟢 D. User Profile & KYC Verification Status API
+
+#### 1. Get Chat Profile / My Profile
+- **Endpoint:** `GET /api/chat-profile-user` or `GET /api/user/profile`
+- **Headers:** `Authorization: Bearer <token>`
+- **Response:**
+```json
+{
+  "status": true,
+  "data": {
+    "id": 1,
+    "name": "Nazmul",
+    "phone": "01706640864",
+    "email": "nazmul@gmail.com",
+    "photo_url": "https://ukearn.com/public/uploads/profile/avatar.png",
     "is_verified": true,
+    "kyc_approved": true,
     "kyc_status": "verified",
     "verification_status": "verified",
-    "ref_code": "83920194",
-    "profile_photo": "https://globaladslmt.com/uploads/profile/profile_10.jpg"
+    "status": "verified",
+    "balance": "550.00",
+    "created_at": "2026-09-01T10:00:00.000000Z"
   }
 }
 ```
 
 ---
 
-## 2. Invalid Click Protection & Account Auto-Block
+## 📌 4. Key Summary Checklist for App Integration
 
-### 2.1 Overview & Logic
-- **Invalid Click Limit (`invalid_click_limit`)**: Set in Admin Panel (e.g., `5`).
-- **Invalid Deduct (`invalid_deduct`)**: Amount deducted from user balance per invalid click (e.g., `1.00`).
-- **Auto-Block**: When a user reaches the invalid click limit (e.g., 5 invalid clicks):
-  1. The user's account is immediately set to `is_blocked = true`.
-  2. The user is blocked from viewing ads, claiming rewards, and accessing app functions.
-  3. A 403 error is returned instructing the user to contact Admin Support.
-- **Admin Unblock**: When Admin unblocks the user from Admin Panel, the invalid click counter is automatically reset.
-
-### 2.2 Endpoint: Track Invalid Click
-- **Endpoint:** `POST /api/track-invalid-click`
-- **Headers:** `Authorization: Bearer {token}`
-
-#### Response (Warning - Before Limit Reached):
-```json
-{
-  "status": true,
-  "is_blocked": false,
-  "invalid_clicks": 2,
-  "limit": 5,
-  "deducted": 1.0,
-  "balance": 24.50,
-  "message": "ইনভ্যালিড ক্লিক সনাক্ত হয়েছে (2/5)। সতর্ক থাকুন, লিমিট পার হলে একাউন্ট ব্লক হবে।"
-}
-```
-
-#### Response (Limit Reached - Auto Blocked):
-```json
-{
-  "status": false,
-  "is_blocked": true,
-  "invalid_clicks": 5,
-  "limit": 5,
-  "deducted": 1.0,
-  "balance": 21.50,
-  "message": "আপনার একাউন্টে সর্বোচ্চ ইনভ্যালিড ক্লিক হওয়ায় একাউন্ট ব্লক করা হয়েছে। অনুগ্রহ করে এডমিনের সাথে সাপোর্টে যোগাযোগ করুন।"
-}
-```
+| Feature | Details | Verification Key |
+|---|---|---|
+| **KYC Verification Badge** | Blue verified badge must show when `is_verified: true` or `kyc_status: "verified"` | `is_verified` (Boolean) & `kyc_status` (String) |
+| **Notification Language** | 100% English across all events | No Bengali strings |
+| **Customer Support** | Display title as "Customer Support" | Notification title & chat header |
+| **Notification Logo** | Always show dynamic platform logo | Payload `image`, `icon`, `logo_url` |
+| **Friend Chat Listing** | Displays live verification status of each contact | `is_verified: true` |
 
 ---
-
-## 3. Daily Tasks, Sequential Ad Tracking & Claim Reward
-
-### 3.1 Overview of Timer Rules & Ad Networks
-- **`ad_timer_seconds` (e.g., 15s)**: Duration the user watches each ad.
-- **`button_timer_seconds` (e.g., 30s)**: Cooldown countdown on the ad button.
-- **`task_break_time_minutes` (e.g., 2 min)**: Break period after completing an ad cycle (e.g. 10 ads).
-- **Google Ads vs Start.io Timer Rules**:
-  - **`stario_timer_status: "yes"`**: Start.io ads use the configured timers & break time.
-  - **`admob_timer_status: "no"`**: Google AdMob ads do NOT enforce break time timer. Break time is skipped so users can claim or proceed without unwanted delay.
-
-### 3.2 Sequential Ad Counting (No Skipping)
-- Ad tracking is debounced and rate-limited.
-- Each call to `POST /api/track-ad-view` increments the count strictly 1-by-1 (e.g., 1 -> 2 -> 3 -> 4 -> 5).
-- When the target ad count is reached, the Claim button appears.
-
-### 3.3 Endpoints
-
-#### `GET /api/user-earning`
-- **Headers:** `Authorization: Bearer {token}`
-- **Response:**
-```json
-{
-  "status": true,
-  "data": {
-    "user_name": "Alex",
-    "ads_watched_today": 10,
-    "ads_watched_in_current_cycle": 0,
-    "current_cycle_number": 1,
-    "last_claimed_cycle": 0,
-    "daily_limit": 100,
-    "is_break_active": false,
-    "break_remaining_seconds": 0,
-    "show_claim_button": true,
-    "daily_limit_reached": false,
-    "income_per_brack": "0.02",
-    "next_reward": "0.02",
-    "total_cycles": 10,
-    "today_earning": "0.00",
-    "total_earning": "0.00",
-    "user_balance": "25.00",
-    "stario_timer_status": "yes",
-    "admob_timer_status": "no",
-    "task_break_time_minutes": 2,
-    "button_timer_seconds": 30,
-    "ad_timer_seconds": 15,
-    "package_id": 2,
-    "package_name": "Silver Membership",
-    "package_price": "25.00",
-    "ad_brack": 10,
-    "daily_income": "0.42"
-  }
-}
-```
-
-#### `POST /api/track-ad-view`
-- **Headers:** `Authorization: Bearer {token}`
-- **Response:**
-```json
-{
-  "status": true,
-  "data": {
-    "ads_watched_today": 10,
-    "ads_watched_in_current_cycle": 0,
-    "ad_brack": 10,
-    "cycle_completed": true,
-    "start_break_timer": false
-  },
-  "message": "View tracked successfully"
-}
-```
-
-#### `POST /api/claim-reward`
-- **Headers:** `Authorization: Bearer {token}`
-- **Response:**
-```json
-{
-  "status": true,
-  "success": true,
-  "message": "🎉 $0.02 Earned!",
-  "data": {
-    "earned": "0.02",
-    "reward_amount": 0.02,
-    "user_balance": "25.02",
-    "balance": 25.02,
-    "ads_watched_today": 10,
-    "ads_watched_in_current_cycle": 0,
-    "current_cycle_number": 1,
-    "last_claimed_cycle": 1,
-    "ad_brack": 10,
-    "daily_limit": 100,
-    "today_earning": "0.02",
-    "total_earning": "0.02",
-    "has_more_ads": true,
-    "daily_limit_reached": false,
-    "remaining_cycles": 9
-  }
-}
-```
-
----
-
-## 4. App Controls & Security Settings
-
-### 4.1 Global Settings (`GET /api/app-setting`)
-- **`vpn_modes`**: `"not_allowed"`, `"allowed"`, `"required"`.
-- **`vpn_required_in_task_only`**: `"yes"` or `"no"`.
-- **`allowed_country`**: Comma-separated country codes/names (`"us,uk,au,bangladesh,india,pakistan,canada,australia"`).
-- **`same_device_login`**: `"yes"` or `"no"`. Enforces single device login matching the registered `device_id`.
-- **`registration_status`**: `"open"` or `"closed"`. If `"closed"`, `POST /api/register` returns 403 Forbidden.
-- **`maintenance_mode`**: `"yes"` or `"no"`. If `"yes"`, returns 503 Service Unavailable.
-
----
-
-## 5. Push Notifications & App Logo
-
-- When sending notifications from Admin via OneSignal or Firebase FCM:
-  - The App Logo from `Settinglogo` is automatically attached to `large_icon`, `app_logo`, and payload data.
-  - Ensures Android / iOS notifications display the platform icon instead of default white placeholder boxes.
-
----
-
-## 6. Community Posts & Image Download
-
-### 6.1 Post Image Download
-- **Endpoint:** `GET /api/posts/{id}/download`
-- **Authentication:** Public / Token
-- **Description:** Allows users to download attached post images directly.
-- **`Creaetpost` Object Attributes:**
-  - `image_url`: Full URL to view image.
-  - `download_url`: Endpoint URL to trigger direct image download.
+**Maintained by:** GlobalAds Dev Team  
+**Last Updated:** September 24, 2026

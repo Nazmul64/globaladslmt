@@ -65,13 +65,23 @@ class ProfilechangeController extends BaseController
             /* ------------------------------------------------
              | 4️⃣ Prepare Response Data
              ------------------------------------------------ */
+            $isVerified = (bool) $user->is_verified;
+            $statusText = $isVerified ? 'verified' : 'unverified';
+
             $profileData = [
-                'id'         => $user->id,
-                'name'       => $user->name,
-                'photo'      => $photoUrl,
-                'photo_name' => $user->photo,
-                'role'       => $user->role ?? 'user',
-                'created_at' => $user->created_at->toDateTimeString(),
+                'id'                  => $user->id,
+                'name'                => $user->name,
+                'photo'               => $photoUrl,
+                'image'               => $photoUrl,
+                'photo_url'           => $photoUrl,
+                'photo_name'          => $user->photo,
+                'role'                => $user->role ?? 'user',
+                'is_verified'         => $isVerified,
+                'kyc_approved'        => $isVerified,
+                'kyc_status'          => $statusText,
+                'verification_status' => $statusText,
+                'status'              => $statusText,
+                'created_at'          => $user->created_at->toDateTimeString(),
             ];
 
             /* ------------------------------------------------

@@ -71,8 +71,8 @@ class Agentfrientrequest extends BaseController
             $senderName = $chatRequest->sender ? $chatRequest->sender->name : 'User';
             PushNotificationService::send(
                 $receiver_id,
-                "নতুন ফ্রেন্ড রিকোয়েস্ট",
-                "{$senderName} আপনাকে ফ্রেন্ড রিকোয়েস্ট পাঠিয়েছে",
+                "New Friend Request",
+                "{$senderName} sent you a friend request",
                 "friend_request",
                 ['sender_id' => $sender_id, 'request_id' => $chatRequest->id]
             );
@@ -144,8 +144,8 @@ class Agentfrientrequest extends BaseController
             $agentName = $chatRequest->receiver ? $chatRequest->receiver->name : 'Agent';
             PushNotificationService::send(
                 $chatRequest->sender_id,
-                "রিকোয়েস্ট গ্রহণ করা হয়েছে",
-                "{$agentName} আপনার ফ্রেন্ড রিকোয়েস্ট এক্সেপ্ট করেছে",
+                "Friend Request Accepted",
+                "{$agentName} accepted your friend request",
                 "friend_accepted",
                 ['friend_id' => $agent_id, 'request_id' => $chatRequest->id]
             );

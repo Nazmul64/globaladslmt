@@ -179,16 +179,16 @@ class UserDepositewidthrawrequestController extends Controller
             if ($request->type === 'deposit') {
                 PushNotificationService::send(
                     $request->agent_id,
-                    "নতুন ডিপোজিট রিকোয়েস্ট",
-                    "একজন ইউজার {$request->amount} USDT ডিপোজিট রিকোয়েস্ট পাঠিয়েছে",
+                    "New Deposit Request",
+                    "A user submitted a deposit request of {$request->amount} USDT",
                     "p2p_order",
                     ['order_id' => $record->id, 'type' => 'deposit', 'amount' => $request->amount]
                 );
             } else {
                 PushNotificationService::send(
                     $request->agent_id,
-                    "নতুন উইথড্র রিকোয়েস্ট",
-                    "একজন ইউজার {$request->amount} USDT উইথড্র রিকোয়েস্ট পাঠিয়েছে",
+                    "New Withdrawal Request",
+                    "A user submitted a withdrawal request of {$request->amount} USDT",
                     "p2p_order",
                     ['order_id' => $record->id, 'type' => 'withdraw', 'amount' => $request->amount]
                 );
@@ -274,8 +274,8 @@ class UserDepositewidthrawrequestController extends Controller
             // Push Notification to User
             PushNotificationService::send(
                 $depositRequest->user_id,
-                "ডিপোজিট রিকোয়েস্ট গৃহীত",
-                "এজেন্ট আপনার {$depositRequest->amount} USDT ডিপোজিট রিকোয়েস্ট গ্রহণ করেছে",
+                "Deposit Request Accepted",
+                "Agent accepted your deposit request of {$depositRequest->amount} USDT",
                 "p2p_order",
                 ['order_id' => $depositRequest->id, 'status' => 'agent_confirmed', 'amount' => $depositRequest->amount]
             );
@@ -385,8 +385,8 @@ class UserDepositewidthrawrequestController extends Controller
             // Push Notification to Agent
             PushNotificationService::send(
                 $deposit->agent_id,
-                "পেমেন্ট প্রুফ জমা হয়েছে",
-                "ইউজার ডিপোজিটের পেমেন্ট প্রুফ জমা দিয়েছেন",
+                "Payment Proof Submitted",
+                "User submitted payment proof for deposit order",
                 "p2p_order",
                 ['order_id' => $deposit->id, 'status' => 'user_submitted']
             );
@@ -505,8 +505,8 @@ class UserDepositewidthrawrequestController extends Controller
             // Push Notification to User
             PushNotificationService::send(
                 $depositRequest->user_id,
-                "ডিপোজিট সফল",
-                "আপনার {$depositRequest->amount} USDT ডিপোজিট সফলভাবে সম্পন্ন হয়েছে",
+                "Deposit Approved",
+                "Your deposit of {$depositRequest->amount} USDT has been completed successfully",
                 "deposit",
                 ['order_id' => $depositRequest->id, 'amount' => $depositRequest->amount]
             );
@@ -590,8 +590,8 @@ class UserDepositewidthrawrequestController extends Controller
             // Push Notification to User
             PushNotificationService::send(
                 $withdraw->user_id,
-                "উইথড্র রিকোয়েস্ট গৃহীত",
-                "এজেন্ট আপনার {$withdraw->amount} USDT উইথড্র রিকোয়েস্ট গ্রহণ করেছে",
+                "Withdrawal Request Accepted",
+                "Agent accepted your withdrawal request of {$withdraw->amount} USDT",
                 "p2p_order",
                 ['order_id' => $withdraw->id, 'status' => 'agent_confirmed', 'amount' => $withdraw->amount]
             );
@@ -706,8 +706,8 @@ class UserDepositewidthrawrequestController extends Controller
             // Push Notification to User
             PushNotificationService::send(
                 $withdraw->user_id,
-                "উইথড্র সম্পন্ন",
-                "আপনার {$withdraw->amount} USDT উইথড্র সফলভাবে সম্পন্ন হয়েছে",
+                "Withdrawal Completed",
+                "Your withdrawal of {$withdraw->amount} USDT has been completed successfully",
                 "withdraw",
                 ['order_id' => $withdraw->id, 'amount' => $withdraw->amount]
             );

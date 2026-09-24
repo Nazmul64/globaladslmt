@@ -75,6 +75,13 @@ protected $appends = [
 
 public function getIsVerifiedAttribute(): bool
 {
+    if (isset($this->attributes['is_verified'])) {
+        $raw = $this->attributes['is_verified'];
+        if ($raw === true || $raw === 1 || $raw === '1' || strtolower((string)$raw) === 'approved' || strtolower((string)$raw) === 'verified') {
+            return true;
+        }
+    }
+
     $kycApproved = \App\Models\Kyc::where('user_id', $this->id)
         ->whereRaw('LOWER(status) = ?', ['approved'])
         ->exists();
