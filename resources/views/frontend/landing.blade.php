@@ -662,6 +662,132 @@
             font-size: 13px;
         }
 
+        .mobile-toggle {
+            display: none;
+            width: 44px;
+            height: 44px;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 84, 54, 0.08);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            color: var(--primary);
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .mobile-toggle:hover {
+            background: rgba(255, 84, 54, 0.15);
+            transform: scale(1.05);
+        }
+
+        /* Mobile Offcanvas Drawer */
+        .mobile-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-backdrop.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -320px;
+            width: 300px;
+            height: 100vh;
+            background: white;
+            z-index: 1002;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
+            transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+        }
+
+        .mobile-nav.active {
+            right: 0;
+        }
+
+        .mobile-nav-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--gray-200);
+            margin-bottom: 24px;
+        }
+
+        .mobile-close-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--gray-100);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: var(--gray-600);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mobile-close-btn:hover {
+            background: rgba(255, 84, 54, 0.1);
+            color: var(--primary);
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .mobile-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-800);
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+
+        .mobile-nav-link i {
+            color: var(--primary);
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .mobile-nav-link:hover {
+            background: rgba(255, 84, 54, 0.08);
+            color: var(--primary);
+            transform: translateX(4px);
+        }
+
+        .mobile-nav-footer {
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-200);
+        }
+
         /* ================= Responsive ================= */
         @media (max-width: 1024px) {
             .hero-grid { grid-template-columns: 1fr; gap: 40px; }
@@ -672,7 +798,11 @@
 
         @media (max-width: 768px) {
             .nav-menu { display: none; }
-            .mobile-toggle { display: block; }
+            .nav-actions { display: none; }
+            .mobile-toggle { display: inline-flex; }
+            .brand-logo span { display: none; }
+            .brand-logo img { height: 42px; }
+            .nav-wrapper { height: 70px; }
             .hero-title { font-size: 34px; }
             .hero-stats { flex-wrap: wrap; gap: 20px; }
             .features-grid { grid-template-columns: 1fr; }
@@ -711,9 +841,46 @@
                         <i class="fa-brands fa-google-play"></i> Get App
                     </a>
                 </div>
+
+                <!-- Mobile Toggle Hamburger Button -->
+                <button type="button" class="mobile-toggle" id="mobileMenuBtn" aria-label="Open Mobile Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
             </div>
         </div>
     </header>
+
+    <!-- Mobile Drawer Navigation -->
+    <div class="mobile-backdrop" id="mobileBackdrop"></div>
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-header">
+            <div class="brand-logo" style="font-size: 18px;">
+                @if($settingLogo && !empty($settingLogo->photo))
+                    <img src="{{ filter_var($settingLogo->photo, FILTER_VALIDATE_URL) ? $settingLogo->photo : asset('uploads/logo/' . $settingLogo->photo) }}" alt="{{ $landingSettings->app_name ?? 'Global Money' }} Logo" style="height: 38px;">
+                @else
+                    <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="{{ $landingSettings->app_name ?? 'Global Money' }} Logo" style="height: 38px;">
+                @endif
+                <span style="display: inline-block;">{{ $landingSettings->app_name ?? 'Global Money' }}</span>
+            </div>
+            <button type="button" class="mobile-close-btn" id="mobileCloseBtn" aria-label="Close Mobile Menu">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <ul class="mobile-nav-links">
+            <li><a href="#overview" class="mobile-nav-link"><i class="fa-solid fa-house"></i> Overview</a></li>
+            <li><a href="#playstore" class="mobile-nav-link"><i class="fa-brands fa-google-play"></i> Download App</a></li>
+            <li><a href="#features" class="mobile-nav-link"><i class="fa-solid fa-layer-group"></i> Features</a></li>
+            <li><a href="#packages" class="mobile-nav-link"><i class="fa-solid fa-box-open"></i> Packages</a></li>
+            <li><a href="#support" class="mobile-nav-link"><i class="fa-solid fa-shield-halved"></i> Policies & Support</a></li>
+        </ul>
+
+        <div class="mobile-nav-footer">
+            <a href="{{ $playStoreUrl }}" target="_blank" rel="noopener noreferrer" class="btn btn-play" style="width: 100%; justify-content: center;">
+                <i class="fa-brands fa-google-play"></i> Install on Google Play
+            </a>
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero" id="overview">
@@ -944,5 +1111,34 @@
         </div>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuBtn = document.getElementById('mobileMenuBtn');
+            const closeBtn = document.getElementById('mobileCloseBtn');
+            const backdrop = document.getElementById('mobileBackdrop');
+            const mobileNav = document.getElementById('mobileNav');
+            const navLinks = document.querySelectorAll('.mobile-nav-link');
+
+            function openMenu() {
+                mobileNav.classList.add('active');
+                backdrop.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMenu() {
+                mobileNav.classList.remove('active');
+                backdrop.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            if (menuBtn) menuBtn.addEventListener('click', openMenu);
+            if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+            if (backdrop) backdrop.addEventListener('click', closeMenu);
+
+            navLinks.forEach(function (link) {
+                link.addEventListener('click', closeMenu);
+            });
+        });
+    </script>
 </body>
 </html>
