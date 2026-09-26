@@ -118,8 +118,8 @@ class UserWidthrawController extends BaseController
 
                 PushNotificationService::send(
                     $user->id,
-                    "উইথড্র রিকোয়েস্ট জমা হয়েছে",
-                    "আপনার {$amount} টাকার উইথড্র রিকোয়েস্ট সফলভাবে জমা হয়েছে।",
+                    "Withdrawal Request Submitted",
+                    "Your withdrawal request of {$amount} USDT has been submitted successfully.",
                     "withdraw",
                     ['withdraw_id' => $withdraw->id, 'amount' => $amount]
                 );

@@ -67,15 +67,14 @@ class PushNotificationService
                     $messageData = array_merge([
                         'type'         => (string) $type,
                         'click_action' => 'FLUTTER_NOTIFICATION_CLICK',
-                        'image'        => (string) $logoUrl,
                         'icon'         => (string) $logoUrl,
                         'logo_url'     => (string) $logoUrl,
-                        'large_icon'   => (string) $logoUrl,
                     ], $stringPayload);
 
                     $notificationBuilder = Notification::create((string)$title, (string)$body);
-                    if ($logoUrl) {
-                        $notificationBuilder = $notificationBuilder->withImageUrl($logoUrl);
+                    // Only attach withImageUrl if an explicit image is provided in payload (do not blow up huge app logo in drawer)
+                    if (!empty($payload['image_url'])) {
+                        $notificationBuilder = $notificationBuilder->withImageUrl($payload['image_url']);
                     }
 
                     $message = CloudMessage::withTarget('token', $user->fcm_token)
@@ -87,7 +86,6 @@ class PushNotificationService
                     Log::info("FCM Sent successfully to user {$userId}", [
                         'type'     => $type,
                         'title'    => $title,
-                        'logo_url' => $logoUrl,
                     ]);
                 }
             }
@@ -135,6 +133,18 @@ class PushNotificationService
     public static function sanitizeToEnglish(string $text): string
     {
         $translations = [
+            'উত্তোলন স্থগিত (Withdrawal Blocked)' => 'Withdrawal Blocked',
+            'উত্তোলন স্থগিত' => 'Withdrawal Blocked',
+            'আপনার অ্যাকাউন্ট থেকে উইথড্র ও P2P USDT সেল সাময়িকভাবে বন্ধ আছে। বিস্তারিত জানতে সাপোর্টে যোগাযোগ করুন।' => 'Your account withdrawal and P2P USDT sell are temporarily disabled. Please contact support for details.',
+            'আপনার অ্যাকাউন্ট থেকে উইথড্র ও P2P USDT সেল সাময়িকভাবে বন্ধ আছে।' => 'Your account withdrawal and P2P USDT sell are temporarily disabled.',
+            'উইথড্র রিকোয়েস্ট জমা হয়েছে' => 'Withdrawal Request Submitted',
+            'উইথড্র রিকোয়েস্ট জমা হয়েছে' => 'Withdrawal Request Submitted',
+            'ডিপোজিট রিকোয়েস্ট জমা হয়েছে' => 'Deposit Request Submitted',
+            'ডিপোজিট রিকোয়েস্ট জমা হয়েছে' => 'Deposit Request Submitted',
+            'টাকার উইথড্র রিকোয়েস্ট সফলভাবে জমা হয়েছে।' => 'USDT withdrawal request has been submitted successfully.',
+            'টাকার উইথড্র রিকোয়েস্ট সফলভাবে জমা হয়েছে।' => 'USDT withdrawal request has been submitted successfully.',
+            'টাকার ডিপোজিট রিকোয়েস্ট সফলভাবে জমা হয়েছে।' => 'USDT deposit request has been submitted successfully.',
+            'টাকার ডিপোজিট রিকোয়েস্ট সফলভাবে জমা হয়েছে।' => 'USDT deposit request has been submitted successfully.',
             'অ্যাডমিন সাপোর্ট' => 'Customer Support',
             'এডমিন সাপোর্ট'   => 'Customer Support',
             'অ্যাডমিন'        => 'Customer Support',
@@ -149,6 +159,8 @@ class PushNotificationService
             'আপনার ফ্রেন্ড রিকোয়েস্ট এক্সেপ্ট করেছে' => 'accepted your friend request',
             'আপনার ফ্রেন্ড রিকোয়েস্ট গ্রহণ করেছেন' => 'accepted your friend request',
             'নতুন মেসেজ' => 'New Message',
+            'নতুন পোস্ট' => 'New Post',
+            'একটি নতুন পোস্ট করেছে' => 'shared a new post',
             'নতুন সাপোর্ট মেসেজ' => 'New Support Message',
             'অ্যাডমিন থেকে নতুন একটি মেসেজ বা ফাইল এসেছে' => 'New message received from Customer Support',
             'এডমিন থেকে নতুন একটি মেসেজ বা ফাইল এসেছে' => 'New message received from Customer Support',

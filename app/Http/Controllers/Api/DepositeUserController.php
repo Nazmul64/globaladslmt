@@ -60,8 +60,8 @@ class DepositeUserController extends BaseController
 
         PushNotificationService::send(
             $user->id,
-            "ডিপোজিট রিকোয়েস্ট জমা হয়েছে",
-            "আপনার {$deposit->amount} টাকার ডিপোজিট রিকোয়েস্ট সফলভাবে জমা হয়েছে।",
+            "Deposit Request Submitted",
+            "Your deposit request of {$deposit->amount} USDT has been submitted successfully.",
             "deposit",
             ['deposit_id' => $deposit->id, 'amount' => $deposit->amount]
         );

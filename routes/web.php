@@ -105,12 +105,15 @@ Route::get('/ads', [AdsApiController::class, 'index']);       // All ads
 Route::get('/ads/{id}', [AdsApiController::class, 'show'])->where('id', '[0-9]+');  // Single ad
 Route::get('/ads-settings', [AdsApiController::class, 'latest']); // Latest ad settings
 // Frontend Pages Route Controller End
-// Frontend Auth Controller Start
-  Route::get('/', [FrontendAuthController::class, 'user_login'])->name('user.login');
-  Route::post('user/login/submit', [FrontendAuthController::class, 'user_submit'])->name('user.submit');
-  Route::get('user/register', [FrontendAuthController::class, 'user_register'])->name('user.register');
-  Route::post('user/register/submit', [FrontendAuthController::class, 'user_register_submit'])->name('user.register.submit');
-  Route::post('user/logout', [FrontendAuthController::class, 'user_logout'])->name('user.logout');
+// Frontend Landing Page & Auth Routes
+Route::get('/', [FrontendController::class, 'landing'])->name('home');
+Route::get('/login', [FrontendAuthController::class, 'user_login'])->name('login');
+Route::get('/user/login', [FrontendAuthController::class, 'user_login'])->name('user.login');
+Route::post('user/login/submit', [FrontendAuthController::class, 'user_submit'])->name('user.submit');
+Route::get('/register', [FrontendAuthController::class, 'user_register'])->name('register');
+Route::get('user/register', [FrontendAuthController::class, 'user_register'])->name('user.register');
+Route::post('user/register/submit', [FrontendAuthController::class, 'user_register_submit'])->name('user.register.submit');
+Route::post('user/logout', [FrontendAuthController::class, 'user_logout'])->name('user.logout');
 // Forgot Password Page
 Route::get('password/forgot', [ForgotPasswordsController::class, 'showLinkRequestForm'])->name('user.password.request');
 // Send Reset Link
@@ -243,6 +246,8 @@ Route::middleware(['is_admin'])->group(function () {
   Route::get('admin/home-cards', [\App\Http\Controllers\Backend\HomeCardSettingController::class, 'index'])->name('admin.homecards.index');
   Route::post('admin/home-cards/update/{id}', [\App\Http\Controllers\Backend\HomeCardSettingController::class, 'update'])->name('admin.homecards.update');
   Route::post('admin/home-cards/reset', [\App\Http\Controllers\Backend\HomeCardSettingController::class, 'reset'])->name('admin.homecards.reset');
+  Route::get('admin/landing-settings', [\App\Http\Controllers\Backend\LandingSettingController::class, 'index'])->name('admin.landingsettings.index');
+  Route::post('admin/landing-settings/update', [\App\Http\Controllers\Backend\LandingSettingController::class, 'update'])->name('admin.landingsettings.update');
   Route::get('agent/pending', [AdminApproveController::class,'pendingAgents'])->name('admin.agent.pending');
   Route::get('agent/approve/{id}', [AdminApproveController::class,'approveAgent'])->name('admin.agent.approve');
   Route::get('agent/reject/{id}', [AdminApproveController::class,'rejectAgent'])->name('admin.agent.reject');

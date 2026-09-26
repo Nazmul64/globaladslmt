@@ -71,7 +71,26 @@ protected $appends = [
     'kyc_status',
     'verification_status',
     'photo_url',
+    'ref_code',
+    'refer_code',
+    'referral_code',
+    'referral_link',
 ];
+
+public function getReferCodeAttribute(): ?string
+{
+    return (string) ($this->ref_code ?? '');
+}
+
+public function getReferralCodeAttribute(): ?string
+{
+    return (string) ($this->ref_code ?? '');
+}
+
+public function getReferralLinkAttribute(): ?string
+{
+    return !empty($this->ref_code) ? url('/register?ref=' . $this->ref_code) : url('/register');
+}
 
 public function getIsVerifiedAttribute(): bool
 {

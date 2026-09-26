@@ -467,7 +467,7 @@ class UserearningController extends Controller
                     'limit' => $limit,
                     'deducted' => $deduct,
                     'balance' => (float) $user->balance,
-                    'message' => 'আপনার একাউন্টে সর্বোচ্চ ইনভ্যালিড ক্লিক হওয়ায় একাউন্ট ব্লক করা হয়েছে। অনুগ্রহ করে এডমিনের সাথে সাপোর্টে যোগাযোগ করুন।'
+                    'message' => 'Your account has been blocked due to exceeding the maximum invalid click limit. Please contact customer support.'
                 ], 403);
             }
 
@@ -478,7 +478,7 @@ class UserearningController extends Controller
                 'limit' => $limit,
                 'deducted' => $deduct,
                 'balance' => (float) $user->balance,
-                'message' => "ইনভ্যালিড ক্লিক সনাক্ত হয়েছে ({$currentClicks}/{$limit})। সতর্ক থাকুন, লিমিট পার হলে একাউন্ট ব্লক হবে।"
+                'message' => "Invalid click detected ({$currentClicks}/{$limit}). Please be careful, exceeding the limit will block your account."
             ], 200);
 
         } catch (\Exception $e) {

@@ -16,18 +16,56 @@ use App\Models\User;
 use App\Models\Userdepositerequest;
 use App\Models\UserWidthraw;
 use App\Models\Whychooseu;
-use App\Models\Wornotice;
+use App\Models\Appsetting;
+use App\Models\Childsafety;
+use App\Models\Settinglogo;
+use App\Models\LandingSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class FrontendController extends Controller
 {
-public function frontend() {
-    $auth_user_id = Auth::id();
-    $has_active_package = Packagebuy::where('user_id', $auth_user_id)->where('status', 'approved') ->exists();
-    $work_notices=Wornotice::all();
-    return view('frontend.index', compact('has_active_package','work_notices'));
-}
+    /**
+     * Display Company Landing Page & Play Store Showcase
+     */
+    public function landing()
+    {
+        $landingSettings = LandingSetting::getSettings();
+        $appSetting = Appsetting::first();
+        $settingLogo = Settinglogo::first();
+        $packages = Package::all();
+        $whyChooseUs = Whychooseu::all();
+        $stepGuides = Stepguide::all();
+        $supports = Support::all();
+        $privacy = Privacy::first();
+        $childSafety = Childsafety::first();
+
+        $playStoreUrl = !empty($landingSettings->play_store_url)
+            ? $landingSettings->play_store_url
+            : (!empty($appSetting->app_link)
+                ? $appSetting->app_link
+                : 'https://play.google.com/store/apps/details?id=com.globalmoneyltd.globalmoneyltd');
+
+        return view('frontend.landing', compact(
+            'landingSettings',
+            'appSetting',
+            'settingLogo',
+            'packages',
+            'whyChooseUs',
+            'stepGuides',
+            'supports',
+            'privacy',
+            'childSafety',
+            'playStoreUrl'
+        ));
+    }
+
+    public function frontend() {
+        $auth_user_id = Auth::id();
+        $has_active_package = Packagebuy::where('user_id', $auth_user_id)->where('status', 'approved') ->exists();
+        $work_notices=Wornotice::all();
+        return view('frontend.index', compact('has_active_package','work_notices'));
+    }
 
     public function frontend_options(){
           return view('frontend.frontendpages.options');

@@ -98,12 +98,10 @@ class FirebaseNotificationService
             // Build notification
             $notification = FirebaseNotification::create($title, $body);
 
-            // Add image if provided, or default to app logo
+            // Add image ONLY if explicitly provided by admin (do not blow up default logo in drawer)
             if (!empty($data['image_url'])) {
                 $notification = $notification->withImageUrl($data['image_url']);
                 unset($data['image_url']); // Remove from data array
-            } elseif (!empty($appLogoUrl)) {
-                $notification = $notification->withImageUrl($appLogoUrl);
             }
 
             // Prepare data for FCM
@@ -252,12 +250,10 @@ class FirebaseNotificationService
             // Build notification
             $notification = FirebaseNotification::create($title, $body);
 
-            // Add image if provided, or default to app logo
+            // Add image ONLY if explicitly provided by admin (do not blow up default logo in drawer)
             if (!empty($data['image_url'])) {
                 $notification = $notification->withImageUrl($data['image_url']);
                 unset($data['image_url']);
-            } elseif (!empty($appLogoUrl)) {
-                $notification = $notification->withImageUrl($appLogoUrl);
             }
 
             // Prepare data for FCM

@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Validator;
 class PostController extends Controller
 {
     /**
-     * Helper method to add is_liked to post
+     * Helper method to add is_liked and verification info to post
      */
     private function addIsLikedToPost($post)
     {
@@ -27,22 +27,41 @@ class PostController extends Controller
         } else {
             $post->is_liked = $post->likes()->where('user_id', $userId)->exists();
         }
+
+        // Ensure post author has verified badge flag
+        if ($post->user) {
+            $isVerified = (bool) $post->user->is_verified;
+            $post->user->is_verified = $isVerified;
+            $post->user->kyc_approved = $isVerified;
+            $post->user->kyc_status = $isVerified ? 'verified' : 'unverified';
+            $post->user->verification_status = $isVerified ? 'verified' : 'unverified';
+            $post->is_verified = $isVerified;
+            $post->author_is_verified = $isVerified;
+        }
+
+        // Ensure comments author has verified badge flag
+        if ($post->relationLoaded('comments')) {
+            foreach ($post->comments as $comment) {
+                if ($comment->user) {
+                    $cVerified = (bool) $comment->user->is_verified;
+                    $comment->user->is_verified = $cVerified;
+                    $comment->user->kyc_approved = $cVerified;
+                    $comment->user->kyc_status = $cVerified ? 'verified' : 'unverified';
+                    $comment->user->verification_status = $cVerified ? 'verified' : 'unverified';
+                }
+            }
+        }
+
         return $post;
     }
 
     /**
-     * Helper method to add is_liked to posts collection
+     * Helper method to add is_liked and verification info to posts collection
      */
     private function addIsLikedToPosts($posts)
     {
-        $userId = Auth::id();
-
         foreach ($posts as $post) {
-            if ($post->relationLoaded('likes')) {
-                $post->is_liked = $post->likes->where('user_id', $userId)->isNotEmpty();
-            } else {
-                $post->is_liked = $post->likes()->where('user_id', $userId)->exists();
-            }
+            $this->addIsLikedToPost($post);
         }
 
         return $posts;
@@ -57,12 +76,12 @@ class PostController extends Controller
             $page = $request->input('page', 1);
             $perPage = $request->input('per_page', 10);
 
-            $posts = Creaetpost::with(['user:id,name,email,photo,role', 'comments.user:id,name,email,photo,role', 'likes:id,post_id,user_id'])
+            $posts = Creaetpost::with(['user', 'comments.user', 'likes:id,post_id,user_id'])
                 ->where('is_active', true)
                 ->orderBy('created_at', 'desc')
                 ->paginate($perPage);
 
-            // Add is_liked to each post
+            // Add is_liked and verified info to each post
             $posts->getCollection()->transform(function ($post) {
                 return $this->addIsLikedToPost($post);
             });
@@ -665,7 +684,7 @@ class PostController extends Controller
             $page = $request->input('page', 1);
             $perPage = $request->input('per_page', 10);
 
-            $posts = Creaetpost::with(['user:id,name,email,photo,role', 'comments.user:id,name,email,photo,role', 'likes:id,post_id,user_id'])
+            $posts = Creaetpost::with(['user', 'comments.user', 'likes:id,post_id,user_id'])
                 ->where('user_id', Auth::id())
                 ->orderBy('created_at', 'desc')
                 ->paginate($perPage);
@@ -717,7 +736,7 @@ class PostController extends Controller
                 ], 400);
             }
 
-            $posts = Creaetpost::with(['user:id,name,email,photo,role', 'comments.user:id,name,email,photo,role', 'likes:id,post_id,user_id'])
+            $posts = Creaetpost::with(['user', 'comments.user', 'likes:id,post_id,user_id'])
                 ->where('is_active', true)
                 ->where(function($q) use ($query) {
                     $q->where('content', 'LIKE', "%{$query}%");

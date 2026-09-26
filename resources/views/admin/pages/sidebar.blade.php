@@ -575,6 +575,24 @@
       </li>
       <li class="dropdown">
         <a href="javascript:void(0)">
+          <iconify-icon icon="ri-global-line" class="menu-icon text-primary"></iconify-icon>
+          <span>Website Landing Page</span>
+        </a>
+        <ul class="sidebar-submenu">
+          <li>
+            <a href="{{ route('admin.landingsettings.index') }}">
+              <i class="ri-circle-fill circle-icon text-primary-600 w-auto"></i> Landing Page All Texts & Info
+            </a>
+          </li>
+          <li>
+            <a href="{{ url('/') }}" target="_blank">
+              <i class="ri-circle-fill circle-icon text-success-600 w-auto"></i> View Live Website
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="javascript:void(0)">
           <iconify-icon icon="icon-park-outline:setting-two" class="menu-icon"></iconify-icon>
           <span>App Setting</span>
         </a>
