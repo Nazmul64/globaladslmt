@@ -71,25 +71,30 @@ protected $appends = [
     'kyc_status',
     'verification_status',
     'photo_url',
-    'ref_code',
     'refer_code',
     'referral_code',
     'referral_link',
 ];
 
+public function getRefCodeAttribute(): ?string
+{
+    return isset($this->attributes['ref_code']) ? (string) $this->attributes['ref_code'] : null;
+}
+
 public function getReferCodeAttribute(): ?string
 {
-    return (string) ($this->ref_code ?? '');
+    return isset($this->attributes['ref_code']) ? (string) $this->attributes['ref_code'] : null;
 }
 
 public function getReferralCodeAttribute(): ?string
 {
-    return (string) ($this->ref_code ?? '');
+    return isset($this->attributes['ref_code']) ? (string) $this->attributes['ref_code'] : null;
 }
 
 public function getReferralLinkAttribute(): ?string
 {
-    return !empty($this->ref_code) ? url('/register?ref=' . $this->ref_code) : url('/register');
+    $code = $this->attributes['ref_code'] ?? null;
+    return !empty($code) ? url('/register?ref=' . $code) : url('/register');
 }
 
 public function getIsVerifiedAttribute(): bool
