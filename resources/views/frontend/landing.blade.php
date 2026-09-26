@@ -614,7 +614,7 @@
 
         .footer-grid {
             display: grid;
-            grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+            grid-template-columns: 1.8fr 1fr 1.2fr;
             gap: 40px;
             margin-bottom: 50px;
         }
@@ -764,8 +764,6 @@
 
                             <div class="app-info">
                                 <h3>{{ $landingSettings->app_name ?? 'Globalmoney ltd' }} <i class="fa-solid fa-circle-check" style="color: #00c853; font-size: 16px;"></i></h3>
-                                <div class="app-developer">{{ $landingSettings->app_publisher ?? 'BD IT POINT' }}</div>
-                                <div class="app-meta">{{ $landingSettings->app_meta ?? 'Contains ads · In-app purchases' }}</div>
                             </div>
                         </div>
 
@@ -937,17 +935,10 @@
                         <li><a href="{{ route('app.approval') }}">App Ads Verification</a></li>
                     </ul>
                 </div>
-
-                <div class="footer-col">
-                    <h4>Publisher Info</h4>
-                    <p style="font-size: 14px; margin-bottom: 8px;"><strong>Publisher:</strong> {{ $landingSettings->app_publisher ?? 'BD IT POINT' }}</p>
-                    <p style="font-size: 14px; margin-bottom: 8px;"><strong>App Name:</strong> {{ $landingSettings->app_name ?? 'Globalmoney ltd' }}</p>
-                    <p style="font-size: 14px;"><strong>Package:</strong> com.globalmoneyltd.globalmoneyltd</p>
-                </div>
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; {{ date('Y') }} {{ $landingSettings->app_name ?? 'Global Money Ltd' }} & {{ $landingSettings->app_publisher ?? 'BD IT POINT' }}. All rights reserved.</p>
+                <p>&copy; {{ date('Y') }} {{ $landingSettings->app_name ?? 'Global Money Ltd' }}. All rights reserved.</p>
                 <p>{{ $landingSettings->footer_copyright ?? 'Designed for High Performance & User Security' }}</p>
             </div>
         </div>
